@@ -1,0 +1,1013 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foo.dao.mysql.ImportCommonManagerMapper">
+
+	<update id="updateSku_import" parameterType="hashmap" >
+	    update T_import_SKU
+	    <set >
+	      <if test="CUSTOM_CODE != null" >
+	        CUSTOM_CODE = #{CUSTOM_CODE},
+	      </if>
+	      <if test="RECEIVER_ID != null" >
+	        RECEIVER_ID = #{RECEIVER_ID},
+	      </if>
+	      <if test="BIZ_TYPE != null" >
+	        BIZ_TYPE = #{BIZ_TYPE},
+	      </if>
+	      <if test="APP_TYPE != null" >
+	        APP_TYPE = #{APP_TYPE},
+	      </if>
+	      <if test="APP_TIME != null" >
+	        APP_TIME = #{APP_TIME},
+	      </if>
+	      <if test="APP_STATUS != null" >
+	        APP_STATUS = #{APP_STATUS},
+	      </if>
+	      <if test="APP_UID != null" >
+	        APP_UID = #{APP_UID},
+	      </if>
+	      <if test="APP_UNAME != null" >
+	        APP_UNAME = #{APP_UNAME},
+	      </if>
+	      <if test="PRE_NO != null" >
+	        PRE_NO = #{PRE_NO},
+	      </if>
+	      <if test="EBP_CODE != null" >
+	        EBP_CODE = #{EBP_CODE},
+	      </if>
+	      <if test="EBP_NAME != null" >
+	        EBP_NAME = #{EBP_NAME},
+	      </if>
+	      <if test="EBC_CODE != null" >
+	        EBC_CODE = #{EBC_CODE},
+	      </if>
+	      <if test="EBC_NAME != null" >
+	        EBC_NAME = #{EBC_NAME},
+	      </if>
+	      <if test="AGENT_CODE != null" >
+	        AGENT_CODE = #{AGENT_CODE},
+	      </if>
+	      <if test="AGENT_NAME != null" >
+	        AGENT_NAME = #{AGENT_NAME},
+	      </if>
+	      <if test="CLASSIFY_CODE != null" >
+	        CLASSIFY_CODE = #{CLASSIFY_CODE},
+	      </if>
+	      <if test="CLASSIFY_NAME != null" >
+	        CLASSIFY_NAME = #{CLASSIFY_NAME},
+	      </if>
+	      <if test="ITEM_NO != null" >
+	        ITEM_NO = #{ITEM_NO},
+	      </if>
+	      <if test="ITEM_NAME != null" >
+	        ITEM_NAME = #{ITEM_NAME},
+	      </if>
+	      <if test="G_NO != null" >
+	        G_NO = #{G_NO},
+	      </if>
+	      <if test="G_CODE != null" >
+	        G_CODE = #{G_CODE},
+	      </if>
+	      <if test="G_NAME != null" >
+	        G_NAME = #{G_NAME},
+	      </if>
+	      <if test="G_MODEL != null" >
+	        G_MODEL = #{G_MODEL},
+	      </if>
+	      <if test="BAR_CODE != null" >
+	        BAR_CODE = #{BAR_CODE},
+	      </if>
+	      <if test="BRAND != null" >
+	        BRAND = #{BRAND},
+	      </if>
+	      <if test="TAX_RATE != null" >
+	        TAX_RATE = #{TAX_RATE},
+	      </if>
+	      <if test="TAX_CODE != null" >
+	        TAX_CODE = #{TAX_CODE},
+	      </if>
+	      <if test="UNIT != null" >
+	        UNIT = #{UNIT},
+	      </if>
+	      <if test="UNIT1 != null" >
+	        UNIT1 = #{UNIT1},
+	      </if>
+	      <if test="UNIT2 != null" >
+	        UNIT2 = #{UNIT2},
+	      </if>
+	      <if test="PRICE != null" >
+	        PRICE = #{PRICE},
+	      </if>
+	      <if test="CURRENCY != null" >
+	        CURRENCY = #{CURRENCY},
+	      </if>
+	      <if test="COUNTRY != null" >
+	        COUNTRY = #{COUNTRY},
+	      </if>
+	      <if test="GIFT_FLAG != null" >
+	        GIFT_FLAG = #{GIFT_FLAG},
+	      </if>
+	      <if test="NOTE != null" >
+	        NOTE = #{NOTE},
+	      </if>
+	      <if test="RETURN_STATUS != null" >
+	        RETURN_STATUS = #{RETURN_STATUS},
+	      </if>
+	      <if test="RETURN_TIME != null" >
+	        RETURN_TIME = #{RETURN_TIME},
+	      </if>
+	      <if test="RETURN_INFO != null" >
+	        RETURN_INFO = #{RETURN_INFO},
+	      </if>
+	      <if test="CREAT_TIME != null" >
+	        CREAT_TIME = #{CREAT_TIME},
+	      </if>
+	    </set>
+	    where GUID = #{GUID}
+	  </update>
+
+	<select id="selectDataForMessage20X_import_head" resultType="java.util.LinkedHashMap" >
+		SELECT 
+		  IFNULL(t.`GUID`, '') AS MESSAGE_ID,
+		  '' AS MESSAGE_TYPE,
+		  IFNULL(t.`EBC_CODE`, '') AS SEND_ID,
+		  IFNULL(t.`RECEIVER_ID`, '') AS RECEIVER_ID,
+		  IFNULL(t.`APP_TIME`, '') AS SEND_TIME,
+		  IFNULL(t.`VERSION`, '') AS VERSION
+		FROM
+		  T_import_SKU t 
+		WHERE t.`GUID` = #{guid} 
+	</select>
+
+	
+	<select id="selectDataForMessage201_import" resultType="java.util.LinkedHashMap" >
+		SELECT 
+		  IFNULL(t.`APP_UID`, '') AS APP_UID,
+		  (SELECT 
+		    c.name 
+		  FROM
+		    t_code_name c 
+		  WHERE c.RELATION_CATEGORY = 'APP_UID' 
+		    AND c.CODE = t.APP_UID) AS APP_UNAME,
+		  IFNULL(t.`CUSTOM_CODE`, '') AS CUSTOM_CODE,
+		  IFNULL(t.`BIZ_TYPE`, '') AS BIZ_TYPE,
+		  IFNULL(t.`APP_TYPE`, '') AS APP_TYPE,
+		  IFNULL(t.`PRE_NO`, '') AS PRE_NO,
+		  IFNULL(t.`G_NO`, '') AS G_NO,
+		  IFNULL(t.`EBP_CODE`, '') AS EBP_CODE,
+		  (SELECT 
+		    c.name 
+		  FROM
+		    t_code_name c 
+		  WHERE c.RELATION_CATEGORY = 'EBP_CODE' 
+		    AND c.CODE = t.EBP_CODE) AS EBP_NAME,
+		  IFNULL(t.`EBC_CODE`, '') AS EBC_CODE,
+		  (SELECT 
+		    c.name 
+		  FROM
+		    t_code_name c 
+		  WHERE c.RELATION_CATEGORY = 'EBC_CODE' 
+		    AND c.CODE = t.EBC_CODE) AS EBC_NAME,
+		  IFNULL(t.`CLASSIFY_CODE`, '') AS CLASSIFY_CODE,
+		  (SELECT 
+		    c.name 
+		  FROM
+		    t_code_name c 
+		  WHERE c.RELATION_CATEGORY = 'CLASSIFY_CODE' 
+		    AND c.CODE = t.CLASSIFY_CODE) AS CLASSIFY_NAME,
+		  IFNULL(t.`AGENT_CODE`, '') AS AGENT_CODE,
+		  (SELECT 
+		    c.name 
+		  FROM
+		    t_code_name c 
+		  WHERE c.RELATION_CATEGORY = 'AGENT_CODE' 
+		    AND c.CODE = t.AGENT_CODE) AS AGENT_NAME,
+		  IFNULL(t.`ITEM_NO`, '') AS ITEM_NO,
+		  IFNULL(t.`G_NAME`, '') AS G_NAME,
+<!-- 		  IFNULL(t.`TAX_CODE`, '') AS TAX_CODE,
+		  IFNULL(t.`TAX_RATE`, '') AS TAX_RATE, -->
+		  IFNULL(t.`G_CODE`, '') AS G_CODE,
+		  IFNULL(t.`G_MODEL`, '') AS G_MODEL,
+		  IFNULL(t.`BAR_CODE`, '') AS BAR_CODE,
+		  IFNULL(t.`BRAND`, '') AS BRAND,
+		  IFNULL(t.`UNIT`, '') AS UNIT,
+		  IFNULL(t.`PRICE`, '') AS PRICE,
+		  IFNULL(t.`CURRENCY`, '') AS CURRENCY,
+		  IFNULL(t.`COUNTRY`, '') AS COUNTRY,
+		  IFNULL(t.`GIFT_FLAG`, '') AS GIFT_FLAG,
+		  IFNULL(t.`NOTE`, '') AS NOTE 
+		FROM
+		  T_import_SKU t 
+		WHERE t.`GUID` = #{guid} 
+	</select>
+	
+	<update id="updateOrder_import" parameterType="hashmap" >
+	    update t_import_orders
+	    <set >
+	      <if test="ORDER_NO != null" >
+	        ORDER_NO = #{ORDER_NO},
+	      </if>
+	      <if test="CUSTOM_CODE != null" >
+	        CUSTOM_CODE = #{CUSTOM_CODE},
+	      </if>
+	      <if test="RECEIVER_ID != null" >
+	        RECEIVER_ID = #{RECEIVER_ID},
+	      </if>
+	      <if test="ORDER_TYPE != null" >
+	        ORDER_TYPE = #{ORDER_TYPE},
+	      </if>
+	      <if test="APP_TYPE != null" >
+	        APP_TYPE = #{APP_TYPE},
+	      </if>
+	      <if test="APP_TIME != null" >
+	        APP_TIME = #{APP_TIME},
+	      </if>
+	      <if test="APP_STATUS != null" >
+	        APP_STATUS = #{APP_STATUS},
+	      </if>
+	      <if test="APP_UID != null" >
+	        APP_UID = #{APP_UID},
+	      </if>
+	      <if test="APP_UNAME != null" >
+	        APP_UNAME = #{APP_UNAME},
+	      </if>
+	      <if test="EBP_CODE != null" >
+	        EBP_CODE = #{EBP_CODE},
+	      </if>
+	      <if test="EBP_NAME != null" >
+	        EBP_NAME = #{EBP_NAME},
+	      </if>
+	      <if test="EBC_CODE != null" >
+	        EBC_CODE = #{EBC_CODE},
+	      </if>
+	      <if test="EBC_NAME != null" >
+	        EBC_NAME = #{EBC_NAME},
+	      </if>
+	      <if test="AGENT_CODE != null" >
+	        AGENT_CODE = #{AGENT_CODE},
+	      </if>
+	      <if test="AGENT_NAME != null" >
+	        AGENT_NAME = #{AGENT_NAME},
+	      </if>
+	      <if test="GOODS_VALUE != null" >
+	        GOODS_VALUE = #{GOODS_VALUE},
+	      </if>
+	      <if test="FREIGHT != null" >
+	        FREIGHT = #{FREIGHT},
+	      </if>
+	      <if test="CURRENCY != null" >
+	        CURRENCY = #{CURRENCY},
+	      </if>
+	      <if test="TAX_FEE != null" >
+	        TAX_FEE = #{TAX_FEE},
+	      </if>
+	      <if test="CONSIGNEE_ID != null" >
+	        CONSIGNEE_ID = #{CONSIGNEE_ID},
+	      </if>
+	      <if test="UNDER_THE_SINGER_ID != null" >
+	        UNDER_THE_SINGER_ID = #{UNDER_THE_SINGER_ID},
+	      </if>
+	      <if test="LOGISTICS_CODE != null" >
+	        LOGISTICS_CODE = #{LOGISTICS_CODE},
+	      </if>
+	      <if test="LOGISTICS_NAME != null" >
+	        LOGISTICS_NAME = #{LOGISTICS_NAME},
+	      </if>
+	      <if test="LOGISTICS_NO != null" >
+	        LOGISTICS_NO = #{LOGISTICS_NO},
+	      </if>
+	      <if test="NOTE != null" >
+	        NOTE = #{NOTE},
+	      </if>
+	      <if test="RETURN_STATUS != null" >
+	        RETURN_STATUS = #{RETURN_STATUS},
+	      </if>
+	      <if test="RETURN_TIME != null" >
+	        RETURN_TIME = #{RETURN_TIME},
+	      </if>
+	      <if test="RETURN_INFO != null" >
+	        RETURN_INFO = #{RETURN_INFO},
+	      </if>
+	      <if test="CREAT_TIME != null" >
+	        CREAT_TIME = #{CREAT_TIME},
+	      </if>
+	    </set>
+	    where GUID = #{GUID}
+	  </update>
+	  
+	  
+	
+	<select id="selectDataForMessage203_import" resultType="java.util.LinkedHashMap" >
+		SELECT 
+		  IFNULL(t.`APP_TIME`, '') AS APP_TIME,
+		  IFNULL(t.`PRE_NO`, '') AS PRE_NO,
+		  IFNULL(t.`EBC_CODE`, '') AS EBC_CODE,
+		  IFNULL(t.`ITEM_NO`, '') AS ITEM_NO
+		FROM
+		  T_import_SKU t 
+		WHERE t.`GUID` = #{guid} 
+	</select>
+	
+	
+	<select id="selectDataForMessage30X_import_head" resultType="java.util.LinkedHashMap" >
+		SELECT 
+		  IFNULL(t.`GUID`, '') AS MESSAGE_ID,
+		  '' AS MESSAGE_TYPE,
+		  IFNULL(t.`EBC_CODE`, '') AS SEND_ID,
+		  <!-- IFNULL(t.`RECEIVER_ID`, '') AS RECEIVER_ID, -->
+		  IFNULL(t.`APP_TIME`, '') AS SEND_TIME,
+		  IFNULL(t.`VERSION`, '') AS VERSION
+		FROM
+		  t_import_orders t 
+		WHERE t.`GUID` = #{guid} 
+	</select>
+	
+	<select id="selectDataForMessage301_import" resultType="java.util.LinkedHashMap" >
+		SELECT 
+		  <!-- IFNULL(t.`APP_UID`, '') AS APP_UID,
+		  (SELECT 
+		    c.name 
+		  FROM
+		    t_code_name c 
+		  WHERE c.RELATION_CATEGORY = 'APP_UID' 
+		    AND c.CODE = t.APP_UID) AS APP_UNAME, -->
+		  IFNULL(t.`APP_TYPE`, '') AS APP_TYPE,
+		  IFNULL(t.`APP_STATUS`, '') AS APP_STATUS,
+		  IFNULL(t.`ORDER_TYPE`, '') AS ORDER_TYPE,
+		  IFNULL(t.`ORDER_NO`, '') AS PRE_ORDER_NO,
+		  IFNULL(t.`APP_TIME`, '') AS APP_TIME,
+		  <!-- IFNULL(t.`CUSTOM_CODE`, '') AS CUSTOM_CODE, -->
+		  IFNULL(t.`EBP_CODE`, '') AS EBP_CODE,
+		  (SELECT 
+		    c.name 
+		  FROM
+		    t_code_name c 
+		  WHERE c.RELATION_CATEGORY = 'EBP_CODE' 
+		    AND c.CODE = t.EBP_CODE) AS EBP_NAME,
+		  IFNULL(t.`EBC_CODE`, '') AS EBC_CODE,
+		  (SELECT 
+		    c.name 
+		  FROM
+		    t_code_name c 
+		  WHERE c.RELATION_CATEGORY = 'EBC_CODE' 
+		    AND c.CODE = t.EBC_CODE) AS EBC_NAME,
+		  <!-- IFNULL(t.`AGENT_CODE`, '') AS AGENT_CODE,
+		  (SELECT 
+		    c.name 
+		  FROM
+		    t_code_name c 
+		  WHERE c.RELATION_CATEGORY = 'AGENT_CODE' 
+		    AND c.CODE = t.AGENT_CODE) AS AGENT_NAME, -->
+		  IFNULL(t.`GOODS_VALUE`, '') AS GOODS_VALUE,
+		  IFNULL(t.`TAX_FEE`, '') AS TAX_FEE,
+		  IFNULL(t.`FREIGHT`, '') AS FREIGHT,
+		  IFNULL(t.`CURRENCY`, '') AS CURRENCY,
+		  IFNULL(contact1.`NAME`, '') AS UNDER_THE_SINGER_NAME,
+		  IFNULL(contact1.`CODE`, '') AS UNDER_THE_SINGER_CODE,
+		  IFNULL(contact1.`ADDRESS`, '') AS UNDER_THE_SINGER_ADDRESS,
+		  IFNULL(contact1.`TEL`, '') AS UNDER_THE_SINGER_TELEPHONE,
+		  IFNULL(contact1.`COUNTRY`, '') AS UNDER_THE_SINGER_COUNTRY,
+		  IFNULL(contact2.`NAME`, '') AS CONSIGNEE,
+		  IFNULL(contact2.`CODE`, '') AS CONSIGNEE_CODE,
+		  IFNULL(contact2.`ADDRESS`, '') AS CONSIGNEE_ADDRESS,
+		  IFNULL(contact2.`TEL`, '') AS CONSIGNEE_TELEPHONE,
+		  IFNULL(contact2.`COUNTRY`, '') AS CONSIGNEE_COUNTRY,
+		  IFNULL(t.`LOGISTICS_CODE`, '') AS LOGISTICS_CODE,
+		  (SELECT 
+		    c.name 
+		  FROM
+		    t_code_name c 
+		  WHERE c.RELATION_CATEGORY = 'LOGISTICS_CODE' 
+		    AND c.CODE = t.LOGISTICS_CODE) AS LOGISTICS_NAME,
+		  IFNULL(t.`LOGISTICS_NO`, '') AS LOGISTICS_NO,
+		  IFNULL(t.`NOTE`, '') AS NOTE 
+		FROM
+		  t_import_orders t 
+		  LEFT JOIN T_CONTACT contact1 
+		    ON t.CONSIGNEE_ID = contact1.CONTACT_ID 
+		  LEFT JOIN T_CONTACT contact2 
+		    ON t.UNDER_THE_SINGER_ID = contact2.CONTACT_ID 
+		WHERE t.`GUID` = #{guid}   
+	</select>
+	
+	 <select id="selectSubDataForMessage301_import" resultType="java.util.LinkedHashMap" >
+		SELECT 
+		  IFNULL(t.`GNUM`, '') AS GNUM,
+		  IFNULL(t.`ITEM_NO`, '') AS ITEM_NO,
+		  IFNULL(s.`GNUM`, '') AS G_NO,
+<!-- 		  IFNULL(s.`TAX_CODE`, '') AS TAX_CODE,
+		  IFNULL(s.`TAX_RATE`, '') AS TAX_RATE, -->
+		  IFNULL(s.`G_CODE`, '') AS G_CODE,
+		  IFNULL(s.`G_NAME`, '') AS G_NAME,
+		  IFNULL(s.`G_MODEL`, '') AS G_MODEL,
+		  IFNULL(s.`BARCODE`, '') AS BAR_CODE,
+		  <!-- IFNULL(s.`BRAND`, '') AS BRAND, -->
+		  IFNULL(s.`UNIT`, '') AS UNIT,
+		  IFNULL(s.`CURRENCY`, '') AS CURRENCY,
+		  IFNULL(t.`REFOUND_QTY`, '') AS QTY,
+		  IFNULL(t.`PRICE`, '') AS PRICE,
+		  IFNULL(t.`TOTAL`, '') AS TOTAL,
+		  IFNULL(t.`NOTE`, '') AS NOTE 
+		FROM
+		  t_import_order_detail t 
+		  LEFT JOIN t_import_orders orders 
+		    ON t.ORDERS_ID = orders.ORDERS_ID
+		  LEFT JOIN t_import_order_detail s 
+		    ON (s.ORDERS_ID = t.ORDERS_ID)
+		WHERE t.`ORDERS_ID` = #{orderId} 
+	</select>
+	
+	<select id="selectDataForMessage303_import" resultType="java.util.LinkedHashMap" >
+		SELECT 
+		  IFNULL(t.`APP_TIME`, '') AS APP_TIME,
+		  IFNULL(t.`ORDER_NO`, '') AS PRE_ORDER_NO,
+		  IFNULL(t.`EBC_CODE`, '') AS EBC_CODE
+		FROM
+		  t_import_orders t 
+		WHERE t.`GUID` = #{guid} 
+	</select>
+	
+	<select id="selectDataForMessage40X_import_head" resultType="java.util.LinkedHashMap" >
+		SELECT 
+		  IFNULL(t.`GUID`, '') AS MESSAGE_ID,
+		  '' AS MESSAGE_TYPE,
+		  IFNULL(t.`PAY_CODE`, '') AS SEND_ID,
+		  IFNULL(t.`RECEIVER_ID`, '') AS RECEIVER_ID,
+		  IFNULL(t.`APP_TIME`, '') AS SEND_TIME,
+		  IFNULL(t.`VERSION`, '') AS VERSION
+		FROM
+		  t_import_pay t 
+		WHERE t.`GUID` = #{guid} 
+	</select>
+	
+	
+	<select id="selectDataForMessage401_import" resultType="java.util.LinkedHashMap" >
+		SELECT 
+		  IFNULL(t.`APP_UID`, '') AS APP_UID,
+		  (SELECT 
+		    c.name 
+		  FROM
+		    t_code_name c 
+		  WHERE c.RELATION_CATEGORY = 'APP_UID' 
+		    AND c.CODE = t.APP_UID) AS APP_UNAME,
+		  IFNULL(t.`APP_TYPE`, '') AS APP_TYPE,
+		  IFNULL(t.`APP_STATUS`, '') AS APP_STATUS,
+		  IFNULL(t.`APP_TIME`, '') AS APP_TIME,
+		  IFNULL(t.`PAY_CODE`, '') AS PAY_CODE,
+		  (SELECT 
+		    c.name 
+		  FROM
+		    t_code_name c 
+		  WHERE c.RELATION_CATEGORY = 'PAY' 
+		    AND c.CODE = t.PAY_CODE) AS PAY_NAME,
+		  
+		  IFNULL(t.`PAY_TYPE`, '') AS PAY_TYPE,
+		  IFNULL(t.`PAY_NO`, '') AS PAY_NO,
+		  IFNULL(t.`ORDER_NO`, '') AS ORDER_NO,
+		  IFNULL(t.`EBP_CODE`, '') AS EBP_CODE,
+		  (SELECT 
+		    c.name 
+		  FROM
+		    t_code_name c 
+		  WHERE c.RELATION_CATEGORY = 'EBP_CODE' 
+		    AND c.CODE = t.EBP_CODE) AS EBP_NAME,
+		  IFNULL(orders.`GOODS_VALUE`+orders.`TAX_FEE`+orders.`FREIGHT`, '') AS CHARGE,
+		  IFNULL(orders.`GOODS_VALUE`, '') AS GOODS_VALUE,
+		  IFNULL(orders.`TAX_FEE`, '') AS TAX_FEE,
+		  IFNULL(orders.`FREIGHT`, '') AS FREIGHT,
+		  IFNULL(orders.`CURRENCY`, '') AS CURRENCY,
+		  IFNULL(t.`PAY_STATUS`, '') AS PAY_STATUS,
+		  IFNULL(contact1.`NAME`, '') AS DRAWEE,
+		  IFNULL(contact1.`CODE`, '') AS DRAWEE_INDENTITY,
+		  IFNULL(t.`NOTE`, '') AS NOTE 
+		FROM
+		  t_import_pay t 
+		  LEFT JOIN T_import_ORDERS orders 
+		    ON t.ORDER_NO = orders.ORDER_NO
+		  LEFT JOIN T_CONTACT contact1 
+		    ON orders.CONSIGNEE_ID = contact1.CONTACT_ID 
+		WHERE t.`GUID` = #{guid}   
+	</select>
+	
+	<update id="updatePay_import" parameterType="hashmap" >
+	    update T_import_PAY
+	    <set >
+	      <if test="RECEIVER_ID != null" >
+	        RECEIVER_ID = #{RECEIVER_ID},
+	      </if>
+	      <if test="APP_TYPE != null" >
+	        APP_TYPE = #{APP_TYPE},
+	      </if>
+	      <if test="APP_TIME != null" >
+	        APP_TIME = #{APP_TIME},
+	      </if>
+	      <if test="APP_STATUS != null" >
+	        APP_STATUS = #{APP_STATUS},
+	      </if>
+	      <if test="APP_UID != null" >
+	        APP_UID = #{APP_UID},
+	      </if>
+	      <if test="APP_UNAME != null" >
+	        APP_UNAME = #{APP_UNAME},
+	      </if>
+	      <if test="PAY_CODE != null" >
+	        PAY_CODE = #{PAY_CODE},
+	      </if>
+	      <if test="PAY_NAME != null" >
+	        PAY_NAME = #{PAY_NAME},
+	      </if>
+	      <if test="PAY_TYPE != null" >
+	        PAY_TYPE = #{PAY_TYPE},
+	      </if>
+	      <if test="PAY_NO != null" >
+	        PAY_NO = #{PAY_NO},
+	      </if>
+	      <if test="EBP_CODE != null" >
+	        EBP_CODE = #{EBP_CODE},
+	      </if>
+	      <if test="EBP_NAME != null" >
+	        EBP_NAME = #{EBP_NAME},
+	      </if>
+	      <if test="CHARGE != null" >
+	        CHARGE = #{CHARGE},
+	      </if>
+	      <if test="PAY_STATUS != null" >
+	        PAY_STATUS = #{PAY_STATUS},
+	      </if>
+	      <if test="DRAWEE != null" >
+	        DRAWEE = #{DRAWEE},
+	      </if>
+	      <if test="DRAWEE_INDENTIFY != null" >
+	        DRAWEE_INDENTIFY = #{DRAWEE_INDENTIFY},
+	      </if>
+	      <if test="NOTE != null" >
+	        NOTE = #{NOTE},
+	      </if>
+	      <if test="RETURN_STATUS != null" >
+	        RETURN_STATUS = #{RETURN_STATUS},
+	      </if>
+	      <if test="RETURN_TIME != null" >
+	        RETURN_TIME = #{RETURN_TIME},
+	      </if>
+	      <if test="RETURN_INFO != null" >
+	        RETURN_INFO = #{RETURN_INFO},
+	      </if>
+	      <if test="CREAT_TIME != null" >
+	        CREAT_TIME = #{CREAT_TIME},
+	      </if>
+	    </set>
+	    where GUID = #{GUID}
+	  </update>
+	
+
+	
+	
+	<select id="selectDataForMessage502_import" resultType="java.util.LinkedHashMap" >
+		SELECT 
+		  IFNULL(t.`APP_TIME`, '') AS APP_TIME,
+		  IFNULL(t.`LOGISTICS_NO`, '') AS LOGISTICS_NO,
+		  IFNULL(t.`LOGISTICS_CODE`, '') AS LOGISTICS_CODE 
+		FROM
+		  T_import_LOGISTICS t 
+		WHERE t.`GUID` = #{guid} 
+	</select>
+
+	<select id="selectDataForMessage50X_import_head" resultType="java.util.LinkedHashMap" >
+		SELECT 
+		  IFNULL(t.`GUID`, '') AS MESSAGE_ID,
+		  '' AS MESSAGE_TYPE,
+		  IFNULL(orders.`EBC_CODE`, '') AS SEND_ID,
+		  IFNULL(t.`RECEIVER_ID`, '') AS RECEIVER_ID,
+		  IFNULL(t.`APP_TIME`, '') AS SEND_TIME,
+		  IFNULL(t.`VERSION`, '') AS VERSION
+		FROM
+		  T_import_LOGISTICS t 
+		  LEFT JOIN t_import_orders orders
+		    ON t.ORDER_NO = orders.ORDER_NO 
+		WHERE t.`GUID` = #{guid} 
+	</select>
+	
+	<update id="updateLogistics_import" parameterType="hashmap" >
+	    update T_import_LOGISTICS
+	    <set >
+	    <if test="ORDER_NO != null" >
+	        ORDER_NO = #{ORDER_NO},
+	      </if>
+	      <if test="CUSTOM_CODE != null" >
+	        CUSTOM_CODE = #{CUSTOM_CODE},
+	      </if>
+	      <if test="RECEIVER_ID != null" >
+	        RECEIVER_ID = #{RECEIVER_ID},
+	      </if>
+	      <if test="APP_TYPE != null" >
+	        APP_TYPE = #{APP_TYPE},
+	      </if>
+	      <if test="APP_TIME != null" >
+	        APP_TIME = #{APP_TIME},
+	      </if>
+	      <if test="APP_STATUS != null" >
+	        APP_STATUS = #{APP_STATUS},
+	      </if>
+	      <if test="APP_UID != null" >
+	        APP_UID = #{APP_UID},
+	      </if>
+	      <if test="APP_UNAME != null" >
+	        APP_UNAME = #{APP_UNAME},
+	      </if>
+	      <if test="LOGISTICS_CODE != null" >
+	        LOGISTICS_CODE = #{LOGISTICS_CODE},
+	      </if>
+	      <if test="LOGISTICS_NAME != null" >
+	        LOGISTICS_NAME = #{LOGISTICS_NAME},
+	      </if>
+	      <if test="LOGISTICS_NO != null" >
+	        LOGISTICS_NO = #{LOGISTICS_NO},
+	      </if>
+	      <if test="LOGISTICS_STATUS != null" >
+	        LOGISTICS_STATUS = #{LOGISTICS_STATUS},
+	      </if>
+	      <if test="IE_FLAG != null" >
+	        IE_FLAG = #{IE_FLAG},
+	      </if>
+	      <if test="TRAF_MODE != null" >
+	        TRAF_MODE = #{TRAF_MODE},
+	      </if>
+	      <if test="TRAF_NAME != null" >
+	        TRAF_NAME = #{TRAF_NAME},
+	      </if>
+	      <if test="VOYAGE_NO != null" >
+	        VOYAGE_NO = #{VOYAGE_NO},
+	      </if>
+	      <if test="BILL_NO != null" >
+	        BILL_NO = #{BILL_NO},
+	      </if>
+	      <if test="FREIGHT != null" >
+	        FREIGHT = #{FREIGHT},
+	      </if>
+	      <if test="INSURE_FEE != null" >
+	        INSURE_FEE = #{INSURE_FEE},
+	      </if>
+	      <if test="CURRENCY != null" >
+	        CURRENCY = #{CURRENCY},
+	      </if>
+	      <if test="WEIGHT != null" >
+	        WEIGHT = #{WEIGHT},
+	      </if>
+	      <if test="NET_WEIGHT != null" >
+	        NET_WEIGHT = #{NET_WEIGHT},
+	      </if>
+	      <if test="PACK_NO != null" >
+	        PACK_NO = #{PACK_NO},
+	      </if>
+	      <if test="PARCEL_INFO != null" >
+	        PARCEL_INFO = #{PARCEL_INFO},
+	      </if>
+	      <if test="GOODS_INFO != null" >
+	        GOODS_INFO = #{GOODS_INFO},
+	      </if>
+	      <if test="CONSIGNEE_ID != null" >
+	        CONSIGNEE_ID = #{CONSIGNEE_ID},
+	      </if>
+	      <if test="SHIPPER_ID != null" >
+	        SHIPPER_ID = #{SHIPPER_ID},
+	      </if>
+	      <if test="LOGISTICS_HEAD_NO != null" >
+	        LOGISTICS_HEAD_NO = #{LOGISTICS_HEAD_NO},
+	      </if>
+	      <if test="NOTE != null" >
+	        NOTE = #{NOTE},
+	      </if>
+	      <if test="RETURN_STATUS != null" >
+	        RETURN_STATUS = #{RETURN_STATUS},
+	      </if>
+	      <if test="RETURN_TIME != null" >
+	        RETURN_TIME = #{RETURN_TIME},
+	      </if>
+	      <if test="RETURN_INFO != null" >
+	        RETURN_INFO = #{RETURN_INFO},
+	      </if>
+	      <if test="CREAT_TIME != null" >
+	        CREAT_TIME = #{CREAT_TIME},
+	      </if>
+	    </set>
+	    where GUID = #{GUID}
+	  </update>
+	
+	<select id="selectDataForMessage601_import" resultType="java.util.LinkedHashMap" >
+		SELECT 
+		  IFNULL(t.`APP_UID`, '') AS APP_UID,
+		  (SELECT 
+		    c.name 
+		  FROM
+		    t_code_name c 
+		  WHERE c.RELATION_CATEGORY = 'APP_UID' 
+		    AND c.CODE = t.APP_UID) AS APP_UNAME,
+		  IFNULL(t.`COP_NO`, '') AS COP_NO,
+		  IFNULL(t.`CUSTOM_CODE`, '') AS CUSTOM_CODE,
+		  IFNULL(t.`CHK_CUSTOM_CODE`, '') AS CHK_CUSTOM_CODE,
+		  IFNULL(t.`APP_TYPE`, '') AS APP_TYPE,
+		  IFNULL(t.`APP_STATUS`, '') AS APP_STATUS,
+		  IFNULL(t.`APP_TIME`, '') AS APP_TIME,
+		  IFNULL(t.`PRE_NO`, '') AS PRE_NO,
+		  IFNULL(t.`INVT_NO`, '') AS INVT_NO,
+		  IFNULL(orders.`EBP_CODE`, '') AS EBP_CODE,
+		  (SELECT 
+		    c.name 
+		  FROM
+		    t_code_name c 
+		  WHERE c.RELATION_CATEGORY = 'EBP_CODE' 
+		    AND c.CODE = orders.EBP_CODE) AS EBP_NAME,
+		  IFNULL(t.`LOGISTICS_NO`, '') AS LOGISTICS_NO,
+		  IFNULL(logistics.`LOGISTICS_CODE`, '') AS LOGISTICS_CODE,
+		  (SELECT 
+		    c.name 
+		  FROM
+		    t_code_name c 
+		  WHERE c.RELATION_CATEGORY = 'LOGISTICS_CODE' 
+		    AND c.CODE = logistics.LOGISTICS_CODE) AS LOGISTICS_NAME,
+		  IFNULL(orders.`ORDER_TYPE`, '') AS BIZ_TYPE,
+		  IFNULL(t.`PORT_CODE`, '') AS PORT_CODE,
+		  IFNULL(DATE_FORMAT(t.`IE_DATE`,'%Y%m%d'), '') AS IE_DATE,
+		  IFNULL(t.`OWNER_CODE`, '') AS OWNER_CODE,
+		  (SELECT 
+		    c.name 
+		  FROM
+		    t_code_name c 
+		  WHERE c.RELATION_CATEGORY = 'EBC_CODE' 
+		    AND c.CODE = t.OWNER_CODE) AS OWNER_NAME, 
+		  IFNULL(orders.`EBC_CODE`, '') AS TRADE_CODE,
+		  (SELECT 
+		    c.name 
+		  FROM
+		    t_code_name c 
+		  WHERE c.RELATION_CATEGORY = 'EBC_CODE' 
+		    AND c.CODE = orders.EBC_CODE) AS TRADE_NAME,
+		  IFNULL(orders.`AGENT_CODE`, '') AS AGENT_CODE,
+		  (SELECT 
+		    c.name 
+		  FROM
+		    t_code_name c 
+		  WHERE c.RELATION_CATEGORY = 'AGENT_CODE' 
+		    AND c.CODE = orders.AGENT_CODE) AS AGENT_NAME,
+		  IFNULL(t.`TRADE_MODE`, '') AS TRADE_MODE,
+		  IFNULL(logistics.`TRAF_MODE`, '') AS TRAF_MODE,
+		  IFNULL(logistics.`TRAF_NAME`, '') AS TRAF_NAME,
+		  IFNULL(logistics.`VOYAGE_NO`, '') AS VOYAGE_NO,
+		  IFNULL(logistics.`BILL_NO`, '') AS BILL_NO,
+		  IFNULL(logistics.`MAIN_BILL_NO`, '') AS MAIN_BILL_NO,
+		  IFNULL(t.`LOCT_NO`, '') AS LOCT_NO,
+		  IFNULL(t.`LICENSE_NO`, '') AS LICENSE_NO,
+		  IFNULL(t.`COUNTRY`, '') AS COUNTRY,
+		  IFNULL(t.`DESTINATION_PORT`, '') AS DESTINATION_PORT,
+		  IFNULL(orders.`GOODS_VALUE`, '') AS GOODS_VALUE,
+		  IFNULL(orders.`TAX_FEE`, '') AS TAX_FEE,
+		  IFNULL(orders.`CURRENCY`, '') AS GOODS_CURRENCY,
+		  IFNULL(t.`FREIGHT`, '') AS FREIGHT,
+		  IFNULL(t.`FREIGHT_CURR`, '') AS FREIGHT_CURR,
+		  IFNULL(t.`FREIGHT_MARK`, '') AS FREIGHT_MARK,
+		  IFNULL(t.`INSURE_FEE`, '') AS INSURE_FEE,
+		  IFNULL(t.`INSURE_FEE_CURR`, '') AS INSURE_FEE_CURR,
+		  IFNULL(t.`INSURE_FEE_MARK`, '') AS INSURE_FEE_MARK,
+		  IFNULL(t.`WRAP_TYPE`, '') AS WRAP_TYPE,
+		  IFNULL(t.`PACK_NO`, '') AS PACK_NO,
+		  IFNULL(t.`WEIGHT`, '') AS WEIGHT,
+		  IFNULL(t.`NET_WEIGHT`, '') AS NET_WEIGHT_SP,
+		  IFNULL(t.`NOTE`, '') AS NOTE,
+		  <!-- 发送的报文中，在进口时，收发货人代码自动填收货人的身份证号，收发货人名称自动填收货人姓名； -->
+		  <!-- 出口时，收发货人代码自动填物流企业代码，收发货人名称自动填物流企业名称 -->
+		  logistics.`IE_FLAG` AS IE_FLAG,
+		  CODENAME.`CODE` AS CODE_CODE,
+		  CODENAME.`NAME` AS CODE_NAME,
+		  CONTACT.`CODE` AS CONTACT_CODE,
+		  CONTACT.`NAME` AS CONTACT_NAME
+		   
+		FROM
+		  T_import_INVENTORY t 
+		  LEFT JOIN T_import_LOGISTICS logistics 
+		    ON t.LOGISTICS_NO = logistics.LOGISTICS_NO 
+		  LEFT JOIN t_import_orders orders 
+		    ON orders.ORDER_NO = logistics.ORDER_NO
+		  LEFT JOIN `T_CODE_NAME` CODENAME 
+    		ON logistics.LOGISTICS_CODE = CODENAME.CODE AND CODENAME.RELATION_CATEGORY="LOGISTICS_CODE"
+  		  LEFT JOIN `T_CONTACT` CONTACT 
+    		ON logistics.CONSIGNEE_ID = CONTACT.CONTACT_ID
+		WHERE t.`GUID` = #{guid}  
+	</select>
+
+	<select id="selectSubDataForMessage601_import" resultType="java.util.LinkedHashMap" >
+		SELECT 
+		  IFNULL(t.`GNUM`, '') AS GNUM,
+		  IFNULL(logistics.`ORDER_NO`, '') AS ORDER_NO,
+		  IFNULL(sku.`G_NO`, '') AS G_NO,
+		  IFNULL(sku.`ITEM_NO`, '') AS ITEM_NO,
+		  IFNULL(sku.`G_CODE`, '') AS G_CODE,
+		  IFNULL(sku.`TAX_CODE`, '') AS TAX_CODE,
+		  IFNULL(sku.`TAX_RATE`, '') AS TAX_RATE,
+		  IFNULL(sku.`G_NAME`, '') AS G_NAME,
+		  IFNULL(sku.`G_MODEL`, '') AS G_MODEL,
+		  IFNULL(sku.`BAR_CODE`, '') AS BAR_CODE,
+		  IFNULL(contact1 .`COUNTRY`, '') AS COUNTRY,
+		  IFNULL(sku.`CURRENCY`, '') AS CURRENCY,
+		  IFNULL(t.`QTY`, '') AS QTY,
+		  IFNULL(t.`QTY1`, '') AS QTY1,
+		  IFNULL(t.`QTY2`, '') AS QTY2,
+		  IFNULL(t.`UNIT`, '') AS UNIT,
+		  IFNULL(t.`UNIT1`, '') AS UNIT1,
+		  IFNULL(t.`UNIT2`, '') AS UNIT2,
+		  IFNULL(t.`PRICE`, '') AS PRICE,
+		  IFNULL(t.`TOTAL`, '') AS TOTAL
+		FROM
+		  T_import_INVENTORY_DETAIL t
+		  LEFT JOIN t_import_inventory inventory 
+		    ON inventory.INVENTORY_ID = t.INVENTORY_ID
+		  LEFT JOIN t_import_logistics logistics 
+		    ON logistics.LOGISTICS_NO = inventory.LOGISTICS_NO
+		  LEFT JOIN t_import_orders orders 
+		    ON orders.ORDER_NO = logistics.ORDER_NO
+		  LEFT JOIN T_CONTACT contact1 
+		    ON orders.CONSIGNEE_ID = contact1.CONTACT_ID
+		  LEFT JOIN t_import_sku sku 
+		    ON (sku.ITEM_NO = t.ITEM_NO and orders.ORDER_TYPE = sku.BIZ_TYPE)
+		WHERE t.INVENTORY_ID = #{inventoryId}
+	</select>
+	
+	<select id="selectDataForMessage60X_import_head" resultType="java.util.LinkedHashMap" >
+		SELECT 
+		  IFNULL(t.`GUID`, '') AS MESSAGE_ID,
+		  '' AS MESSAGE_TYPE,
+		  IFNULL(orders.`EBC_CODE`, '') AS SEND_ID,
+		  IFNULL(t.`RECEIVER_ID`, '') AS RECEIVER_ID,
+		  IFNULL(t.`APP_TIME`, '') AS SEND_TIME,
+		  IFNULL(t.`VERSION`, '') AS VERSION
+		FROM
+		  T_import_INVENTORY t 
+		  LEFT JOIN T_import_LOGISTICS logistics 
+		    ON t.LOGISTICS_NO = logistics.LOGISTICS_NO 
+		  LEFT JOIN t_import_orders orders 
+		    ON orders.ORDER_NO = logistics.ORDER_NO 
+		WHERE t.`GUID` = #{guid} 
+	</select>
+	
+	<select id="selectDataForMessage602_import" resultType="java.util.LinkedHashMap" >
+		SELECT 
+		  IFNULL(t.`APP_TIME`, '') AS APP_TIME,
+		  IFNULL(t.`PRE_NO`, '') AS PRE_NO,
+		  IFNULL(orders.`EBC_CODE`, '') AS TRADE_CODE
+		FROM
+		  T_import_INVENTORY t 
+		  LEFT JOIN T_import_LOGISTICS logistics 
+		    ON t.LOGISTICS_NO = logistics.LOGISTICS_NO 
+		  LEFT JOIN t_import_orders orders 
+		    ON orders.ORDER_NO = logistics.ORDER_NO 
+		WHERE t.`GUID` = #{guid}  
+	</select>
+	
+	<update id="updateInventory_import" parameterType="hashmap" >
+	    update T_import_INVENTORY
+	    <set >
+	      <if test="CUSTOM_CODE != null" >
+	        CUSTOM_CODE = #{CUSTOM_CODE},
+	      </if>
+	      <if test="RECEIVER_ID != null" >
+	        RECEIVER_ID = #{RECEIVER_ID},
+	      </if>
+	      <if test="CHK_CUSTOM_CODE != null" >
+	        CHK_CUSTOM_CODE = #{CHK_CUSTOM_CODE},
+	      </if>
+	      <if test="APP_TYPE != null" >
+	        APP_TYPE = #{APP_TYPE},
+	      </if>
+	      <if test="APP_TIME != null" >
+	        APP_TIME = #{APP_TIME},
+	      </if>
+	      <if test="APP_STATUS != null" >
+	        APP_STATUS = #{APP_STATUS},
+	      </if>
+	      <if test="APP_UID != null" >
+	        APP_UID = #{APP_UID},
+	      </if>
+	      <if test="APP_UNAME != null" >
+	        APP_UNAME = #{APP_UNAME},
+	      </if>
+	      <if test="COP_NO != null" >
+	        COP_NO = #{COP_NO},
+	      </if>
+	      <if test="PRE_NO != null" >
+	        PRE_NO = #{PRE_NO},
+	      </if>
+	      <if test="LOGISTICS_NO != null" >
+	        LOGISTICS_NO = #{LOGISTICS_NO},
+	      </if>
+	      <if test="INVT_NO != null" >
+	        INVT_NO = #{INVT_NO},
+	      </if>
+	      <if test="PORT_CODE != null" >
+	        PORT_CODE = #{PORT_CODE},
+	      </if>
+	      <if test="IE_DATE != null" >
+	        IE_DATE = #{IE_DATE},
+	      </if>
+	      <if test="OWNER_CODE != null" >
+	        OWNER_CODE = #{OWNER_CODE},
+	      </if>
+	      <if test="OWNER_NAME != null" >
+	        OWNER_NAME = #{OWNER_NAME},
+	      </if>
+	      <if test="TRADE_MODE != null" >
+	        TRADE_MODE = #{TRADE_MODE},
+	      </if>
+	      <if test="LOCT_NO != null" >
+	        LOCT_NO = #{LOCT_NO},
+	      </if>
+	      <if test="LICENSE_NO != null" >
+	        LICENSE_NO = #{LICENSE_NO},
+	      </if>
+	      <if test="COUNTRY != null" >
+	        COUNTRY = #{COUNTRY},
+	      </if>
+	      <if test="GOODS_VALUE != null" >
+	        GOODS_VALUE = #{GOODS_VALUE},
+	      </if>
+	      <if test="GOODS_CURRENCY != null" >
+	        GOODS_CURRENCY = #{GOODS_CURRENCY},
+	      </if>
+	      <if test="TAX_FEE != null" >
+	        TAX_FEE = #{TAX_FEE},
+	      </if>
+	      <if test="DESTINATION_PORT != null" >
+	        DESTINATION_PORT = #{DESTINATION_PORT},
+	      </if>
+	      <if test="FREIGHT != null" >
+	        FREIGHT = #{FREIGHT},
+	      </if>
+	      <if test="FREIGHT_CURR != null" >
+	        FREIGHT_CURR = #{FREIGHT_CURR},
+	      </if>
+	      <if test="FREIGHT_MARK != null" >
+	        FREIGHT_MARK = #{FREIGHT_MARK},
+	      </if>
+	      <if test="INSURE_FEE != null" >
+	        INSURE_FEE = #{INSURE_FEE},
+	      </if>
+	      <if test="INSURE_FEE_CURR != null" >
+	        INSURE_FEE_CURR = #{INSURE_FEE_CURR},
+	      </if>
+	      <if test="INSURE_FEE_MARK != null" >
+	        INSURE_FEE_MARK = #{INSURE_FEE_MARK},
+	      </if>
+	      <if test="WRAP_TYPE != null" >
+	        WRAP_TYPE = #{WRAP_TYPE},
+	      </if>
+	      <if test="PACK_NO != null" >
+	        PACK_NO = #{PACK_NO},
+	      </if>
+	      <if test="WEIGHT != null" >
+	        WEIGHT = #{WEIGHT},
+	      </if>
+	      <if test="NET_WEIGHT != null" >
+	        NET_WEIGHT = #{NET_WEIGHT},
+	      </if>
+	      <if test="NOTE != null" >
+	        NOTE = #{NOTE},
+	      </if>
+	      <if test="RETURN_STATUS != null" >
+	        RETURN_STATUS = #{RETURN_STATUS},
+	      </if>
+	      <if test="RETURN_TIME != null" >
+	        RETURN_TIME = #{RETURN_TIME},
+	      </if>
+	      <if test="RETURN_INFO != null" >
+	        RETURN_INFO = #{RETURN_INFO},
+	      </if>
+	      <if test="CREAT_TIME != null" >
+	        CREAT_TIME = #{CREAT_TIME},
+	      </if>
+	    </set>
+	    where GUID = #{GUID}
+	  </update>
+	  
+	  <select id="selectDataForMessageSNT402" resultType="java.util.LinkedHashMap" >
+		SELECT 
+		  IFNULL(delivery.TRAF_MODE, '') AS TrafMode,
+		  IFNULL(delivery.TRAF_NO, '') AS TrafNo,
+		  IFNULL(delivery.VOYAGE_NO, '') AS VoyageNo,
+		  IFNULL(delivery.BILL_NO, '') AS BillNo,
+		  IFNULL(logistics.WEIGHT, '') AS Weight,
+		  IFNULL(logistics.PARCEL_INFO, '') AS ParcelInfo,
+		  IFNULL(logistics.LOGISTICS_STATUS, '') AS GoodStatus 
+		FROM
+		  t_import_logistics logistics
+		  LEFT JOIN t_import_delivery delivery 
+		    ON logistics.DELIVERY_NO = delivery.DELIVERY_NO 
+		WHERE logistics.LOGISTICS_NO = #{LogisticsNo};
+	</select>
+	
+	<select id="selectSumPackNoForOrder" resultType="int" >
+		SELECT 
+		  SUM(QTY) 
+		FROM
+		  T_IMPORT_ORDER_DETAIL 
+		WHERE ORDER_NO = #{orderNo}
+	</select>
+	
+</mapper>

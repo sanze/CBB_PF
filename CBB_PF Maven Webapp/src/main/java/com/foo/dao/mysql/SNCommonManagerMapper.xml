@@ -1,0 +1,181 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foo.dao.mysql.SNCommonManagerMapper">
+	
+	<select id="selectBookNumber" resultType="hashmap" >
+		SELECT 
+		  *
+		FROM
+		  t_new_import_books 
+		WHERE SKU = #{sku} and QTY >= #{qty} and ADD_REDUCE_FLAG = '1' and QTY >=0
+	</select>
+	
+	<select id="selectInventoryHead" resultType="java.util.LinkedHashMap" >
+		SELECT 
+		  t.GUID,
+		  t.APP_TYPE,
+		  t.APP_TIME,
+		  t.APP_STATUS,
+		  t.ORDER_NO,
+		  t.EBP_CODE,
+		  t.EBP_NAME,
+		  t.EBC_CODE,
+		  t.EBC_NAME,
+		  t.LOGISTICS_NO as logisticsNo,
+		  t.LOGISTICS_CODE,
+		  t.LOGISTICS_NAME,
+		  t.COP_NO,
+		  t.PRE_NO,
+		  t.ASSURE_CODE,
+		  t.EMS_NO,
+		  t.INVT_NO,
+		  "I" as ieFlag,
+		  t.DECL_TIME,
+		  t.CUSTOM_CODE,
+		  t.PORT_CODE,
+		  t.IE_DATE,
+		  t.BUYER_IDTYPE,
+		  t.BUYER_IDNUMBER,
+		  t.BUYER_NAME,
+		  t.BUYER_TELEPHONE,
+		  t.CONSIGNEE_ADDRESS,
+		  t.AGENT_CODE,
+		  t.AGENT_NAME,
+		  t.AERA_CODE,
+		  t.AERA_NAME,
+		  t.TRADE_MODE,
+		  t.TRAF_MODE,
+		  t.TRAF_NO,
+		  t.LOCT_NO as voyageNo,
+		  "" as billNo,
+		  t.LOCT_NO as loctNo,
+		  t.LICENSE_NO,
+		  t.COUNTRY,
+		  t.FREIGHT,
+		  t.INSURE_FEE,
+		  t.CURRENCY,
+		  t.WRAP_TYPE,
+		  t.PACK_NO,
+		  t.GROSS_WEIGHT,
+		  t.NET_WEIGHT,
+		  t.NOTE,
+		  t.LOGISTICS_NO as ioSerialNo,
+		  b.DECL_NO,
+		   "江苏苏宁易购电子商务有限公司" as declPerson,
+		  "18222309097" as declTel,
+		  "" as mainDeclNo,
+		  "" as combineFlag,
+		  "" as orderNum,
+		  "" as declCount,
+		  "" as orderCount,
+		  "" as billCount,
+		  "" as paymentCount,
+		  t.PAY_SERIAL_NO,
+		  "FI" as declTypeCode,
+		  "Q121500201607000033" as entCode,
+		  "Q120000201808000039" as cbecode,
+		  "Q120000201808000038" as ciqLogisticsCode,
+		  "121500" as checkOrgCode,
+		  "4" as idType,
+		  t.WORTH,
+		   "C" as stockFlag,
+		  "" as consigneeNo,
+		  "樊胜男" as consigneeCname,
+		  "" as consigneeEname,
+		  "18622704752" as consigneeTel,
+		  "" as consinorNo,
+		  "江苏苏宁易购电子商务有限公司" as consignorCname,
+		  "" as consignorEname,
+		  "18551604361" as consignorTel,
+		  "天津东疆保税港区洛阳道600号3-3单元" as consignorAddress,
+		  "3201966A69" as idCard
+		FROM
+		  t_new_import_inventory t 
+		  LEFT JOIN t_new_import_books b 
+		    ON b.ORDER_NO = t.ORDER_NO 
+		WHERE t.INVENTORY_ID = #{id} ;
+	</select>
+	
+	<select id="selectInventoryList" resultType="java.util.LinkedHashMap" >
+		SELECT 
+		  t.GNUM,
+		  s.RECORD_NO,
+		  t.ITEM_NO,
+		  t.ITEM_NAME as itemName,
+		  s.G_CODE,
+		  t.ITEM_NAME as gname,
+		  s.G_MODEL,
+		  "" as barCode,
+		  t.COUNTRY as country,
+		  t.CURRENCY,
+		  "156" as ciqcurrency,
+		  t.QTY,
+		  t.QTY1,
+		  t.QTY2,
+		  t.UNIT,
+		  t.UNIT1,
+		  t.UNIT2,
+		  t.PRICE,
+		  t.TOTAL_PRICE,
+		  "" as note,
+		  b.GOODS_SERIALNO,
+		  "Q120000201808000039" as entCode,
+		  s.SJ_RECORD_NO,
+		  b.DECL_NO,
+		  i.LOGISTICS_NO,
+		  i.ORDER_NO,
+		  i.PAY_SERIAL_NO,
+		  i.EBC_NAME,
+		  i.BUYER_NAME,
+		  i.BUYER_IDTYPE,
+		  t.COUNTRY as originCountryCode,
+		  "" as qtyUnitCode,
+		  "Q120000201808000039" as consigneeNo
+		FROM
+		  t_new_import_inventory_detail t 
+		  LEFT JOIN t_new_import_inventory i 
+		    ON i.INVENTORY_ID = t.INVENTORY_ID 
+		  LEFT JOIN t_new_import_books b 
+		    ON b.ORDER_NO = i.ORDER_NO 
+		  LEFT JOIN t_new_import_sku s 
+		    ON s.ITEM_NO = t.ITEM_NO 
+		WHERE t.INVENTORY_ID = #{id} ; 
+	</select>
+	
+	<select id="selectIODeclContainerList" resultType="java.util.LinkedHashMap" >
+		SELECT 
+		  "2" as bizType,
+		  b.CON_MODEL,
+		  b.CON_NUM,
+		  b.CON_NO
+		FROM
+		  t_new_import_inventory t 
+		  LEFT JOIN t_new_import_books b 
+		    ON b.ORDER_NO = t.ORDER_NO 
+		WHERE t.INVENTORY_ID = #{id} ;
+	</select>
+	
+	<select id="selectIODeclOrderRelationList" resultType="java.util.LinkedHashMap" >
+		SELECT 
+		  "2" as bizType,
+		  t.ORDER_NO,
+		  b.DECL_NO
+		FROM
+		  t_new_import_inventory t 
+		  LEFT JOIN t_new_import_books b 
+		    ON b.ORDER_NO = t.ORDER_NO 
+		WHERE t.INVENTORY_ID = #{id} ;
+	</select>
+	
+	<select id="selectBaseTransfer" resultType="java.util.LinkedHashMap" >
+		SELECT 
+		  "1207980025" as copCode,
+		  "天津中外运报关有限公司" as copName,
+		  "DXP" as dxpMode,
+		  "DXPENT0000011432" as dxpId,
+		  "" as note
+	</select>
+	
+	
+	
+</mapper>

@@ -1,0 +1,12 @@
+{ 
+	scripts: [
+		'../commonManager/common_IMPORT.js',
+		'../codeManager/common.js',
+		'../import_cbb_pf/orderManager/common.js',
+		'../import_cbb_pf/orderManager/Components.js', 
+		'../import_cbb_pf/logisticsManager/common.js',
+		'../import_cbb_pf/logisticsManager/Components.js'], 
+	construct: function() { 
+		return new Ext.ux.LogisticsGridPanel();
+	}
+}

@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foo.dao.mysql.SystemManagerMapper">
+
+	<!-- 用户登陆-->
+	<select id="getUserByNameAndPass" resultType="hashmap" parameterType="String">
+			select * from t_sys_user t
+			where LOGIN_NAME = #{userName} 
+			and  PASSWORD = #{password}
+			and t.is_del=0
+	</select>
+
+	<select id="getUserRoleList" resultType="hashmap" >
+		SELECT 
+		  role.* 
+		FROM
+		  t_sys_user_ref_role ref,
+		  t_sys_role role 
+		WHERE ref.SYS_USER_ID = #{sysUserId} 
+		  AND role.SYS_ROLE_ID = ref.SYS_ROLE_ID ;
+	</select>
+	
+	<select id="getAuthTreeNodes" parameterType="com.foo.manager.commonManager.model.AuthRegion" resultType="hashmap">
+   		select t.sys_menu_id,t.menu_display_name,t.is_leaf
+			from t_sys_menu t
+			where t.menu_parent_id=#{authRegion.menuId}
+			and menu_display_name not in('-')
+  	</select>
+  	
+  	 <!-- 获取菜单是否叶子节点-->
+	 <select id="getIsLeafByMenuId" parameterType="string" resultType="string">
+   			select t.is_leaf
+				from  t_sys_menu t
+				where t.sys_menu_id=#{menuId}
+  	</select>
+  	
+  	  	<!-- 插入权限域数据并返回主键 -->
+   	<insert id="insert" parameterType="com.foo.manager.commonManager.model.AuthRegion" useGeneratedKeys="true" keyProperty="authRegion.id">
+		INSERT INTO t_sys_role(NAME,NOTE,CREATE_TIME)
+			VALUES(#{authRegion.name},#{authRegion.note},#{authRegion.createTime})
+     	  <selectKey resultType="string"   keyProperty="authRegion.id">  
+			        SELECT LAST_INSERT_ID() AS id
+    	</selectKey>  
+	</insert>
+	
+	  <!-- 修改 -->
+	<update id="update" parameterType="com.foo.manager.commonManager.model.AuthRegion">
+		update 
+			t_sys_role
+		set
+			NAME = #{authRegion.name},
+			NOTE=#{authRegion.note}
+		where
+			SYS_ROLE_ID=#{authRegion.id}
+	</update>
+	
+		<!-- 插入权限域关联的菜单-->
+   	<insert id="insertAuthRegionRefMenu" parameterType="com.foo.manager.commonManager.model.AuthRegion">
+		INSERT INTO T_SYS_ROLE_REF(SYS_ROLE_ID,SYS_MENU_ID)
+			VALUES(#{authRegion.id},#{authRegion.menuId})
+	</insert>
+	
+		<!-- 删除权限域关联的菜单 -->
+	<delete id="deleteAuthRegionRefMenu" parameterType="com.foo.manager.commonManager.model.AuthRegion">
+     	delete from  
+     		T_SYS_ROLE_REF
+		where
+			SYS_ROLE_ID=#{authRegion.id}
+     </delete>
+     
+       	<!-- 获取权限域对应的权限-->
+	 <select id="getMenuAuthsByAuthDomainId" parameterType="com.foo.manager.commonManager.model.AuthRegion" resultType="hashmap">
+   			select tsm.sys_menu_id,tsm.menu_display_name,tsm.menu_parent_id
+				from T_SYS_ROLE_REF ts
+				join t_sys_menu tsm on ts.sys_menu_id=tsm.sys_menu_id
+				where ts.SYS_ROLE_ID=#{authRegion.id}
+  	</select>
+  	
+  	  	 	<!-- 获取父菜单-->
+	 <select id="getParentMenuByMenuId" parameterType="string" resultType="hashmap">
+   			select t.sys_menu_id,t.menu_parent_id,t.menu_display_name
+				from  t_sys_menu t
+				where t.sys_menu_id=#{parentMenuId}
+  	</select>
+
+</mapper>

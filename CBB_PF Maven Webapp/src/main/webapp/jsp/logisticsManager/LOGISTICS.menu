@@ -1,0 +1,12 @@
+{ 
+	scripts: [
+		'../commonManager/common.js',
+		'../codeManager/common.js',
+		'../orderManager/common.js',
+		'../orderManager/Components.js', 
+		'../logisticsManager/common.js',
+		'../logisticsManager/Components.js'], 
+	construct: function() { 
+		return new Ext.ux.LogisticsGridPanel();
+	}
+}

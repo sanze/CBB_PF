@@ -1,0 +1,12 @@
+{ 
+	scripts: [
+		'../commonManager/common.js',
+		'../codeManager/common.js',
+		'../skuManager/common.js',
+		'../skuManager/Components.js', 
+		'../orderManager/common.js',
+		'../orderManager/Components.js'], 
+	construct: function() { 
+		return new Ext.ux.OrderGridPanel();
+	}
+}

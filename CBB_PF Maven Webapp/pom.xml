@@ -1,0 +1,346 @@
+﻿<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.foo</groupId>
+	<artifactId>CBB_PF</artifactId>
+	<packaging>war</packaging>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>CBB_PF Maven Webapp</name>
+	<url>http://maven.apache.org</url>
+	<build>
+		<finalName>CBB_PF</finalName>
+		<!-- 项目文件输出路径 -->
+		<outputDirectory>src/main/webapp/WEB-INF/classes</outputDirectory>
+		<!-- maven默认不打包xml文件，需要显示配置 -->
+		<resources>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.xml</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*.xml</include>
+					<include>**/*.properties</include>
+				<include>**/*.xsd</include>
+				</includes>
+			</resource>
+		</resources>
+      
+		<plugins>
+			<!-- 部署到远程服务器 -->
+			<!-- 利用cargo插件把项目部署到远程的tomcat容器中 -->
+			<plugin>
+				<groupId>org.codehaus.cargo</groupId>
+				<artifactId>cargo-maven2-plugin</artifactId>
+				<version>1.4.9</version>
+				<configuration>
+					<container>
+						<!-- 此处可以配置的值可以是tomcat6x、tomcat7x、等等 -->
+						<containerId>tomcat6x</containerId>
+						<type>remote</type>
+					</container>
+					<configuration>
+						<!-- runtime表示依赖于一个已运行的容器 -->
+						<type>runtime</type>
+						<properties>
+                    <!-- tomcat7x配置tomcat-user文件，定义
+                    manager-gui，manager-script，manager-jmx，manager-status 四个角色
+                    以下用户同是拥有这四种角色 -->
+							<!-- tomcat7x使用如下uri -->
+							<!-- <cargo.remote.uri>http://127.0.0.1:8080/manager/text</cargo.remote.uri> -->
+							<!-- tomcat6x使用如下uri -->
+							<cargo.remote.uri>http://127.0.0.1:8080/manager</cargo.remote.uri>
+							<cargo.remote.username>admin</cargo.remote.username>
+							<cargo.remote.password>admin</cargo.remote.password>
+						</properties>
+					</configuration>
+				</configuration>
+			</plugin>
+
+			<!-- 本地自动部署 -->
+<!-- 		<plugin>
+			<groupId>org.codehaus.cargo</groupId>
+			<artifactId>cargo-maven2-plugin</artifactId>
+			<version>1.4.9</version>
+			<configuration>
+				<container>
+					容器的类型
+					<containerId>tomcat6x</containerId>
+					容器的安装目录
+					<home>D:/apache-tomcat-6.0.32</home>
+				</container>
+				<configuration>
+					部署模式
+					<type>standalone</type>
+					复制容器配置到什么位置，其中${project.build.directory}表示target目录
+					<home>${project.build.directory}/tomcat6x</home>
+					<properties>
+						<cargo.servlet.port>8181</cargo.servlet.port>
+						<cargo.servlet.uriencoding>utf-8</cargo.servlet.uriencoding>
+						
+					</properties>
+				</configuration>
+			</configuration>
+		</plugin> -->
+    
+			<!-- maven编译java文件的时提示非法字符解决方法 使用以下配置会导致默认的compile 和 test-compile无效 -->
+<!--       <plugin>  
+	      <groupId>org.apache.maven.plugins</groupId>  
+	      <artifactId>maven-compiler-plugin</artifactId>
+	      <version>3.1</version>  
+	      <configuration>  
+	          <source>1.6</source>  
+	          <target>1.6</target>  
+	          <encoding>UTF-8</encoding>  
+	          <compilerId>csharp</compilerId>  
+	      </configuration>  
+	      <dependencies>  
+	          <dependency>  
+	              <groupId>org.codehaus.plexus</groupId>  
+	              <artifactId>plexus-compiler-csharp</artifactId>  
+	              <version>1.6</version>  
+	          </dependency>  
+	      </dependencies>  
+	  </plugin> --> 
+
+			<!-- 去除源文件的bom信息 -->
+			<plugin>
+				<groupId>com.fujitsu</groupId>
+				<artifactId>RemoveBom</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+				<executions>
+					<execution>
+						<phase>process-sources</phase>
+						<goals><goal>removeBom</goal></goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	<!-- 配置编码格式为utf-8 -->
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<springframework.version>3.2.2.RELEASE</springframework.version>
+	  	<struts.version>2.3.15.2</struts.version>
+	  	<cxf.version>3.0.0</cxf.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+  		<version>${springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>3.2.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>1.2.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.struts</groupId>
+			<artifactId>struts2-core</artifactId>
+  		<version>${struts.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.struts</groupId>
+			<artifactId>struts2-spring-plugin</artifactId>
+	    <version>${struts.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+  		<version>${springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+  		<version>${springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+  		<version>${springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.struts</groupId>
+			<artifactId>struts2-convention-plugin</artifactId>
+  		<version>${struts.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.struts</groupId>
+		  <artifactId>struts2-config-browser-plugin</artifactId>
+		  <version>${struts.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.struts</groupId>
+			<artifactId>struts2-json-plugin</artifactId>
+  		<version>${struts.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.json-lib</groupId>
+			<artifactId>json-lib</artifactId>
+			<version>2.3</version>
+			<classifier>jdk15</classifier>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.28</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+  		<version>${springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+  		<version>${springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+  		<version>${springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+  		<version>${springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+  		<version>${springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+  		<version>${springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.struts.xwork</groupId>
+			<artifactId>xwork-core</artifactId>
+  		<version>${struts.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>1.8.0</version>
+		</dependency>
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib-nodep</artifactId>
+			<version>3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<version>1.8.6</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-pool</groupId>
+			<artifactId>commons-pool</artifactId>
+			<version>1.5.4</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-net</groupId>
+			<artifactId>commons-net</artifactId>
+			<version>3.3</version>
+		</dependency>
+		<dependency>
+		  <groupId>commons-httpclient</groupId>
+		  <artifactId>commons-httpclient</artifactId>
+		  <version>3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>dom4j</groupId>
+			<artifactId>dom4j</artifactId>
+			<version>1.6.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>1.0.4</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+		  <groupId>jaxen</groupId>
+		  <artifactId>jaxen</artifactId>
+		  <version>1.1.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-core</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxws</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.9</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>3.9</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>2.2.8</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+  			<version>4.2.1</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>com.sun.net.httpserver</groupId>
+		    <artifactId>http</artifactId>
+		    <version>20070405</version>
+		    <!-- <scope>test</scope> -->
+		</dependency>
+
+		<!-- *************************** 自定义jar包 ************************** -->
+	<dependency>
+	  <groupId>com.suning</groupId>
+	  <artifactId>suningsdk</artifactId>
+	  <version>1.0.0-20150120</version>
+	</dependency>
+
+	</dependencies>
+</project>

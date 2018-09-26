@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<!-- 复合元素的定义 ParseXml -->
+	<xs:element name="ParseXml">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="xml"/>
+				<xs:element ref="fileType"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<!-- 复合元素的定义 xml -->
+	<xs:element name="xml">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="SNT101Message"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<!-- 复合元素的定义 SNT101Message -->
+	<xs:element name="SNT101Message">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="OrderHead"/>
+				<xs:element ref="OrderList"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<!-- 复合元素的定义 OrderHead -->
+	<xs:element name="OrderHead">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="EbpCode"/>
+				<xs:element ref="EbcCode"/>
+				<xs:element ref="OrderType"/>
+				<xs:element ref="OrderNo"/>
+				<xs:element ref="GoodsInfo"/>
+				<xs:element ref="Consignee"/>
+				<xs:element ref="ConsigneeCode"/>
+				<xs:element ref="ConsigneeTelephone"/>
+				<xs:element ref="ConsigneeCountry"/>
+				<xs:element ref="ConsigneeProvince"/>
+				<xs:element ref="ConsigneeCity"/>
+				<xs:element ref="ConsigneeDistrict"/>
+				<xs:element ref="ConsigneeAddress"/>
+				<xs:element ref="GoodsValue"/>
+				<xs:element ref="TaxFee"/>
+				<xs:element ref="Freight"/>
+				<xs:element ref="InsuredFee"/>
+				<xs:element ref="Currency"/>
+				<xs:element ref="NetWeight"/>
+				<xs:element ref="Note"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<!-- 复合元素的定义 OrderList -->
+	<xs:element name="OrderList">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Order" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<!-- 复合元素的定义 Order -->
+	<xs:element name="Order">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="GNum"/>
+				<xs:element ref="ItemNo"/>
+				<xs:element ref="GName"/>
+				<xs:element ref="Qty"/>
+				<xs:element ref="Price"/>
+				<xs:element ref="Total"/>
+				<xs:element ref="BarCode"/>
+				<xs:element ref="Lottable1"/>
+				<xs:element ref="Note"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<!-- 简易元素的定义 ParseXml节点下 -->	
+	<xs:element name="fileType">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:enumeration value="SNT101" />
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element> 
+	
+	<!-- 简易元素的定义 OrderHead节点下 -->
+	<xs:element name="EbpCode">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:length value="10"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="EbcCode">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:length value="10"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="OrderType">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:length value="1"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="OrderNo">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:minLength value="1"/>
+				<xs:maxLength value="33"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="GoodsInfo">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:minLength value="1"/>
+				<xs:maxLength value="255"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="Consignee">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:minLength value="1"/>
+				<xs:maxLength value="255"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="ConsigneeCode">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:minLength value="1"/>
+				<xs:maxLength value="50"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="ConsigneeTelephone">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:minLength value="1"/>
+				<xs:maxLength value="50"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="ConsigneeCountry">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:length value="3"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="ConsigneeProvince">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:minLength value="1"/>
+				<xs:maxLength value="50"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="ConsigneeCity">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:minLength value="1"/>
+				<xs:maxLength value="50"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="ConsigneeDistrict">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:minLength value="1"/>
+				<xs:maxLength value="50"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="ConsigneeAddress">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:minLength value="1"/>
+				<xs:maxLength value="255"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="GoodsValue">
+		<xs:simpleType>
+			<xs:restriction base="xs:decimal">
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="TaxFee">
+		<xs:simpleType>
+			<xs:restriction base="xs:decimal">
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="Freight">
+		<xs:simpleType>
+			<xs:restriction base="xs:decimal">
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="InsuredFee">
+		<xs:simpleType>
+			<xs:restriction base="xs:decimal">
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="Currency">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:length value="3"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="NetWeight" >
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:minLength value="0"/>
+				<xs:maxLength value="100"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="Note">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:minLength value="0"/>
+				<xs:maxLength value="100"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+
+	<!-- 简易元素的定义 Order节点下 -->
+	<xs:element name="GNum">
+		<xs:simpleType>
+			<xs:restriction base="xs:decimal">
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="ItemNo">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:minLength value="1"/>
+				<xs:maxLength value="50"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="GName">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:minLength value="1"/>
+				<xs:maxLength value="255"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="Qty">
+		<xs:simpleType>
+			<xs:restriction base="xs:decimal">
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="Price">
+		<xs:simpleType>
+			<xs:restriction base="xs:decimal">
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="Total">
+		<xs:simpleType>
+			<xs:restriction base="xs:decimal">
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="BarCode">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:minLength value="0"/>
+				<xs:maxLength value="50"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="Lottable1">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:minLength value="0"/>
+				<xs:maxLength value="50"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+
+</xs:schema>

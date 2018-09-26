@@ -1,0 +1,10 @@
+{ 
+	scripts: [
+		'../commonManager/common.js',
+		'../codeManager/common.js',
+		'../skuManager/common.js',
+		'../skuManager/Components.js'], 
+	construct: function() { 
+		return new Ext.ux.SkuGridPanel();
+	}
+}

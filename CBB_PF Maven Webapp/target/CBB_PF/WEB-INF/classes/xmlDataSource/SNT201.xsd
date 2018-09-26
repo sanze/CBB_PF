@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<!-- 复合元素的定义 ParseXml -->
+	<xs:element name="ParseXml">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="xml"/>
+				<xs:element ref="fileType"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<!-- 复合元素的定义 xml -->
+	<xs:element name="xml">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="SNT201Message"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<!-- 复合元素的定义 SNT201Message -->
+	<xs:element name="SNT201Message">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Logistics"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+		<!-- 复合元素的定义 Logistics -->
+	<xs:element name="Logistics">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="EbpCode"/>
+				<xs:element ref="EbcCode"/>
+				<xs:element ref="OrderNo"/>
+				<xs:element ref="LogisticsNo"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<!-- 简易元素的定义 ParseXml节点下 -->	
+	<xs:element name="fileType">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:enumeration value="SNT201" />
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element> 
+	
+	<!-- 简易元素的定义 Logistics节点下 -->
+	<xs:element name="EbpCode">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:length value="10"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="EbcCode">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:length value="10"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="OrderNo">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:minLength value="1"/>
+				<xs:maxLength value="33"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="LogisticsNo">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:minLength value="1"/>
+				<xs:maxLength value="50"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ParseXml>
+ <xml>
+  <SNT101Message>
+   <OrderHead>
+    <EbpCode>3201962664</EbpCode>
+    <EbcCode>3201962664</EbcCode>
+    <OrderType>1</OrderType>
+    <OrderNo>2016110830608</OrderNo>
+    <GoodsInfo>  婴儿奶粉</GoodsInfo>
+    <Consignee>李辉</Consignee>
+    <ConsigneeCode>610203198605304657</ConsigneeCode>
+    <ConsigneeTelephone>15664669127</ConsigneeTelephone>
+    <ConsigneeCountry>142</ConsigneeCountry>
+    <ConsigneeProvince>陕西</ConsigneeProvince>
+    <ConsigneeCity>西安</ConsigneeCity>
+    <ConsigneeDistrict>灞桥区</ConsigneeDistrict>
+    <ConsigneeAddress>锦业路西口锦尚名城</ConsigneeAddress>
+    <GoodsValue>75.00</GoodsValue>
+    <TaxFee>8.92</TaxFee>
+    <Freight>0.00</Freight>
+    <InsuredFee>0</InsuredFee>
+    <Currency>142</Currency>
+    <NetWeight>0.8</NetWeight>
+    <Note/>
+   </OrderHead>
+   <OrderList>
+    <Order>
+     <GNum>1</GNum>
+     <ItemNo>Nu5070</ItemNo>
+     <GName>荷兰牛栏奶粉Nutrilon 1段（0至6个月）800g宝盒装</GName>
+     <Qty>1</Qty>
+     <Price>75.00</Price>
+     <Total>75.00</Total>
+     <BarCode/>
+     <Lottable1/>
+     <Note/>
+    </Order>
+   </OrderList>
+  </SNT101Message>
+ </xml>
+ <fileType>SNT101</fileType>
+</ParseXml>

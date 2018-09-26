@@ -1,0 +1,12 @@
+{ 
+	scripts: [
+		'../commonManager/common_NJ.js',
+		'../codeManager/common.js',
+		'../nj_cbb_pf/skuManager/common.js',
+		'../nj_cbb_pf/skuManager/Components.js',
+		'../nj_cbb_pf/orderManager/common.js',
+		'../nj_cbb_pf/orderManager/Components.js'], 
+	construct: function() { 
+		return new Ext.ux.OrderGridPanel();
+	}
+}

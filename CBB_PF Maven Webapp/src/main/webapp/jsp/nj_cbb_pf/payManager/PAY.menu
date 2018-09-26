@@ -1,0 +1,12 @@
+{ 
+	scripts: [
+		'../commonManager/common_NJ.js',
+		'../codeManager/common.js',
+		'../nj_cbb_pf/orderManager/common.js',
+		'../nj_cbb_pf/orderManager/Components.js', 
+		'../nj_cbb_pf/payManager/common.js',
+		'../nj_cbb_pf/payManager/Components.js'], 
+	construct: function() { 
+		return new Ext.ux.PayGridPanel();
+	}
+}

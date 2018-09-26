@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ParseXml>
+	<xml>
+		<SNT301Message>
+			<OrderHead>
+				<ebpCode>1234567890</ebpCode>
+				<ebcCode>1234567890</ebcCode>
+				<orderNo>2</orderNo>
+				<goodsInfo>2</goodsInfo>
+				<consignee>2</consignee>
+				<consigneeCode>2</consigneeCode>
+				<consigneeTelephone>2</consigneeTelephone>
+				<consigneeAddress>2</consigneeAddress>
+				<consigneeP>2</consigneeP>
+				<consigneeAddressP>2</consigneeAddressP>
+				<freight>2</freight>
+				<insuredFee>2</insuredFee>
+				<weight>343</weight>
+				<netWeight>2</netWeight>
+				<note>000000000001</note>
+			</OrderHead>
+			<OrderList>
+				<Order>
+					<gnum>1</gnum>
+					<itemNo>1111111</itemNo>
+					<itemName>2</itemName>
+					<itemNameF>2</itemNameF>
+					<qty>2</qty>
+					<price>2</price>
+					<total>2</total>
+					<barCode>2</barCode>
+					<lottable1>2</lottable1>
+					<note>2</note>
+				</Order>
+				<Order>
+					<gnum>2</gnum>
+					<itemNo>222222</itemNo>
+					<itemName>2</itemName>
+					<itemNameF>2</itemNameF>
+					<qty>2</qty>
+					<price>2</price>
+					<total>2</total>
+					<barCode>2</barCode>
+					<lottable1>2</lottable1>
+					<note>2</note>
+				</Order>
+			</OrderList>
+		</SNT301Message>
+	</xml>
+	<fileType>SNT301</fileType>
+</ParseXml>

@@ -1,0 +1,11 @@
+{ 
+	scripts: [
+		'../commonManager/common.js',
+		'../codeManager/common.js',
+		'../logisticsManager/common.js',
+		'../logisticsManager/suning/common.js',
+		'../logisticsManager/suning/Components.js'], 
+	construct: function() { 
+		return new Ext.ux.suning.LogisticsGridPanel();
+	}
+}

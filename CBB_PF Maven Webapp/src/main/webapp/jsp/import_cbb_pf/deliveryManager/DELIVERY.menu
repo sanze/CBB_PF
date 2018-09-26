@@ -1,0 +1,10 @@
+{ 
+	scripts: [
+		'../commonManager/common_IMPORT.js',
+		'../codeManager/common.js',
+		'../import_cbb_pf/deliveryManager/common.js',
+		'../import_cbb_pf/deliveryManager/Components.js'], 
+	construct: function() { 
+		return new Ext.ux.DeliveryGridPanel();
+	}
+}

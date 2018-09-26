@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ParseXml>
+	<xml>
+		<SNT401Message>
+			<Logistics>
+				<ebpCode>1234567890</ebpCode>
+				<ebcCode>1234567890</ebcCode>
+				<orderNo>2</orderNo>
+				<logisticsNo>000000000001</logisticsNo>
+			</Logistics>
+		</SNT401Message>
+	</xml>
+	<fileType>SNT401</fileType>
+</ParseXml>

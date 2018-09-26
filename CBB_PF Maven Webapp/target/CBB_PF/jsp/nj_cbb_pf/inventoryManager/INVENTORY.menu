@@ -1,0 +1,14 @@
+{ 
+	scripts: [
+		'../commonManager/common_NJ.js',
+		'../codeManager/common.js',
+		'../nj_cbb_pf/skuManager/common.js',
+		'../nj_cbb_pf/skuManager/Components.js', 
+		'../nj_cbb_pf/logisticsManager/common.js',
+		'../nj_cbb_pf/logisticsManager/Components.js',
+		'../nj_cbb_pf/inventoryManager/common.js',
+		'../nj_cbb_pf/inventoryManager/Components.js'], 
+	construct: function() { 
+		return new Ext.ux.InventoryGridPanel();
+	}
+}
