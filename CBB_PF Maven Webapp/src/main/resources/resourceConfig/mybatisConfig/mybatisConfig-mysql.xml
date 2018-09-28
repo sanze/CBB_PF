@@ -12,7 +12,7 @@
 		<setting name="defaultStatementTimeout" value="25000"/>
 		<!--     配置日志,使用log4j     -->
 		<setting name="logImpl" value="LOG4J"/>
-		<setting name="callSettersOnNulls" value="true"/>
+		<!-- <setting name="callSettersOnNulls" value="true"/> -->
 </settings>
 </configuration>
 

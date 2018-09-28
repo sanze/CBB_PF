@@ -48,6 +48,9 @@ public abstract class AbstractService {
 	protected static String T_NJ_INVENTORY_DETAIL = "T_NJ_INVENTORY_DETAIL";
 	protected static String T_NJ_PAY = "T_NJ_PAY";
 	protected static String T_CONTACT = "T_CONTACT";
+	
+	protected static String T_SN_LOADS = "t_new_import_load";
+	
 
 	protected static String V_NJ_INVENTORY = "V_NJ_INVENTORY";
 	protected static String V_NJ_INVENTORY_DETAIL = "V_NJ_INVENTORY_DETAIL";

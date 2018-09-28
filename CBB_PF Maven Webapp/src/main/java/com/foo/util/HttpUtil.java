@@ -16,6 +16,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.params.ClientPNames;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.util.EntityUtils;
 
@@ -76,7 +77,8 @@ public class HttpUtil {
 			System.out.println("【请求body】:"+body);
 			
 			try{
-				httpClient = new SSLClient();
+//				httpClient = new SSLClient();
+				httpClient = new DefaultHttpClient();
 				httpPost = new HttpPost(url);
 				//设置头域
 				List<Header> headers = new ArrayList<Header>();

@@ -1206,6 +1206,55 @@ public class XmlUtil {
 		return resultXml;
 	}
 	
+	
+	// 生成回执xml
+	public static String generalReceiptXml_LoadRec_FP(String rootName,
+			String firstElementName, List<Map> dataList) {
+
+		String resultXml = "";
+
+		try {
+			Document doc = DocumentHelper.createDocument();
+			// 添加根元素
+			Element rootElement = DocumentHelper.createElement(rootName);
+			doc.setRootElement(rootElement);
+
+			if(firstElementName!=null){
+				for (Map content : dataList) {
+					// 设置第一级元素xml
+					Element firstElementXml = rootElement
+							.addElement(firstElementName);
+
+					for (Object obj : content.keySet()) {
+						String elementName = (String) obj;
+						Element leaf = firstElementXml.addElement(elementName);
+						leaf.addText(content.get(elementName) != null ? content
+								.get(elementName).toString() : "");
+					}
+				}
+			}else{
+				//无二级元素
+				for (Map content : dataList) {
+					for (Object obj : content.keySet()) {
+						String elementName = (String) obj;
+						Element leaf = rootElement.addElement(elementName);
+						leaf.addText(content.get(elementName) != null ? content
+								.get(elementName).toString() : "");
+					}
+				}
+			}
+
+			// 返回xml字符串
+			resultXml = doc.getRootElement().asXML();
+
+			resultXml = resultXml.replaceAll(" xmlns=\"\"", "");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+		}
+		return resultXml;
+	}
+	
 	//生成回执xml
 	public static String generalCommonXml(String root,Map content){
 
