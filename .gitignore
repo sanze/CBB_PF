@@ -5,6 +5,7 @@ ehthumbs_vista.db
 
 # Folder config file
 Desktop.ini
+CBB_PF Maven Webapp/target
 
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
@@ -14,6 +15,7 @@ $RECYCLE.BIN/
 *.msi
 *.msm
 *.msp
+*.class
 
 # Windows shortcuts
 *.lnk
