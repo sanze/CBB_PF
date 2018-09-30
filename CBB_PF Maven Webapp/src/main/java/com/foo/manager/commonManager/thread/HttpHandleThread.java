@@ -599,10 +599,15 @@ public class HttpHandleThread implements Callable<Object>{
 				
 				//第五步 向天津外运发送清单数据
 				Map reponse = postToTJ(xmlStringData);
-				
 				//回传数据处理
-				
-				
+				String status = reponse.get("status") != null ? reponse.get(
+						"status").toString() : "";
+				String reason = reponse.get("reason") != null ? reponse.get(
+						"reason").toString() : "";						
+				if("fail".equals(status)){
+					result.put("isSuccess", false);
+					result.put("errorMsg", reason);
+				}
 			}else{
 				//返回错误，库存不足
 				result.put("isSuccess", false);
@@ -614,21 +619,34 @@ public class HttpHandleThread implements Callable<Object>{
 	}
 	
 	private Map postToTJ(String xmlData){
-		String partner_id = CommonUtil.getSystemConfigProperty("partner_id");
-		String business_type = "STOCK_INVENTORY_INFO_ADD";
-		String data_type = CommonUtil.getSystemConfigProperty("data_type");
+		String partner_id = CommonUtil.getSystemConfigProperty("TJ_partner_id");
+		String business_type = CommonUtil.getSystemConfigProperty("TJ_business_type");
+		String data_type = CommonUtil.getSystemConfigProperty("TJ_data_type");
 		//请求数据
-		String requestData = "partner_id="+partner_id+"&business_type="+business_type+"&data_type="+data_type+"&data="+xmlData;
+		String requestData = null;
+		try {
+			requestData = "partner_id=" + partner_id + "&business_type="
+					+ business_type + "&data_type=" + data_type + "&data="
+					+ URLEncoder.encode(xmlData, "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		//发送http请求
 		Map<String, Object> head = new HashMap<String, Object>();
-		head.put("Content-Type", CommonUtil.getSystemConfigProperty("Content_Type"));
+		head.put("Content-Type", CommonUtil.getSystemConfigProperty("TJ_Content_Type"));
+		head.put("Accept", CommonUtil.getSystemConfigProperty("TJ_Accept"));
 		//获取url
 		String url = CommonUtil.getSystemConfigProperty("TJ_requestUrl");
 		
-		Map result = HttpUtil.doPost4TJ(url, head, requestData);
+		String result = HttpUtil.doPost4TJ(url, head, requestData,false);
 		
-		return result;
+		Map<String,Object> resultMap = new LinkedHashMap<String,Object>();
+		
+		resultMap = XmlUtil.parseXmlFPAPI_SingleNodes(result, "//responses/child::*");
+		
+		return resultMap;
 	}
 	
 	private String generalRequestXml4TJ(String id,ResourceBundle bundle){

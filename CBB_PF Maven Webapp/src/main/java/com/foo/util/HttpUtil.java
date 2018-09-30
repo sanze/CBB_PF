@@ -64,10 +64,10 @@ public class HttpUtil {
 			}catch(Exception ex){
 				ex.printStackTrace();
 			}
-			return parseResult(result);
+			return parseResult_json(result);
 		}
 		
-		public static Map doPost4TJ(String url,Map<String,Object> head,String body){
+		public static String doPost4TJ(String url,Map<String,Object> head,String body,boolean isSSL){
 			HttpClient httpClient = null;
 			HttpPost httpPost = null;
 			String result = null;
@@ -77,8 +77,11 @@ public class HttpUtil {
 			System.out.println("【请求body】:"+body);
 			
 			try{
-//				httpClient = new SSLClient();
+				if(isSSL){
+					httpClient = new SSLClient();
+				}else{
 				httpClient = new DefaultHttpClient();
+				}
 				httpPost = new HttpPost(url);
 				//设置头域
 				List<Header> headers = new ArrayList<Header>();
@@ -108,11 +111,11 @@ public class HttpUtil {
 			}catch(Exception ex){
 				ex.printStackTrace();
 			}
-			return parseResult(result);
+			return result;
 		}
 		
 		
-		private static Map<String,Object> parseResult(String result){
+		private static Map<String,Object> parseResult_json(String result){
 			Map<String,Object> r = new LinkedHashMap<String,Object>();
 			
 			if(result!=null && !result.isEmpty()){

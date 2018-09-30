@@ -1120,20 +1120,19 @@ public class XmlUtil {
 			// 添加根元素
 			Element rootElement = doc.addElement(
 					bundle.getString("elementName") != null ? bundle
-							.getString("elementName") : "ENT621Message",
-					nameSpace4TJ);
-			rootElement.addAttribute(
-					"reciptCode",
-					bundle.getString("reciptCode") != null ? bundle
-							.getString("reciptCode") : "");
-			rootElement.addAttribute(
-					"sendCode",
-					bundle.getString("sendCode") != null ? bundle
-							.getString("sendCode") : "");
-			rootElement.addAttribute(
-					"version",
-					bundle.getString("version") != null ? bundle
-							.getString("version") : "");
+							.getString("elementName") : "ENT621Message");
+//			rootElement.addAttribute(
+//					"reciptCode",
+//					bundle.getString("reciptCode") != null ? bundle
+//							.getString("reciptCode") : "");
+//			rootElement.addAttribute(
+//					"sendCode",
+//					bundle.getString("sendCode") != null ? bundle
+//							.getString("sendCode") : "");
+//			rootElement.addAttribute(
+//					"version",
+//					bundle.getString("version") != null ? bundle
+//							.getString("version") : "");
 			rootElement.addAttribute("guid", InventoryHead.get("guid").toString());
 			// 设置第一级元素
 			Element firstElement_1 = rootElement.addElement("Inventory");
