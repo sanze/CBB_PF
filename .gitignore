@@ -5,7 +5,9 @@ ehthumbs_vista.db
 
 # Folder config file
 Desktop.ini
-CBB_PF Maven Webapp/target
+target
+importDataFormExcelTool
+classes/
 
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
