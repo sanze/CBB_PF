@@ -17,6 +17,9 @@ import java.util.concurrent.Callable;
 
 import javax.annotation.Resource;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 import org.apache.commons.collections.map.LinkedMap;
 import org.springframework.stereotype.Service;
 
@@ -65,6 +68,16 @@ public class HttpHandleThread implements Callable<Object>{
 //		this.requestType = HttpServerManagerService.requestType_load;
 //		this.content = "<LoadHead><loadContents><loadContent><loadContentId>1</loadContentId><outorderId>6666666666</outorderId></loadContent><loadContent><loadContentId>2</loadContentId><outorderId>7777777777</outorderId></loadContent></loadContents><loadHeadId>12</loadHeadId><loadId>1736474588</loadId><total>2</total><tracyNum>3</tracyNum><TotalWeight>2.5</TotalWeight><CarEcNo>苏A234234</CarEcNo></LoadHead>";
 		
+		//sn_sku
+//		this.requestType = HttpServerManagerService.requestType_sn_sku;
+//		this.content = "{content={\"cmmdtyInfo\":[{\"kunner\":\"RH007\",\"sncmmdtyCode\":\"000000010591492016\",\"cmmdtyName\":\"FANCL/芳珂 HTC胶原蛋白饮料 10日装*3 2018版\",\"measureUnit\":\"S01\",\"attributes\":\"\",\"cmmdtyType\":\"Z001\",\"cmmdtyGrp\":\"胶原蛋白\",\"brandCode\":\"芳珂(FANCL)\",\"cmmdtyLength\":\"1.000\",\"cmmdtyWidth\":\"1.000\",\"cmmdtyHeight\":\"1.000\",\"cmmdtyVolume\":\"0.001\",\"grossCmmdtyWeight\":\"1.000\",\"netCmmdtyWeight\":\"1.000\",\"totalShelfLife\":\"180\",\"coldChain\":\"\",\"bigsmall\":\"2\",\"cmmdtyFreightGrp\":\"90\",\"mprbs\":\"\",\"cmmdtyModel\":\"10日装*3\",\"cmmdtyOrigin\":\"日本\",\"weightFlag\":\"\",\"taste\":\"\",\"size\":\"\",\"colour\":\"\",\"keepEnvironment\":\"01\",\"cmmdtyFeatures\":\"14\",\"physicalForm\":\"01\",\"shape\":\"01\",\"keepMethod\":\"\",\"pcs\":\"\",\"cmmdtyHierrarchy\":\"000290DUU\"}],\"customerInfo\":[{\"kunner\":\"RH007\",\"sncmmdtyCode\":\"000000010591492016\",\"isshelflife\":\"X\",\"remainingShelfLife\":\"90\",\"riskLife\":\"60\",\"damageLife\":\"33\",\"prototypeManage\":null,\"badManage\":null,\"cmanage\":null,\"batchFlag\":\"\",\"deleteFlag\":null,\"versionNo\":\"00001\"}],\"barCodeInfo\":[{\"kunner\":\"RH007\",\"sncmmdtyCode\":\"000000010591492016\",\"externalEanCode\":\"SN10591492016\",\"cmmdtyEanCateg\":\"DE\"}]},businessType=rcs_ztky_commodity_info_distribute}";
+//		this.content = "{\"cmmdtyInfo\":[{\"kunner\":\"RH007\",\"sncmmdtyCode\":\" 000000010591492016\",\"cmmdtyName\":\" FANCL/芳珂 HTC胶原蛋白饮料 10日装*3 2018版\",\"measureUnit\":\"S01\",\"attributes\":\"\",\"cmmdtyType\":\" Z001\",\"cmmdtyGrp\":\"\",\"brandCode\":\"\",\"cmmdtyLength\":\"\",\"cmmdtyWidth\":\"\",\"cmmdtyHeight\":\"\",\"cmmdtyVolume\":\"\",\"grossCmmdtyWeight\":\"\",\"netCmmdtyWeight\":\"\",\"totalShelfLife\":\"\",\"coldChain\":\"\",\"bigsmall\":\"\",\"cmmdtyFreightGrp\":\"\",\"mprbs\":\"\",\"cmmdtyModel\":\"\",\"cmmdtyOrigin\":\"\",\"weightFlag\":\"\",\"taste\":\"\",\"size\":\"\",\"colour\":\"\",\"keepEnvironment\":\"\",\"cmmdtyFeatures\":\"\",\"physicalForm\":\"\",\"shape\":\"\",\"keepMethod\":\"\",\"pcs\":\"\",\"cmmdtyHierrarchy\":\"\"}],\"customerInfo\":[{\"kunner\":\"\",\"sncmmdtyCode\":\"\",\"isshelflife\":\"\",\"remainingShelfLife\":\"\",\"riskLife\":\"\",\"damageLife\":\"\",\"prototypeManage\":\"\",\"badManage\":\"\",\"cmanage\":\"\",\"batchFlag\":\"\",\"deleteFlag\":\"\",\"versionNo\":\"\"}],\"barCodeInfo\":[{\"kunner\":\"\",\"sncmmdtyCode\":\"\",\"externalEanCode\":\" SN10591492016 \",\"cmmdtyEanCateg\":\"\"}]}";
+		
+		//sn_receipt
+//		this.requestType = HttpServerManagerService.requestType_sn_receipt;
+//		this.content = "{\"orderInfo\":{\"ownerUserId\":\"RH100\",\"fpsOrderId\":\"123456XXXXX\",\"storeCode\":\"WM10xxxxxx\",\"orderCode\":\"W107xxxxxx\",\"orderType\":\"601\",\"orderNumber\":\"A22xxxx\",\"outsourcingFlag\":\"01\",\"orderSource\":\"305\",\"remark\":\"商品情况：未开包未使用包装完好;;\",\"returnReason\":\"商品情况：未开包未使用包装完好;;\",\"orderCreateTime\":\"2018-01-03 11:47:07\",\"expectStartTime\":\"2018-01-03 11:47:06\",\"expectEndTime\":\"2018-01-03 11:47:06\",\"orderFlag\":\"9\",\"tmsServiceCode\":\"S02\",\"tmsServiceName\":\"苏宁物流\",\"tmsOrderCode\":\"896102xxxxxx\",\"prevOrderCode\":\"W107xxxxxx\",\"receiverInfo\":{\"receiverProvince\":\"江苏\",\"receiverCity\":\"南京市\",\"receiverArea\":\"雨花台区\",\"receiverTown\":\"全区\",\"receiverAddress\":\"龙藏大道2号\",\"receiverName\":\"沈xx\",\"receiverMobile\":\"18666xxxxxx\",\"receiverPhone\":\"15172xxxxxx\"},\"senderInfo\":{\"senderAddress\":\"雨花经济开发区龙藏大道与凤舞路交叉口\",\"senderProvince\":\"浙江省\",\"senderCity\":\"杭州市\",\"senderArea\":\"滨江区\",\"senderTown\":\"全区\",\"senderCode\":\"7016xxxx\",\"senderName\":\"左xx\",\"senderMobile\":\"15172xxxxxx\",\"senderPhone\":\"15172xxxxxx\"},\"orderItemList\":[{\"orderItemId\":\"420000002xxxxxx\",\"userId\":\"7016xxxx\",\"userName\":\"安利（中国）日用品有限公司\",\"ownerUserId\":\"7016xxxx\",\"ownerUserName\":\"安利（中国）日用品有限公司\",\"itemId\":\"917080415493xxxxxx\",\"itemName\":\"雅蜜润肤沐浴露 750ML\",\"inventoryType\":\"1\",\"itemQuantity\":\"750\",\"produceCode\":\"7359xxxx\",\"condition\":\"A\"},{\"orderItemId\":\"420000002xxxxxx\",\"userId\":\"7016xxxx\",\"userName\":\"安利（中国）日用品有限公司\",\"ownerUserId\":\"70168xxx\",\"ownerUserName\":\"安利（中国）日用品有限公司\",\"itemId\":\"917080415493xxxxxx\",\"itemName\":\"雅蜜润肤沐浴露 750ML\",\"inventoryType\":\"1\",\"itemQuantity\":\"750\",\"produceCode\":\"7359xxxx\",\"condition\":\"A\"}]}}";
+		
+		
 		this.requestType = requestType;
 		this.content = content;
 		this.signKey = signKey;
@@ -92,6 +105,14 @@ public class HttpHandleThread implements Callable<Object>{
 		else if(requestType.equals(HttpServerManagerService.requestType_listRelease)){
 			//处理装载数据
 			result = handleXml_ListRelease(content);
+		}
+		else if(requestType.equals(HttpServerManagerService.requestType_sn_sku)){
+			//处理装载数据
+			result = handleXml_sn_sku(content);
+		}
+		else if(requestType.equals(HttpServerManagerService.requestType_sn_receipt)){
+			//处理装载数据
+			result = handleXml_sn_receipt(content);
 		}
 		
 		System.out.println("【结束】数据处理："+signKey);
@@ -435,6 +456,186 @@ public class HttpHandleThread implements Callable<Object>{
 
 		return xmlReturnString;
 	}
+	
+	//处理订单数据
+	private String handleXml_sn_sku(String jsonString) {
+
+//		String jsonReturnString = "";
+
+		System.out
+				.println("---------------------------【FPAPI_SN_SKU】-------------------------------");
+		// 入库
+		JSONObject jsonObject = JSONObject.fromObject(jsonString);
+
+		JSONArray cmmdtyInfo = (JSONArray) jsonObject.get("cmmdtyInfo");
+//		JSONArray customerInfo = (JSONArray) jsonObject.get("customerInfo");
+//		JSONArray barCodeInfo = (JSONArray) jsonObject.get("barCodeInfo");
+		// 获取资源文件
+		ResourceBundle bundle = CommonUtil.getMessageMappingResource("CEB_SN");
+
+		JSONObject result = new JSONObject();
+		JSONArray resultArray = new JSONArray();
+		if (cmmdtyInfo.iterator().hasNext()) {
+			JSONObject item = (JSONObject) cmmdtyInfo.iterator().next();
+			Map primary = new HashMap();
+			primary.put("primaryId", null);
+
+			Map data = new HashMap();
+
+			for (Object key : item.keySet()) {
+				if (bundle
+						.containsKey("SN_SKU_" + key.toString().toUpperCase())) {
+					
+					if(item.get(key) == null ||item.get(key).toString().isEmpty()){
+						data.put(
+								bundle.getObject("SN_SKU_"
+										+ key.toString().toUpperCase()),
+								null);
+					}else{
+						data.put(
+								bundle.getObject("SN_SKU_"
+										+ key.toString().toUpperCase()),
+								item.get(key));
+					}
+					
+					
+				}
+			}
+
+			// 数据入库
+			// data.put("CREAT_DATE", sf.format(new Date()));
+			data.put("CREAT_TIME", new Date());
+			commonManagerMapper.insertTableByNVList("T_SN_SKU",
+					new ArrayList<String>(data.keySet()),
+					new ArrayList<Object>(data.values()), primary);
+
+			JSONObject resultItem = new JSONObject();
+
+			resultItem.put("kunner", data.get("OWNER"));
+			resultItem.put("sncmmdty_code", data.get("SKU"));
+			resultItem.put("process_stat", data.get("03"));
+			resultItem.put("notes", "");
+			resultArray.add(resultItem);
+
+		}
+		result.put("resultInfo", resultArray);
+		return result.toString();
+	}
+	
+	//处理入库通知
+	private String handleXml_sn_receipt(String jsonString) {
+
+		// String jsonReturnString = "";
+		SimpleDateFormat sf = CommonUtil.getDateFormatter(CommonDefine.COMMON_FORMAT_1);
+
+		System.out
+				.println("---------------------------【FPAPI_SN_RECEIPT】-------------------------------");
+		// 入库
+		JSONObject jsonObject = JSONObject.fromObject(jsonString);
+		
+		JSONObject orderInfo = (JSONObject) jsonObject.get("orderInfo");
+		JSONObject senderInfo = (JSONObject) orderInfo.get("senderInfo");
+
+		JSONArray orderItemList = (JSONArray) orderInfo.get("orderItemList");
+		// JSONArray customerInfo = (JSONArray) jsonObject.get("customerInfo");
+		// JSONArray barCodeInfo = (JSONArray) jsonObject.get("barCodeInfo");
+		// 获取资源文件
+		ResourceBundle bundle = CommonUtil.getMessageMappingResource("CEB_SN");
+
+		JSONObject result = new JSONObject();
+		JSONArray resultArray = new JSONArray();
+
+		// 入库T_SN_RECEIPT
+		Map primary = new HashMap();
+		primary.put("primaryId", null);
+
+		Map data = new HashMap();
+		for (Object key : orderInfo.keySet()) {
+			if (bundle
+					.containsKey("SN_RECEIPT_" + key.toString().toUpperCase())) {
+
+				if (orderInfo.get(key) == null
+						|| orderInfo.get(key).toString().isEmpty()) {
+					data.put(
+							bundle.getObject("SN_RECEIPT_"
+									+ key.toString().toUpperCase()), null);
+				} else {
+					data.put(
+							bundle.getObject("SN_RECEIPT_"
+									+ key.toString().toUpperCase()),
+							orderInfo.get(key));
+				}
+
+			}
+		}
+		for (Object key : senderInfo.keySet()) {
+			if (bundle
+					.containsKey("SN_RECEIPT_" + key.toString().toUpperCase())) {
+
+				if (senderInfo.get(key) == null
+						|| senderInfo.get(key).toString().isEmpty()) {
+					data.put(
+							bundle.getObject("SN_RECEIPT_"
+									+ key.toString().toUpperCase()), null);
+				} else {
+					data.put(
+							bundle.getObject("SN_RECEIPT_"
+									+ key.toString().toUpperCase()),
+							senderInfo.get(key));
+				}
+
+			}
+		}
+		data.put("CREAT_DATE", sf.format(new Date()));
+		data.put("CREAT_TIME", new Date());
+		commonManagerMapper.insertTableByNVList("T_SN_RECEIPT",
+				new ArrayList<String>(data.keySet()), new ArrayList<Object>(
+						data.values()), primary);
+		
+		if (orderItemList.iterator().hasNext()) {
+			
+			JSONObject item = (JSONObject) orderItemList.iterator().next();
+			Map primary_sub = new HashMap();
+			primary_sub.put("primaryId", null);
+
+			Map dataSub = new HashMap();
+
+			for (Object key : item.keySet()) {
+				if (bundle
+						.containsKey("SN_RECEIPT_DETAIL_" + key.toString().toUpperCase())) {
+					
+					if(item.get(key) == null ||item.get(key).toString().isEmpty()){
+						dataSub.put(
+								bundle.getObject("SN_RECEIPT_DETAIL_"
+										+ key.toString().toUpperCase()),
+								null);
+					}else{
+						dataSub.put(
+								bundle.getObject("SN_RECEIPT_DETAIL_"
+										+ key.toString().toUpperCase()),
+								item.get(key));
+					}	
+				}
+			}
+
+			// 数据入库
+			dataSub.put("RECEIPT_ID", primary.get("primaryId"));
+			// data.put("CREAT_DATE", sf.format(new Date()));
+			dataSub.put("CREAT_TIME", new Date());
+			commonManagerMapper.insertTableByNVList("T_SN_RECEIPT_DETAIL",
+					new ArrayList<String>(dataSub.keySet()),
+					new ArrayList<Object>(dataSub.values()), primary_sub);
+			
+		}
+		result.put("orderCode", data.get("ORDER_CODE"));
+		result.put("success", true);
+		result.put("errorCode", "");
+		result.put("errorMsg", "");
+
+		return result.toString();
+	}
+	
+	
 
 	
 	private Map handleOrderC061(String xmlString,ResourceBundle bundle){
@@ -1007,6 +1208,7 @@ public class HttpHandleThread implements Callable<Object>{
 		return primary.get("primaryId").toString();
 	}
 
+
 	public static void main(String arg[]){
 		
 		String logistics_interface = "<LoadHead><loadContents><loadContent><loadContentId>1</loadContentId><outorderId>6666666666</outorderId></loadContent><loadContent><loadContentId>2</loadContentId><outorderId>7777777777</outorderId></loadContent></loadContents><loadHeadId>12</loadHeadId><loadId>1736474588</loadId><total>2</total><tracyNum>3</tracyNum><TotalWeight>2.5</TotalWeight><CarEcNo>苏A234234</CarEcNo></LoadHead>";
@@ -1085,7 +1287,11 @@ public class HttpHandleThread implements Callable<Object>{
         for (Map<String, Object> map : list) {
             System.out.println(map);
         }
+		
+		
 	}
 	
+	
+
 	
 }
