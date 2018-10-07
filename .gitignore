@@ -5,7 +5,7 @@ ehthumbs_vista.db
 
 # Folder config file
 Desktop.ini
-target
+target/
 importDataFormExcelTool
 classes/
 
@@ -25,3 +25,4 @@ $RECYCLE.BIN/
 # =========================
 # Operating System Files
 # =========================
+CBB_PF Maven Webapp/target/*

@@ -100,7 +100,7 @@
 		SELECT 
 		  t.GNUM,
 		  s.RECORD_NO,
-		  t.ITEM_NO,
+		  s.BAR_CODE as ITEM_NO,
 		  t.ITEM_NAME as itemName,
 		  s.G_CODE,
 		  t.ITEM_NAME as gname,

@@ -107,11 +107,11 @@ public class HttpHandleThread implements Callable<Object>{
 			result = handleXml_ListRelease(content);
 		}
 		else if(requestType.equals(HttpServerManagerService.requestType_sn_sku)){
-			//处理装载数据
+			//苏宁海外仓商品
 			result = handleXml_sn_sku(content);
 		}
 		else if(requestType.equals(HttpServerManagerService.requestType_sn_receipt)){
-			//处理装载数据
+			//苏宁海外仓回执
 			result = handleXml_sn_receipt(content);
 		}
 		
@@ -795,7 +795,7 @@ public class HttpHandleThread implements Callable<Object>{
 				//第四步  插入t_new_import_inventory表和t_new_import_inventory_detail表
 				String id = insertInventory(xmlString);
 				
-				//第五步 将t_new_import_inventory和t_new_import_inventory_detail表中部分数据组成xml，先保存本地，在通过接口发送
+				//第五步 将t_new_import_inventory和t_new_import_inventory_detail表中部分数据组成xml，先保存本地，再通过接口发送
 				String xmlStringData = generalRequestXml4TJ(id,bundle);
 				
 				//第五步 向天津外运发送清单数据

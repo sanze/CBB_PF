@@ -88,9 +88,9 @@ public class POIExcelUtil {
 		} catch (Exception e) {
 			throw new CommonException(e, MessageCodeDefine.COM_EXCPT_UNKNOW);
 		}
-		for(Map obj:data){
-			System.out.println(obj);
-		}
+//		for(Map obj:data){
+//			System.out.println(obj);
+//		}
 		return data;
 	}
 

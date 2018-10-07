@@ -1,6 +1,7 @@
 package com.foo.manager.commonManager.serviceImpl;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -1243,6 +1244,8 @@ public class CommonManagerServiceImpl extends CommonManagerService implements IC
 
 	@Override
 	public void importFile(Map<String, Object> param) throws CommonException {
+		
+		if(param.get("type") == null){
 		String orderConfig = CommonUtil.getSystemConfigProperty("t_order_column");
 		String logisticsConfig = CommonUtil.getSystemConfigProperty("t_logistics_column");
 		
@@ -1264,6 +1267,72 @@ public class CommonManagerServiceImpl extends CommonManagerService implements IC
 			logistics.put("IE_FLAG", "E");
 			addLogistics(logistics);
 		}
+		}else{
+			String type = param.get("type").toString();
+			
+			if(type.equals("sku")){
+				String skuConfig = CommonUtil.getSystemConfigProperty("t_new_import_sku_column");
+				//获取sku数据
+				List<Map<String,Object>> skuDataList = POIExcelUtil.readExcel((File) param.get("file"),skuConfig.split(","));
+				
+				for(Map data:skuDataList){
+					//新增数据
+					Map primary=new HashMap();
+					primary.put("primaryId", null);
+					commonManagerMapper.insertTableByNVList("t_new_import_sku",
+							new ArrayList<String>(data.keySet()), 
+							new ArrayList<Object>(data.values()),
+							primary);
+				}
+				
+			} else if (type.equals("books")) {
+				String booksConfig = CommonUtil
+						.getSystemConfigProperty("t_new_import_books_column");
+				// 获取books数据
+				List<Map<String, Object>> booksDataList = POIExcelUtil
+						.readExcel((File) param.get("file"),
+								booksConfig.split(","));
+
+				List<String> colNames = new ArrayList<String>();
+				List<Object> colValues = new ArrayList<Object>();
+
+				colNames.add("SKU");
+				colNames.add("ORDER_NO");
+				colNames.add("ADD_REDUCE_FLAG");
+
+				for (Map data : booksDataList) {
+					colValues.clear();
+					if(Double.class.isInstance(data.get("SKU"))){
+						colValues.add(new BigDecimal((Double) data.get("SKU")).toPlainString());
+					}else{
+						colValues.add(data.get("SKU").toString());
+					}
+					if(Double.class.isInstance(data.get("ORDER_NO"))){
+						colValues.add(new BigDecimal((Double) data.get("ORDER_NO")).toPlainString());
+					}else{
+						colValues.add(data.get("ORDER_NO").toString());
+					}
+					colValues.add("1");
+
+					List<Map<String, Object>> existDataList = commonManagerMapper
+							.selectTableListByNVList("t_new_import_books",
+									colNames, colValues, null, null);
+
+					for (Map existData : existDataList) {
+						commonManagerMapper.updateTableByNVList(
+								"t_new_import_books", "BOOKS_ID",
+								existData.get("BOOKS_ID"),
+								new ArrayList<String>(data.keySet()),
+								new ArrayList<Object>(data.values()));
+					}
+
+				}
+			}
+			
+			
+		}
+		
+		
 	}
 
 }
