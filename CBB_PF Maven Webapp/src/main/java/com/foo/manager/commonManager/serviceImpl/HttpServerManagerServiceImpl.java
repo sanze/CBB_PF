@@ -168,8 +168,26 @@ public class HttpServerManagerServiceImpl extends HttpServerManagerService{
 				result.setRequestType(requestType);
 			}
 
+			//天津发送的清单状态回执暂不校验参数
+			if(requestType.equals(requestType_listRelease)){
+				String[] params = queryBody.split("&");
+				Map<String, String> pairs = new HashMap<String, String>();
+				if (params.length > 1) {
+					for (String param : params) {
+						String[] pair = param.split("=");
+						if (pair.length == 2) {
+							pairs.put(pair[0],pair[1]);
+						} else {
+							continue;
+						}
+					}
+				}
+				result.setLogistics_interface(pairs.get("data"));
+//				result.setData_digest(pairs.get(""));
+				result.setErrorCode(CommonDefine.SUCCESS);
+			}
 			// 获取参数字符串
-			if (queryBody != null && queryBody.length() > 0
+			else if (queryBody != null && queryBody.length() > 0
 					&& queryBody.contains("&") && queryBody.contains("=")
 					&& queryBody.contains(requestParame_1)
 					&& queryBody.contains(requestParame_2)) {
