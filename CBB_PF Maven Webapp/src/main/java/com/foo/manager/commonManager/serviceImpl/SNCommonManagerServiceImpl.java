@@ -135,7 +135,7 @@ public class SNCommonManagerServiceImpl extends CommonManagerService implements 
 		// 发送http请求
 		Map<String, Object> head = new HashMap<String, Object>();
 		head.put("Content-Type",
-				CommonUtil.getSystemConfigProperty("Content_Type"));
+				CommonUtil.getSystemConfigProperty("SN_Content_Type"));
 
 		String result = HttpUtil.doPost4TJ(requestUrl, head, "",false);
 		

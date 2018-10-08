@@ -63,10 +63,14 @@ public class HttpHandleThread implements Callable<Object>{
 //		this.content = "<inputData><ordersList><orders><orderImformation><orderHead><logisticsOrderId>LOS36100001120690200</logisticsOrderId><oriSys>LOS</oriSys><taskOrderid>36100001120690200</taskOrderid><thirdPartyCompany>0080010331</thirdPartyCompany><businessType>C005</businessType><btcOrderId>BOL031707</btcOrderId><announcedValue>100.00</announcedValue><valueUnit>CNY</valueUnit><expectDate>2015-09-07</expectDate><expectTime>11:38:10</expectTime></orderHead><orderItems><logisticsOrderId>LOS36100001120690200</logisticsOrderId><itemNumber>10</itemNumber><location>L971</location><locationDescription>天津口岸</locationDescription><storage>0001</storage><goodsCode>20166666</goodsCode><goodsDescription>长虹空调KFR35GWBP2DN1YF</goodsDescription><goodsNumber>5.000</goodsNumber><goodsUnit>S01</goodsUnit><comValue>100.00</comValue><valueUnit>CNY</valueUnit></orderItems><feedBackOrderCustomers><logisticsOrderId>LOS36100001120690200</logisticsOrderId><itemNumber>10</itemNumber><customerType>AG</customerType><customerId>70057297</customerId><name>C店商户苏宁</name><country>CN</country><city>南京市</city><address>南京市玄武区</address><zipCode>210012</zipCode><fixedLineTelephone>02566996699</fixedLineTelephone><mobilePhone>15295599233</mobilePhone></feedBackOrderCustomers></orderImformation><orderExpBill><logisticOrderId>LOS36300000945410000</logisticOrderId><expressCode>62K900000210</expressCode><btcOrder>BTC01631803170701</btcOrder><btcItemOrder/><name>1asd2</name><telNumber>18513891234</telNumber><province>江苏省</province><city>南京市</city><district>栖霞区</district><adress>仙鹤门仙鹤名苑28-608</adress><firstPlantCrossing/><setLocation/><preparedTime>01:00:00</preparedTime><note/><shipCondition>配送</shipCondition><rePrintFlag/><valueAddTaxFlag/><shipTypeFlag>陆</shipTypeFlag><obligateFlag/><lastPlantCrossing/><route>郑州保税仓→南京小件→WL</route><lastLogisticStation>外设单位编码描述测试</lastLogisticStation><realDeliDate>2018-03-19</realDeliDate><realDeliTime>09:00:00</realDeliTime><paymmentMode>线上下单门店支付</paymmentMode><cashOnDeliveryValue>100.00</cashOnDeliveryValue><expressCompany>0080000013</expressCompany><expressCompanyExcode>444033803247</expressCompanyExcode><originCode>025</originCode><destCode>025</destCode><createTime>17:27:39</createTime><createDate>2018-03-17</createDate></orderExpBill><orderDeclare><orderDeclareHead><orderNo>BOL031707</orderNo><ieFlag>I</ieFlag><importType>1</importType><inOutDateStr>2018-03-17 17:07:17</inOutDateStr><logisCompanyCode>1505130005</logisCompanyCode><logisCompanyName>江苏苏宁物流有限公司</logisCompanyName><companyName>江苏苏宁易购电子商务有限公司</companyName><companyCode>PTE51001410280000005</companyCode><wayBill/><tradeCountry>502</tradeCountry><packNo>1</packNo><grossWeight>1.500</grossWeight><netWeight>1.500</netWeight><warpType>2</warpType><remark>37</remark><enteringPerson>9999</enteringPerson><enteringCompanyName>9999</enteringCompanyName><senderName>versace1563212333333范思哲海外专营店</senderName><consignee>无名</consignee><consigneeAddress>江苏南京市玄武区徐庄苏宁总部鼓楼1号</consigneeAddress><senderCountry>502</senderCountry><payerName>无名</payerName><payerPhoneNumber>13951783938</payerPhoneNumber><paperType>01</paperType><paperNumber>320102198001010059</paperNumber><freight>10.0000</freight><insuranceFee/><payTaxAmount>0.0000</payTaxAmount><worth>109.0000</worth><currCode>142</currCode><mainGName>移动端苏宁内测试购专</mainGName><isAuthorize>1</isAuthorize><paySerialNo/><payType/><payTime/><payMoney/><otherPayPrice/><goodsPriceIncludeTax/><senderProvince/><senderAddr/><senderZip/><senderTel/></orderDeclareHead><orderDeclareItems><logisticOrderId>LOS36300000945410000</logisticOrderId><expressCode>62K900000210</expressCode><orderNo>BOL031707</orderNo><orderItemNo>BOL031707</orderItemNo><goodsOrder>1</goodsOrder><codeTs>11</codeTs><goodsItemNo>000000000690105971</goodsItemNo><goodsName>移动端苏宁内测试购专</goodsName><goodsModel/><originCountry>701</originCountry><tradeCurr>142</tradeCurr><tradeTotal>99.0000</tradeTotal><declPrice>99.00</declPrice><declTotalPrice>99.0000</declTotalPrice><useTo>11</useTo><declareCount>1</declareCount><goodsUnit>011</goodsUnit><goodsGrossWeight>1.500</goodsGrossWeight><firstUnit>011</firstUnit><firstCount>1</firstCount><postalTax/></orderDeclareItems></orderDeclare></orders></ordersList></inputData>";
 		//库存
 //		this.requestType = HttpServerManagerService.requestType_inventory;
-//		this.content = "<inputList><inventoryOrder><inventoryDetailHead><messageId>1df3154d823c49f7a13bbb69801d94cd</messageId><logisticsOrderId>LOS36100001120690200</logisticsOrderId><businessType>C061</businessType><statusCode>1131</statusCode><offsetFlag/><note>天津外部公司测试</note></inventoryDetailHead><inventoryDetailItems><itemNumber>10</itemNumber><goodsCode>20166666</goodsCode><goodsDescription>Rafferty&apos;s Garden 婴儿辅食 南瓜苹果玉米泥 120克/袋 海外进口 蔬果泥 </goodsDescription><goodsNumber>99</goodsNumber><goodsUnit>G</goodsUnit><inventoryType>A</inventoryType><keyValueAdd/></inventoryDetailItems></inventoryOrder></inputList>";
+//		this.content = "<inputList><inventoryOrder><inventoryDetailHead><messageId>1df3154d823c49f7a13bbb69801d94cd</messageId><logisticsOrderId>1215001180620011114YG</logisticsOrderId><businessType>C061</businessType><statusCode>1131</statusCode><offsetFlag/><note>天津外部公司测试</note></inventoryDetailHead><inventoryDetailItems><itemNumber>10</itemNumber><goodsCode>20166666</goodsCode><goodsDescription>Rafferty&apos;s Garden 婴儿辅食 南瓜苹果玉米泥 120克/袋 海外进口 蔬果泥 </goodsDescription><goodsNumber>99</goodsNumber><goodsUnit>G</goodsUnit><inventoryType>A</inventoryType><keyValueAdd/></inventoryDetailItems></inventoryOrder></inputList>";
 		//装载
 //		this.requestType = HttpServerManagerService.requestType_load;
 //		this.content = "<LoadHead><loadContents><loadContent><loadContentId>1</loadContentId><outorderId>6666666666</outorderId></loadContent><loadContent><loadContentId>2</loadContentId><outorderId>7777777777</outorderId></loadContent></loadContents><loadHeadId>12</loadHeadId><loadId>1736474588</loadId><total>2</total><tracyNum>3</tracyNum><TotalWeight>2.5</TotalWeight><CarEcNo>苏A234234</CarEcNo></LoadHead>";
+		
+		//requestType_listRelease
+//		this.requestType = HttpServerManagerService.requestType_listRelease;
+//		this.content = "<InventoryReturn><orderNo>20180930001test</orderNo><invtNo/><returnStatus>800</returnStatus></InventoryReturn>";
 		
 		//sn_sku
 //		this.requestType = HttpServerManagerService.requestType_sn_sku;
@@ -227,12 +231,13 @@ public class HttpHandleThread implements Callable<Object>{
 				businessType = (String) head.get("businessType");
 			}
 			
-			String checkBusinessType = CommonUtil.getSystemConfigProperty("checkInventoryBusinessType_C061");
+			String checkBusinessTypeC061 = CommonUtil.getSystemConfigProperty("checkInventoryBusinessType_C061");
+			String checkBusinessTypeC005 = CommonUtil.getSystemConfigProperty("checkInventoryBusinessType_C005");
 			
 			// 获取资源文件
 			ResourceBundle bundle = CommonUtil.getMessageMappingResource("CEB_SN");
-			//报文入库
-			if(checkBusinessType.equals(businessType)){
+			//报文入库--C061
+			if(checkBusinessTypeC061.equals(businessType)){
 				List<Map> items =  XmlUtil.parseXmlFPAPI_MulitpleNodes(xmlString,"//inputList/inventoryOrder/inventoryDetailItems");
 
 				SimpleDateFormat sf = CommonUtil.getDateFormatter(CommonDefine.COMMON_FORMAT_1);
@@ -283,8 +288,97 @@ public class HttpHandleThread implements Callable<Object>{
 						isSuccess = false;
 					}
 				}
+				//订单状态回传接口--SN
+				Map data = new HashMap();
+				
+				String dateFormatString = CommonUtil.getDateFormatter(CommonDefine.COMMON_FORMAT).format(new Date());
+				
+				data.put("messageId", getMessageId());
+				data.put("logisticsOrderId", logisticsOrderId);
+				data.put("logisticsExpressId", "");
+				data.put("statusCode", "1120");
+				data.put("logisticsStation", "tianjin");
+				data.put("finishedDate", dateFormatString.split(" ")[0]);
+				data.put("finishedTime", dateFormatString.split(" ")[1]);
+				data.put("operator", "sinotrans");
+				data.put("telNumber", "");
+				data.put("shipmentCode", "");
+				data.put("weight", "");
+				data.put("weightUnit", "");
+				data.put("note", "");
+				data.put("consignee", "");
+				data.put("airwayBillNo", "");
+				data.put("flightNo", "");
+				data.put("flightDate", "");
+				data.put("keyValueAdd", "");
+				data.put("thirdPartyCompany", "");
+				
+				//向苏宁回传订单状态
+				List<Map> dataList = new ArrayList<Map>();
+				
+				dataList.add(data);
+				
+				Map element = new HashMap();
+				element.put("rootElement", CommonUtil.getSystemConfigProperty("inputStatusListRoot"));
+				element.put("firstElement", CommonUtil.getSystemConfigProperty("inputStatusListFirstElement"));
+
+				Map requestParam = new HashMap();
+				requestParam.put("logistic_provider_id", CommonUtil.getSystemConfigProperty("SN_inputStatusList_logistic_provider_id"));
+				requestParam.put("msg_type", CommonUtil.getSystemConfigProperty("SN_inputStatusList_msg_type"));
+				requestParam.put("url", CommonUtil.getSystemConfigProperty("SN_inputStatusList_requestUrl"));
+				
+				//发送请求
+				String result = send2SN(element,requestParam,dataList);
+			}else if(checkBusinessTypeC005.equals(businessType)){
+				String statusCode = head.get("statusCode")!=null?head.get("statusCode").toString():"";
+				if("1060".equals(statusCode)){
+					//什么也不做
+				}else if("1131".equals(statusCode)){
+					//撤销操作
+					//t_new_import_inventory表中查找数据
+					List<String> colNames = new ArrayList<String>();
+					List<Object> colValues = new ArrayList<Object>();
+					colNames.add("ADD_REDUCE_FLAG");
+					colNames.add("ORDER_NO");
+					colValues.add("2");
+					colValues.add(logisticsOrderId);
+					List<Map<String, Object>> rows = commonManagerMapper.selectTableListByNVList("t_new_import_books", colNames, colValues,null,null);
+					//
+					for(Map<String, Object> data:rows){
+						//查找母数据
+						colNames.clear();
+						colValues.clear();
+						
+						colNames.add("ADD_REDUCE_FLAG");
+						colNames.add("GOODS_SERIALNO");
+						colValues.add("1");
+						colValues.add(data.get("GOODS_SERIALNO"));
+						
+						Map<String, Object> mainData = commonManagerMapper.selectTableListByNVList("t_new_import_books", colNames, colValues,null,null).get(0);
+
+						double updateQty = Double.valueOf(mainData.get("QTY")
+								.toString())
+								+ Double.valueOf(data.get("QTY")
+										.toString());
+						mainData.put("QTY", updateQty);
+						//更新母数据
+						commonManagerMapper.updateTableByNVList(
+								"t_new_import_books", "BOOKS_ID",
+								mainData.get("BOOKS_ID"), new ArrayList<String>(mainData.keySet()),
+								new ArrayList<Object>(mainData.values()));
+						//更新子数据
+						data.put("QTY", 0d);
+						commonManagerMapper.updateTableByNVList(
+								"t_new_import_books", "BOOKS_ID",
+								data.get("BOOKS_ID"), new ArrayList<String>(data.keySet()),
+								new ArrayList<Object>(data.values()));
+						
+					}
+					//向天津发送清单撤销消息
+				}
 			}
 		}catch(Exception e){
+			e.printStackTrace();
 			isSuccess = false;
 		}
 
@@ -414,6 +508,7 @@ public class HttpHandleThread implements Callable<Object>{
 		return xmlReturnString;
 	}
 	
+	
 	private String handleXml_ListRelease(String xmlString) {
 
 		String xmlReturnString = "";
@@ -423,38 +518,98 @@ public class HttpHandleThread implements Callable<Object>{
 
 		Map head = null;
 		boolean isSuccess = true;
+		
+		SimpleDateFormat sf = CommonUtil
+				.getDateFormatter(CommonDefine.COMMON_FORMAT);
 
 		try {
-			//包含数据orderNo、invtNo，hgReturnstatus，sjReturnStatus
+			//包含数据orderNo、invtNo，returnStatus
 			head = XmlUtil.parseXmlFPAPI_SingleNodes(xmlString,
 					"//InventoryReturn/child::*");
 			
+			Map data = new HashMap();
+			
+			data.put("messageId", getMessageId());
+			data.put("logisticsOrderId", head.get("orderNo"));
+			data.put("logisticsExpressId", "");
+			data.put("statusCode", head.get("returnStatus"));
+			data.put("logisticsStation", "tianjin");
+			data.put("finishedDate", sf.format(new Date()).split(" ")[0]);
+			data.put("finishedTime", sf.format(new Date()).split(" ")[1]);
+			data.put("operator", "sinotrans");
+			data.put("telNumber", "");
+			data.put("shipmentCode", "");
+			data.put("weight", "");
+			data.put("weightUnit", "");
+			data.put("note", "");
+			data.put("consignee", "");
+			data.put("airwayBillNo", "");
+			data.put("flightNo", "");
+			data.put("flightDate", "");
+			data.put("keyValueAdd", "");
+			data.put("thirdPartyCompany", "");
+			
 			//向苏宁回传订单状态
-			System.out.println(head);
+			List<Map> dataList = new ArrayList<Map>();
+			
+			dataList.add(data);
+			
+			Map element = new HashMap();
+			element.put("rootElement", CommonUtil.getSystemConfigProperty("inputStatusListRoot"));
+			element.put("firstElement", CommonUtil.getSystemConfigProperty("inputStatusListFirstElement"));
+
+			Map requestParam = new HashMap();
+			requestParam.put("logistic_provider_id", CommonUtil.getSystemConfigProperty("SN_inputStatusList_logistic_provider_id"));
+			requestParam.put("msg_type", CommonUtil.getSystemConfigProperty("SN_inputStatusList_msg_type"));
+			requestParam.put("url", CommonUtil.getSystemConfigProperty("SN_inputStatusList_requestUrl"));
+			
+			//发送请求
+			String result = send2SN(element,requestParam,dataList);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			isSuccess = false;
 		}
-
-		// 构建返回数据
-		List<LinkedMap> dataList = new ArrayList<LinkedMap>();
-		for (int i = 0; i < 1; i++) {
-			LinkedMap resultData = new LinkedMap();
-			resultData.put("loadHeadId",
-					head != null ? head.get("loadHeadId") : "");
-			resultData.put("loadId",
-					head != null ? head.get("loadId") : "");
-			resultData.put("returnMessage", isSuccess?"接收成功":"接收失败");
-//			resultData.put("errorCode", "");
-//			resultData.put("errorMsg", "");
-			dataList.add(resultData);
-		}
-		String root = CommonUtil.getSystemConfigProperty("loadReceiptRoot");
-
-		xmlReturnString = XmlUtil.generalReceiptXml_FP(root,null,
-				dataList);
+		//无需内容，直接返回200
+		xmlReturnString = "";
 
 		return xmlReturnString;
+	}
+	
+	
+	private String send2SN(Map elemet,Map requestParam,List<Map> dataList) {
+		String rootElement = elemet.get("rootElement").toString();
+		String firstElement = elemet.get("firstElement").toString();
+	
+		String resultXmlString = XmlUtil.generalReceiptXml_LoadRec_FP(rootElement, firstElement, dataList);
+
+		//向苏宁发送报文
+		//请求数据
+		String data_digest = CommonUtil.makeSign(resultXmlString);
+		String logistic_provider_id = requestParam.get("logistic_provider_id").toString();
+		String msg_type = requestParam.get("msg_type").toString();
+		String url = requestParam.get("url").toString();
+		
+		String requestUrl = "";
+		try {
+			requestUrl = url + "?" + 
+				"logistics_interface="+ URLEncoder.encode(resultXmlString, "utf-8") + 
+				"&data_digest="+ URLEncoder.encode(data_digest, "utf-8")+ 
+				"&logistic_provider_id=" + logistic_provider_id+ 
+				"&msg_type=" + msg_type;
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		// 发送http请求
+		Map<String, Object> head = new HashMap<String, Object>();
+		head.put("Content-Type",
+				CommonUtil.getSystemConfigProperty("SN_Content_Type"));
+
+		String result = HttpUtil.doPost4TJ(requestUrl, head, "",false);
+		
+		return result;
 	}
 	
 	//处理订单数据
@@ -497,8 +652,6 @@ public class HttpHandleThread implements Callable<Object>{
 										+ key.toString().toUpperCase()),
 								item.get(key));
 					}
-					
-					
 				}
 			}
 
@@ -848,6 +1001,20 @@ public class HttpHandleThread implements Callable<Object>{
 		resultMap = XmlUtil.parseXmlFPAPI_SingleNodes(result, "//responses/child::*");
 		
 		return resultMap;
+	}
+	
+	private static int num = 1;
+	
+	private static synchronized String getMessageId(){
+		
+		SimpleDateFormat sf = CommonUtil.getDateFormatter(CommonDefine.RETRIEVAL_TIME_FORMAT);
+		
+		String messageId = sf.format(new Date())+"-"+String.format("%0"+10+"d", num);;
+		
+		num++;
+		
+		return messageId;
+		
 	}
 	
 	private String generalRequestXml4TJ(String id,ResourceBundle bundle){
