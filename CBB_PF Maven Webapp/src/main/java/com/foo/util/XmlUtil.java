@@ -14,6 +14,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.collections.map.LinkedMap;
 import org.dom4j.Attribute;
@@ -2143,11 +2145,12 @@ public class XmlUtil {
 		Map<String,String> result = new HashMap<String,String>();
 		//添加OrderHead数据
 		for(Node node:childrenNodes){
-			result.put(node.getName(), node.getText());
+			result.put(node.getName(), getNodeText(node.getText()));
 		}
 		return result;
 	}
 	
+
 	//获取节点内容
 	private static List<Map> getMultipleNodes(Document document,String xPath){
 		//orderImformation-head节点解析
@@ -2161,12 +2164,23 @@ public class XmlUtil {
 			Map<String,String> data = new HashMap<String,String>();
 			List<Node> subChildrenNodes = node.selectNodes("child::*");
 			for(Node subNode:subChildrenNodes){
-				data.put(subNode.getName(), subNode.getText());
+				data.put(subNode.getName(), getNodeText(subNode.getText()));
 			}
 			ListResult.add(data);
 		}
 		
 		return ListResult;
+	}
+	
+	private static String getNodeText(String text){
+		Pattern p = Pattern.compile(".*<!\\[CDATA\\[(.*)\\]\\]>.*");
+		Matcher m = p.matcher(text);
+
+		if (m.matches()) {
+			return m.group(1);
+		}else{
+			return text;
+		}
 	}
 	
 	//生成回执xml

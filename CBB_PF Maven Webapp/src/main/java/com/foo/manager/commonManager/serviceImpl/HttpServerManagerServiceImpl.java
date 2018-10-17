@@ -159,6 +159,12 @@ public class HttpServerManagerServiceImpl extends HttpServerManagerService{
 						result.setErrorMessage("请求URL与内容不符！");
 						return result;
 					}
+				}else if(requestType.equals(requestType_sn_warehousing)){
+					if(!queryBody.contains("orderInfo")){
+						result.setErrorCode(CommonDefine.FAILED);
+						result.setErrorMessage("请求URL与内容不符！");
+						return result;
+					}
 				}else{
 					result.setErrorCode(CommonDefine.FAILED);
 					result.setErrorMessage("请求URL错误！");
@@ -167,7 +173,7 @@ public class HttpServerManagerServiceImpl extends HttpServerManagerService{
 				
 				result.setRequestType(requestType);
 			}
-
+			
 			//天津发送的清单状态回执暂不校验参数
 			if(requestType.equals(requestType_listRelease)){
 				String[] params = queryBody.split("&");
