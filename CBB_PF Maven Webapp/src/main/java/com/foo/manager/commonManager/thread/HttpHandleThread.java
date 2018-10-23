@@ -1100,6 +1100,15 @@ public class HttpHandleThread implements Callable<Object> {
 
 			}
 		}
+		//bolCount如果为空或等于0，BOL_COUNT填0。如果bolCount大于0，BOL_COUNT填bolCount减1
+		int bolCount = 0;
+		if(data.get("BOL_COUNT") == null ||data.get("BOL_COUNT").toString().isEmpty()){
+			
+		}else{
+			bolCount = Integer.valueOf(data.get("BOL_COUNT").toString());
+			bolCount = bolCount==0?0:bolCount-1;
+		}
+		data.put("BOL_COUNT", bolCount);
 		data.put("CREAT_DATE", sf.format(new Date()));
 		data.put("CREAT_TIME", new Date());
 		commonManagerMapper.insertTableByNVList("T_SN_ORDER",
