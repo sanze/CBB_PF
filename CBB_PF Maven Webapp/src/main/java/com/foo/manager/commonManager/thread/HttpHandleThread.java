@@ -63,13 +63,13 @@ public class HttpHandleThread implements Callable<Object> {
 		// this.content =
 		// "<inputData><ordersList><orders><orderImformation><orderHead><logisticsOrderId>LOS36100001120690200</logisticsOrderId><oriSys>LOS</oriSys><taskOrderid>36100001120690200</taskOrderid><thirdPartyCompany>0080010331</thirdPartyCompany><businessType>C061</businessType><announcedValue>100.00</announcedValue><valueUnit>CNY</valueUnit><expectDate>2015-09-07</expectDate><expectTime>11:38:10</expectTime></orderHead><orderItems><logisticsOrderId>LOS36100001120690200</logisticsOrderId><itemNumber>10</itemNumber><location>L971</location><locationDescription>天津口岸</locationDescription><storage>0001</storage><goodsCode>20166666</goodsCode><goodsDescription>长虹空调KFR35GWBP2DN1YF</goodsDescription><goodsNumber>5.000</goodsNumber><goodsUnit>S01</goodsUnit><comValue>100.00</comValue><valueUnit>CNY</valueUnit></orderItems><feedBackOrderCustomers><logisticsOrderId>LOS36100001120690200</logisticsOrderId><itemNumber>10</itemNumber><customerType>AG</customerType><customerId>70057297</customerId><name>C店商户苏宁</name><country>CN</country><city>南京市</city><address>南京市玄武区</address><zipCode>210012</zipCode><fixedLineTelephone>02566996699</fixedLineTelephone><mobilePhone>15295599233</mobilePhone></feedBackOrderCustomers></orderImformation></orders></ordersList></inputData>";
 		// 订单信息--C005
-		// this.requestType = HttpServerManagerService.requestType_Order;
-		// this.content =
-		// "<inputData><ordersList><orders><orderImformation><orderHead><logisticsOrderId>LOS36100001120690200</logisticsOrderId><oriSys>LOS</oriSys><taskOrderid>36100001120690200</taskOrderid><thirdPartyCompany>0080010331</thirdPartyCompany><businessType>C005</businessType><btcOrderId>BOL031707</btcOrderId><announcedValue>100.00</announcedValue><valueUnit>CNY</valueUnit><expectDate>2015-09-07</expectDate><expectTime>11:38:10</expectTime></orderHead><orderItems><logisticsOrderId>LOS36100001120690200</logisticsOrderId><itemNumber>10</itemNumber><location>L971</location><locationDescription>天津口岸</locationDescription><storage>0001</storage><goodsCode>20166666</goodsCode><goodsDescription>长虹空调KFR35GWBP2DN1YF</goodsDescription><goodsNumber>5.000</goodsNumber><goodsUnit>S01</goodsUnit><comValue>100.00</comValue><valueUnit>CNY</valueUnit></orderItems><feedBackOrderCustomers><logisticsOrderId>LOS36100001120690200</logisticsOrderId><itemNumber>10</itemNumber><customerType>AG</customerType><customerId>70057297</customerId><name>C店商户苏宁</name><country>CN</country><city>南京市</city><address>南京市玄武区</address><zipCode>210012</zipCode><fixedLineTelephone>02566996699</fixedLineTelephone><mobilePhone>15295599233</mobilePhone></feedBackOrderCustomers></orderImformation><orderExpBill><logisticOrderId>LOS36300000945410000</logisticOrderId><expressCode>62K900000210</expressCode><btcOrder>BTC01631803170701</btcOrder><btcItemOrder/><name>1asd2</name><telNumber>18513891234</telNumber><province>江苏省</province><city>南京市</city><district>栖霞区</district><adress>仙鹤门仙鹤名苑28-608</adress><firstPlantCrossing/><setLocation/><preparedTime>01:00:00</preparedTime><note/><shipCondition>配送</shipCondition><rePrintFlag/><valueAddTaxFlag/><shipTypeFlag>陆</shipTypeFlag><obligateFlag/><lastPlantCrossing/><route>郑州保税仓→南京小件→WL</route><lastLogisticStation>外设单位编码描述测试</lastLogisticStation><realDeliDate>2018-03-19</realDeliDate><realDeliTime>09:00:00</realDeliTime><paymmentMode>线上下单门店支付</paymmentMode><cashOnDeliveryValue>100.00</cashOnDeliveryValue><expressCompany>0080000013</expressCompany><expressCompanyExcode>444033803247</expressCompanyExcode><originCode>025</originCode><destCode>025</destCode><createTime>17:27:39</createTime><createDate>2018-03-17</createDate></orderExpBill><orderDeclare><orderDeclareHead><orderNo>BOL031707</orderNo><ieFlag>I</ieFlag><importType>1</importType><inOutDateStr>2018-03-17 17:07:17</inOutDateStr><logisCompanyCode>1505130005</logisCompanyCode><logisCompanyName>江苏苏宁物流有限公司</logisCompanyName><companyName>江苏苏宁易购电子商务有限公司</companyName><companyCode>PTE51001410280000005</companyCode><wayBill/><tradeCountry>502</tradeCountry><packNo>1</packNo><grossWeight>1.500</grossWeight><netWeight>1.500</netWeight><warpType>2</warpType><remark>37</remark><enteringPerson>9999</enteringPerson><enteringCompanyName>9999</enteringCompanyName><senderName>versace1563212333333范思哲海外专营店</senderName><consignee>无名</consignee><consigneeAddress>江苏南京市玄武区徐庄苏宁总部鼓楼1号</consigneeAddress><senderCountry>502</senderCountry><payerName>无名</payerName><payerPhoneNumber>13951783938</payerPhoneNumber><paperType>01</paperType><paperNumber>320102198001010059</paperNumber><freight>10.0000</freight><insuranceFee/><payTaxAmount>0.0000</payTaxAmount><worth>109.0000</worth><currCode>142</currCode><mainGName>移动端苏宁内测试购专</mainGName><isAuthorize>1</isAuthorize><paySerialNo/><payType/><payTime/><payMoney/><otherPayPrice/><goodsPriceIncludeTax/><senderProvince/><senderAddr/><senderZip/><senderTel/></orderDeclareHead><orderDeclareItems><logisticOrderId>LOS36300000945410000</logisticOrderId><expressCode>62K900000210</expressCode><orderNo>BOL031707</orderNo><orderItemNo>BOL031707</orderItemNo><goodsOrder>1</goodsOrder><codeTs>11</codeTs><goodsItemNo>000000000690105971</goodsItemNo><goodsName>移动端苏宁内测试购专</goodsName><goodsModel/><originCountry>701</originCountry><tradeCurr>142</tradeCurr><tradeTotal>99.0000</tradeTotal><declPrice>99.00</declPrice><declTotalPrice>99.0000</declTotalPrice><useTo>11</useTo><declareCount>1</declareCount><goodsUnit>011</goodsUnit><goodsGrossWeight>1.500</goodsGrossWeight><firstUnit>011</firstUnit><firstCount>1</firstCount><postalTax/></orderDeclareItems></orderDeclare></orders></ordersList></inputData>";
+//		 this.requestType = HttpServerManagerService.requestType_Order;
+//		 this.content =
+//		 "<inputData><ordersList><orders><orderImformation><orderHead><logisticsOrderId>LOS36100001120690200</logisticsOrderId><oriSys>LOS</oriSys><taskOrderid>36100001120690200</taskOrderid><thirdPartyCompany>0080010331</thirdPartyCompany><businessType>C005</businessType><btcOrderId>BOL031707</btcOrderId><announcedValue>100.00</announcedValue><valueUnit>CNY</valueUnit><expectDate>2015-09-07</expectDate><expectTime>11:38:10</expectTime></orderHead><orderItems><logisticsOrderId>LOS36100001120690200</logisticsOrderId><itemNumber>10</itemNumber><location>L971</location><locationDescription>天津口岸</locationDescription><storage>0001</storage><goodsCode>20166666</goodsCode><goodsDescription>长虹空调KFR35GWBP2DN1YF</goodsDescription><goodsNumber>5.000</goodsNumber><goodsUnit>S01</goodsUnit><comValue>100.00</comValue><valueUnit>CNY</valueUnit></orderItems><feedBackOrderCustomers><logisticsOrderId>LOS36100001120690200</logisticsOrderId><itemNumber>10</itemNumber><customerType>AG</customerType><customerId>70057297</customerId><name>C店商户苏宁</name><country>CN</country><city>南京市</city><address>南京市玄武区</address><zipCode>210012</zipCode><fixedLineTelephone>02566996699</fixedLineTelephone><mobilePhone>15295599233</mobilePhone></feedBackOrderCustomers></orderImformation><orderExpBill><logisticOrderId>LOS36300000945410000</logisticOrderId><expressCode>62K900000210</expressCode><btcOrder>BTC01631803170701</btcOrder><btcItemOrder/><name>1asd2</name><telNumber>18513891234</telNumber><province>江苏省</province><city>南京市</city><district>栖霞区</district><adress>仙鹤门仙鹤名苑28-608</adress><firstPlantCrossing/><setLocation/><preparedTime>01:00:00</preparedTime><note/><shipCondition>配送</shipCondition><rePrintFlag/><valueAddTaxFlag/><shipTypeFlag>陆</shipTypeFlag><obligateFlag/><lastPlantCrossing/><route>郑州保税仓→南京小件→WL</route><lastLogisticStation>外设单位编码描述测试</lastLogisticStation><realDeliDate>2018-03-19</realDeliDate><realDeliTime>09:00:00</realDeliTime><paymmentMode>线上下单门店支付</paymmentMode><cashOnDeliveryValue>100.00</cashOnDeliveryValue><expressCompany>0080000013</expressCompany><expressCompanyExcode>444033803247</expressCompanyExcode><originCode>025</originCode><destCode>025</destCode><createTime>17:27:39</createTime><createDate>2018-03-17</createDate></orderExpBill><orderDeclare><orderDeclareHead><orderNo>BOL031707</orderNo><ieFlag>I</ieFlag><importType>1</importType><inOutDateStr>2018-03-17 17:07:17</inOutDateStr><logisCompanyCode>1505130005</logisCompanyCode><logisCompanyName>江苏苏宁物流有限公司</logisCompanyName><companyName>江苏苏宁易购电子商务有限公司</companyName><companyCode>PTE51001410280000005</companyCode><wayBill/><tradeCountry>502</tradeCountry><packNo>1</packNo><grossWeight>1.500</grossWeight><netWeight>1.500</netWeight><warpType>2</warpType><remark>37</remark><enteringPerson>9999</enteringPerson><enteringCompanyName>9999</enteringCompanyName><senderName>versace1563212333333范思哲海外专营店</senderName><consignee>无名</consignee><consigneeAddress>江苏南京市玄武区徐庄苏宁总部鼓楼1号</consigneeAddress><senderCountry>502</senderCountry><payerName>无名</payerName><payerPhoneNumber>13951783938</payerPhoneNumber><paperType>01</paperType><paperNumber>320102198001010059</paperNumber><freight>10.0000</freight><insuranceFee/><payTaxAmount>0.0000</payTaxAmount><worth>109.0000</worth><currCode>142</currCode><mainGName>移动端苏宁内测试购专</mainGName><isAuthorize>1</isAuthorize><paySerialNo/><payType/><payTime/><payMoney/><otherPayPrice/><goodsPriceIncludeTax/><senderProvince/><senderAddr/><senderZip/><senderTel/></orderDeclareHead><orderDeclareItems><logisticOrderId>LOS36300000945410000</logisticOrderId><expressCode>62K900000210</expressCode><orderNo>BOL031707</orderNo><orderItemNo>BOL031707</orderItemNo><goodsOrder>1</goodsOrder><codeTs>11</codeTs><goodsItemNo>000000000690105971</goodsItemNo><goodsName>移动端苏宁内测试购专</goodsName><goodsModel/><originCountry>701</originCountry><tradeCurr>142</tradeCurr><tradeTotal>99.0000</tradeTotal><declPrice>99.00</declPrice><declTotalPrice>99.0000</declTotalPrice><useTo>11</useTo><declareCount>1</declareCount><goodsUnit>011</goodsUnit><goodsGrossWeight>1.500</goodsGrossWeight><firstUnit>011</firstUnit><firstCount>1</firstCount><postalTax/></orderDeclareItems></orderDeclare></orders></ordersList></inputData>";
 		// 库存
-		// this.requestType = HttpServerManagerService.requestType_inventory;
-		// this.content =
-		// "<inputList><inventoryOrder><inventoryDetailHead><messageId>1df3154d823c49f7a13bbb69801d94cd</messageId><logisticsOrderId>1215001180620011114YG</logisticsOrderId><businessType>C061</businessType><statusCode>1131</statusCode><offsetFlag/><note>天津外部公司测试</note></inventoryDetailHead><inventoryDetailItems><itemNumber>10</itemNumber><goodsCode>20166666</goodsCode><goodsDescription>Rafferty&apos;s Garden 婴儿辅食 南瓜苹果玉米泥 120克/袋 海外进口 蔬果泥 </goodsDescription><goodsNumber>99</goodsNumber><goodsUnit>G</goodsUnit><inventoryType>A</inventoryType><keyValueAdd/></inventoryDetailItems></inventoryOrder></inputList>";
+//		 this.requestType = HttpServerManagerService.requestType_inventory;
+//		 this.content =
+//		 "<inputList><inventoryOrder><inventoryDetailHead><messageId>1df3154d823c49f7a13bbb69801d94cd</messageId><logisticsOrderId>1215001180620011114YG</logisticsOrderId><businessType>C005</businessType><statusCode>1131</statusCode><offsetFlag/><note>天津外部公司测试</note></inventoryDetailHead><inventoryDetailItems><itemNumber>10</itemNumber><goodsCode>20166666</goodsCode><goodsDescription>Rafferty&apos;s Garden 婴儿辅食 南瓜苹果玉米泥 120克/袋 海外进口 蔬果泥 </goodsDescription><goodsNumber>99</goodsNumber><goodsUnit>G</goodsUnit><inventoryType>A</inventoryType><keyValueAdd/></inventoryDetailItems></inventoryOrder></inputList>";
 		// 装载
 		// this.requestType = HttpServerManagerService.requestType_load;
 		// this.content =
@@ -97,6 +97,10 @@ public class HttpHandleThread implements Callable<Object> {
 		// HttpServerManagerService.requestType_sn_warehousing;
 		// this.content =
 		// "{\"orderInfo\":{\"fpsOrderId\":\"4111110000197\",\"ownerUserId\":\"70057018\",\"storeCode\":\"WM10000079\",\"orderCode\":\"W100112051\",\"orderType\":\"601\",\"orderNumber\":\"ZT201808212027001\",\"outsourcingFlag\":\"01\",\"orderSource\":\"301\",\"orderCreateTime\":\"2018-08-21 22:06:54\",\"returnReason\":\"\",\"expectStartTime\":\"2018-08-29 15:13:38\",\"expectEndTime\":\"2018-08-29 15:13:38\",\"remark\":\"\",\"receiverInfo\":{},\"senderInfo\":{\"senderAddress\":\"江苏南京市软件大道203号\",\"senderCode\":\"70057018\",\"senderName\":\"C店-平行仓商家E 新1\",\"senderMobile\":\"025-66996699-880665\",\"senderPhone\":\"025-66996699-880665\"},\"orderItemList\":[{\"orderItemId\":\"410111000019511\",\"userId\":\"70057018\",\"userName\":\"C店-平行仓商家E 新1\",\"ownerUserId\":\"70057018\",\"ownerUserName\":\"C店-平行仓商家E 新1\",\"itemId\":\"000000001002512101\",\"itemName\":\"千丰浴霸壁挂式二灯双灯三灯浴霸卫生间浴室取暖灯泡挂墙式灯暖 小玲珑2米线护眼黄泡两灯挂浴霸 漏电保护\",\"itemCode\":\"000000001002512101\",\"inventoryType\":\"301\",\"itemQuantity\":\"1\",\"produceCode\":\"\",\"condition\":\"\",\"batchCode\":\"\"}]}}";
+
+		//sn_deliverGoodsNotify
+//		 this.requestType = HttpServerManagerService.requestType_sn_deliverGoodsNotify;
+//		 this.content = "{\"orderInfo\":{\"ownerUserId\":\"7016xxxx\",\"storeCode\":\"WM10xxxxxx\",\"fpsOrderId\":\"12345xxxxxx\",\"orderCode\":\"W107xxxxxx\",\"orderType\":\"201\",\"orderNumber\":\"W89xxxx\",\"outsourcingFlag\":\"01\",\"customsMode\":\"02\",\"bol\":\"HM121231xxxxxx\",\"bolCount\":\"2\",\"orderSource\":\"S12\",\"tmsServiceCode\":\"S02\",\"tmsServiceName\":\"顺丰\",\"tmsOrderCode\":\"1234556667\",\"orderFlag\":\"\",\"orderCreateTime\":\"2018-01-03 12:47:11\",\"deliveryType\":\"PTPS\",\"deliverRequirements\":{\"scheduleDay\":\"2018-01-04\",\"scheduleStart\":\"18:00:00\",\"scheduleEnd\":\"18:00:00\"},\"batchSendCtrlParam\":{},\"extendFields\":\"{}\",\"receiverInfo\":{\"receiverProvince\":\"江苏省\",\"receiverCity\":\"宿迁市\",\"receiverArea\":\"宿豫区\",\"receiverTown\":\"全区\",\"receiverMobile\":\"0527-8431xxxx\",\"receiverPhone\":\"0527-8431xxxx\",\"receiverName\":\"谷绍娟\",\"receiverAddress\":\"江苏省宿迁市宿豫区江山大道xxxxxx\"},\"senderInfo\":{\"senderProvince\":\"江苏\",\"senderCity\":\"南京市\",\"senderArea\":\"雨花台区\",\"senderTown\":\"全区\",\"senderAddress\":\"xx大道1号\",\"senderName\":\"董x\",\"senderPhone\":\"025-66996699-87xxxx\",\"senderMobile\":\"025-66996699-87xxxx\"},\"orderItemList\":[{\"itemName\":\"电源xxx\",\"itemQuantity\":\"1\",\"orderItemId\":\"SL201801030000xxxxxx\",\"condition\":\"A\",\"ownerUserId\":\"7016xxxx\",\"itemId\":\"917080409503xxxxxx\",\"inventoryType\":\"1\",\"userId\":\"7016xxxx\",\"itemCode\":\"WTI09xxxx\"}]}}";
 
 		this.requestType = requestType;
 		this.content = content;
@@ -137,6 +141,10 @@ public class HttpHandleThread implements Callable<Object> {
 				.equals(HttpServerManagerService.requestType_sn_warehousing)) {
 			// 川佐返回收货结果
 			result = handleXml_sn_warehousing(content);
+		}else if (requestType
+				.equals(HttpServerManagerService.requestType_sn_deliverGoodsNotify)) {
+			// 苏宁发货通知
+			result = handleXml_sn_deliverGoodsNotify(content);
 		}
 
 		System.out.println("【结束】数据处理：" + signKey);
@@ -196,7 +204,7 @@ public class HttpHandleThread implements Callable<Object> {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			result.put("isSuccess", false);
+			result.put("isSuccess", "false");
 			result.put("errorMsg", "系统异常");
 		}
 
@@ -206,7 +214,7 @@ public class HttpHandleThread implements Callable<Object> {
 			LinkedMap resultData = new LinkedMap();
 			resultData.put("logisticsOrderId",
 					head != null ? head.get("logisticsOrderId") : "");
-			resultData.put("success", result.get("isSuccess"));
+			resultData.put("success", result.get("isSuccess").toString());
 			resultData.put("errorCode", "");
 			resultData.put("errorMsg", result.get("errorMsg"));
 			dataList.add(resultData);
@@ -465,7 +473,7 @@ public class HttpHandleThread implements Callable<Object> {
 		for (int i = 0; i < 1; i++) {
 			LinkedMap resultData = new LinkedMap();
 			resultData.put("messageId", head.get("messageId"));
-			resultData.put("success", isSuccess);
+			resultData.put("success", String.valueOf(isSuccess));
 			resultData.put("errorCode", "");
 			resultData.put("errorMsg", "");
 			dataList.add(resultData);
@@ -740,7 +748,7 @@ public class HttpHandleThread implements Callable<Object> {
 
 			resultItem.put("kunner", data.get("OWNER"));
 			resultItem.put("sncmmdty_code", data.get("SKU"));
-			resultItem.put("process_stat", data.get("03"));
+			resultItem.put("process_stat", "03");
 			resultItem.put("notes", "");
 			resultArray.add(resultItem);
 
@@ -856,7 +864,7 @@ public class HttpHandleThread implements Callable<Object> {
 
 		}
 		result.put("orderCode", data.get("ORDER_CODE"));
-		result.put("success", true);
+		result.put("success", "true");
 		result.put("errorCode", "");
 		result.put("errorMsg", "");
 
@@ -1006,7 +1014,142 @@ public class HttpHandleThread implements Callable<Object> {
 
 		return "";
 	}
+	
+	private String handleXml_sn_deliverGoodsNotify(String jsonString) {
 
+		// String jsonReturnString = "";
+		SimpleDateFormat sf = CommonUtil
+				.getDateFormatter(CommonDefine.COMMON_FORMAT_1);
+
+		System.out
+				.println("---------------------------【FPAPI_SN_deliverGoodsNotify】-------------------------------");
+		// 入库
+		JSONObject jsonObject = JSONObject.fromObject(jsonString);
+
+		JSONObject orderInfo = (JSONObject) jsonObject.get("orderInfo");
+		JSONObject senderInfo = (JSONObject) orderInfo.get("senderInfo");
+		JSONObject receiverInfo = (JSONObject) orderInfo.get("receiverInfo");
+
+		JSONArray orderItemList = (JSONArray) orderInfo.get("orderItemList");
+		// JSONArray customerInfo = (JSONArray) jsonObject.get("customerInfo");
+		// JSONArray barCodeInfo = (JSONArray) jsonObject.get("barCodeInfo");
+		// 获取资源文件
+		ResourceBundle bundle = CommonUtil.getMessageMappingResource("CEB_SN");
+
+		JSONObject result = new JSONObject();
+		JSONArray resultArray = new JSONArray();
+
+		// 入库T_SN_ORDER
+//		commonManagerMapper.selectTableListByCol("T_SN_ORDER", "ORDER_CODE", orderInfo.get(key), startNumber, pageSize);
+	
+		Map primary = new HashMap();
+		primary.put("primaryId", null);
+
+		Map data = new HashMap();
+		for (Object key : orderInfo.keySet()) {
+			if (bundle
+					.containsKey("SN_ORDER_" + key.toString().toUpperCase())) {
+
+				if (orderInfo.get(key) == null
+						|| orderInfo.get(key).toString().isEmpty()) {
+					data.put(
+							bundle.getObject("SN_ORDER_"
+									+ key.toString().toUpperCase()), null);
+				} else {
+					data.put(
+							bundle.getObject("SN_ORDER_"
+									+ key.toString().toUpperCase()),
+							orderInfo.get(key));
+				}
+
+			}
+		}
+		for (Object key : senderInfo.keySet()) {
+			if (bundle
+					.containsKey("SN_ORDER_" + key.toString().toUpperCase())) {
+
+				if (senderInfo.get(key) == null
+						|| senderInfo.get(key).toString().isEmpty()) {
+					data.put(
+							bundle.getObject("SN_ORDER_"
+									+ key.toString().toUpperCase()), null);
+				} else {
+					data.put(
+							bundle.getObject("SN_ORDER_"
+									+ key.toString().toUpperCase()),
+							senderInfo.get(key));
+				}
+
+			}
+		}
+		for (Object key : receiverInfo.keySet()) {
+			if (bundle
+					.containsKey("SN_ORDER_" + key.toString().toUpperCase())) {
+
+				if (receiverInfo.get(key) == null
+						|| receiverInfo.get(key).toString().isEmpty()) {
+					data.put(
+							bundle.getObject("SN_ORDER_"
+									+ key.toString().toUpperCase()), null);
+				} else {
+					data.put(
+							bundle.getObject("SN_ORDER_"
+									+ key.toString().toUpperCase()),
+									receiverInfo.get(key));
+				}
+
+			}
+		}
+		data.put("CREAT_DATE", sf.format(new Date()));
+		data.put("CREAT_TIME", new Date());
+		commonManagerMapper.insertTableByNVList("T_SN_ORDER",
+				new ArrayList<String>(data.keySet()), new ArrayList<Object>(
+						data.values()), primary);
+
+		for (Iterator it = orderItemList.iterator(); it.hasNext();) {
+
+			JSONObject item = (JSONObject) it.next();
+			Map primary_sub = new HashMap();
+			primary_sub.put("primaryId", null);
+
+			Map dataSub = new HashMap();
+
+			for (Object key : item.keySet()) {
+				if (bundle.containsKey("SN_ORDER_DETAIL_"
+						+ key.toString().toUpperCase())) {
+
+					if (item.get(key) == null
+							|| item.get(key).toString().isEmpty()) {
+						dataSub.put(
+								bundle.getObject("SN_ORDER_DETAIL_"
+										+ key.toString().toUpperCase()), null);
+					} else {
+						dataSub.put(
+								bundle.getObject("SN_ORDER_DETAIL_"
+										+ key.toString().toUpperCase()),
+								item.get(key));
+					}
+				}
+			}
+
+			// 数据入库
+			dataSub.put("ORDER_ID", primary.get("primaryId"));
+			// data.put("CREAT_DATE", sf.format(new Date()));
+			dataSub.put("CREAT_TIME", new Date());
+			commonManagerMapper.insertTableByNVList("T_SN_ORDER_DETAIL",
+					new ArrayList<String>(dataSub.keySet()),
+					new ArrayList<Object>(dataSub.values()), primary_sub);
+
+		}
+		result.put("orderCode", data.get("ORDER_CODE"));
+		result.put("success", "true");
+		result.put("errorCode", "");
+		result.put("errorMsg", "");
+
+		return result.toString();
+	}
+	
+	
 	private Map handleOrderC061(String xmlString, ResourceBundle bundle) {
 		Map result = new HashMap();
 		result.put("isSuccess", true);
@@ -1194,12 +1337,12 @@ public class HttpHandleThread implements Callable<Object> {
 				String reason = reponse.get("reason") != null ? reponse.get(
 						"reason").toString() : "";
 				if ("fail".equals(status)) {
-					result.put("isSuccess", false);
+					result.put("isSuccess", "false");
 					result.put("errorMsg", reason);
 				}
 			} else {
 				// 返回错误，库存不足
-				result.put("isSuccess", false);
+				result.put("isSuccess", "false");
 				result.put("errorMsg", "库存不足");
 			}
 		}

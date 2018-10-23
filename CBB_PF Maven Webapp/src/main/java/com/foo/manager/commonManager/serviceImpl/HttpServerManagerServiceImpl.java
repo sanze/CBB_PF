@@ -165,6 +165,12 @@ public class HttpServerManagerServiceImpl extends HttpServerManagerService{
 						result.setErrorMessage("请求URL与内容不符！");
 						return result;
 					}
+				}else if(requestType.equals(requestType_sn_deliverGoodsNotify)){
+					if(!queryBody.contains("orderInfo")){
+						result.setErrorCode(CommonDefine.FAILED);
+						result.setErrorMessage("请求URL与内容不符！");
+						return result;
+					}
 				}else{
 					result.setErrorCode(CommonDefine.FAILED);
 					result.setErrorMessage("请求URL错误！");
