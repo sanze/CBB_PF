@@ -189,8 +189,6 @@ public class HttpServerManagerServiceImpl extends HttpServerManagerService{
 						String[] pair = param.split("=");
 						if (pair.length == 2) {
 							pairs.put(pair[0],pair[1]);
-						} else if(param.startsWith("data=")){
-							pairs.put("data",param.substring(5));
 						} else {
 							continue;
 						}

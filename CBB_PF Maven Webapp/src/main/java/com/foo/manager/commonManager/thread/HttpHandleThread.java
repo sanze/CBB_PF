@@ -1644,7 +1644,7 @@ public class HttpHandleThread implements Callable<Object> {
 				&& !orderDeclareHead.get("insuranceFee").toString().isEmpty()) {
 			colValues.add(orderDeclareHead.get("insuranceFee"));
 		} else {
-			colValues.add(0);
+			colValues.add(null);
 		}
 
 		colNames.add("WRAP_TYPE");
