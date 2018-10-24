@@ -98,7 +98,7 @@ public class HttpHandleThread implements Callable<Object> {
 		// this.content =
 		// "{\"orderInfo\":{\"fpsOrderId\":\"4111110000197\",\"ownerUserId\":\"70057018\",\"storeCode\":\"WM10000079\",\"orderCode\":\"W100112051\",\"orderType\":\"601\",\"orderNumber\":\"ZT201808212027001\",\"outsourcingFlag\":\"01\",\"orderSource\":\"301\",\"orderCreateTime\":\"2018-08-21 22:06:54\",\"returnReason\":\"\",\"expectStartTime\":\"2018-08-29 15:13:38\",\"expectEndTime\":\"2018-08-29 15:13:38\",\"remark\":\"\",\"receiverInfo\":{},\"senderInfo\":{\"senderAddress\":\"江苏南京市软件大道203号\",\"senderCode\":\"70057018\",\"senderName\":\"C店-平行仓商家E 新1\",\"senderMobile\":\"025-66996699-880665\",\"senderPhone\":\"025-66996699-880665\"},\"orderItemList\":[{\"orderItemId\":\"410111000019511\",\"userId\":\"70057018\",\"userName\":\"C店-平行仓商家E 新1\",\"ownerUserId\":\"70057018\",\"ownerUserName\":\"C店-平行仓商家E 新1\",\"itemId\":\"000000001002512101\",\"itemName\":\"千丰浴霸壁挂式二灯双灯三灯浴霸卫生间浴室取暖灯泡挂墙式灯暖 小玲珑2米线护眼黄泡两灯挂浴霸 漏电保护\",\"itemCode\":\"000000001002512101\",\"inventoryType\":\"301\",\"itemQuantity\":\"1\",\"produceCode\":\"\",\"condition\":\"\",\"batchCode\":\"\"}]}}";
 
-		//sn_deliverGoodsNotify
+//		sn_deliverGoodsNotify
 //		 this.requestType = HttpServerManagerService.requestType_sn_deliverGoodsNotify;
 //		 this.content = "{\"orderInfo\":{\"ownerUserId\":\"7016xxxx\",\"storeCode\":\"WM10xxxxxx\",\"fpsOrderId\":\"12345xxxxxx\",\"orderCode\":\"W107xxxxxx\",\"orderType\":\"201\",\"orderNumber\":\"W89xxxx\",\"outsourcingFlag\":\"01\",\"customsMode\":\"02\",\"bol\":\"HM121231xxxxxx\",\"bolCount\":\"2\",\"orderSource\":\"S12\",\"tmsServiceCode\":\"S02\",\"tmsServiceName\":\"顺丰\",\"tmsOrderCode\":\"1234556667\",\"orderFlag\":\"\",\"orderCreateTime\":\"2018-01-03 12:47:11\",\"deliveryType\":\"PTPS\",\"deliverRequirements\":{\"scheduleDay\":\"2018-01-04\",\"scheduleStart\":\"18:00:00\",\"scheduleEnd\":\"18:00:00\"},\"batchSendCtrlParam\":{},\"extendFields\":\"{}\",\"receiverInfo\":{\"receiverProvince\":\"江苏省\",\"receiverCity\":\"宿迁市\",\"receiverArea\":\"宿豫区\",\"receiverTown\":\"全区\",\"receiverMobile\":\"0527-8431xxxx\",\"receiverPhone\":\"0527-8431xxxx\",\"receiverName\":\"谷绍娟\",\"receiverAddress\":\"江苏省宿迁市宿豫区江山大道xxxxxx\"},\"senderInfo\":{\"senderProvince\":\"江苏\",\"senderCity\":\"南京市\",\"senderArea\":\"雨花台区\",\"senderTown\":\"全区\",\"senderAddress\":\"xx大道1号\",\"senderName\":\"董x\",\"senderPhone\":\"025-66996699-87xxxx\",\"senderMobile\":\"025-66996699-87xxxx\"},\"orderItemList\":[{\"itemName\":\"电源xxx\",\"itemQuantity\":\"1\",\"orderItemId\":\"SL201801030000xxxxxx\",\"condition\":\"A\",\"ownerUserId\":\"7016xxxx\",\"itemId\":\"917080409503xxxxxx\",\"inventoryType\":\"1\",\"userId\":\"7016xxxx\",\"itemCode\":\"WTI09xxxx\"}]}}";
 
@@ -1644,7 +1644,7 @@ public class HttpHandleThread implements Callable<Object> {
 				&& !orderDeclareHead.get("insuranceFee").toString().isEmpty()) {
 			colValues.add(orderDeclareHead.get("insuranceFee"));
 		} else {
-			colValues.add(null);
+			colValues.add(0);
 		}
 
 		colNames.add("WRAP_TYPE");
