@@ -76,7 +76,7 @@
 		  "Q120000201808000039" as cbecode,
 		  "Q120000201808000038" as ciqLogisticsCode,
 		  "121500" as checkOrgCode,
-		  "4" as idType,
+		  "1" as idType,
 		  t.WORTH,
 		   "C" as stockFlag,
 		  "" as consigneeNo,
@@ -107,6 +107,7 @@
 		  s.G_MODEL,
 		  "" as barCode,
 		  t.COUNTRY as country,
+		  t.TRADE_COUNTRY,
 		  t.CURRENCY,
 		  "156" as ciqcurrency,
 		  t.QTY,
@@ -129,7 +130,7 @@
 		  i.BUYER_NAME,
 		  i.BUYER_IDTYPE,
 		  t.COUNTRY as originCountryCode,
-		  "" as qtyUnitCode,
+		  t.UNIT as qtyUnitCode,
 		  "Q120000201808000039" as consigneeNo
 		FROM
 		  t_new_import_inventory_detail t 

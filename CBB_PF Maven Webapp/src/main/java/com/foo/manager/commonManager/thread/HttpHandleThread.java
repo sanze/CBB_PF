@@ -1400,9 +1400,7 @@ public class HttpHandleThread implements Callable<Object> {
 		SimpleDateFormat sf = CommonUtil
 				.getDateFormatter(CommonDefine.RETRIEVAL_TIME_FORMAT);
 
-		String messageId = sf.format(new Date()) + "-"
-				+ String.format("%0" + 10 + "d", num);
-		;
+		String messageId = sf.format(new Date()) + String.format("%0" + 10 + "d", num);
 
 		num++;
 
@@ -1727,6 +1725,9 @@ public class HttpHandleThread implements Callable<Object> {
 
 			colNames.add("COUNTRY");
 			colValues.add(orderDeclareItem.get("originCountry"));
+
+			colNames.add("TRADE_COUNTRY");
+			colValues.add(orderDeclareHead.get("tradeCountry"));
 
 			colNames.add("CURRENCY");
 			colValues.add(orderDeclareItem.get("tradeCurr"));
