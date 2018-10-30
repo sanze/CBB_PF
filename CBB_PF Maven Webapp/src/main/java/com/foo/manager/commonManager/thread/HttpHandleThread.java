@@ -758,7 +758,7 @@ public class HttpHandleThread implements Callable<Object> {
 	}
 
 	// 处理入库通知
-	private String handleXml_sn_receipt(String jsonString) {
+	private String handleXml_sn_receipt(String jsonString) throws CommonException{
 
 		// String jsonReturnString = "";
 		SimpleDateFormat sf = CommonUtil
@@ -828,6 +828,9 @@ public class HttpHandleThread implements Callable<Object> {
 				new ArrayList<String>(data.keySet()), new ArrayList<Object>(
 						data.values()), primary);
 
+		//发送给川佐
+		List<Map> orderItemListForCJ = new ArrayList<Map>();
+		
 		for (Iterator it = orderItemList.iterator(); it.hasNext();) {
 
 			JSONObject item = (JSONObject) it.next();
@@ -835,6 +838,8 @@ public class HttpHandleThread implements Callable<Object> {
 			primary_sub.put("primaryId", null);
 
 			Map dataSub = new HashMap();
+
+			Map dataSubForCJ = new HashMap();
 
 			for (Object key : item.keySet()) {
 				if (bundle.containsKey("SN_RECEIPT_DETAIL_"
@@ -862,11 +867,79 @@ public class HttpHandleThread implements Callable<Object> {
 					new ArrayList<String>(dataSub.keySet()),
 					new ArrayList<Object>(dataSub.values()), primary_sub);
 
+			//发送给川佐数据组装
+			dataSubForCJ.put("ORDER_ITEM_ID", dataSub.get("ORDER_ITEM_ID"));
+			dataSubForCJ.put("SKU", dataSub.get("SKU"));
+			dataSubForCJ.put("ITEM_NAME", dataSub.get("ITEM_NAME"));
+			dataSubForCJ.put("EXPECT_QTY", dataSub.get("EXPECT_QTY"));
+			dataSubForCJ.put("PRODUCE_CODE", dataSub.get("PRODUCE_CODE"));
+			orderItemListForCJ.add(dataSubForCJ);
+
 		}
-		result.put("orderCode", data.get("ORDER_CODE"));
+		//给川佐发送入库通知
+		Map order = new HashMap();
+		order.put("OWNER", data.get("OWNER"));
+		order.put("ORDER_CODE", data.get("ORDER_CODE"));
+		order.put("ORDER_TYPE", data.get("ORDER_TYPE"));
+		order.put("EXPECT_START_TIME", data.get("EXPECT_START_TIME"));
+		order.put("EXPECT_END_TIME", data.get("EXPECT_END_TIME"));
+		order.put("TMS_ORDER_CODE", data.get("TMS_ORDER_CODE"));
+		order.put("SENDER_ADDRESS", data.get("SENDER_ADDRESS"));
+		order.put("SENDER_CODE", data.get("SENDER_CODE"));
+		order.put("SENDER_NAME", data.get("SENDER_NAME"));
+		order.put("SENDER_MOBILE", data.get("SENDER_MOBILE"));
+		order.put("SENDER_PHONE", data.get("SENDER_PHONE"));
+		order.put("CUST", CommonUtil
+				.getSystemConfigProperty("CJ_cust"));
+		
+		String xmlStringData = XmlUtil.generalWarehousingNoticeXml_CJ(
+				"DATA", order, orderItemListForCJ);
+		
+		String requestXmlData = XmlUtil.generalSoapXml_CJ(xmlStringData);
+		
+		System.out.println(requestXmlData);
+		//向川佐发送入库通知单
+		String response = HttpUtil.sendHttpCMD_CJ(requestXmlData,CommonUtil
+				.getSystemConfigProperty("CJ_requestUrl").toString());
+
+		//获取返回信息
+		String returnXmlData = XmlUtil
+				.getResponseFromXmlString_CJ(response);
+		
+		//正常测试报文
+//		String returnXmlData = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><DATA><ORDER><ORDER_CODE>3434222e333</ORDER_CODE><CD>OK</CD><INFO><![CDATA[]]></INFO><ITEMS><ITEM><ORDER_ITEM_ID>420000002xxxxxx</ORDER_ITEM_ID><SKU>P0000KMM</SKU><ACTUAL_QTY>1</ACTUAL_QTY><ACTUAL_QTY_DEFECT>5590</ACTUAL_QTY_DEFECT></ITEM><ITEM><ORDER_ITEM_ID>1234567891</ORDER_ITEM_ID><SKU>P0001KMM</SKU><ACTUAL_QTY>1</ACTUAL_QTY><ACTUAL_QTY_DEFECT>5591</ACTUAL_QTY_DEFECT></ITEM></ITEMS></ORDER></DATA>";
+		//异常测试报文
+//		String returnXmlData = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><DATA><ORDER><ORDER_CODE>W107xxxxxx</ORDER_CODE><CD>102</CD><INFO>发货人编号在系统中未找到。</INFO></ORDER></DATA>";
+
+		//解析返回报文
+		//正常报文
+		Map orderResult = XmlUtil.parseXmlFPAPI_SingleNodes(returnXmlData, "//DATA/ORDER/child::*");
+		
+		//正常返回
+		if(orderResult.containsKey("CD") && "OK".equals(orderResult.get("CD").toString())){
+			List<Map> itemsResult = XmlUtil.parseXmlFPAPI_MulitpleNodes(returnXmlData, "//DATA/ORDER/ITEMS/ITEM");
+			//将ACTUAL_QTY和ACTUAL_QTY_DEFECT字段写入t_sn_receipt_detail
+			for(Map itemReult:itemsResult){
+				List<String> colNames = new ArrayList<String>();
+				List<Object> colValues = new ArrayList<Object>();
+				colNames.add("ACTUAL_QTY");
+				colNames.add("ACTUAL_QTY_DEFECT");
+				colValues.add(itemReult.get("ACTUAL_QTY"));
+				colValues.add(itemReult.get("ACTUAL_QTY_DEFECT"));
+				commonManagerMapper.updateTableByNVList("t_sn_receipt_detail", "ORDER_ITEM_ID", itemReult.get("ORDER_ITEM_ID"), colNames, colValues);
+			}
+			//返回给苏宁
 		result.put("success", "true");
 		result.put("errorCode", "");
 		result.put("errorMsg", "");
+		}else{
+			//异常返回
+			//返回给苏宁的错误代码只填B0007,错误原因透传。
+			result.put("success", "false");
+			result.put("errorCode", "B0007");
+			result.put("errorMsg", orderResult.get("INFO"));
+		}
+		result.put("orderCode", orderResult.get("ORDER_CODE"));
 
 		return result.toString();
 	}
@@ -907,6 +980,7 @@ public class HttpHandleThread implements Callable<Object> {
 		// ------------------- orderItem ------------
 		JSONArray orderItem = new JSONArray();
 
+		int i = 0;
 		for (Iterator it = orderItemList.iterator(); it.hasNext();) {
 
 			JSONObject data = (JSONObject) it.next();
@@ -925,6 +999,8 @@ public class HttpHandleThread implements Callable<Object> {
 			orderSingleItem.put("orderItemId", data.get("orderItemId"));
 			// OWNER
 			orderSingleItem.put("ownUserId", item.get("OWNER"));
+			orderSingleItem.put("stockNumber", "DSWMS"+CommonUtil.getDateFormatter(CommonDefine.COMMON_FORMAT_2)
+					.format(new Date()));
 			orderSingleItem.put("isCompleted", true);
 			// 明细表SKU
 			orderSingleItem.put("itemId", data.get("itemId"));
@@ -941,7 +1017,7 @@ public class HttpHandleThread implements Callable<Object> {
 			// ------------------- produceCodeSingleItem ------------
 			JSONObject produceCodeSingleItem = new JSONObject();
 			// 填顺序值，从0开始
-			produceCodeSingleItem.put("flag", 0);
+			produceCodeSingleItem.put("flag", i);
 			// 明细表 PRODUCE_CODE
 			produceCodeSingleItem.put("produceCode", data.get("produceCode"));
 			produceCodeSingleItem.put("expirationDate", "2099-01-01");
@@ -966,6 +1042,8 @@ public class HttpHandleThread implements Callable<Object> {
 			orderSingleItem.put("produceCodeItems", produceCodeItems);
 
 			orderItem.add(orderSingleItem);
+			
+			i++;
 		}
 
 		// 返回苏宁数据
@@ -1886,6 +1964,9 @@ public class HttpHandleThread implements Callable<Object> {
 		}else{
 			System.out.println(s);
 		}
+
+		System.out.println(CommonUtil.getDateFormatter(CommonDefine.COMMON_FORMAT_2)
+					.format(new Date()));
 
 	}
 

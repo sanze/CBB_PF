@@ -27,6 +27,8 @@ public class CommonDefine {
 	
 	public static final String COMMON_FORMAT_1 = "yyyyMMdd";
 
+	public static final String COMMON_FORMAT_2 = "MMddHHmmssyyyy";
+
 	public static final String COMMON_SIMPLE_FORMAT = "yyyy-MM-dd";
 
 	public static final String COMMON_START_FORMAT = "yyyy-MM-dd 00:00:00";
@@ -46,6 +48,8 @@ public class CommonDefine {
 	public static final String SEASONLY_FORMAT = "yyyy-MM-dd 00:45:00";
 
 	public static final String YEARLY_FORMAT = "yyyy-MM-dd 00:45:00";
+
+	
 
 	// ftp配置参数
 	public static final String FTP_IP = "ftpIp";

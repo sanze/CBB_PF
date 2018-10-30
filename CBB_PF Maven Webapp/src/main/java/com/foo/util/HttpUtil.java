@@ -1,5 +1,8 @@
 package com.foo.util;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -9,6 +12,10 @@ import java.util.Map.Entry;
 
 import net.sf.json.JSONObject;
 
+import org.apache.commons.httpclient.methods.InputStreamRequestEntity;
+import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.httpclient.methods.RequestEntity;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -19,6 +26,9 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.util.EntityUtils;
+
+import com.foo.common.CommonException;
+import com.foo.common.MessageCodeDefine;
 
 public class HttpUtil {
 
@@ -126,6 +136,58 @@ public class HttpUtil {
 				}
 			}
 			return r;
+		}
+		
+		
+		//http请求调用webservice
+		public static String sendHttpCMD_CJ(String xmlString,String requestUrl) throws CommonException {
+			String result = "";
+			
+			PostMethod postMethod = new PostMethod(requestUrl);
+			try {
+				
+				// 然后把Soap请求数据添加到PostMethod中
+				byte[] b = xmlString.getBytes("utf-8");
+				InputStream is = new ByteArrayInputStream(b,0,b.length);
+				RequestEntity re = new InputStreamRequestEntity(is,b.length,"application/soap+xml; charset=utf-8");
+				postMethod.setRequestEntity(re);
+
+				// 最后生成一个HttpClient对象，并发出postMethod请求
+				org.apache.commons.httpclient.HttpClient httpClient = new org.apache.commons.httpclient.HttpClient();
+				int statusCode = httpClient.executeMethod(postMethod);
+				if (statusCode == 200) {
+					String soapResponseData = postMethod.getResponseBodyAsString();
+//					System.out.println("request xml String:"+xmlString);
+//					System.out.println("reponse xml String:"+soapResponseData);
+//					result = XmlUtil.getResponseFromXmlString(soapResponseData,messageType);
+					result = soapResponseData;
+
+					if(result == null){
+						//抛出错误信息
+						throw new CommonException(new Exception(),
+								MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR, "无回执信息！");
+					}else{
+//						System.out.println("reponse result String:"+result);
+					}
+					
+				} else {
+					//抛出错误信息
+					throw new CommonException(new Exception(),
+							MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR, "调用失败！错误码：" + statusCode);
+				} 
+			} catch (CommonException e) {
+				throw e;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}	finally {
+				try {
+					System.out.println(StringEscapeUtils.unescapeXml(postMethod.getResponseBodyAsString()));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			return result;
 		}
 		
 		public static void main(String args[]){

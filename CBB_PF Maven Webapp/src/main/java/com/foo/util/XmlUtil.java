@@ -49,6 +49,7 @@ public class XmlUtil {
 	private static String nameSpace_xsi = "http://www.w3.org/2001/XMLSchema-instance";
 	private static String nameSpace_xsd = "http://www.w3.org/2001/XMLSchema";
 	private static String nameSpace_ = "http://tempuri.org/";
+	private static String nameSpace_1 = "http://ws.com";
 	private static String nameSpace4TJ = "http://www.chinaport.gov.cn/ENT";
 
 	/**
@@ -1283,6 +1284,87 @@ public class XmlUtil {
 		return resultXml;
 	}
 
+	
+	//生成回执xml
+	public static String generalSoapXml_CJ(String xmlContent){
+
+		String resultXml = "";
+
+		try {
+			Document doc = DocumentHelper.createDocument();
+			// 添加根元素
+			Element rootElement = DocumentHelper.createElement(nameSpace4NJ+":"+"Envelope");
+			rootElement.addNamespace("xsi",
+					nameSpace_xsi);
+			rootElement.addNamespace("xsd",
+					nameSpace_xsd);
+			rootElement.addNamespace("soap",
+					nameSpace_soap);
+			doc.setRootElement(rootElement);
+			// 设置第一级元素
+			Element firstElement = rootElement.addElement(nameSpace4NJ+":"+"Body");
+			// 第二级元素
+			Element secondElement = firstElement.addElement("sendInStockOrder");
+			secondElement.addNamespace("", nameSpace_1);
+			Element xmlElement = secondElement.addElement("handler");
+			xmlElement.addText(xmlContent);
+
+			//返回xml字符串
+			resultXml = doc.asXML();
+
+			resultXml = resultXml.replaceAll(" xmlns=\"\"", "");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+		}
+		return resultXml;
+	}
+	
+	public static String generalWarehousingNoticeXml_CJ(String root,Map order,List<Map> orderItemList){
+
+		String resultXml = "";
+
+		try {
+			Document doc = DocumentHelper.createDocument();
+			// 添加根元素
+			Element rootElement = DocumentHelper.createElement(root);
+			doc.setRootElement(rootElement);
+			
+			Element id = rootElement.addElement("ID");
+			id.addText(CommonUtil.getSystemConfigProperty("CJ_id"));
+			
+			Element key = rootElement.addElement("KEY");
+			key.addText(CommonUtil.getSystemConfigProperty("CJ_key"));
+			
+			Element orderElement = rootElement.addElement("ORDER");
+			
+			for(Object obj:order.keySet()){
+				String elementName = (String)obj;
+				Element leaf = orderElement.addElement(elementName);
+				leaf.addText(order.get(elementName) != null?order.get(elementName).toString():"");
+			}
+			
+			Element itemsElement = orderElement.addElement("ITEMS");
+			for(Map item:orderItemList){
+				Element itemElement = itemsElement.addElement("ITEM");
+				for(Object obj:item.keySet()){
+					String elementName = (String)obj;
+					Element leaf = itemElement.addElement(elementName);
+					leaf.addText(item.get(elementName) != null?item.get(elementName).toString():"");
+				}
+			}
+			//返回xml字符串
+			resultXml = doc.asXML();
+
+			resultXml = resultXml.replaceAll(" xmlns=\"\"", "");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+		}
+		return resultXml;
+	}
+	
+
 	/**
 	 * 解析xml文件
 	 * @param file
@@ -1705,6 +1787,37 @@ public class XmlUtil {
 				}else{
 					result = node.getText();
 				}
+			}
+		} catch (DocumentException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	
+	/**
+	 * 格式化xml字符串并生成文件，并生成文件，文件名为当前时刻
+	 * @param xmlString
+	 * @return
+	 */
+	public static String getResponseFromXmlString_CJ(String xmlString) {
+		String result = "no data";
+		Document document = null;
+		try {
+			document = DocumentHelper.parseText(xmlString);
+			Map uris = new HashMap();  
+			uris.put("soapenv", nameSpace_soap);
+			uris.put("ns", nameSpace_1);
+			
+			XPath xpath = document.createXPath("//soapenv:Envelope/soapenv:Body/ns:sendInStockOrderResponse/ns:return"); 
+			xpath.setNamespaceURIs(uris);
+
+			Node node = xpath.selectSingleNode(document);
+			
+			if(node == null){
+				result = "";
+			}else{
+				result = node.getText();
 			}
 		} catch (DocumentException e) {
 			e.printStackTrace();
