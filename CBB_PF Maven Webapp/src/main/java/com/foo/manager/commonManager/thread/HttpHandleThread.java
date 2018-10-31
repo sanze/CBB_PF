@@ -1390,6 +1390,7 @@ public class HttpHandleThread implements Callable<Object> {
 					colNames.add("CON_MODEL");
 					colNames.add("CON_NUM");
 					colNames.add("CON_NO");
+					colNames.add("RECORD_NO");
 					colNames.add("ADD_REDUCE_FLAG");
 					colNames.add("ORDER_NO");
 					colNames.add("CREAT_DATE");
@@ -1402,6 +1403,7 @@ public class HttpHandleThread implements Callable<Object> {
 					colValues.add(recorder.get("CON_MODEL"));
 					colValues.add(recorder.get("CON_NUM"));
 					colValues.add(recorder.get("CON_NO"));
+					colValues.add(recorder.get("RECORD_NO"));
 					colValues.add("2");
 					colValues.add(xxx.getHead().get("btcOrderId"));
 					colValues.add(sf.format(new Date()));
