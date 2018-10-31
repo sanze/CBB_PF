@@ -2091,6 +2091,26 @@ public class XmlUtil {
 		return result;
 	}
 	
+	//截取指定节点报文集合
+	public static List<String> getNodesXmlData(String xmlString,String xPath){
+		List<String> nodesXmlData = new ArrayList<String>();
+		Document document = null;
+		try {
+			document = DocumentHelper.parseText(xmlString);
+			
+			XPath xpath = document.createXPath(xPath);
+			
+			List<Node> childrenNodes = xpath.selectNodes(document);
+			
+			for(Node node:childrenNodes){
+				nodesXmlData.add(node.asXML());
+			}
+		}catch (DocumentException e) {
+			e.printStackTrace();
+		}
+		return nodesXmlData;
+		
+	}
 	
 	/**
 	 * 解析xml字符串,苏宁推动订单数据

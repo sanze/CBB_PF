@@ -60,12 +60,12 @@ public class HttpHandleThread implements Callable<Object> {
 
 		// 订单信息--C061
 		// this.requestType = HttpServerManagerService.requestType_Order;
-		// this.content =
-		// "<inputData><ordersList><orders><orderImformation><orderHead><logisticsOrderId>LOS36100001120690200</logisticsOrderId><oriSys>LOS</oriSys><taskOrderid>36100001120690200</taskOrderid><thirdPartyCompany>0080010331</thirdPartyCompany><businessType>C061</businessType><announcedValue>100.00</announcedValue><valueUnit>CNY</valueUnit><expectDate>2015-09-07</expectDate><expectTime>11:38:10</expectTime></orderHead><orderItems><logisticsOrderId>LOS36100001120690200</logisticsOrderId><itemNumber>10</itemNumber><location>L971</location><locationDescription>天津口岸</locationDescription><storage>0001</storage><goodsCode>20166666</goodsCode><goodsDescription>长虹空调KFR35GWBP2DN1YF</goodsDescription><goodsNumber>5.000</goodsNumber><goodsUnit>S01</goodsUnit><comValue>100.00</comValue><valueUnit>CNY</valueUnit></orderItems><feedBackOrderCustomers><logisticsOrderId>LOS36100001120690200</logisticsOrderId><itemNumber>10</itemNumber><customerType>AG</customerType><customerId>70057297</customerId><name>C店商户苏宁</name><country>CN</country><city>南京市</city><address>南京市玄武区</address><zipCode>210012</zipCode><fixedLineTelephone>02566996699</fixedLineTelephone><mobilePhone>15295599233</mobilePhone></feedBackOrderCustomers></orderImformation></orders></ordersList></inputData>";
+//		 this.content =
+//		 "<inputData><ordersList><orders><orderImformation><orderHead><logisticsOrderId>LOS36100001120690200</logisticsOrderId><oriSys>LOS</oriSys><taskOrderid>36100001120690200</taskOrderid><thirdPartyCompany>0080010331</thirdPartyCompany><businessType>C061</businessType><btcOrderId>BOL031707</btcOrderId><announcedValue>100.00</announcedValue><valueUnit>CNY</valueUnit><expectDate>2015-09-07</expectDate><expectTime>11:38:10</expectTime></orderHead><orderItems><logisticsOrderId>LOS36100001120690200</logisticsOrderId><itemNumber>10</itemNumber><location>L971</location><locationDescription>天津口岸</locationDescription><storage>0001</storage><goodsCode>20166666</goodsCode><goodsDescription>长虹空调KFR35GWBP2DN1YF</goodsDescription><goodsNumber>5.000</goodsNumber><goodsUnit>S01</goodsUnit><comValue>100.00</comValue><valueUnit>CNY</valueUnit></orderItems><feedBackOrderCustomers><logisticsOrderId>LOS36100001120690200</logisticsOrderId><itemNumber>10</itemNumber><customerType>AG</customerType><customerId>70057297</customerId><name>C店商户苏宁</name><country>CN</country><city>南京市</city><address>南京市玄武区</address><zipCode>210012</zipCode><fixedLineTelephone>02566996699</fixedLineTelephone><mobilePhone>15295599233</mobilePhone></feedBackOrderCustomers></orderImformation><orderExpBill><logisticOrderId>LOS36300000945410000</logisticOrderId><expressCode>62K900000210</expressCode><btcOrder>BTC01631803170701</btcOrder><btcItemOrder/><name>1asd2</name><telNumber>18513891234</telNumber><province>江苏省</province><city>南京市</city><district>栖霞区</district><adress>仙鹤门仙鹤名苑28-608</adress><firstPlantCrossing/><setLocation/><preparedTime>01:00:00</preparedTime><note/><shipCondition>配送</shipCondition><rePrintFlag/><valueAddTaxFlag/><shipTypeFlag>陆</shipTypeFlag><obligateFlag/><lastPlantCrossing/><route>郑州保税仓→南京小件→WL</route><lastLogisticStation>外设单位编码描述测试</lastLogisticStation><realDeliDate>2018-03-19</realDeliDate><realDeliTime>09:00:00</realDeliTime><paymmentMode>线上下单门店支付</paymmentMode><cashOnDeliveryValue>100.00</cashOnDeliveryValue><expressCompany>0080000013</expressCompany><expressCompanyExcode>444033803247</expressCompanyExcode><originCode>025</originCode><destCode>025</destCode><createTime>17:27:39</createTime><createDate>2018-03-17</createDate></orderExpBill><orderDeclare><orderDeclareHead><orderNo>BOL031707</orderNo><ieFlag>I</ieFlag><importType>1</importType><inOutDateStr>2018-03-17 17:07:17</inOutDateStr><logisCompanyCode>1505130005</logisCompanyCode><logisCompanyName>江苏苏宁物流有限公司</logisCompanyName><companyName>江苏苏宁易购电子商务有限公司</companyName><companyCode>PTE51001410280000005</companyCode><wayBill/><tradeCountry>502</tradeCountry><packNo>1</packNo><grossWeight>1.500</grossWeight><netWeight>1.500</netWeight><warpType>2</warpType><remark>37</remark><enteringPerson>9999</enteringPerson><enteringCompanyName>9999</enteringCompanyName><senderName>versace1563212333333范思哲海外专营店</senderName><consignee>无名</consignee><consigneeAddress>江苏南京市玄武区徐庄苏宁总部鼓楼1号</consigneeAddress><senderCountry>502</senderCountry><payerName>无名</payerName><payerPhoneNumber>13951783938</payerPhoneNumber><paperType>01</paperType><paperNumber>320102198001010059</paperNumber><freight>10.0000</freight><insuranceFee/><payTaxAmount>0.0000</payTaxAmount><worth>109.0000</worth><currCode>142</currCode><mainGName>移动端苏宁内测试购专</mainGName><isAuthorize>1</isAuthorize><paySerialNo/><payType/><payTime/><payMoney/><otherPayPrice/><goodsPriceIncludeTax/><senderProvince/><senderAddr/><senderZip/><senderTel/></orderDeclareHead><orderDeclareItems><logisticOrderId>LOS36300000945410000</logisticOrderId><expressCode>62K900000210</expressCode><orderNo>BOL031707</orderNo><orderItemNo>BOL031707</orderItemNo><goodsOrder>1</goodsOrder><codeTs>11</codeTs><goodsItemNo>000000000690105971</goodsItemNo><goodsName>移动端苏宁内测试购专</goodsName><goodsModel/><originCountry>701</originCountry><tradeCurr>142</tradeCurr><tradeTotal>99.0000</tradeTotal><declPrice>99.00</declPrice><declTotalPrice>99.0000</declTotalPrice><useTo>11</useTo><declareCount>1</declareCount><goodsUnit>011</goodsUnit><goodsGrossWeight>1.500</goodsGrossWeight><firstUnit>011</firstUnit><firstCount>1</firstCount><postalTax/></orderDeclareItems></orderDeclare></orders><orders><orderImformation><orderHead><logisticsOrderId>xxxxxxxxxxxxxxxxxxxx</logisticsOrderId><oriSys>LOS</oriSys><taskOrderid>36100001120690200</taskOrderid><thirdPartyCompany>0080010331</thirdPartyCompany><businessType>C061</businessType><btcOrderId>BOL031708</btcOrderId><announcedValue>100.00</announcedValue><valueUnit>CNY</valueUnit><expectDate>2015-09-07</expectDate><expectTime>11:38:10</expectTime></orderHead><orderItems><logisticsOrderId>xxxxxxxxxxxxxxxxxxxx</logisticsOrderId><itemNumber>10</itemNumber><location>L971</location><locationDescription>天津口岸</locationDescription><storage>0001</storage><goodsCode>20166666</goodsCode><goodsDescription>长虹空调KFR35GWBP2DN1YF</goodsDescription><goodsNumber>5.000</goodsNumber><goodsUnit>S01</goodsUnit><comValue>100.00</comValue><valueUnit>CNY</valueUnit></orderItems><feedBackOrderCustomers><logisticsOrderId>xxxxxxxxxxxxxxxxxxxx</logisticsOrderId><itemNumber>10</itemNumber><customerType>AG</customerType><customerId>70057297</customerId><name>C店商户苏宁</name><country>CN</country><city>南京市</city><address>南京市玄武区</address><zipCode>210012</zipCode><fixedLineTelephone>02566996699</fixedLineTelephone><mobilePhone>15295599233</mobilePhone></feedBackOrderCustomers></orderImformation><orderExpBill><logisticOrderId>LOS36300000945410000</logisticOrderId><expressCode>62K900000210</expressCode><btcOrder>BTC01631803170701</btcOrder><btcItemOrder/><name>1asd2</name><telNumber>18513891234</telNumber><province>江苏省</province><city>南京市</city><district>栖霞区</district><adress>仙鹤门仙鹤名苑28-608</adress><firstPlantCrossing/><setLocation/><preparedTime>01:00:00</preparedTime><note/><shipCondition>配送</shipCondition><rePrintFlag/><valueAddTaxFlag/><shipTypeFlag>陆</shipTypeFlag><obligateFlag/><lastPlantCrossing/><route>郑州保税仓→南京小件→WL</route><lastLogisticStation>外设单位编码描述测试</lastLogisticStation><realDeliDate>2018-03-19</realDeliDate><realDeliTime>09:00:00</realDeliTime><paymmentMode>线上下单门店支付</paymmentMode><cashOnDeliveryValue>100.00</cashOnDeliveryValue><expressCompany>0080000013</expressCompany><expressCompanyExcode>444033803247</expressCompanyExcode><originCode>025</originCode><destCode>025</destCode><createTime>17:27:39</createTime><createDate>2018-03-17</createDate></orderExpBill><orderDeclare><orderDeclareHead><orderNo>BOL031708</orderNo><ieFlag>I</ieFlag><importType>1</importType><inOutDateStr>2018-03-17 17:07:17</inOutDateStr><logisCompanyCode>1505130005</logisCompanyCode><logisCompanyName>江苏苏宁物流有限公司</logisCompanyName><companyName>江苏苏宁易购电子商务有限公司</companyName><companyCode>PTE51001410280000005</companyCode><wayBill/><tradeCountry>502</tradeCountry><packNo>1</packNo><grossWeight>1.500</grossWeight><netWeight>1.500</netWeight><warpType>2</warpType><remark>37</remark><enteringPerson>9999</enteringPerson><enteringCompanyName>9999</enteringCompanyName><senderName>versace1563212333333范思哲海外专营店</senderName><consignee>无名</consignee><consigneeAddress>江苏南京市玄武区徐庄苏宁总部鼓楼1号</consigneeAddress><senderCountry>502</senderCountry><payerName>无名</payerName><payerPhoneNumber>13951783938</payerPhoneNumber><paperType>01</paperType><paperNumber>320102198001010059</paperNumber><freight>10.0000</freight><insuranceFee/><payTaxAmount>0.0000</payTaxAmount><worth>109.0000</worth><currCode>142</currCode><mainGName>移动端苏宁内测试购专</mainGName><isAuthorize>1</isAuthorize><paySerialNo/><payType/><payTime/><payMoney/><otherPayPrice/><goodsPriceIncludeTax/><senderProvince/><senderAddr/><senderZip/><senderTel/></orderDeclareHead><orderDeclareItems><logisticOrderId>LOS36300000945410000</logisticOrderId><expressCode>62K900000210</expressCode><orderNo>BOL031708</orderNo><orderItemNo>BOL031708</orderItemNo><goodsOrder>1</goodsOrder><codeTs>11</codeTs><goodsItemNo>000000000690105971</goodsItemNo><goodsName>移动端苏宁内测试购专</goodsName><goodsModel/><originCountry>701</originCountry><tradeCurr>142</tradeCurr><tradeTotal>99.0000</tradeTotal><declPrice>99.00</declPrice><declTotalPrice>99.0000</declTotalPrice><useTo>11</useTo><declareCount>1</declareCount><goodsUnit>011</goodsUnit><goodsGrossWeight>1.500</goodsGrossWeight><firstUnit>011</firstUnit><firstCount>1</firstCount><postalTax/></orderDeclareItems></orderDeclare></orders></ordersList></inputData>";
 		// 订单信息--C005
 //		 this.requestType = HttpServerManagerService.requestType_Order;
 //		 this.content =
-//		 "<inputData><ordersList><orders><orderImformation><orderHead><logisticsOrderId>LOS36100001120690200</logisticsOrderId><oriSys>LOS</oriSys><taskOrderid>36100001120690200</taskOrderid><thirdPartyCompany>0080010331</thirdPartyCompany><businessType>C005</businessType><btcOrderId>BOL031707</btcOrderId><announcedValue>100.00</announcedValue><valueUnit>CNY</valueUnit><expectDate>2015-09-07</expectDate><expectTime>11:38:10</expectTime></orderHead><orderItems><logisticsOrderId>LOS36100001120690200</logisticsOrderId><itemNumber>10</itemNumber><location>L971</location><locationDescription>天津口岸</locationDescription><storage>0001</storage><goodsCode>20166666</goodsCode><goodsDescription>长虹空调KFR35GWBP2DN1YF</goodsDescription><goodsNumber>5.000</goodsNumber><goodsUnit>S01</goodsUnit><comValue>100.00</comValue><valueUnit>CNY</valueUnit></orderItems><feedBackOrderCustomers><logisticsOrderId>LOS36100001120690200</logisticsOrderId><itemNumber>10</itemNumber><customerType>AG</customerType><customerId>70057297</customerId><name>C店商户苏宁</name><country>CN</country><city>南京市</city><address>南京市玄武区</address><zipCode>210012</zipCode><fixedLineTelephone>02566996699</fixedLineTelephone><mobilePhone>15295599233</mobilePhone></feedBackOrderCustomers></orderImformation><orderExpBill><logisticOrderId>LOS36300000945410000</logisticOrderId><expressCode>62K900000210</expressCode><btcOrder>BTC01631803170701</btcOrder><btcItemOrder/><name>1asd2</name><telNumber>18513891234</telNumber><province>江苏省</province><city>南京市</city><district>栖霞区</district><adress>仙鹤门仙鹤名苑28-608</adress><firstPlantCrossing/><setLocation/><preparedTime>01:00:00</preparedTime><note/><shipCondition>配送</shipCondition><rePrintFlag/><valueAddTaxFlag/><shipTypeFlag>陆</shipTypeFlag><obligateFlag/><lastPlantCrossing/><route>郑州保税仓→南京小件→WL</route><lastLogisticStation>外设单位编码描述测试</lastLogisticStation><realDeliDate>2018-03-19</realDeliDate><realDeliTime>09:00:00</realDeliTime><paymmentMode>线上下单门店支付</paymmentMode><cashOnDeliveryValue>100.00</cashOnDeliveryValue><expressCompany>0080000013</expressCompany><expressCompanyExcode>444033803247</expressCompanyExcode><originCode>025</originCode><destCode>025</destCode><createTime>17:27:39</createTime><createDate>2018-03-17</createDate></orderExpBill><orderDeclare><orderDeclareHead><orderNo>BOL031707</orderNo><ieFlag>I</ieFlag><importType>1</importType><inOutDateStr>2018-03-17 17:07:17</inOutDateStr><logisCompanyCode>1505130005</logisCompanyCode><logisCompanyName>江苏苏宁物流有限公司</logisCompanyName><companyName>江苏苏宁易购电子商务有限公司</companyName><companyCode>PTE51001410280000005</companyCode><wayBill/><tradeCountry>502</tradeCountry><packNo>1</packNo><grossWeight>1.500</grossWeight><netWeight>1.500</netWeight><warpType>2</warpType><remark>37</remark><enteringPerson>9999</enteringPerson><enteringCompanyName>9999</enteringCompanyName><senderName>versace1563212333333范思哲海外专营店</senderName><consignee>无名</consignee><consigneeAddress>江苏南京市玄武区徐庄苏宁总部鼓楼1号</consigneeAddress><senderCountry>502</senderCountry><payerName>无名</payerName><payerPhoneNumber>13951783938</payerPhoneNumber><paperType>01</paperType><paperNumber>320102198001010059</paperNumber><freight>10.0000</freight><insuranceFee/><payTaxAmount>0.0000</payTaxAmount><worth>109.0000</worth><currCode>142</currCode><mainGName>移动端苏宁内测试购专</mainGName><isAuthorize>1</isAuthorize><paySerialNo/><payType/><payTime/><payMoney/><otherPayPrice/><goodsPriceIncludeTax/><senderProvince/><senderAddr/><senderZip/><senderTel/></orderDeclareHead><orderDeclareItems><logisticOrderId>LOS36300000945410000</logisticOrderId><expressCode>62K900000210</expressCode><orderNo>BOL031707</orderNo><orderItemNo>BOL031707</orderItemNo><goodsOrder>1</goodsOrder><codeTs>11</codeTs><goodsItemNo>000000000690105971</goodsItemNo><goodsName>移动端苏宁内测试购专</goodsName><goodsModel/><originCountry>701</originCountry><tradeCurr>142</tradeCurr><tradeTotal>99.0000</tradeTotal><declPrice>99.00</declPrice><declTotalPrice>99.0000</declTotalPrice><useTo>11</useTo><declareCount>1</declareCount><goodsUnit>011</goodsUnit><goodsGrossWeight>1.500</goodsGrossWeight><firstUnit>011</firstUnit><firstCount>1</firstCount><postalTax/></orderDeclareItems></orderDeclare></orders></ordersList></inputData>";
+//		 "<inputData><ordersList><orders><orderImformation><orderHead><logisticsOrderId>LOS36100001120690200</logisticsOrderId><oriSys>LOS</oriSys><taskOrderid>36100001120690200</taskOrderid><thirdPartyCompany>0080010331</thirdPartyCompany><businessType>C005</businessType><btcOrderId>BOL031707</btcOrderId><announcedValue>100.00</announcedValue><valueUnit>CNY</valueUnit><expectDate>2015-09-07</expectDate><expectTime>11:38:10</expectTime></orderHead><orderItems><logisticsOrderId>LOS36100001120690200</logisticsOrderId><itemNumber>10</itemNumber><location>L971</location><locationDescription>天津口岸</locationDescription><storage>0001</storage><goodsCode>20166666</goodsCode><goodsDescription>长虹空调KFR35GWBP2DN1YF</goodsDescription><goodsNumber>5.000</goodsNumber><goodsUnit>S01</goodsUnit><comValue>100.00</comValue><valueUnit>CNY</valueUnit></orderItems><feedBackOrderCustomers><logisticsOrderId>LOS36100001120690200</logisticsOrderId><itemNumber>10</itemNumber><customerType>AG</customerType><customerId>70057297</customerId><name>C店商户苏宁</name><country>CN</country><city>南京市</city><address>南京市玄武区</address><zipCode>210012</zipCode><fixedLineTelephone>02566996699</fixedLineTelephone><mobilePhone>15295599233</mobilePhone></feedBackOrderCustomers></orderImformation><orderExpBill><logisticOrderId>LOS36300000945410000</logisticOrderId><expressCode>62K900000210</expressCode><btcOrder>BTC01631803170701</btcOrder><btcItemOrder/><name>1asd2</name><telNumber>18513891234</telNumber><province>江苏省</province><city>南京市</city><district>栖霞区</district><adress>仙鹤门仙鹤名苑28-608</adress><firstPlantCrossing/><setLocation/><preparedTime>01:00:00</preparedTime><note/><shipCondition>配送</shipCondition><rePrintFlag/><valueAddTaxFlag/><shipTypeFlag>陆</shipTypeFlag><obligateFlag/><lastPlantCrossing/><route>郑州保税仓→南京小件→WL</route><lastLogisticStation>外设单位编码描述测试</lastLogisticStation><realDeliDate>2018-03-19</realDeliDate><realDeliTime>09:00:00</realDeliTime><paymmentMode>线上下单门店支付</paymmentMode><cashOnDeliveryValue>100.00</cashOnDeliveryValue><expressCompany>0080000013</expressCompany><expressCompanyExcode>444033803247</expressCompanyExcode><originCode>025</originCode><destCode>025</destCode><createTime>17:27:39</createTime><createDate>2018-03-17</createDate></orderExpBill><orderDeclare><orderDeclareHead><orderNo>BOL031707</orderNo><ieFlag>I</ieFlag><importType>1</importType><inOutDateStr>2018-03-17 17:07:17</inOutDateStr><logisCompanyCode>1505130005</logisCompanyCode><logisCompanyName>江苏苏宁物流有限公司</logisCompanyName><companyName>江苏苏宁易购电子商务有限公司</companyName><companyCode>PTE51001410280000005</companyCode><wayBill/><tradeCountry>502</tradeCountry><packNo>1</packNo><grossWeight>1.500</grossWeight><netWeight>1.500</netWeight><warpType>2</warpType><remark>37</remark><enteringPerson>9999</enteringPerson><enteringCompanyName>9999</enteringCompanyName><senderName>versace1563212333333范思哲海外专营店</senderName><consignee>无名</consignee><consigneeAddress>江苏南京市玄武区徐庄苏宁总部鼓楼1号</consigneeAddress><senderCountry>502</senderCountry><payerName>无名</payerName><payerPhoneNumber>13951783938</payerPhoneNumber><paperType>01</paperType><paperNumber>320102198001010059</paperNumber><freight>10.0000</freight><insuranceFee/><payTaxAmount>0.0000</payTaxAmount><worth>109.0000</worth><currCode>142</currCode><mainGName>移动端苏宁内测试购专</mainGName><isAuthorize>1</isAuthorize><paySerialNo/><payType/><payTime/><payMoney/><otherPayPrice/><goodsPriceIncludeTax/><senderProvince/><senderAddr/><senderZip/><senderTel/></orderDeclareHead><orderDeclareItems><logisticOrderId>LOS36300000945410000</logisticOrderId><expressCode>62K900000210</expressCode><orderNo>BOL031707</orderNo><orderItemNo>BOL031707</orderItemNo><goodsOrder>1</goodsOrder><codeTs>11</codeTs><goodsItemNo>000000000690105971</goodsItemNo><goodsName>移动端苏宁内测试购专</goodsName><goodsModel/><originCountry>701</originCountry><tradeCurr>142</tradeCurr><tradeTotal>99.0000</tradeTotal><declPrice>99.00</declPrice><declTotalPrice>99.0000</declTotalPrice><useTo>11</useTo><declareCount>1</declareCount><goodsUnit>011</goodsUnit><goodsGrossWeight>1.500</goodsGrossWeight><firstUnit>011</firstUnit><firstCount>1</firstCount><postalTax/></orderDeclareItems></orderDeclare></orders><orders><orderImformation><orderHead><logisticsOrderId>xxxxxxxxxxxxxxxxxxxx</logisticsOrderId><oriSys>LOS</oriSys><taskOrderid>36100001120690200</taskOrderid><thirdPartyCompany>0080010331</thirdPartyCompany><businessType>C005</businessType><btcOrderId>BOL031708</btcOrderId><announcedValue>100.00</announcedValue><valueUnit>CNY</valueUnit><expectDate>2015-09-07</expectDate><expectTime>11:38:10</expectTime></orderHead><orderItems><logisticsOrderId>xxxxxxxxxxxxxxxxxxxx</logisticsOrderId><itemNumber>10</itemNumber><location>L971</location><locationDescription>天津口岸</locationDescription><storage>0001</storage><goodsCode>20166666</goodsCode><goodsDescription>长虹空调KFR35GWBP2DN1YF</goodsDescription><goodsNumber>5.000</goodsNumber><goodsUnit>S01</goodsUnit><comValue>100.00</comValue><valueUnit>CNY</valueUnit></orderItems><feedBackOrderCustomers><logisticsOrderId>xxxxxxxxxxxxxxxxxxxx</logisticsOrderId><itemNumber>10</itemNumber><customerType>AG</customerType><customerId>70057297</customerId><name>C店商户苏宁</name><country>CN</country><city>南京市</city><address>南京市玄武区</address><zipCode>210012</zipCode><fixedLineTelephone>02566996699</fixedLineTelephone><mobilePhone>15295599233</mobilePhone></feedBackOrderCustomers></orderImformation><orderExpBill><logisticOrderId>LOS36300000945410000</logisticOrderId><expressCode>62K900000210</expressCode><btcOrder>BTC01631803170701</btcOrder><btcItemOrder/><name>1asd2</name><telNumber>18513891234</telNumber><province>江苏省</province><city>南京市</city><district>栖霞区</district><adress>仙鹤门仙鹤名苑28-608</adress><firstPlantCrossing/><setLocation/><preparedTime>01:00:00</preparedTime><note/><shipCondition>配送</shipCondition><rePrintFlag/><valueAddTaxFlag/><shipTypeFlag>陆</shipTypeFlag><obligateFlag/><lastPlantCrossing/><route>郑州保税仓→南京小件→WL</route><lastLogisticStation>外设单位编码描述测试</lastLogisticStation><realDeliDate>2018-03-19</realDeliDate><realDeliTime>09:00:00</realDeliTime><paymmentMode>线上下单门店支付</paymmentMode><cashOnDeliveryValue>100.00</cashOnDeliveryValue><expressCompany>0080000013</expressCompany><expressCompanyExcode>444033803247</expressCompanyExcode><originCode>025</originCode><destCode>025</destCode><createTime>17:27:39</createTime><createDate>2018-03-17</createDate></orderExpBill><orderDeclare><orderDeclareHead><orderNo>BOL031708</orderNo><ieFlag>I</ieFlag><importType>1</importType><inOutDateStr>2018-03-17 17:07:17</inOutDateStr><logisCompanyCode>1505130005</logisCompanyCode><logisCompanyName>江苏苏宁物流有限公司</logisCompanyName><companyName>江苏苏宁易购电子商务有限公司</companyName><companyCode>PTE51001410280000005</companyCode><wayBill/><tradeCountry>502</tradeCountry><packNo>1</packNo><grossWeight>1.500</grossWeight><netWeight>1.500</netWeight><warpType>2</warpType><remark>37</remark><enteringPerson>9999</enteringPerson><enteringCompanyName>9999</enteringCompanyName><senderName>versace1563212333333范思哲海外专营店</senderName><consignee>无名</consignee><consigneeAddress>江苏南京市玄武区徐庄苏宁总部鼓楼1号</consigneeAddress><senderCountry>502</senderCountry><payerName>无名</payerName><payerPhoneNumber>13951783938</payerPhoneNumber><paperType>01</paperType><paperNumber>320102198001010059</paperNumber><freight>10.0000</freight><insuranceFee/><payTaxAmount>0.0000</payTaxAmount><worth>109.0000</worth><currCode>142</currCode><mainGName>移动端苏宁内测试购专</mainGName><isAuthorize>1</isAuthorize><paySerialNo/><payType/><payTime/><payMoney/><otherPayPrice/><goodsPriceIncludeTax/><senderProvince/><senderAddr/><senderZip/><senderTel/></orderDeclareHead><orderDeclareItems><logisticOrderId>LOS36300000945410000</logisticOrderId><expressCode>62K900000210</expressCode><orderNo>BOL031708</orderNo><orderItemNo>BOL031708</orderItemNo><goodsOrder>1</goodsOrder><codeTs>11</codeTs><goodsItemNo>000000000690105971</goodsItemNo><goodsName>移动端苏宁内测试购专</goodsName><goodsModel/><originCountry>701</originCountry><tradeCurr>142</tradeCurr><tradeTotal>99.0000</tradeTotal><declPrice>99.00</declPrice><declTotalPrice>99.0000</declTotalPrice><useTo>11</useTo><declareCount>1</declareCount><goodsUnit>011</goodsUnit><goodsGrossWeight>1.500</goodsGrossWeight><firstUnit>011</firstUnit><firstCount>1</firstCount><postalTax/></orderDeclareItems></orderDeclare></orders></ordersList></inputData>";
 		// 库存
 //		 this.requestType = HttpServerManagerService.requestType_inventory;
 //		 this.content =
@@ -87,10 +87,10 @@ public class HttpHandleThread implements Callable<Object> {
 		// this.content =
 		// "{\"cmmdtyInfo\":[{\"kunner\":\"RH007\",\"sncmmdtyCode\":\" 000000010591492016\",\"cmmdtyName\":\" FANCL/芳珂 HTC胶原蛋白饮料 10日装*3 2018版\",\"measureUnit\":\"S01\",\"attributes\":\"\",\"cmmdtyType\":\" Z001\",\"cmmdtyGrp\":\"\",\"brandCode\":\"\",\"cmmdtyLength\":\"\",\"cmmdtyWidth\":\"\",\"cmmdtyHeight\":\"\",\"cmmdtyVolume\":\"\",\"grossCmmdtyWeight\":\"\",\"netCmmdtyWeight\":\"\",\"totalShelfLife\":\"\",\"coldChain\":\"\",\"bigsmall\":\"\",\"cmmdtyFreightGrp\":\"\",\"mprbs\":\"\",\"cmmdtyModel\":\"\",\"cmmdtyOrigin\":\"\",\"weightFlag\":\"\",\"taste\":\"\",\"size\":\"\",\"colour\":\"\",\"keepEnvironment\":\"\",\"cmmdtyFeatures\":\"\",\"physicalForm\":\"\",\"shape\":\"\",\"keepMethod\":\"\",\"pcs\":\"\",\"cmmdtyHierrarchy\":\"\"}],\"customerInfo\":[{\"kunner\":\"\",\"sncmmdtyCode\":\"\",\"isshelflife\":\"\",\"remainingShelfLife\":\"\",\"riskLife\":\"\",\"damageLife\":\"\",\"prototypeManage\":\"\",\"badManage\":\"\",\"cmanage\":\"\",\"batchFlag\":\"\",\"deleteFlag\":\"\",\"versionNo\":\"\"}],\"barCodeInfo\":[{\"kunner\":\"\",\"sncmmdtyCode\":\"\",\"externalEanCode\":\" SN10591492016 \",\"cmmdtyEanCateg\":\"\"}]}";
 
-		// sn_receipt
-		// this.requestType = HttpServerManagerService.requestType_sn_receipt;
-		// this.content =
-		// "{\"orderInfo\":{\"ownerUserId\":\"RH100\",\"fpsOrderId\":\"123456XXXXX\",\"storeCode\":\"WM10xxxxxx\",\"orderCode\":\"W107xxxxxx\",\"orderType\":\"601\",\"orderNumber\":\"A22xxxx\",\"outsourcingFlag\":\"01\",\"orderSource\":\"305\",\"remark\":\"商品情况：未开包未使用包装完好;;\",\"returnReason\":\"商品情况：未开包未使用包装完好;;\",\"orderCreateTime\":\"2018-01-03 11:47:07\",\"expectStartTime\":\"2018-01-03 11:47:06\",\"expectEndTime\":\"2018-01-03 11:47:06\",\"orderFlag\":\"9\",\"tmsServiceCode\":\"S02\",\"tmsServiceName\":\"苏宁物流\",\"tmsOrderCode\":\"896102xxxxxx\",\"prevOrderCode\":\"W107xxxxxx\",\"receiverInfo\":{\"receiverProvince\":\"江苏\",\"receiverCity\":\"南京市\",\"receiverArea\":\"雨花台区\",\"receiverTown\":\"全区\",\"receiverAddress\":\"龙藏大道2号\",\"receiverName\":\"沈xx\",\"receiverMobile\":\"18666xxxxxx\",\"receiverPhone\":\"15172xxxxxx\"},\"senderInfo\":{\"senderAddress\":\"雨花经济开发区龙藏大道与凤舞路交叉口\",\"senderProvince\":\"浙江省\",\"senderCity\":\"杭州市\",\"senderArea\":\"滨江区\",\"senderTown\":\"全区\",\"senderCode\":\"7016xxxx\",\"senderName\":\"左xx\",\"senderMobile\":\"15172xxxxxx\",\"senderPhone\":\"15172xxxxxx\"},\"orderItemList\":[{\"orderItemId\":\"420000002xxxxxx\",\"userId\":\"7016xxxx\",\"userName\":\"安利（中国）日用品有限公司\",\"ownerUserId\":\"7016xxxx\",\"ownerUserName\":\"安利（中国）日用品有限公司\",\"itemId\":\"917080415493xxxxxx\",\"itemName\":\"雅蜜润肤沐浴露 750ML\",\"inventoryType\":\"1\",\"itemQuantity\":\"750\",\"produceCode\":\"7359xxxx\",\"condition\":\"A\"},{\"orderItemId\":\"420000002xxxxxx\",\"userId\":\"7016xxxx\",\"userName\":\"安利（中国）日用品有限公司\",\"ownerUserId\":\"70168xxx\",\"ownerUserName\":\"安利（中国）日用品有限公司\",\"itemId\":\"917080415493xxxxxx\",\"itemName\":\"雅蜜润肤沐浴露 750ML\",\"inventoryType\":\"1\",\"itemQuantity\":\"750\",\"produceCode\":\"7359xxxx\",\"condition\":\"A\"}]}}";
+//		 sn_receipt
+//		 this.requestType = HttpServerManagerService.requestType_sn_receipt;
+//		 this.content =
+//		 "{\"orderInfo\":{\"ownerUserId\":\"RH100\",\"fpsOrderId\":\"123456XXXXX\",\"storeCode\":\"WM10xxxxxx\",\"orderCode\":\"W107xxxxxx\",\"orderType\":\"601\",\"orderNumber\":\"A22xxxx\",\"outsourcingFlag\":\"01\",\"orderSource\":\"305\",\"remark\":\"商品情况：未开包未使用包装完好;;\",\"returnReason\":\"商品情况：未开包未使用包装完好;;\",\"orderCreateTime\":\"2018-01-03 11:47:07\",\"expectStartTime\":\"2018-01-03 11:47:06\",\"expectEndTime\":\"2018-01-03 11:47:06\",\"orderFlag\":\"9\",\"tmsServiceCode\":\"S02\",\"tmsServiceName\":\"苏宁物流\",\"tmsOrderCode\":\"896102xxxxxx\",\"prevOrderCode\":\"W107xxxxxx\",\"receiverInfo\":{\"receiverProvince\":\"江苏\",\"receiverCity\":\"南京市\",\"receiverArea\":\"雨花台区\",\"receiverTown\":\"全区\",\"receiverAddress\":\"龙藏大道2号\",\"receiverName\":\"沈xx\",\"receiverMobile\":\"18666xxxxxx\",\"receiverPhone\":\"15172xxxxxx\"},\"senderInfo\":{\"senderAddress\":\"雨花经济开发区龙藏大道与凤舞路交叉口\",\"senderProvince\":\"浙江省\",\"senderCity\":\"杭州市\",\"senderArea\":\"滨江区\",\"senderTown\":\"全区\",\"senderCode\":\"7016xxxx\",\"senderName\":\"左xx\",\"senderMobile\":\"15172xxxxxx\",\"senderPhone\":\"15172xxxxxx\"},\"orderItemList\":[{\"orderItemId\":\"420000002xxxxxx\",\"userId\":\"7016xxxx\",\"userName\":\"安利（中国）日用品有限公司\",\"ownerUserId\":\"7016xxxx\",\"ownerUserName\":\"安利（中国）日用品有限公司\",\"itemId\":\"917080415493xxxxxx\",\"itemName\":\"雅蜜润肤沐浴露 750ML\",\"inventoryType\":\"1\",\"itemQuantity\":\"750\",\"produceCode\":\"7359xxxx\",\"condition\":\"A\"},{\"orderItemId\":\"420000002xxxxxx\",\"userId\":\"7016xxxx\",\"userName\":\"安利（中国）日用品有限公司\",\"ownerUserId\":\"70168xxx\",\"ownerUserName\":\"安利（中国）日用品有限公司\",\"itemId\":\"917080415493xxxxxx\",\"itemName\":\"雅蜜润肤沐浴露 750ML\",\"inventoryType\":\"1\",\"itemQuantity\":\"750\",\"produceCode\":\"7359xxxx\",\"condition\":\"A\"}]}}";
 
 		// sn_warehousing
 		// this.requestType =
@@ -159,61 +159,70 @@ public class HttpHandleThread implements Callable<Object> {
 
 		System.out
 				.println("---------------------------【FPAPI_ORDER】-------------------------------");
-		// 入库
-		// 商品的入库流程如下：
-		// 收到订单报文中<businessType>等于C061时，将报文中<orderItems>中内容插入t_new_import_receipt表，一个<orderItems>对应一行记录。没有进一步操作。
-		// <goodsCode>插入SKU
-		// <goodsDescription>插入DESCRIPTION
-		// <goodsNumber>插入EXPECT_QTY
-		// <logisticsOrderId>插入RECEIPT_NO
-		// CREAT_DATE填当前日期的YYYYMMDD
+		
+		List<String> ordersDataXML = XmlUtil.getNodesXmlData(xmlString, "//inputData/ordersList/orders");
+		
+		List<Map> resultList = new ArrayList<Map>();
+		
+		for(String xmlData:ordersDataXML){
+			// 入库
+			// 商品的入库流程如下：
+			// 收到订单报文中<businessType>等于C061时，将报文中<orderItems>中内容插入t_new_import_receipt表，一个<orderItems>对应一行记录。没有进一步操作。
+			// <goodsCode>插入SKU
+			// <goodsDescription>插入DESCRIPTION
+			// <goodsNumber>插入EXPECT_QTY
+			// <logisticsOrderId>插入RECEIPT_NO
+			// CREAT_DATE填当前日期的YYYYMMDD
+			Map head = null;
 
-		Map head = null;
+			Map result = new HashMap();
 
-		Map result = new HashMap();
+			try {
+				// 判断businessType
+				head = XmlUtil
+						.parseXmlFPAPI_SingleNodes(xmlData,
+								"//orders/orderImformation/orderHead/child::*");
 
-		try {
-			// 判断businessType
-			head = XmlUtil
-					.parseXmlFPAPI_SingleNodes(xmlString,
-							"//inputData/ordersList/orders/orderImformation/orderHead/child::*");
+				String businessType = null;
 
-			String businessType = null;
+				if (head != null && head.containsKey("businessType")
+						&& head.get("businessType") != null) {
+					businessType = (String) head.get("businessType");
+				}
 
-			if (head != null && head.containsKey("businessType")
-					&& head.get("businessType") != null) {
-				businessType = (String) head.get("businessType");
+				// 获取资源文件
+				ResourceBundle bundle = CommonUtil
+						.getMessageMappingResource("CEB_SN");
+
+				String checkBusinessType_C061 = CommonUtil
+						.getSystemConfigProperty("checkOrderBusinessType_C061");
+				String checkBusinessType_C005 = CommonUtil
+						.getSystemConfigProperty("checkOrderBusinessType_C005");
+				// 报文入库
+				if (checkBusinessType_C061.equals(businessType)) {
+					// C061报文处理
+					result = handleOrderC061(xmlData, bundle);
+
+				} else if (checkBusinessType_C005.equals(businessType)) {
+					// C005报文处理
+					result = handleOrderC005(head, xmlData, bundle);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				result.put("isSuccess", "false");
+				result.put("errorMsg", "系统异常");
 			}
-
-			// 获取资源文件
-			ResourceBundle bundle = CommonUtil
-					.getMessageMappingResource("CEB_SN");
-
-			String checkBusinessType_C061 = CommonUtil
-					.getSystemConfigProperty("checkOrderBusinessType_C061");
-			String checkBusinessType_C005 = CommonUtil
-					.getSystemConfigProperty("checkOrderBusinessType_C005");
-			// 报文入库
-			if (checkBusinessType_C061.equals(businessType)) {
-				// C061报文处理
-				result = handleOrderC061(xmlString, bundle);
-
-			} else if (checkBusinessType_C005.equals(businessType)) {
-				// C005报文处理
-				result = handleOrderC005(head, xmlString, bundle);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			result.put("isSuccess", "false");
-			result.put("errorMsg", "系统异常");
+			result.put("logisticsOrderId", head.get("logisticsOrderId"));
+			
+			resultList.add(result);
 		}
+		
 
 		// 构建返回数据
 		List<LinkedMap> dataList = new ArrayList<LinkedMap>();
-		for (int i = 0; i < 1; i++) {
+		for (Map result:resultList) {
 			LinkedMap resultData = new LinkedMap();
-			resultData.put("logisticsOrderId",
-					head != null ? head.get("logisticsOrderId") : "");
+			resultData.put("logisticsOrderId",result.get("logisticsOrderId"));
 			resultData.put("success", result.get("isSuccess").toString());
 			resultData.put("errorCode", "");
 			resultData.put("errorMsg", result.get("errorMsg"));
@@ -228,6 +237,7 @@ public class HttpHandleThread implements Callable<Object> {
 
 		return xmlReturnString;
 	}
+
 
 	// 处理订单数据
 	private String handleXml_Inventory(String xmlString) {
@@ -838,7 +848,7 @@ public class HttpHandleThread implements Callable<Object> {
 			primary_sub.put("primaryId", null);
 
 			Map dataSub = new HashMap();
-
+			
 			Map dataSubForCJ = new HashMap();
 
 			for (Object key : item.keySet()) {
@@ -866,7 +876,7 @@ public class HttpHandleThread implements Callable<Object> {
 			commonManagerMapper.insertTableByNVList("T_SN_RECEIPT_DETAIL",
 					new ArrayList<String>(dataSub.keySet()),
 					new ArrayList<Object>(dataSub.values()), primary_sub);
-
+			
 			//发送给川佐数据组装
 			dataSubForCJ.put("ORDER_ITEM_ID", dataSub.get("ORDER_ITEM_ID"));
 			dataSubForCJ.put("SKU", dataSub.get("SKU"));
@@ -929,9 +939,9 @@ public class HttpHandleThread implements Callable<Object> {
 				commonManagerMapper.updateTableByNVList("t_sn_receipt_detail", "ORDER_ITEM_ID", itemReult.get("ORDER_ITEM_ID"), colNames, colValues);
 			}
 			//返回给苏宁
-		result.put("success", "true");
-		result.put("errorCode", "");
-		result.put("errorMsg", "");
+			result.put("success", "true");
+			result.put("errorCode", "");
+			result.put("errorMsg", "");
 		}else{
 			//异常返回
 			//返回给苏宁的错误代码只填B0007,错误原因透传。
@@ -1244,7 +1254,7 @@ public class HttpHandleThread implements Callable<Object> {
 		SimpleDateFormat sf = CommonUtil
 				.getDateFormatter(CommonDefine.COMMON_FORMAT_1);
 		List<Map> items = XmlUtil.parseXmlFPAPI_MulitpleNodes(xmlString,
-				"//inputData/ordersList/orders/orderImformation/orderItems");
+				"//orders/orderImformation/orderItems");
 
 		for (Map item : items) {
 			Map data = new HashMap();
@@ -1297,7 +1307,7 @@ public class HttpHandleThread implements Callable<Object> {
 		} else {
 			List<Map> items = XmlUtil
 					.parseXmlFPAPI_MulitpleNodes(xmlString,
-							"//inputData/ordersList/orders/orderImformation/orderItems");
+							"//orders/orderImformation/orderItems");
 
 			// 循环商品，看是否库存不足
 			boolean isSkuEnough = true;
@@ -1412,6 +1422,7 @@ public class HttpHandleThread implements Callable<Object> {
 							"t_new_import_books", colNames, colValues, primary);
 				}
 				// 第四步 插入t_new_import_inventory表和t_new_import_inventory_detail表
+				//
 				String id = insertInventory(xmlString);
 
 				// 第五步
@@ -1577,18 +1588,18 @@ public class HttpHandleThread implements Callable<Object> {
 	private String insertInventory(String xmlString) {
 		Map head = XmlUtil
 				.parseXmlFPAPI_SingleNodes(xmlString,
-						"//inputData/ordersList/orders/orderImformation/orderHead/child::*");
+						"//orders/orderImformation/orderHead/child::*");
 		Map orderDeclareHead = XmlUtil
 				.parseXmlFPAPI_SingleNodes(xmlString,
-						"//inputData/ordersList/orders/orderDeclare/orderDeclareHead/child::*");
+						"//orders/orderDeclare/orderDeclareHead/child::*");
 		
 		Map orderExpBill = XmlUtil
 				.parseXmlFPAPI_SingleNodes(xmlString,
-						"//inputData/ordersList/orders/orderExpBill/child::*");
+						"//orders/orderExpBill/child::*");
 		
-		List<Map> orderDeclareItems = XmlUtil.parseXmlFPAPI_MulitpleNodes(
+		Map orderDeclareItems = XmlUtil.parseXmlFPAPI_SingleNodes(
 				xmlString,
-				"//inputData/ordersList/orders/orderDeclare/orderDeclareItems");
+				"//orders/orderDeclare/orderDeclareItems/child::*");
 
 		SimpleDateFormat sf = CommonUtil
 				.getDateFormatter(CommonDefine.RETRIEVAL_TIME_FORMAT);
@@ -1761,9 +1772,9 @@ public class HttpHandleThread implements Callable<Object> {
 		}
 
 		colNames.add("WORTH");
-		if (orderDeclareHead.get("worth") != null
-				&& !orderDeclareHead.get("worth").toString().isEmpty()) {
-			colValues.add(orderDeclareHead.get("worth"));
+		if (orderDeclareItems.get("tradeTotal") != null
+				&& !orderDeclareItems.get("tradeTotal").toString().isEmpty()) {
+			colValues.add(orderDeclareItems.get("tradeTotal"));
 		} else {
 			colValues.add(null);
 		}
@@ -1776,107 +1787,104 @@ public class HttpHandleThread implements Callable<Object> {
 
 		commonManagerMapper.insertTableByNVList("t_new_import_inventory",
 				colNames, colValues, primary);
+		
+		//插入t_new_import_inventory_detail表
+		colNames.clear();
+		colValues.clear();
+		Map primary_sub = new HashMap();
+		primary_sub.put("primaryId", null);
 
-		for (Map orderDeclareItem : orderDeclareItems) {
+		colNames.add("INVENTORY_ID");
+		colValues.add(primary.get("primaryId"));
 
-			colNames.clear();
-			colValues.clear();
-			Map primary_sub = new HashMap();
-			primary_sub.put("primaryId", null);
+		colNames.add("GNUM");
+		colValues.add(orderDeclareItems.get("goodsOrder"));
 
-			colNames.add("INVENTORY_ID");
-			colValues.add(primary.get("primaryId"));
+		colNames.add("ITEM_NO");
+		colValues.add(orderDeclareItems.get("goodsItemNo"));
 
-			colNames.add("GNUM");
-			colValues.add(orderDeclareItem.get("goodsOrder"));
+		colNames.add("ITEM_NAME");
+		colValues.add(orderDeclareItems.get("goodsName"));
 
-			colNames.add("ITEM_NO");
-			colValues.add(orderDeclareItem.get("goodsItemNo"));
+		colNames.add("G_CODE");
+		colValues.add("");
 
-			colNames.add("ITEM_NAME");
-			colValues.add(orderDeclareItem.get("goodsName"));
+		colNames.add("G_NAME");
+		colValues.add(orderDeclareItems.get("goodsName"));
 
-			colNames.add("G_CODE");
-			colValues.add("");
+		colNames.add("G_MODEL");
+		colValues.add(orderDeclareItems.get("goodsModel"));
 
-			colNames.add("G_NAME");
-			colValues.add(orderDeclareItem.get("goodsName"));
+		colNames.add("BARCODE");
+		colValues.add("");
 
-			colNames.add("G_MODEL");
-			colValues.add(orderDeclareItem.get("goodsModel"));
+		colNames.add("COUNTRY");
+		colValues.add(orderDeclareItems.get("originCountry"));
+		
+		colNames.add("TRADE_COUNTRY");
+		colValues.add(orderDeclareHead.get("tradeCountry"));
 
-			colNames.add("BARCODE");
-			colValues.add("");
+		colNames.add("CURRENCY");
+		colValues.add(orderDeclareItems.get("tradeCurr"));
 
-			colNames.add("COUNTRY");
-			colValues.add(orderDeclareItem.get("originCountry"));
-
-			colNames.add("TRADE_COUNTRY");
-			colValues.add(orderDeclareHead.get("tradeCountry"));
-
-			colNames.add("CURRENCY");
-			colValues.add(orderDeclareItem.get("tradeCurr"));
-
-			colNames.add("QTY");
-			if (orderDeclareItem.get("declareCount") != null
-					&& !orderDeclareItem.get("declareCount").toString()
-							.isEmpty()) {
-				colValues.add(orderDeclareItem.get("declareCount"));
-			} else {
-				colValues.add(null);
-			}
-
-			colNames.add("QTY1");
-			if (orderDeclareItem.get("firstCount") != null
-					&& !orderDeclareItem.get("firstCount").toString().isEmpty()) {
-				colValues.add(orderDeclareItem.get("firstCount"));
-			} else {
-				colValues.add(null);
-			}
-
-			colNames.add("QTY2");
-			if (orderDeclareItem.get("secondCount") != null
-					&& !orderDeclareItem.get("secondCount").toString()
-							.isEmpty()) {
-				colValues.add(orderDeclareItem.get("secondCount"));
-			} else {
-				colValues.add(null);
-			}
-
-			colNames.add("UNIT");
-			colValues.add(orderDeclareItem.get("goodsUnit"));
-
-			colNames.add("UNIT1");
-			colValues.add(orderDeclareItem.get("firstUnit"));
-
-			colNames.add("UNIT2");
-			colValues.add(orderDeclareItem.get("secondUnit"));
-
-			colNames.add("PRICE");
-			if (orderDeclareItem.get("declPrice") != null
-					&& !orderDeclareItem.get("declPrice").toString().isEmpty()) {
-				colValues.add(orderDeclareItem.get("declPrice"));
-			} else {
-				colValues.add(null);
-			}
-
-			colNames.add("TOTAL_PRICE");
-			if (orderDeclareItem.get("declTotalPrice") != null
-					&& !orderDeclareItem.get("declTotalPrice").toString()
-							.isEmpty()) {
-				colValues.add(orderDeclareItem.get("declTotalPrice"));
-			} else {
-				colValues.add(null);
-			}
-
-			colNames.add("CREAT_TIME");
-			colValues.add(new Date());
-
-			commonManagerMapper.insertTableByNVList(
-					"t_new_import_inventory_detail", colNames, colValues,
-					primary_sub);
-
+		colNames.add("QTY");
+		if (orderDeclareItems.get("declareCount") != null
+				&& !orderDeclareItems.get("declareCount").toString()
+						.isEmpty()) {
+			colValues.add(orderDeclareItems.get("declareCount"));
+		} else {
+			colValues.add(null);
 		}
+
+		colNames.add("QTY1");
+		if (orderDeclareItems.get("firstCount") != null
+				&& !orderDeclareItems.get("firstCount").toString().isEmpty()) {
+			colValues.add(orderDeclareItems.get("firstCount"));
+		} else {
+			colValues.add(null);
+		}
+
+		colNames.add("QTY2");
+		if (orderDeclareItems.get("secondCount") != null
+				&& !orderDeclareItems.get("secondCount").toString()
+						.isEmpty()) {
+			colValues.add(orderDeclareItems.get("secondCount"));
+		} else {
+			colValues.add(null);
+		}
+
+		colNames.add("UNIT");
+		colValues.add(orderDeclareItems.get("goodsUnit"));
+
+		colNames.add("UNIT1");
+		colValues.add(orderDeclareItems.get("firstUnit"));
+
+		colNames.add("UNIT2");
+		colValues.add(orderDeclareItems.get("secondUnit"));
+
+		colNames.add("PRICE");
+		if (orderDeclareItems.get("declPrice") != null
+				&& !orderDeclareItems.get("declPrice").toString().isEmpty()) {
+			colValues.add(orderDeclareItems.get("declPrice"));
+		} else {
+			colValues.add(null);
+		}
+
+		colNames.add("TOTAL_PRICE");
+		if (orderDeclareItems.get("declTotalPrice") != null
+				&& !orderDeclareItems.get("declTotalPrice").toString()
+						.isEmpty()) {
+			colValues.add(orderDeclareItems.get("declTotalPrice"));
+		} else {
+			colValues.add(null);
+		}
+
+		colNames.add("CREAT_TIME");
+		colValues.add(new Date());
+
+		commonManagerMapper.insertTableByNVList(
+				"t_new_import_inventory_detail", colNames, colValues,
+				primary_sub);
 
 		return primary.get("primaryId").toString();
 	}
@@ -1971,7 +1979,7 @@ public class HttpHandleThread implements Callable<Object> {
 		}else{
 			System.out.println(s);
 		}
-
+		
 		System.out.println(CommonUtil.getDateFormatter(CommonDefine.COMMON_FORMAT_2)
 					.format(new Date()));
 
