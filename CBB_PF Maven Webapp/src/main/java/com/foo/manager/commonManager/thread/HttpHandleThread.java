@@ -1581,6 +1581,11 @@ public class HttpHandleThread implements Callable<Object> {
 		Map orderDeclareHead = XmlUtil
 				.parseXmlFPAPI_SingleNodes(xmlString,
 						"//inputData/ordersList/orders/orderDeclare/orderDeclareHead/child::*");
+		
+		Map orderExpBill = XmlUtil
+				.parseXmlFPAPI_SingleNodes(xmlString,
+						"//inputData/ordersList/orders/orderExpBill/child::*");
+		
 		List<Map> orderDeclareItems = XmlUtil.parseXmlFPAPI_MulitpleNodes(
 				xmlString,
 				"//inputData/ordersList/orders/orderDeclare/orderDeclareItems");
@@ -1635,7 +1640,7 @@ public class HttpHandleThread implements Callable<Object> {
 		colValues.add(head.get("btcOrderId"));
 
 		colNames.add("LOGISTICS_NO");
-		colValues.add(head.get("logisticsOrderId"));
+		colValues.add(orderExpBill.get("expressCompanyExcode"));
 
 		colNames.add("LOGISTICS_CODE");
 		colValues.add("3201961A28");
