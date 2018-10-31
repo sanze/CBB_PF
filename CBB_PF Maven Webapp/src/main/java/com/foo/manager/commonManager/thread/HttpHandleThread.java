@@ -1667,7 +1667,7 @@ public class HttpHandleThread implements Callable<Object> {
 		colValues.add(null);
 
 		colNames.add("BUYER_NAME");
-		colValues.add(orderDeclareHead.get("consignee"));
+		colValues.add(orderDeclareHead.get("payerName"));
 
 		colNames.add("BUYER_IDTYPE");
 		colValues.add("1");
