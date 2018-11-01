@@ -97,7 +97,7 @@ public class HttpHandleThread implements Callable<Object> {
 		// HttpServerManagerService.requestType_sn_warehousing;
 		// this.content =
 		// "{\"orderInfo\":{\"fpsOrderId\":\"4111110000197\",\"ownerUserId\":\"70057018\",\"storeCode\":\"WM10000079\",\"orderCode\":\"W100112051\",\"orderType\":\"601\",\"orderNumber\":\"ZT201808212027001\",\"outsourcingFlag\":\"01\",\"orderSource\":\"301\",\"orderCreateTime\":\"2018-08-21 22:06:54\",\"returnReason\":\"\",\"expectStartTime\":\"2018-08-29 15:13:38\",\"expectEndTime\":\"2018-08-29 15:13:38\",\"remark\":\"\",\"receiverInfo\":{},\"senderInfo\":{\"senderAddress\":\"江苏南京市软件大道203号\",\"senderCode\":\"70057018\",\"senderName\":\"C店-平行仓商家E 新1\",\"senderMobile\":\"025-66996699-880665\",\"senderPhone\":\"025-66996699-880665\"},\"orderItemList\":[{\"orderItemId\":\"410111000019511\",\"userId\":\"70057018\",\"userName\":\"C店-平行仓商家E 新1\",\"ownerUserId\":\"70057018\",\"ownerUserName\":\"C店-平行仓商家E 新1\",\"itemId\":\"000000001002512101\",\"itemName\":\"千丰浴霸壁挂式二灯双灯三灯浴霸卫生间浴室取暖灯泡挂墙式灯暖 小玲珑2米线护眼黄泡两灯挂浴霸 漏电保护\",\"itemCode\":\"000000001002512101\",\"inventoryType\":\"301\",\"itemQuantity\":\"1\",\"produceCode\":\"\",\"condition\":\"\",\"batchCode\":\"\"}]}}";
-
+//		this.content = "<entryorderconfirm><order_code>W107xxxxxx</order_code><itemlist><item><order_item_id>420000002xxxxxx</order_item_id><sku>917080415493xxxxxx</sku><actual_qty>12</actual_qty><actual_qty_defect>2</actual_qty_defect></item><item><order_item_id>420000002xxxxxx11</order_item_id><sku>917080415493xxxxxx</sku><actual_qty>10</actual_qty><actual_qty_defect>4</actual_qty_defect></item></itemlist></entryorderconfirm>";
 //		sn_deliverGoodsNotify
 //		 this.requestType = HttpServerManagerService.requestType_sn_deliverGoodsNotify;
 //		 this.content = "{\"orderInfo\":{\"ownerUserId\":\"7016xxxx\",\"storeCode\":\"WM10xxxxxx\",\"fpsOrderId\":\"12345xxxxxx\",\"orderCode\":\"W107xxxxxx\",\"orderType\":\"201\",\"orderNumber\":\"W89xxxx\",\"outsourcingFlag\":\"01\",\"customsMode\":\"02\",\"bol\":\"HM121231xxxxxx\",\"bolCount\":\"2\",\"orderSource\":\"S12\",\"tmsServiceCode\":\"S02\",\"tmsServiceName\":\"顺丰\",\"tmsOrderCode\":\"1234556667\",\"orderFlag\":\"\",\"orderCreateTime\":\"2018-01-03 12:47:11\",\"deliveryType\":\"PTPS\",\"deliverRequirements\":{\"scheduleDay\":\"2018-01-04\",\"scheduleStart\":\"18:00:00\",\"scheduleEnd\":\"18:00:00\"},\"batchSendCtrlParam\":{},\"extendFields\":\"{}\",\"receiverInfo\":{\"receiverProvince\":\"江苏省\",\"receiverCity\":\"宿迁市\",\"receiverArea\":\"宿豫区\",\"receiverTown\":\"全区\",\"receiverMobile\":\"0527-8431xxxx\",\"receiverPhone\":\"0527-8431xxxx\",\"receiverName\":\"谷绍娟\",\"receiverAddress\":\"江苏省宿迁市宿豫区江山大道xxxxxx\"},\"senderInfo\":{\"senderProvince\":\"江苏\",\"senderCity\":\"南京市\",\"senderArea\":\"雨花台区\",\"senderTown\":\"全区\",\"senderAddress\":\"xx大道1号\",\"senderName\":\"董x\",\"senderPhone\":\"025-66996699-87xxxx\",\"senderMobile\":\"025-66996699-87xxxx\"},\"orderItemList\":[{\"itemName\":\"电源xxx\",\"itemQuantity\":\"1\",\"orderItemId\":\"SL201801030000xxxxxx\",\"condition\":\"A\",\"ownerUserId\":\"7016xxxx\",\"itemId\":\"917080409503xxxxxx\",\"inventoryType\":\"1\",\"userId\":\"7016xxxx\",\"itemCode\":\"WTI09xxxx\"}]}}";
@@ -927,17 +927,6 @@ public class HttpHandleThread implements Callable<Object> {
 		
 		//正常返回
 		if(orderResult.containsKey("CD") && "OK".equals(orderResult.get("CD").toString())){
-			List<Map> itemsResult = XmlUtil.parseXmlFPAPI_MulitpleNodes(returnXmlData, "//DATA/ORDER/ITEMS/ITEM");
-			//将ACTUAL_QTY和ACTUAL_QTY_DEFECT字段写入t_sn_receipt_detail
-			for(Map itemReult:itemsResult){
-				List<String> colNames = new ArrayList<String>();
-				List<Object> colValues = new ArrayList<Object>();
-				colNames.add("ACTUAL_QTY");
-				colNames.add("ACTUAL_QTY_DEFECT");
-				colValues.add(itemReult.get("ACTUAL_QTY"));
-				colValues.add(itemReult.get("ACTUAL_QTY_DEFECT"));
-				commonManagerMapper.updateTableByNVList("t_sn_receipt_detail", "ORDER_ITEM_ID", itemReult.get("ORDER_ITEM_ID"), colNames, colValues);
-			}
 			//返回给苏宁
 			result.put("success", "true");
 			result.put("errorCode", "");
@@ -954,7 +943,7 @@ public class HttpHandleThread implements Callable<Object> {
 		return result.toString();
 	}
 
-	// 川佐收货确认----未完成、暂不入库，直接转发给苏宁
+/*	// 川佐收货确认----未完成、暂不入库，直接转发给苏宁
 	private String handleXml_sn_warehousing(String jsonString) {
 
 		// String jsonReturnString = "";
@@ -1101,6 +1090,165 @@ public class HttpHandleThread implements Callable<Object> {
 		String result = send2SN(requestParam, content.toString());
 
 		return "";
+	}*/
+	
+	
+	//川佐返回入库确认信息
+	private String handleXml_sn_warehousing(String xmlDataString) {
+
+		// String jsonReturnString = "";
+		SimpleDateFormat sf = CommonUtil
+				.getDateFormatter(CommonDefine.RETRIEVAL_TIME_FORMAT);
+
+		System.out
+				.println("---------------------------【FPAPI_SN_WAREHOUSING】-------------------------------");
+		
+		Map orderInfo = XmlUtil.parseXmlFPAPI_SingleNodes(xmlDataString, "//entryorderconfirm/child::*");
+		List<Map> orderItemList = XmlUtil.parseXmlFPAPI_MulitpleNodes(xmlDataString, "//entryorderconfirm/itemlist/item");
+
+		//返回苏宁入库确认
+		// 查询数据库明细表中数据
+		List<String> colNames = new ArrayList<String>();
+		List<Object> colValues = new ArrayList<Object>();
+		colNames.add("ORDER_CODE");
+		colValues.add(orderInfo.get("order_code"));
+		List<Map<String, Object>> items = commonManagerMapper
+				.selectTableListByNVList("t_sn_receipt", colNames, colValues,
+						null, null);
+
+		//查询主信息
+		Map item = null;
+		if (items.size() > 0) {
+			item = items.get(0);
+		} else {
+			return "<entryorderconfirmreturn><status>fail</status></entryorderconfirmreturn>";
+		}
+		
+		//更新明细表
+		//将ACTUAL_QTY和ACTUAL_QTY_DEFECT字段写入t_sn_receipt_detail
+		for(Map orderItem:orderItemList){
+			colNames.clear();
+			colValues.clear();
+			colNames.add("ACTUAL_QTY");
+			colNames.add("ACTUAL_QTY_DEFECT");
+			colValues.add(orderItem.get("actual_qty"));
+			colValues.add(orderItem.get("actual_qty_defect"));
+			commonManagerMapper.updateTableByNVList("t_sn_receipt_detail", "ORDER_ITEM_ID", orderItem.get("order_item_id"), colNames, colValues);
+		}
+
+		// ------------------- orderItem ------------
+		JSONArray orderItemListArray = new JSONArray();
+
+		int i = 0;
+		for (Map orderItem:orderItemList) {
+			 //查询数据库明细表中数据
+			colNames.clear();
+			colValues.clear();
+			colNames.add("ORDER_ITEM_ID");
+			colNames.add("SKU");
+			colValues.add(orderItem.get("order_item_id"));
+			colValues.add(orderItem.get("sku"));
+			Map data = commonManagerMapper.selectTableListByNVList("t_sn_receipt_detail",
+					colNames, colValues, null, null).get(0);
+
+			JSONObject orderSingleItem = new JSONObject();
+			// 明细表ORDER_ITEM_ID
+			orderSingleItem.put("orderItemId", data.get("ORDER_ITEM_ID"));
+			// OWNER
+			orderSingleItem.put("ownUserId", item.get("OWNER"));
+			orderSingleItem.put("stockNumber", "DSWMS"+CommonUtil.getDateFormatter(CommonDefine.COMMON_FORMAT_2)
+					.format(new Date()));
+			orderSingleItem.put("isCompleted", true);
+			// 明细表SKU
+			orderSingleItem.put("itemId", data.get("SKU"));
+
+			// ------------------- itemInventorySingleItem ------------
+			JSONObject itemInventorySingleItem = new JSONObject();
+			itemInventorySingleItem.put("inventoryType", "1");
+			// 明细表 ACTUAL_QTY
+			itemInventorySingleItem.put("quantity", data.get("ACTUAL_QTY"));
+			itemInventorySingleItem.put("produceDate", "");
+			// 明细表 PRODUCE_CODE
+			itemInventorySingleItem.put("produceCode", data.get("PRODUCE_CODE"));
+			itemInventorySingleItem.put("condition", "");
+			// ------------------- produceCodeSingleItem ------------
+			JSONObject produceCodeSingleItem = new JSONObject();
+			// 填顺序值，从0开始
+			produceCodeSingleItem.put("flag", i);
+			// 明细表 PRODUCE_CODE
+			produceCodeSingleItem.put("produceCode", data.get("PRODUCE_CODE"));
+			produceCodeSingleItem.put("expirationDate", "2099-01-01");
+			// 明细表 ACTUAL_QTY
+			produceCodeSingleItem.put("quantity", data.get("ACTUAL_QTY"));
+
+			// ------------------- itemInventory ------------
+			JSONArray itemInventory = new JSONArray();
+			itemInventory.add(itemInventorySingleItem);
+			// ------------------- produceCodeItem ------------
+			JSONArray produceCodeItem = new JSONArray();
+			produceCodeItem.add(produceCodeSingleItem);
+
+			// ------------------- itemInventoryList ------------
+			JSONObject itemInventoryList = new JSONObject();
+			itemInventoryList.put("itemInventory", itemInventory);
+			// ------------------- produceCodeItems ------------
+			JSONObject produceCodeItems = new JSONObject();
+			produceCodeItems.put("produceCodeItem", produceCodeItem);
+
+			orderSingleItem.put("itemInventoryList", itemInventoryList);
+			orderSingleItem.put("produceCodeItems", produceCodeItems);
+
+			orderItemListArray.add(orderSingleItem);
+			
+			i++;
+		}
+
+		// 返回苏宁数据
+		// ------------------- orderItems ------------
+		JSONObject orderItems = new JSONObject();
+		orderItems.put("orderItem", orderItemListArray);
+
+		// ------------------- orderConfirmInfo ------------
+		JSONObject orderConfirmInfo = new JSONObject();
+		// STORE_CODE
+		orderConfirmInfo.put("storeOrderCode", item.get("STORE_CODE"));
+		// FPS_ORDER_ID
+		orderConfirmInfo.put("fpsOrderId", item.get("FPS_ORDER_ID"));
+		// ORDER_TYPE
+		orderConfirmInfo.put("orderType", item.get("ORDER_TYPE"));
+		// ORDER_CODE
+		orderConfirmInfo.put("orderCode", item.get("ORDER_CODE"));
+		// ORDER_NUMBER
+		orderConfirmInfo.put("orderNumber", item.get("ORDER_NUMBER"));
+		//
+		orderConfirmInfo.put("outBizCode",
+				CommonUtil.getDateFormatter(CommonDefine.RETRIEVAL_TIME_FORMAT)
+						.format(new Date()));
+		orderConfirmInfo.put("orderItems", orderItems);
+		orderConfirmInfo.put(
+				"orderConfirmTime",
+				CommonUtil.getDateFormatter(CommonDefine.COMMON_FORMAT).format(
+						new Date()));
+		orderConfirmInfo.put("confirmType", "0");
+
+		JSONObject content = new JSONObject();
+		content.put("orderConfirmInfo", orderConfirmInfo);
+
+		Map requestParam = new HashMap();
+		requestParam
+				.put("logistic_provider_id",
+						CommonUtil
+								.getSystemConfigProperty("SN_orderConfirmInfo_logistic_provider_id"));
+		requestParam.put("msg_type", CommonUtil
+				.getSystemConfigProperty("SN_orderConfirmInfo_msg_type"));
+		requestParam.put("url", CommonUtil
+				.getSystemConfigProperty("SN_orderConfirmInfo_requestUrl"));
+
+//		System.out.println(content.toString());
+		// 发送请求
+		String result = send2SN(requestParam, content.toString());
+
+		return "<entryorderconfirmreturn><status>success</status></entryorderconfirmreturn>";
 	}
 	
 	private String handleXml_sn_deliverGoodsNotify(String jsonString) {
@@ -1663,7 +1811,7 @@ public class HttpHandleThread implements Callable<Object> {
 		colValues.add("3201966A69");
 
 		colNames.add("EMS_NO");
-		colValues.add("WL0213201600000003");
+		colValues.add("T0213W000152");
 
 		colNames.add("INVT_NO");
 		colValues.add("");
