@@ -159,14 +159,26 @@ public class HttpServerManagerServiceImpl extends HttpServerManagerService{
 						result.setErrorMessage("请求URL与内容不符！");
 						return result;
 					}
-				}else if(requestType.equals(requestType_sn_warehousing)){
-					if(!queryBody.contains("orderInfo")){
+				}else if(requestType.equals(requestType_cj_entryOrderConfirm)){
+					if(!queryBody.contains("entryorderconfirm")){
 						result.setErrorCode(CommonDefine.FAILED);
 						result.setErrorMessage("请求URL与内容不符！");
 						return result;
 					}
 				}else if(requestType.equals(requestType_sn_deliverGoodsNotify)){
 					if(!queryBody.contains("orderInfo")){
+						result.setErrorCode(CommonDefine.FAILED);
+						result.setErrorMessage("请求URL与内容不符！");
+						return result;
+					}
+				}else if(requestType.equals(requestType_cj_deliveryOrderConfirm)){
+					if(!queryBody.contains("deliveryorderconfirm")){
+						result.setErrorCode(CommonDefine.FAILED);
+						result.setErrorMessage("请求URL与内容不符！");
+						return result;
+					}
+				}else if(requestType.equals(requestType_cj_deliveryOrderStatus)){
+					if(!queryBody.contains("deliveryorderstatus")){
 						result.setErrorCode(CommonDefine.FAILED);
 						result.setErrorMessage("请求URL与内容不符！");
 						return result;
@@ -197,6 +209,14 @@ public class HttpServerManagerServiceImpl extends HttpServerManagerService{
 					}
 				}
 				result.setLogistics_interface(pairs.get("data"));
+//				result.setData_digest(pairs.get(""));
+				result.setErrorCode(CommonDefine.SUCCESS);
+			}
+			//川佐发送请求暂不校验参数
+			else if(requestType.equals(requestType_cj_entryOrderConfirm)
+					||requestType.equals(requestType_cj_deliveryOrderConfirm)
+					||requestType.equals(requestType_cj_deliveryOrderStatus)){
+				result.setLogistics_interface(queryBody);
 //				result.setData_digest(pairs.get(""));
 				result.setErrorCode(CommonDefine.SUCCESS);
 			}
