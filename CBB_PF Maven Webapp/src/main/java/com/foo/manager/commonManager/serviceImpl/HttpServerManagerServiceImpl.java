@@ -216,7 +216,23 @@ public class HttpServerManagerServiceImpl extends HttpServerManagerService{
 			else if(requestType.equals(requestType_cj_entryOrderConfirm)
 					||requestType.equals(requestType_cj_deliveryOrderConfirm)
 					||requestType.equals(requestType_cj_deliveryOrderStatus)){
-				result.setLogistics_interface(queryBody);
+				
+				String[] params = queryBody.split("&");
+				Map<String, String> pairs = new HashMap<String, String>();
+				if (params.length > 0) {
+					for (String param : params) {
+						String[] pair = param.split("=");
+						if (pair.length == 2) {
+							pairs.put(pair[0],URLDecoder.decode(pair[1], "utf-8"));
+						} else if(param.startsWith("data=")){
+							pairs.put("data",URLDecoder.decode(param.substring(5), "utf-8"));
+						}else{
+							continue;
+						}
+					}
+				}
+				
+				result.setLogistics_interface(pairs.get("data"));
 //				result.setData_digest(pairs.get(""));
 				result.setErrorCode(CommonDefine.SUCCESS);
 			}

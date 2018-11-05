@@ -666,8 +666,16 @@ public class HttpHandleThread implements Callable<Object> {
 
 			Map data = new HashMap();
 
+			//用orderNo在t_new_import_inventory找到对应的LOS_NO，填在给苏宁的回执报文中logisticsOrderId
+			List<Map<String,Object>> searchDataList = commonManagerMapper.selectTableListByCol("t_new_import_inventory", "ORDER_NO", head.get("orderNo"), null, null);
+
+			Map item = null;
+			if (searchDataList != null && searchDataList.size() > 0) {
+				item = searchDataList.get(0);
+			}
+			
 			data.put("messageId", getMessageId());
-			data.put("logisticsOrderId", head.get("orderNo"));
+			data.put("logisticsOrderId", item!=null?item.get("LOS_NO"):"");
 			data.put("logisticsExpressId", "");
 			data.put("statusCode", head.get("returnStatus"));
 			data.put("logisticsStation", "tianjin");
@@ -2271,6 +2279,9 @@ public class HttpHandleThread implements Callable<Object> {
 
 		colNames.add("NOTE");
 		colValues.add("");
+
+		colNames.add("LOS_NO");
+		colValues.add(head.get("logisticsOrderId"));
 
 		colNames.add("CREAT_TIME");
 		colValues.add(new Date());

@@ -103,7 +103,7 @@
 		  t.ITEM_NO as ITEM_NO,
 		  t.ITEM_NAME as itemName,
 		  s.G_CODE,
-		  t.ITEM_NAME as gname,
+		  s.G_NAME as gname,
 		  s.G_MODEL,
 		  "" as barCode,
 		  t.COUNTRY as country,
