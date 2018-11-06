@@ -1286,7 +1286,7 @@ public class XmlUtil {
 
 	
 	//生成回执xml
-	public static String generalSoapXml_CJ(String xmlContent){
+	public static String generalSoapXml_CJ(String xmlContent,String secondElementText){
 
 		String resultXml = "";
 
@@ -1304,7 +1304,7 @@ public class XmlUtil {
 			// 设置第一级元素
 			Element firstElement = rootElement.addElement(nameSpace4NJ+":"+"Body");
 			// 第二级元素
-			Element secondElement = firstElement.addElement("sendInStockOrder");
+			Element secondElement = firstElement.addElement(secondElementText);
 			secondElement.addNamespace("", nameSpace_1);
 			Element xmlElement = secondElement.addElement("handler");
 			xmlElement.addText(xmlContent);
@@ -1320,7 +1320,7 @@ public class XmlUtil {
 		return resultXml;
 	}
 	
-	public static String generalWarehousingNoticeXml_CJ(String root,Map order,List<Map> orderItemList){
+	public static String generalCommonXml_CJ(String root,Map order,List<Map> orderItemList){
 
 		String resultXml = "";
 

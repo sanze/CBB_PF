@@ -78,7 +78,7 @@ public class HttpHandleThread implements Callable<Object> {
 		// requestType_listRelease
 		// this.requestType = HttpServerManagerService.requestType_listRelease;
 		// this.content =
-		// "<InventoryReturn><orderNo>20180930001test</orderNo><invtNo/><returnStatus>800</returnStatus></InventoryReturn>";
+//		 "<InventoryReturnList><InventoryReturn><orderNo>AAAA0016172051200208</orderNo><invtNo>02132018I651591534</invtNo><returnStatus>3070</returnStatus><returnInfo></returnInfo></InventoryReturn><InventoryReturn><orderNo>AAAA0028172236190126</orderNo><invtNo>02132018I651643914</invtNo><returnStatus>3070</returnStatus><returnInfo></returnInfo></InventoryReturn></InventoryReturnList>";
 
 		// sn_sku--商品数据分发，苏宁发起
 		// this.requestType = HttpServerManagerService.requestType_sn_sku;
@@ -102,7 +102,7 @@ public class HttpHandleThread implements Callable<Object> {
 
 		//sn_deliverGoodsNotify--销售发货通知，苏宁发起
 //		 this.requestType = HttpServerManagerService.requestType_sn_deliverGoodsNotify;
-//		 this.content = "{\"orderInfo\":{\"ownerUserId\":\"7016xxxx\",\"storeCode\":\"WM10xxxxxx\",\"fpsOrderId\":\"12345xxxxxx\",\"orderCode\":\"W107xxxxxx\",\"orderType\":\"201\",\"orderNumber\":\"W89xxxx\",\"outsourcingFlag\":\"01\",\"customsMode\":\"02\",\"bol\":\"HM121231xxxxxx\",\"bolCount\":\"2\",\"orderSource\":\"S12\",\"tmsServiceCode\":\"S02\",\"tmsServiceName\":\"顺丰\",\"tmsOrderCode\":\"1234556667\",\"orderFlag\":\"\",\"orderCreateTime\":\"2018-01-03 12:47:11\",\"deliveryType\":\"PTPS\",\"deliverRequirements\":{\"scheduleDay\":\"2018-01-04\",\"scheduleStart\":\"18:00:00\",\"scheduleEnd\":\"18:00:00\"},\"batchSendCtrlParam\":{},\"extendFields\":\"{}\",\"receiverInfo\":{\"receiverProvince\":\"江苏省\",\"receiverCity\":\"宿迁市\",\"receiverArea\":\"宿豫区\",\"receiverTown\":\"全区\",\"receiverMobile\":\"0527-8431xxxx\",\"receiverPhone\":\"0527-8431xxxx\",\"receiverName\":\"谷绍娟\",\"receiverAddress\":\"江苏省宿迁市宿豫区江山大道xxxxxx\"},\"senderInfo\":{\"senderProvince\":\"江苏\",\"senderCity\":\"南京市\",\"senderArea\":\"雨花台区\",\"senderTown\":\"全区\",\"senderAddress\":\"xx大道1号\",\"senderName\":\"董x\",\"senderPhone\":\"025-66996699-87xxxx\",\"senderMobile\":\"025-66996699-87xxxx\"},\"orderItemList\":[{\"itemName\":\"电源xxx\",\"itemQuantity\":\"1\",\"orderItemId\":\"SL201801030000xxxxxx\",\"condition\":\"A\",\"ownerUserId\":\"7016xxxx\",\"itemId\":\"917080409503xxxxxx\",\"inventoryType\":\"1\",\"userId\":\"7016xxxx\",\"itemCode\":\"WTI09xxxx\"}]}}";
+//		 this.content = "{\"orderInfo\":{\"ownerUserId\":\"7016xxxx\",\"storeCode\":\"WM10xxxxxx\",\"fpsOrderId\":\"12345xxxxxx\",\"orderCode\":\"W107xxxxxx\",\"orderType\":\"201\",\"orderNumber\":\"W89xxxx\",\"outsourcingFlag\":\"01\",\"customsMode\":\"04\",\"bol\":\"HM121231xxxxxx\",\"bolCount\":\"2\",\"orderSource\":\"S12\",\"tmsServiceCode\":\"S02\",\"tmsServiceName\":\"顺丰\",\"tmsOrderCode\":\"1234556667\",\"orderFlag\":\"\",\"destcode\":\"xxxxx\",\"orderCreateTime\":\"2018-01-03 12:47:11\",\"deliveryType\":\"PTPS\",\"deliverRequirements\":{\"scheduleDay\":\"2018-01-04\",\"scheduleStart\":\"18:00:00\",\"scheduleEnd\":\"18:00:00\"},\"batchSendCtrlParam\":{},\"extendFields\":\"{}\",\"receiverInfo\":{\"receiverProvince\":\"江苏省\",\"receiverCity\":\"宿迁市\",\"receiverArea\":\"宿豫区\",\"receiverTown\":\"全区\",\"receiverMobile\":\"0527-8431xxxx\",\"receiverPhone\":\"0527-8431xxxx\",\"receiverName\":\"谷绍娟\",\"receiverAddress\":\"江苏省宿迁市宿豫区江山大道xxxxxx\"},\"senderInfo\":{\"senderProvince\":\"江苏\",\"senderCity\":\"南京市\",\"senderArea\":\"雨花台区\",\"senderTown\":\"全区\",\"senderAddress\":\"xx大道1号\",\"senderName\":\"董x\",\"senderPhone\":\"025-66996699-87xxxx\",\"senderMobile\":\"025-66996699-87xxxx\"},\"orderItemList\":[{\"itemName\":\"电源xxx\",\"itemQuantity\":\"1\",\"orderItemId\":\"SL201801030000xxxxxx\",\"condition\":\"A\",\"ownerUserId\":\"7016xxxx\",\"itemId\":\"917080409503xxxxxx\",\"inventoryType\":\"1\",\"userId\":\"7016xxxx\",\"itemCode\":\"WTI09xxxx\"}]}}";
 
 		//cj_deliveryOrderConfirm--销售发货确认，川佐发起
 //		 this.requestType =
@@ -653,16 +653,18 @@ public class HttpHandleThread implements Callable<Object> {
 		System.out
 				.println("---------------------------【FPAPI_ListRelease】-------------------------------");
 
-		Map head = null;
 		boolean isSuccess = true;
 
 		SimpleDateFormat sf = CommonUtil
 				.getDateFormatter(CommonDefine.COMMON_FORMAT);
-
+		// 向苏宁回传订单状态--7.3章节
+		List<Map> dataList = new ArrayList<Map>();
 		try {
+
 			// 包含数据orderNo、invtNo，returnStatus
-			head = XmlUtil.parseXmlFPAPI_SingleNodes(xmlString,
-					"//InventoryReturn/child::*");
+			List<Map> dataListArray = XmlUtil.parseXmlFPAPI_MulitpleNodes(xmlString, "//InventoryReturnList/InventoryReturn");
+
+			for(Map head:dataListArray){
 
 			Map data = new HashMap();
 
@@ -694,11 +696,8 @@ public class HttpHandleThread implements Callable<Object> {
 			data.put("keyValueAdd", "");
 			data.put("thirdPartyCompany", "");
 
-			// 向苏宁回传订单状态
-			List<Map> dataList = new ArrayList<Map>();
-
 			dataList.add(data);
-
+			}
 			Map requestParam = new HashMap();
 			requestParam
 					.put("logistic_provider_id",
@@ -713,6 +712,9 @@ public class HttpHandleThread implements Callable<Object> {
 					.getSystemConfigProperty("inputStatusListRoot"), CommonUtil
 					.getSystemConfigProperty("inputStatusListFirstElement"),
 					dataList);
+			
+			//System.out.println(content);
+			
 			// 发送请求
 			String result = send2SN(requestParam, content);
 
@@ -955,10 +957,10 @@ public class HttpHandleThread implements Callable<Object> {
 		order.put("CUST", CommonUtil
 				.getSystemConfigProperty("CJ_cust"));
 		
-		String xmlStringData = XmlUtil.generalWarehousingNoticeXml_CJ(
+		String xmlStringData = XmlUtil.generalCommonXml_CJ(
 				"DATA", order, orderItemListForCJ);
 		
-		String requestXmlData = XmlUtil.generalSoapXml_CJ(xmlStringData);
+		String requestXmlData = XmlUtil.generalSoapXml_CJ(xmlStringData,"sendInStockOrder");
 		
 		System.out.println(requestXmlData);
 		//向川佐发送入库通知单
@@ -1601,7 +1603,7 @@ public class HttpHandleThread implements Callable<Object> {
 		return "<deliveryorderstatusreturn><status>success</status></deliveryorderstatusreturn>";
 	}
 	
-	private String handleXml_sn_deliverGoodsNotify(String jsonString) {
+	private String handleXml_sn_deliverGoodsNotify(String jsonString)  throws CommonException{
 
 		// String jsonReturnString = "";
 		SimpleDateFormat sf = CommonUtil
@@ -1701,6 +1703,9 @@ public class HttpHandleThread implements Callable<Object> {
 				new ArrayList<String>(data.keySet()), new ArrayList<Object>(
 						data.values()), primary);
 
+		//发送给川佐
+		List<Map> orderItemListForCJ = new ArrayList<Map>();
+		
 		for (Iterator it = orderItemList.iterator(); it.hasNext();) {
 
 			JSONObject item = (JSONObject) it.next();
@@ -1708,6 +1713,8 @@ public class HttpHandleThread implements Callable<Object> {
 			primary_sub.put("primaryId", null);
 
 			Map dataSub = new HashMap();
+
+			Map dataSubForCJ = new HashMap();
 
 			for (Object key : item.keySet()) {
 				if (bundle.containsKey("SN_ORDER_DETAIL_"
@@ -1735,11 +1742,80 @@ public class HttpHandleThread implements Callable<Object> {
 					new ArrayList<String>(dataSub.keySet()),
 					new ArrayList<Object>(dataSub.values()), primary_sub);
 
+			//发送给川佐数据组装
+			dataSubForCJ.put("ORDER_ITEM_ID", dataSub.get("ORDER_ITEM_ID"));
+			dataSubForCJ.put("SKU", dataSub.get("SKU"));
+			dataSubForCJ.put("ITEM_NAME", dataSub.get("ITEM_NAME"));
+			dataSubForCJ.put("QTY", dataSub.get("QTY"));
+			orderItemListForCJ.add(dataSubForCJ);
+
 		}
-		result.put("orderCode", data.get("ORDER_CODE"));
+		//根据苏宁报文中CUSTOMS_MODE字段走不同的流程。先测CUSTOMS_MODE等于04时，直接发给佐川。等于02时走另外的流程。
+		String customsMode = data.get("CUSTOMS_MODE")!=null?data.get("CUSTOMS_MODE").toString():"";
+		
+		//直接发给川佐
+		if("04".equals(customsMode)){
+			//给川佐发送销售出库单
+			Map order = new HashMap();
+			order.put("OWNER", data.get("OWNER"));
+			order.put("ORDER_CODE", data.get("ORDER_CODE"));
+			order.put("ORDER_TYPE", data.get("ORDER_TYPE"));
+			order.put("CUSTOMS_MODE", data.get("CUSTOMS_MODE"));
+			order.put("TOTAL_WEIGHT", data.get("TOTAL_WEIGHT"));
+			order.put("WAY_BILLS", data.get("WAY_BILLS"));
+			order.put("PAY_AMOUNT", data.get("PAY_AMOUNT"));
+			order.put("DEST_CODE", data.get("DEST_CODE"));
+			order.put("CMMDTY_GRP", data.get("CMMDTY_GRP"));
+			order.put("TMS_ORDER_CODE", data.get("TMS_ORDER_CODE"));
+			order.put("RECEIVER_ADDRESS", data.get("RECEIVER_ADDRESS"));
+			order.put("RECEIVER_NAME", data.get("RECEIVER_NAME"));
+			order.put("RECEIVER_MOBILE", data.get("RECEIVER_MOBILE"));
+			order.put("RECEIVER_PHONE", data.get("RECEIVER_PHONE"));
+			
+			order.put("CUST", CommonUtil
+					.getSystemConfigProperty("CJ_cust"));
+			
+			String xmlStringData = XmlUtil.generalCommonXml_CJ(
+					"DATA", order, orderItemListForCJ);
+			
+			String requestXmlData = XmlUtil.generalSoapXml_CJ(xmlStringData,"sendOutStockOrder");
+			
+			//System.out.println(requestXmlData);
+			//向川佐发送销售出库单
+			String response = HttpUtil.sendHttpCMD_CJ(requestXmlData,CommonUtil
+					.getSystemConfigProperty("CJ_requestUrl").toString());
+			
+			//获取返回信息
+			String returnXmlData = XmlUtil
+					.getResponseFromXmlString_CJ(response);
+			
+			//正常测试报文
+//			String returnXmlData = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><DATA><ORDER><ORDER_CODE>3434222e333</ORDER_CODE><CD>OK</CD><INFO><![CDATA[]]></INFO><ITEMS><ITEM><ORDER_ITEM_ID>420000002xxxxxx</ORDER_ITEM_ID><SKU>P0000KMM</SKU><ACTUAL_QTY>1</ACTUAL_QTY><ACTUAL_QTY_DEFECT>5590</ACTUAL_QTY_DEFECT></ITEM><ITEM><ORDER_ITEM_ID>1234567891</ORDER_ITEM_ID><SKU>P0001KMM</SKU><ACTUAL_QTY>1</ACTUAL_QTY><ACTUAL_QTY_DEFECT>5591</ACTUAL_QTY_DEFECT></ITEM></ITEMS></ORDER></DATA>";
+			//异常测试报文
+//			String returnXmlData = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><DATA><ORDER><ORDER_CODE>W107xxxxxx</ORDER_CODE><CD>102</CD><INFO>发货人编号在系统中未找到。</INFO></ORDER></DATA>";
+
+			//解析返回报文
+			//正常报文
+			Map orderResult = XmlUtil.parseXmlFPAPI_SingleNodes(returnXmlData, "//DATA/ORDER/child::*");
+			
+			//正常返回
+			if(orderResult.containsKey("CD") && "OK".equals(orderResult.get("CD").toString())){
+				//返回给苏宁
 		result.put("success", "true");
 		result.put("errorCode", "");
 		result.put("errorMsg", "");
+			}else{
+				//异常返回
+				//返回给苏宁的错误代码只填B0007,错误原因透传。
+				result.put("success", "false");	
+				result.put("errorCode", "B0007");
+				result.put("errorMsg", orderResult.get("INFO"));
+			}
+			result.put("orderCode", orderResult.get("ORDER_CODE"));
+			
+		}else if("02".equals(customsMode)){
+			
+		}
 
 		return result.toString();
 	}
@@ -1840,13 +1916,15 @@ public class HttpHandleThread implements Callable<Object> {
 				List<Map> skuList;
 				for (BookOrderModel xxx : bookOrders) {
 					skuList = xxx.getBookItems();
-					// QTY最小的，CREAT_TIME最久远的记录减去<orderItems><goodsNumber>。
+					// QTY最小的，RECORD_NO最小的记录减去<orderItems><goodsNumber>。
 					Collections.sort(skuList, new Comparator<Map>() {
 						public int compare(Map o1, Map o2) {
 							double qty1 = Double.valueOf(o1.get("QTY")
 									.toString());
 							double qty2 = Double.valueOf(o2.get("QTY")
 									.toString());
+							String recordNo1 = o1.get("RECORD_NO")!=null?o1.get("RECORD_NO").toString():"";
+							String recordNo2 = o2.get("RECORD_NO")!=null?o2.get("RECORD_NO").toString():"";
 							// SimpleDateFormat sf =
 							// CommonUtil.getDateFormatter(CommonDefine.COMMON_FORMAT);
 							// Date creatTime1 = null;
@@ -1861,7 +1939,11 @@ public class HttpHandleThread implements Callable<Object> {
 							// e.printStackTrace();
 							// }
 							if (qty1 > qty2) {
+								if(recordNo1.compareTo(recordNo2)<0){
 								return 1;
+							} else {
+								return 0;
+							}
 							} else {
 								return 0;
 							}

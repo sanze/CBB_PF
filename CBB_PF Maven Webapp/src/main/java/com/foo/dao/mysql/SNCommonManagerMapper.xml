@@ -115,7 +115,7 @@
 		  t.QTY2,
 		  s.UNIT,
 		  s.UNIT1,
-		  t.UNIT2,
+		  s.UNIT2,
 		  t.PRICE,
 		  t.TOTAL_PRICE,
 		  "" as note,

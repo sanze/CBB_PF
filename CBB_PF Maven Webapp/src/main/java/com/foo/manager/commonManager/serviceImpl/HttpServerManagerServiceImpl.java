@@ -142,7 +142,7 @@ public class HttpServerManagerServiceImpl extends HttpServerManagerService{
 						return result;
 					}
 				}else if(requestType.equals(requestType_listRelease)){
-					if(!queryBody.contains("InventoryReturn")){
+					if(!queryBody.contains("InventoryReturnList")){
 						result.setErrorCode(CommonDefine.FAILED);
 						result.setErrorMessage("请求URL与内容不符！");
 						return result;
