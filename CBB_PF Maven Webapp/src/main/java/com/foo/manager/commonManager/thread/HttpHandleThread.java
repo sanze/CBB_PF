@@ -1755,6 +1755,17 @@ public class HttpHandleThread implements Callable<Object> {
 		
 		//直接发给川佐
 		if("04".equals(customsMode)){
+			
+			String skuString = "";
+			if(orderItemListForCJ.size()>0 && orderItemListForCJ.get(0).get("SKU")!=null){
+				skuString = orderItemListForCJ.get(0).get("SKU").toString();
+			}
+			List<Map<String,Object>> skuList = commonManagerMapper.selectTableListByCol("t_sn_sku", "SKU", skuString, null, null);
+			
+			Map<String,Object> sku = null;
+			if(skuList !=null &&skuList.size()>0){
+				sku = skuList.get(0);
+			}
 			//给川佐发送销售出库单
 			Map order = new HashMap();
 			order.put("OWNER", data.get("OWNER"));
@@ -1765,7 +1776,8 @@ public class HttpHandleThread implements Callable<Object> {
 			order.put("WAY_BILLS", data.get("WAY_BILLS"));
 			order.put("PAY_AMOUNT", data.get("PAY_AMOUNT"));
 			order.put("DEST_CODE", data.get("DEST_CODE"));
-			order.put("CMMDTY_GRP", data.get("CMMDTY_GRP"));
+			//出库单下任意一个商品sku在商品表中的t_sn_sku.GRP
+			order.put("CMMDTY_GRP", sku!=null?sku.get("GRP"):"");
 			order.put("TMS_ORDER_CODE", data.get("TMS_ORDER_CODE"));
 			order.put("RECEIVER_ADDRESS", data.get("RECEIVER_ADDRESS"));
 			order.put("RECEIVER_NAME", data.get("RECEIVER_NAME"));
