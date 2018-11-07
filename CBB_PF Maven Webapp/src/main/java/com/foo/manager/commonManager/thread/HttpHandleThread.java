@@ -965,7 +965,7 @@ public class HttpHandleThread implements Callable<Object> {
 		System.out.println(requestXmlData);
 		//向川佐发送入库通知单
 		String response = HttpUtil.sendHttpCMD_CJ(requestXmlData,CommonUtil
-				.getSystemConfigProperty("CJ_requestUrl").toString());
+				.getSystemConfigProperty("CJ_sendInStockOrder_requestUrl").toString());
 
 		//获取返回信息
 		String returnXmlData = XmlUtil
@@ -1783,7 +1783,7 @@ public class HttpHandleThread implements Callable<Object> {
 			//System.out.println(requestXmlData);
 			//向川佐发送销售出库单
 			String response = HttpUtil.sendHttpCMD_CJ(requestXmlData,CommonUtil
-					.getSystemConfigProperty("CJ_requestUrl").toString());
+					.getSystemConfigProperty("CJ_sendOrder_requestUrl").toString());
 			
 			//获取返回信息
 			String returnXmlData = XmlUtil
@@ -2104,6 +2104,15 @@ public class HttpHandleThread implements Callable<Object> {
 		if (snCommonManagerMapper.selectInventoryList(idInt) != null) {
 			LinkedHashMap item = snCommonManagerMapper.selectInventoryList(
 					idInt).get(0);
+			
+			//如果t_new_import_sku.unit2为空，则<qty2>保持不变，继续填t_new_import_inventory_detail.qty2。
+			//如果t_new_import_sku.unit2不为空，则<qty2>改成t_new_import_inventory.NET_WEIGHT
+			if(item.get("UNIT2") == null || item.get("UNIT2").toString().isEmpty()){
+				//不变
+			}else{
+				item.put("QTY2", item.get("QTY1"));
+			}
+			
 			// 转换
 			if (item != null) {
 				for (Object key : item.keySet()) {
