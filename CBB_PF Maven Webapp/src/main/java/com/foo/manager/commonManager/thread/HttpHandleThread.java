@@ -75,7 +75,7 @@ public class HttpHandleThread implements Callable<Object> {
 		// this.content =
 		// "<LoadHead><loadContents><loadContent><loadContentId>1</loadContentId><outorderId>6666666666</outorderId></loadContent><loadContent><loadContentId>2</loadContentId><outorderId>7777777777</outorderId></loadContent></loadContents><loadHeadId>12</loadHeadId><loadId>1736474588</loadId><total>2</total><tracyNum>3</tracyNum><TotalWeight>2.5</TotalWeight><CarEcNo>苏A234234</CarEcNo></LoadHead>";
 
-		// requestType_listRelease
+		// 出库单状态报文
 		// this.requestType = HttpServerManagerService.requestType_listRelease;
 		// this.content =
 //		 "<InventoryReturnList><InventoryReturn><orderNo>AAAA0016172051200208</orderNo><invtNo>02132018I651591534</invtNo><returnStatus>3070</returnStatus><returnInfo></returnInfo></InventoryReturn><InventoryReturn><orderNo>AAAA0028172236190126</orderNo><invtNo>02132018I651643914</invtNo><returnStatus>3070</returnStatus><returnInfo></returnInfo></InventoryReturn></InventoryReturnList>";
@@ -164,7 +164,7 @@ public class HttpHandleThread implements Callable<Object> {
 			result = handleXml_Load(content);
 		} else if (requestType
 				.equals(HttpServerManagerService.requestType_listRelease)) {
-			// 处理装载数据
+			// 处理出库单状态
 			result = handleXml_ListRelease(content);
 		} else if (requestType
 				.equals(HttpServerManagerService.requestType_sn_sku)) {
@@ -648,6 +648,7 @@ public class HttpHandleThread implements Callable<Object> {
 		return xmlReturnString;
 	}
 
+	//出库单状态
 	private String handleXml_ListRelease(String xmlString) {
 
 		String xmlReturnString = "";
@@ -655,7 +656,7 @@ public class HttpHandleThread implements Callable<Object> {
 		System.out
 				.println("---------------------------【FPAPI_ListRelease】-------------------------------");
 
-		boolean isSuccess = true;
+//		boolean isSuccess = true;
 
 		SimpleDateFormat sf = CommonUtil
 				.getDateFormatter(CommonDefine.COMMON_FORMAT);
@@ -670,14 +671,10 @@ public class HttpHandleThread implements Callable<Object> {
 
 			Map data = new HashMap();
 
-			//用orderNo在t_new_import_inventory找到对应的LOS_NO，填在给苏宁的回执报文中logisticsOrderId
-			List<Map<String,Object>> searchDataList = commonManagerMapper.selectTableListByCol("t_new_import_inventory", "ORDER_NO", head.get("orderNo"), null, null);
-
-			Map item = null;
-			if (searchDataList != null && searchDataList.size() > 0) {
-				item = searchDataList.get(0);
-			}
+				//用orderNo在t_new_import_inventory_detail找到对应的LOS_NO，填在给苏宁的回执报文中logisticsOrderId
+				List<Map<String,Object>> searchDataList = commonManagerMapper.selectTableListByCol("t_new_import_inventory_detail", "ORDER_NO", head.get("orderNo"), null, null);
 			
+				for(Map item:searchDataList){
 			data.put("messageId", getMessageId());
 			data.put("logisticsOrderId", item!=null?item.get("LOS_NO"):"");
 			data.put("logisticsExpressId", "");
@@ -699,6 +696,7 @@ public class HttpHandleThread implements Callable<Object> {
 			data.put("thirdPartyCompany", "");
 
 			dataList.add(data);
+			}
 			}
 			Map requestParam = new HashMap();
 			requestParam
@@ -722,7 +720,7 @@ public class HttpHandleThread implements Callable<Object> {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			isSuccess = false;
+//			isSuccess = false;
 		}
 		// 无需内容，直接返回200
 		xmlReturnString = "";
@@ -2087,6 +2085,22 @@ public class HttpHandleThread implements Callable<Object> {
 			List<Map<String, Object>> subDataList = commonManagerMapper
 					.selectTableListByCol("t_new_import_inventory_detail",
 							"ORDER_NO", head.get("btcOrderId"), null, null);
+			//更新主表的netWeight和grossWeight
+			double qtyCount = 0;
+			for(Map<String, Object> subData:subDataList){
+				if(subData.get("QTY1")!=null && !subData.get("QTY1").toString().isEmpty()){
+					qtyCount = qtyCount+Double.parseDouble(subData.get("QTY1").toString());
+				}
+			}
+			//t_new_import_inventory表更新net_weight,gross_weight
+			colNames.clear();
+			colValues.clear();
+			colNames.add("GROSS_WEIGHT");
+			colNames.add("NET_WEIGHT");
+			colValues.add(qtyCount);
+			colValues.add(qtyCount);
+			commonManagerMapper.updateTableByNVList("t_new_import_inventory", "INVENTORY_ID", inventoryId, colNames, colValues);
+			//判断库存是否足够
 			if(itemNumber == subDataList.size() || 2 == orderStatus){
 				//判断库存是否足够
 				List<BookOrderModel> bookOrders = isSkuEnough(head,subDataList);
@@ -2142,7 +2156,7 @@ public class HttpHandleThread implements Callable<Object> {
 	}
 	
 	//判断库存是否足够
-	private List<BookOrderModel> isSkuEnough(Map head,List<Map<String, Object>> inventoryDetailList){
+	private synchronized List<BookOrderModel> isSkuEnough(Map head,List<Map<String, Object>> inventoryDetailList){
 		boolean isSkuEnough = true;
 		List<BookOrderModel> bookOrders = new ArrayList<BookOrderModel>();
 		for (Map item : inventoryDetailList) {
@@ -2326,7 +2340,7 @@ public class HttpHandleThread implements Callable<Object> {
 					idInt).get(0);
 			
 			//如果t_new_import_sku.unit2为空，则<qty2>保持不变，继续填t_new_import_inventory_detail.qty2。
-			//如果t_new_import_sku.unit2不为空，则<qty2>改成t_new_import_inventory.NET_WEIGHT
+			//如果t_new_import_sku.unit2不为空，则<qty2>改成t_new_import_inventory_detail.qty1
 			if(item.get("UNIT2") == null || item.get("UNIT2").toString().isEmpty()){
 				//不变
 			}else{
@@ -2557,18 +2571,22 @@ public class HttpHandleThread implements Callable<Object> {
 		colValues.add("1");
 
 		colNames.add("GROSS_WEIGHT");
-		if (orderDeclareHead.get("grossWeight") != null
-				&& !orderDeclareHead.get("grossWeight").toString().isEmpty()) {
-			colValues.add(orderDeclareHead.get("grossWeight"));
+		colNames.add("NET_WEIGHT");
+		if (orderDeclareItems.get("goodsGrossWeight") != null
+				&& !orderDeclareItems.get("goodsGrossWeight").toString()
+						.isEmpty()
+				&& orderDeclareItems.get("declareCount") != null
+				&& !orderDeclareItems.get("declareCount").toString().isEmpty()) {
+			colValues.add(Double.parseDouble(orderDeclareItems.get(
+					"goodsGrossWeight").toString())
+					* Double.parseDouble(orderDeclareItems.get("declareCount")
+							.toString()));
+			colValues.add(Double.parseDouble(orderDeclareItems.get(
+					"goodsGrossWeight").toString())
+					* Double.parseDouble(orderDeclareItems.get("declareCount")
+							.toString()));
 		} else {
 			colValues.add(null);
-		}
-
-		colNames.add("NET_WEIGHT");
-		if (orderDeclareHead.get("netWeight") != null
-				&& !orderDeclareHead.get("netWeight").toString().isEmpty()) {
-			colValues.add(orderDeclareHead.get("netWeight"));
-		} else {
 			colValues.add(null);
 		}
 
@@ -2649,9 +2667,15 @@ public class HttpHandleThread implements Callable<Object> {
 		}
 
 		colNames.add("QTY1");
-		if (orderDeclareItems.get("firstCount") != null
-				&& !orderDeclareItems.get("firstCount").toString().isEmpty()) {
-			colValues.add(orderDeclareItems.get("firstCount"));
+		if (orderDeclareItems.get("goodsGrossWeight") != null
+				&& !orderDeclareItems.get("goodsGrossWeight").toString()
+						.isEmpty()
+				&& orderDeclareItems.get("declareCount") != null
+				&& !orderDeclareItems.get("declareCount").toString().isEmpty()) {
+			colValues.add(Double.parseDouble(orderDeclareItems.get(
+					"goodsGrossWeight").toString())
+					* Double.parseDouble(orderDeclareItems.get("declareCount")
+							.toString()));
 		} else {
 			colValues.add(null);
 		}
@@ -2783,18 +2807,18 @@ public class HttpHandleThread implements Callable<Object> {
 		}
 		order.put("WRAP_TYPE", orderDeclareHead.get("warpType"));
 		order.put("PACK_NO", "1");
-		if (orderDeclareHead.get("grossWeight") != null
-				&& !orderDeclareHead.get("grossWeight").toString().isEmpty()) {
-			order.put("GROSS_WEIGHT", orderDeclareHead.get("grossWeight"));
-		} else {
-			order.put("GROSS_WEIGHT", null);
-		}
-		if (orderDeclareHead.get("netWeight") != null
-				&& !orderDeclareHead.get("netWeight").toString().isEmpty()) {
-			order.put("NET_WEIGHT", orderDeclareHead.get("netWeight"));
-		} else {
-			order.put("NET_WEIGHT", null);
-		}
+//		if (orderDeclareHead.get("grossWeight") != null
+//				&& !orderDeclareHead.get("grossWeight").toString().isEmpty()) {
+//			order.put("GROSS_WEIGHT", orderDeclareHead.get("grossWeight"));
+//		} else {
+//			order.put("GROSS_WEIGHT", null);
+//		}
+//		if (orderDeclareHead.get("netWeight") != null
+//				&& !orderDeclareHead.get("netWeight").toString().isEmpty()) {
+//			order.put("NET_WEIGHT", orderDeclareHead.get("netWeight"));
+//		} else {
+//			order.put("NET_WEIGHT", null);
+//		}
 		if (orderDeclareHead.get("paySerialNo") != null
 				&& !orderDeclareHead.get("paySerialNo").toString().isEmpty()) {
 			order.put("PAY_SERIAL_NO", orderDeclareHead.get("paySerialNo"));
@@ -2891,10 +2915,18 @@ public class HttpHandleThread implements Callable<Object> {
 		} else {
 			subOrder.put("QTY", null);
 		}
-		if (orderDeclareItems.get("firstCount") != null
-				&& !orderDeclareItems.get("firstCount").toString().isEmpty()) {
-			colValues.add(orderDeclareItems.get("firstCount"));
-			subOrder.put("QTY1", orderDeclareItems.get("firstCount"));
+		// 填<orderDeclareItems><goodsGrossWeight>的值乘以<orderDeclareItems><declareCount>的值。
+		if (orderDeclareItems.get("goodsGrossWeight") != null
+				&& !orderDeclareItems.get("goodsGrossWeight").toString()
+						.isEmpty()
+				&& orderDeclareItems.get("declareCount") != null
+				&& !orderDeclareItems.get("declareCount").toString().isEmpty()) {
+			subOrder.put(
+					"QTY1",
+					Double.parseDouble(orderDeclareItems
+							.get("goodsGrossWeight").toString())
+							* Double.parseDouble(orderDeclareItems
+									.get("declareCount").toString()));
 		} else {
 			subOrder.put("QTY1", null);
 		}

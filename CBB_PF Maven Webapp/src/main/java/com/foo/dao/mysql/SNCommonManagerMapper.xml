@@ -111,7 +111,7 @@
 		  t.CURRENCY,
 		  "156" as ciqcurrency,
 		  t.QTY,
-		  i.NET_WEIGHT as QTY1,
+		  t.QTY1,
 		  t.QTY2,
 		  s.UNIT,
 		  s.UNIT1,
