@@ -75,9 +75,9 @@ public class HttpHandleThread implements Callable<Object> {
 		// this.content =
 		// "<LoadHead><loadContents><loadContent><loadContentId>1</loadContentId><outorderId>6666666666</outorderId></loadContent><loadContent><loadContentId>2</loadContentId><outorderId>7777777777</outorderId></loadContent></loadContents><loadHeadId>12</loadHeadId><loadId>1736474588</loadId><total>2</total><tracyNum>3</tracyNum><TotalWeight>2.5</TotalWeight><CarEcNo>苏A234234</CarEcNo></LoadHead>";
 
-		// requestType_listRelease
-		// this.requestType = HttpServerManagerService.requestType_listRelease;
-		// this.content =
+		// 出库单状态报文
+//		 this.requestType = HttpServerManagerService.requestType_listRelease;
+//		 this.content =
 //		 "<InventoryReturnList><InventoryReturn><orderNo>AAAA0016172051200208</orderNo><invtNo>02132018I651591534</invtNo><returnStatus>3070</returnStatus><returnInfo></returnInfo></InventoryReturn><InventoryReturn><orderNo>AAAA0028172236190126</orderNo><invtNo>02132018I651643914</invtNo><returnStatus>3070</returnStatus><returnInfo></returnInfo></InventoryReturn></InventoryReturnList>";
 
 		// sn_sku--商品数据分发，苏宁发起
@@ -94,7 +94,7 @@ public class HttpHandleThread implements Callable<Object> {
 //		 "{\"orderInfo\":{\"ownerUserId\":\"RH100\",\"fpsOrderId\":\"123456XXXXX\",\"storeCode\":\"WM10xxxxxx\",\"orderCode\":\"W107xxxxxx\",\"orderType\":\"601\",\"orderNumber\":\"A22xxxx\",\"outsourcingFlag\":\"01\",\"orderSource\":\"305\",\"remark\":\"商品情况：未开包未使用包装完好;;\",\"returnReason\":\"商品情况：未开包未使用包装完好;;\",\"orderCreateTime\":\"2018-01-03 11:47:07\",\"expectStartTime\":\"2018-01-03 11:47:06\",\"expectEndTime\":\"2018-01-03 11:47:06\",\"orderFlag\":\"9\",\"tmsServiceCode\":\"S02\",\"tmsServiceName\":\"苏宁物流\",\"tmsOrderCode\":\"896102xxxxxx\",\"prevOrderCode\":\"W107xxxxxx\",\"receiverInfo\":{\"receiverProvince\":\"江苏\",\"receiverCity\":\"南京市\",\"receiverArea\":\"雨花台区\",\"receiverTown\":\"全区\",\"receiverAddress\":\"龙藏大道2号\",\"receiverName\":\"沈xx\",\"receiverMobile\":\"18666xxxxxx\",\"receiverPhone\":\"15172xxxxxx\"},\"senderInfo\":{\"senderAddress\":\"雨花经济开发区龙藏大道与凤舞路交叉口\",\"senderProvince\":\"浙江省\",\"senderCity\":\"杭州市\",\"senderArea\":\"滨江区\",\"senderTown\":\"全区\",\"senderCode\":\"7016xxxx\",\"senderName\":\"左xx\",\"senderMobile\":\"15172xxxxxx\",\"senderPhone\":\"15172xxxxxx\"},\"orderItemList\":[{\"orderItemId\":\"420000002xxxxxx\",\"userId\":\"7016xxxx\",\"userName\":\"安利（中国）日用品有限公司\",\"ownerUserId\":\"7016xxxx\",\"ownerUserName\":\"安利（中国）日用品有限公司\",\"itemId\":\"917080415493xxxxxx\",\"itemName\":\"雅蜜润肤沐浴露 750ML\",\"inventoryType\":\"1\",\"itemQuantity\":\"750\",\"produceCode\":\"7359xxxx\",\"condition\":\"A\"},{\"orderItemId\":\"420000002xxxxxx\",\"userId\":\"7016xxxx\",\"userName\":\"安利（中国）日用品有限公司\",\"ownerUserId\":\"70168xxx\",\"ownerUserName\":\"安利（中国）日用品有限公司\",\"itemId\":\"917080415493xxxxxx\",\"itemName\":\"雅蜜润肤沐浴露 750ML\",\"inventoryType\":\"1\",\"itemQuantity\":\"750\",\"produceCode\":\"7359xxxx\",\"condition\":\"A\"}]}}";
 
 		//cj_entryOrderConfirm--入库确认，川佐发起
-		// this.requestType =
+//		 this.requestType =
 //		 HttpServerManagerService.requestType_cj_entryOrderConfirm;
 		// this.content =
 		// "{\"orderInfo\":{\"fpsOrderId\":\"4111110000197\",\"ownerUserId\":\"70057018\",\"storeCode\":\"WM10000079\",\"orderCode\":\"W100112051\",\"orderType\":\"601\",\"orderNumber\":\"ZT201808212027001\",\"outsourcingFlag\":\"01\",\"orderSource\":\"301\",\"orderCreateTime\":\"2018-08-21 22:06:54\",\"returnReason\":\"\",\"expectStartTime\":\"2018-08-29 15:13:38\",\"expectEndTime\":\"2018-08-29 15:13:38\",\"remark\":\"\",\"receiverInfo\":{},\"senderInfo\":{\"senderAddress\":\"江苏南京市软件大道203号\",\"senderCode\":\"70057018\",\"senderName\":\"C店-平行仓商家E 新1\",\"senderMobile\":\"025-66996699-880665\",\"senderPhone\":\"025-66996699-880665\"},\"orderItemList\":[{\"orderItemId\":\"410111000019511\",\"userId\":\"70057018\",\"userName\":\"C店-平行仓商家E 新1\",\"ownerUserId\":\"70057018\",\"ownerUserName\":\"C店-平行仓商家E 新1\",\"itemId\":\"000000001002512101\",\"itemName\":\"千丰浴霸壁挂式二灯双灯三灯浴霸卫生间浴室取暖灯泡挂墙式灯暖 小玲珑2米线护眼黄泡两灯挂浴霸 漏电保护\",\"itemCode\":\"000000001002512101\",\"inventoryType\":\"301\",\"itemQuantity\":\"1\",\"produceCode\":\"\",\"condition\":\"\",\"batchCode\":\"\"}]}}";
@@ -119,7 +119,7 @@ public class HttpHandleThread implements Callable<Object> {
 		this.content = content;
 		this.signKey = signKey;
 	}
-
+	
 //	@Transactional(rollbackFor = Exception.class)
 //	public void test(){
 //		List<String> colNames = new ArrayList<String>();
@@ -164,7 +164,7 @@ public class HttpHandleThread implements Callable<Object> {
 			result = handleXml_Load(content);
 		} else if (requestType
 				.equals(HttpServerManagerService.requestType_listRelease)) {
-			// 处理装载数据
+			// 处理出库单状态
 			result = handleXml_ListRelease(content);
 		} else if (requestType
 				.equals(HttpServerManagerService.requestType_sn_sku)) {
@@ -648,6 +648,7 @@ public class HttpHandleThread implements Callable<Object> {
 		return xmlReturnString;
 	}
 
+	//出库单状态
 	private String handleXml_ListRelease(String xmlString) {
 
 		String xmlReturnString = "";
@@ -655,50 +656,47 @@ public class HttpHandleThread implements Callable<Object> {
 		System.out
 				.println("---------------------------【FPAPI_ListRelease】-------------------------------");
 
-		boolean isSuccess = true;
+//		boolean isSuccess = true;
 
 		SimpleDateFormat sf = CommonUtil
 				.getDateFormatter(CommonDefine.COMMON_FORMAT);
 		// 向苏宁回传订单状态--7.3章节
 		List<Map> dataList = new ArrayList<Map>();
 		try {
-
+			
 			// 包含数据orderNo、invtNo，returnStatus
 			List<Map> dataListArray = XmlUtil.parseXmlFPAPI_MulitpleNodes(xmlString, "//InventoryReturnList/InventoryReturn");
 
 			for(Map head:dataListArray){
-
-			Map data = new HashMap();
-
-			//用orderNo在t_new_import_inventory找到对应的LOS_NO，填在给苏宁的回执报文中logisticsOrderId
-			List<Map<String,Object>> searchDataList = commonManagerMapper.selectTableListByCol("t_new_import_inventory", "ORDER_NO", head.get("orderNo"), null, null);
-
-			Map item = null;
-			if (searchDataList != null && searchDataList.size() > 0) {
-				item = searchDataList.get(0);
-			}
-			
-			data.put("messageId", getMessageId());
-			data.put("logisticsOrderId", item!=null?item.get("LOS_NO"):"");
-			data.put("logisticsExpressId", "");
-			data.put("statusCode", head.get("returnStatus"));
-			data.put("logisticsStation", "tianjin");
-			data.put("finishedDate", sf.format(new Date()).split(" ")[0]);
-			data.put("finishedTime", sf.format(new Date()).split(" ")[1]);
-			data.put("operator", "sinotrans");
-			data.put("telNumber", "");
-			data.put("shipmentCode", "");
-			data.put("weight", "");
-			data.put("weightUnit", "");
-			data.put("note", "");
-			data.put("consignee", "");
-			data.put("airwayBillNo", "");
-			data.put("flightNo", "");
-			data.put("flightDate", "");
-			data.put("keyValueAdd", "");
-			data.put("thirdPartyCompany", "");
-
-			dataList.add(data);
+				
+				Map data = new HashMap();
+				
+				//用orderNo在t_new_import_inventory_detail找到对应的LOS_NO，填在给苏宁的回执报文中logisticsOrderId
+				List<Map<String,Object>> searchDataList = commonManagerMapper.selectTableListByCol("t_new_import_inventory_detail", "ORDER_NO", head.get("orderNo"), null, null);
+				
+				for(Map item:searchDataList){
+					data.put("messageId", getMessageId());
+					data.put("logisticsOrderId", item!=null?item.get("LOS_NO"):"");
+					data.put("logisticsExpressId", "");
+					data.put("statusCode", head.get("returnStatus"));
+					data.put("logisticsStation", "tianjin");
+					data.put("finishedDate", sf.format(new Date()).split(" ")[0]);
+					data.put("finishedTime", sf.format(new Date()).split(" ")[1]);
+					data.put("operator", "sinotrans");
+					data.put("telNumber", "");
+					data.put("shipmentCode", "");
+					data.put("weight", "");
+					data.put("weightUnit", "");
+					data.put("note", "");
+					data.put("consignee", "");
+					data.put("airwayBillNo", "");
+					data.put("flightNo", "");
+					data.put("flightDate", "");
+					data.put("keyValueAdd", "");
+					data.put("thirdPartyCompany", "");
+					
+					dataList.add(data);
+				}
 			}
 			Map requestParam = new HashMap();
 			requestParam
@@ -722,7 +720,7 @@ public class HttpHandleThread implements Callable<Object> {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			isSuccess = false;
+//			isSuccess = false;
 		}
 		// 无需内容，直接返回200
 		xmlReturnString = "";
@@ -991,7 +989,7 @@ public class HttpHandleThread implements Callable<Object> {
 		}else{
 			//异常返回
 			//返回给苏宁的错误代码只填B0007,错误原因透传。
-			result.put("success", "false");
+			result.put("success", "false");	
 			result.put("errorCode", "B0007");
 			result.put("errorMsg", orderResult.get("INFO"));
 		}
@@ -1715,7 +1713,7 @@ public class HttpHandleThread implements Callable<Object> {
 			primary_sub.put("primaryId", null);
 
 			Map dataSub = new HashMap();
-
+			
 			Map dataSubForCJ = new HashMap();
 
 			for (Object key : item.keySet()) {
@@ -1743,7 +1741,7 @@ public class HttpHandleThread implements Callable<Object> {
 			commonManagerMapper.insertTableByNVList("T_SN_ORDER_DETAIL",
 					new ArrayList<String>(dataSub.keySet()),
 					new ArrayList<Object>(dataSub.values()), primary_sub);
-
+			
 			//发送给川佐数据组装
 			dataSubForCJ.put("ORDER_ITEM_ID", dataSub.get("ORDER_ITEM_ID"));
 			dataSubForCJ.put("SKU", dataSub.get("SKU"));
@@ -1815,9 +1813,9 @@ public class HttpHandleThread implements Callable<Object> {
 			//正常返回
 			if(orderResult.containsKey("CD") && "OK".equals(orderResult.get("CD").toString())){
 				//返回给苏宁
-		result.put("success", "true");
-		result.put("errorCode", "");
-		result.put("errorMsg", "");
+				result.put("success", "true");
+				result.put("errorCode", "");
+				result.put("errorMsg", "");
 			}else{
 				//异常返回
 				//返回给苏宁的错误代码只填B0007,错误原因透传。
@@ -1954,10 +1952,10 @@ public class HttpHandleThread implements Callable<Object> {
 							// }
 							if (qty1 > qty2) {
 								if(recordNo1.compareTo(recordNo2)<0){
-								return 1;
-							} else {
-								return 0;
-							}
+									return 1;
+								}else{
+									return 0;
+								}
 							} else {
 								return 0;
 							}
@@ -2043,7 +2041,7 @@ public class HttpHandleThread implements Callable<Object> {
 
 		return result;
 	}
-
+	
 	
 	private Map handleOrderC005_new(Map head, String xmlString,
 			ResourceBundle bundle) {
@@ -2087,6 +2085,22 @@ public class HttpHandleThread implements Callable<Object> {
 			List<Map<String, Object>> subDataList = commonManagerMapper
 					.selectTableListByCol("t_new_import_inventory_detail",
 							"ORDER_NO", head.get("btcOrderId"), null, null);
+			//更新主表的netWeight和grossWeight
+			double qtyCount = 0;
+			for(Map<String, Object> subData:subDataList){
+				if(subData.get("QTY1")!=null && !subData.get("QTY1").toString().isEmpty()){
+					qtyCount = qtyCount+Double.parseDouble(subData.get("QTY1").toString());
+				}
+			}
+			//t_new_import_inventory表更新net_weight,gross_weight
+			colNames.clear();
+			colValues.clear();
+			colNames.add("GROSS_WEIGHT");
+			colNames.add("NET_WEIGHT");
+			colValues.add(qtyCount);
+			colValues.add(qtyCount);
+			commonManagerMapper.updateTableByNVList("t_new_import_inventory", "INVENTORY_ID", inventoryId, colNames, colValues);
+			//判断库存是否足够
 			if(itemNumber == subDataList.size() || 2 == orderStatus){
 				//判断库存是否足够
 				List<BookOrderModel> bookOrders = isSkuEnough(head,subDataList);
@@ -2142,7 +2156,7 @@ public class HttpHandleThread implements Callable<Object> {
 	}
 	
 	//判断库存是否足够
-	private List<BookOrderModel> isSkuEnough(Map head,List<Map<String, Object>> inventoryDetailList){
+	private synchronized List<BookOrderModel> isSkuEnough(Map head,List<Map<String, Object>> inventoryDetailList){
 		boolean isSkuEnough = true;
 		List<BookOrderModel> bookOrders = new ArrayList<BookOrderModel>();
 		for (Map item : inventoryDetailList) {
@@ -2326,7 +2340,7 @@ public class HttpHandleThread implements Callable<Object> {
 					idInt).get(0);
 			
 			//如果t_new_import_sku.unit2为空，则<qty2>保持不变，继续填t_new_import_inventory_detail.qty2。
-			//如果t_new_import_sku.unit2不为空，则<qty2>改成t_new_import_inventory.NET_WEIGHT
+			//如果t_new_import_sku.unit2不为空，则<qty2>改成t_new_import_inventory_detail.qty1
 			if(item.get("UNIT2") == null || item.get("UNIT2").toString().isEmpty()){
 				//不变
 			}else{
@@ -2557,18 +2571,22 @@ public class HttpHandleThread implements Callable<Object> {
 		colValues.add("1");
 
 		colNames.add("GROSS_WEIGHT");
-		if (orderDeclareHead.get("grossWeight") != null
-				&& !orderDeclareHead.get("grossWeight").toString().isEmpty()) {
-			colValues.add(orderDeclareHead.get("grossWeight"));
+		colNames.add("NET_WEIGHT");
+		if (orderDeclareItems.get("goodsGrossWeight") != null
+				&& !orderDeclareItems.get("goodsGrossWeight").toString()
+						.isEmpty()
+				&& orderDeclareItems.get("declareCount") != null
+				&& !orderDeclareItems.get("declareCount").toString().isEmpty()) {
+			colValues.add(Double.parseDouble(orderDeclareItems.get(
+					"goodsGrossWeight").toString())
+					* Double.parseDouble(orderDeclareItems.get("declareCount")
+							.toString()));
+			colValues.add(Double.parseDouble(orderDeclareItems.get(
+					"goodsGrossWeight").toString())
+					* Double.parseDouble(orderDeclareItems.get("declareCount")
+							.toString()));
 		} else {
 			colValues.add(null);
-		}
-
-		colNames.add("NET_WEIGHT");
-		if (orderDeclareHead.get("netWeight") != null
-				&& !orderDeclareHead.get("netWeight").toString().isEmpty()) {
-			colValues.add(orderDeclareHead.get("netWeight"));
-		} else {
 			colValues.add(null);
 		}
 
@@ -2590,7 +2608,7 @@ public class HttpHandleThread implements Callable<Object> {
 
 		colNames.add("NOTE");
 		colValues.add("");
-
+		
 		colNames.add("LOS_NO");
 		colValues.add(head.get("logisticsOrderId"));
 
@@ -2649,9 +2667,15 @@ public class HttpHandleThread implements Callable<Object> {
 		}
 
 		colNames.add("QTY1");
-		if (orderDeclareItems.get("firstCount") != null
-				&& !orderDeclareItems.get("firstCount").toString().isEmpty()) {
-			colValues.add(orderDeclareItems.get("firstCount"));
+		if (orderDeclareItems.get("goodsGrossWeight") != null
+				&& !orderDeclareItems.get("goodsGrossWeight").toString()
+						.isEmpty()
+				&& orderDeclareItems.get("declareCount") != null
+				&& !orderDeclareItems.get("declareCount").toString().isEmpty()) {
+			colValues.add(Double.parseDouble(orderDeclareItems.get(
+					"goodsGrossWeight").toString())
+					* Double.parseDouble(orderDeclareItems.get("declareCount")
+							.toString()));
 		} else {
 			colValues.add(null);
 		}
@@ -2700,7 +2724,7 @@ public class HttpHandleThread implements Callable<Object> {
 
 		return primary.get("primaryId").toString();
 	}
-
+	
 	
 	// 插入t_new_import_inventory表
 	private String insertInventory_main(String xmlString,Map order) {
@@ -2783,18 +2807,18 @@ public class HttpHandleThread implements Callable<Object> {
 		}
 		order.put("WRAP_TYPE", orderDeclareHead.get("warpType"));
 		order.put("PACK_NO", "1");
-		if (orderDeclareHead.get("grossWeight") != null
-				&& !orderDeclareHead.get("grossWeight").toString().isEmpty()) {
-			order.put("GROSS_WEIGHT", orderDeclareHead.get("grossWeight"));
-		} else {
-			order.put("GROSS_WEIGHT", null);
-		}
-		if (orderDeclareHead.get("netWeight") != null
-				&& !orderDeclareHead.get("netWeight").toString().isEmpty()) {
-			order.put("NET_WEIGHT", orderDeclareHead.get("netWeight"));
-		} else {
-			order.put("NET_WEIGHT", null);
-		}
+//		if (orderDeclareHead.get("grossWeight") != null
+//				&& !orderDeclareHead.get("grossWeight").toString().isEmpty()) {
+//			order.put("GROSS_WEIGHT", orderDeclareHead.get("grossWeight"));
+//		} else {
+//			order.put("GROSS_WEIGHT", null);
+//		}
+//		if (orderDeclareHead.get("netWeight") != null
+//				&& !orderDeclareHead.get("netWeight").toString().isEmpty()) {
+//			order.put("NET_WEIGHT", orderDeclareHead.get("netWeight"));
+//		} else {
+//			order.put("NET_WEIGHT", null);
+//		}
 		if (orderDeclareHead.get("paySerialNo") != null
 				&& !orderDeclareHead.get("paySerialNo").toString().isEmpty()) {
 			order.put("PAY_SERIAL_NO", orderDeclareHead.get("paySerialNo"));
@@ -2891,10 +2915,18 @@ public class HttpHandleThread implements Callable<Object> {
 		} else {
 			subOrder.put("QTY", null);
 		}
-		if (orderDeclareItems.get("firstCount") != null
-				&& !orderDeclareItems.get("firstCount").toString().isEmpty()) {
-			colValues.add(orderDeclareItems.get("firstCount"));
-			subOrder.put("QTY1", orderDeclareItems.get("firstCount"));
+		// 填<orderDeclareItems><goodsGrossWeight>的值乘以<orderDeclareItems><declareCount>的值。
+		if (orderDeclareItems.get("goodsGrossWeight") != null
+				&& !orderDeclareItems.get("goodsGrossWeight").toString()
+						.isEmpty()
+				&& orderDeclareItems.get("declareCount") != null
+				&& !orderDeclareItems.get("declareCount").toString().isEmpty()) {
+			subOrder.put(
+					"QTY1",
+					Double.parseDouble(orderDeclareItems
+							.get("goodsGrossWeight").toString())
+							* Double.parseDouble(orderDeclareItems
+									.get("declareCount").toString()));
 		} else {
 			subOrder.put("QTY1", null);
 		}
