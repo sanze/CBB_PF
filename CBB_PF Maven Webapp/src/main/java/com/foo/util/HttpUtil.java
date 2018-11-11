@@ -32,14 +32,18 @@ import com.foo.common.MessageCodeDefine;
 
 public class HttpUtil {
 
+		private static boolean printAble = Boolean.parseBoolean(CommonUtil.getSystemConfigProperty("printRequestInfo"));
+
 		public static Map doPost(String url,Map<String,Object> head,Map<String,Object> body){
 			HttpClient httpClient = null;
 			HttpPost httpPost = null;
 			String result = null;
 			
+			if(printAble){
 			System.out.println("【请求url】:"+url);
 			System.out.println("【请求head】:"+head);
 			System.out.println("【请求body】:"+body);
+			}
 			
 			try{
 				httpClient = new SSLClient();
@@ -82,9 +86,11 @@ public class HttpUtil {
 			HttpPost httpPost = null;
 			String result = null;
 			
+			if(printAble){
 			System.out.println("【请求url】:"+url);
 			System.out.println("【请求head】:"+head);
 			System.out.println("【请求body】:"+body);
+			}
 			
 			try{
 				if(isSSL){

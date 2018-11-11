@@ -31,6 +31,7 @@ import com.sun.net.httpserver.HttpExchange;
 @Service
 public class HttpServerManagerServiceImpl extends HttpServerManagerService{
 
+	private static boolean printAble = Boolean.parseBoolean(CommonUtil.getSystemConfigProperty("printRequestInfo"));
 
 	@Override
 	public void handle(HttpExchange exchange) throws IOException {
@@ -54,11 +55,14 @@ public class HttpServerManagerServiceImpl extends HttpServerManagerService{
 			result = validateParam(queryString,queryBody);
 			//
 			if (result.getErrorCode() == CommonDefine.SUCCESS) {
+//			if (1 == CommonDefine.SUCCESS) {
 				// 添加采集进程
 				FutureTask<Object> future = new FutureTask<Object>(
 						new HttpHandleThread(result.getRequestType(),result.getLogistics_interface(),
 								result.getData_digest()));
-				//多线程报文处理
+//				FutureTask<Object> future = new FutureTask<Object>(new CopyOfHttpHandleThread("order","<inputData><ordersList><orders><orderImformation><orderHead><oriSys>LOS</oriSys><businessType>C005</businessType></orderHead></orderImformation></orders></ordersList></inputData>",
+//						""));
+				
 				executorService.submit(future);
 				
 				Object data = null;
@@ -78,8 +82,11 @@ public class HttpServerManagerServiceImpl extends HttpServerManagerService{
 		} catch (Exception e) {
 			ExceptionHandler.handleException(e);
 		} finally {
+			
+			if(printAble){
 			System.out.println("【URI】:"+queryString);
 			System.out.println("【queryBody】:"+queryBody);
+			}
 			try {
 				os.flush();  
 				exchange.close(); 

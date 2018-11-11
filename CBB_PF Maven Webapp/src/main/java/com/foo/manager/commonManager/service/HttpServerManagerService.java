@@ -13,7 +13,7 @@ import com.sun.net.httpserver.HttpHandler;
  */
 
 public abstract class HttpServerManagerService extends AbstractService implements HttpHandler{
-	protected static ExecutorService executorService = Executors.newCachedThreadPool();
+	protected static ExecutorService executorService = Executors.newFixedThreadPool(Integer.valueOf(CommonUtil.getSystemConfigProperty("threadNumber")));
 	
 	protected static String requestUri =  CommonUtil.getSystemConfigProperty("httpServerUrl");
 	public static String requestType_Order = CommonUtil.getSystemConfigProperty("requestType_Order");

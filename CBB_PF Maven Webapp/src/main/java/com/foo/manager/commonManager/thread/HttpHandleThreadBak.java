@@ -30,7 +30,6 @@ import com.foo.common.CommonDefine;
 import com.foo.common.CommonException;
 import com.foo.dao.mysql.CommonManagerMapper;
 import com.foo.dao.mysql.SNCommonManagerMapper;
-import com.foo.manager.commonManager.model.BookOrderModel;
 import com.foo.manager.commonManager.service.HttpServerManagerService;
 import com.foo.util.CommonUtil;
 import com.foo.util.HttpUtil;
@@ -38,7 +37,7 @@ import com.foo.util.SpringContextUtil;
 import com.foo.util.XmlUtil;
 
 @Service
-public class HttpHandleThread implements Callable<Object> {
+public class HttpHandleThreadBak implements Callable<Object> {
 	@Resource
 	private static CommonManagerMapper commonManagerMapper;
 	@Resource
@@ -48,7 +47,7 @@ public class HttpHandleThread implements Callable<Object> {
 	private String content;
 	private String signKey;
 
-	public HttpHandleThread(String requestType, String content, String signKey) {
+	public HttpHandleThreadBak(String requestType, String content, String signKey) {
 		if (commonManagerMapper == null) {
 			commonManagerMapper = (CommonManagerMapper) SpringContextUtil
 					.getBean("commonManagerMapper");
@@ -58,7 +57,6 @@ public class HttpHandleThread implements Callable<Object> {
 					.getBean("SNCommonManagerMapper");
 		}
 
-
 		// 订单信息--C061
 		// this.requestType = HttpServerManagerService.requestType_Order;
 //		 this.content =
@@ -66,7 +64,7 @@ public class HttpHandleThread implements Callable<Object> {
 		// 订单信息--C005
 //		 this.requestType = HttpServerManagerService.requestType_Order;
 //		 this.content =
-//		 "<inputData><ordersList><orders><orderImformation><orderHead><logisticsOrderId>LOS36100001120690200</logisticsOrderId><oriSys>LOS</oriSys><taskOrderid>36100001120690200</taskOrderid><thirdPartyCompany>0080010331</thirdPartyCompany><businessType>C005</businessType><btcOrderId>BOL031707</btcOrderId><btcItemNumber>1</btcItemNumber><announcedValue>100.00</announcedValue><valueUnit>CNY</valueUnit><expectDate>2015-09-07</expectDate><expectTime>11:38:10</expectTime></orderHead><orderItems><logisticsOrderId>LOS36100001120690200</logisticsOrderId><itemNumber>10</itemNumber><location>L971</location><locationDescription>天津口岸</locationDescription><storage>0001</storage><goodsCode>20166666</goodsCode><goodsDescription>长虹空调KFR35GWBP2DN1YF</goodsDescription><goodsNumber>5.000</goodsNumber><goodsUnit>S01</goodsUnit><comValue>100.00</comValue><valueUnit>CNY</valueUnit></orderItems><feedBackOrderCustomers><logisticsOrderId>LOS36100001120690200</logisticsOrderId><itemNumber>10</itemNumber><customerType>AG</customerType><customerId>70057297</customerId><name>C店商户苏宁</name><country>CN</country><city>南京市</city><address>南京市玄武区</address><zipCode>210012</zipCode><fixedLineTelephone>02566996699</fixedLineTelephone><mobilePhone>15295599233</mobilePhone></feedBackOrderCustomers></orderImformation><orderExpBill><logisticOrderId>LOS36300000945410000</logisticOrderId><expressCode>62K900000210</expressCode><btcOrder>BTC01631803170701</btcOrder><btcItemOrder/><name>1asd2</name><telNumber>18513891234</telNumber><province>江苏省</province><city>南京市</city><district>栖霞区</district><adress>仙鹤门仙鹤名苑28-608</adress><firstPlantCrossing/><setLocation/><preparedTime>01:00:00</preparedTime><note/><shipCondition>配送</shipCondition><rePrintFlag/><valueAddTaxFlag/><shipTypeFlag>陆</shipTypeFlag><obligateFlag/><lastPlantCrossing/><route>郑州保税仓→南京小件→WL</route><lastLogisticStation>外设单位编码描述测试</lastLogisticStation><realDeliDate>2018-03-19</realDeliDate><realDeliTime>09:00:00</realDeliTime><paymmentMode>线上下单门店支付</paymmentMode><cashOnDeliveryValue>100.00</cashOnDeliveryValue><expressCompany>0080000013</expressCompany><expressCompanyExcode>444033803247</expressCompanyExcode><originCode>025</originCode><destCode>025</destCode><createTime>17:27:39</createTime><createDate>2018-03-17</createDate></orderExpBill><orderDeclare><orderDeclareHead><orderNo>BOL031707</orderNo><ieFlag>I</ieFlag><importType>1</importType><inOutDateStr>2018-03-17 17:07:17</inOutDateStr><logisCompanyCode>1505130005</logisCompanyCode><logisCompanyName>江苏苏宁物流有限公司</logisCompanyName><companyName>江苏苏宁易购电子商务有限公司</companyName><companyCode>PTE51001410280000005</companyCode><wayBill/><tradeCountry>502</tradeCountry><packNo>1</packNo><grossWeight>1.500</grossWeight><netWeight>1.500</netWeight><warpType>2</warpType><remark>37</remark><enteringPerson>9999</enteringPerson><enteringCompanyName>9999</enteringCompanyName><senderName>versace1563212333333范思哲海外专营店</senderName><consignee>无名</consignee><consigneeAddress>江苏南京市玄武区徐庄苏宁总部鼓楼1号</consigneeAddress><senderCountry>502</senderCountry><payerName>无名</payerName><payerPhoneNumber>13951783938</payerPhoneNumber><paperType>01</paperType><paperNumber>320102198001010059</paperNumber><freight>10.0000</freight><insuranceFee/><payTaxAmount>0.0000</payTaxAmount><worth>109.0000</worth><currCode>142</currCode><mainGName>移动端苏宁内测试购专</mainGName><isAuthorize>1</isAuthorize><paySerialNo/><payType/><payTime/><payMoney/><otherPayPrice/><goodsPriceIncludeTax/><senderProvince/><senderAddr/><senderZip/><senderTel/></orderDeclareHead><orderDeclareItems><logisticOrderId>LOS36300000945410000</logisticOrderId><expressCode>62K900000210</expressCode><orderNo>BOL031707</orderNo><orderItemNo>BOL031707</orderItemNo><goodsOrder>1</goodsOrder><codeTs>11</codeTs><goodsItemNo>000000000690105971</goodsItemNo><goodsName>移动端苏宁内测试购专</goodsName><goodsModel/><originCountry>701</originCountry><tradeCurr>142</tradeCurr><tradeTotal>99.0000</tradeTotal><declPrice>99.00</declPrice><declTotalPrice>99.0000</declTotalPrice><useTo>11</useTo><declareCount>1</declareCount><goodsUnit>011</goodsUnit><goodsGrossWeight>1.500</goodsGrossWeight><firstUnit>011</firstUnit><firstCount>1</firstCount><postalTax/></orderDeclareItems></orderDeclare></orders><orders><orderImformation><orderHead><logisticsOrderId>xxxxxxxxxxxxxxxxxxxx</logisticsOrderId><oriSys>LOS</oriSys><taskOrderid>36100001120690200</taskOrderid><thirdPartyCompany>0080010331</thirdPartyCompany><businessType>C005</businessType><btcOrderId>BOL031708</btcOrderId><btcItemNumber>2</btcItemNumber><announcedValue>100.00</announcedValue><valueUnit>CNY</valueUnit><expectDate>2015-09-07</expectDate><expectTime>11:38:10</expectTime></orderHead><orderItems><logisticsOrderId>xxxxxxxxxxxxxxxxxxxx</logisticsOrderId><itemNumber>10</itemNumber><location>L971</location><locationDescription>天津口岸</locationDescription><storage>0001</storage><goodsCode>20166666</goodsCode><goodsDescription>长虹空调KFR35GWBP2DN1YF</goodsDescription><goodsNumber>5.000</goodsNumber><goodsUnit>S01</goodsUnit><comValue>100.00</comValue><valueUnit>CNY</valueUnit></orderItems><feedBackOrderCustomers><logisticsOrderId>xxxxxxxxxxxxxxxxxxxx</logisticsOrderId><itemNumber>10</itemNumber><customerType>AG</customerType><customerId>70057297</customerId><name>C店商户苏宁</name><country>CN</country><city>南京市</city><address>南京市玄武区</address><zipCode>210012</zipCode><fixedLineTelephone>02566996699</fixedLineTelephone><mobilePhone>15295599233</mobilePhone></feedBackOrderCustomers></orderImformation><orderExpBill><logisticOrderId>LOS36300000945410000</logisticOrderId><expressCode>62K900000210</expressCode><btcOrder>BTC01631803170701</btcOrder><btcItemOrder/><name>1asd2</name><telNumber>18513891234</telNumber><province>江苏省</province><city>南京市</city><district>栖霞区</district><adress>仙鹤门仙鹤名苑28-608</adress><firstPlantCrossing/><setLocation/><preparedTime>01:00:00</preparedTime><note/><shipCondition>配送</shipCondition><rePrintFlag/><valueAddTaxFlag/><shipTypeFlag>陆</shipTypeFlag><obligateFlag/><lastPlantCrossing/><route>郑州保税仓→南京小件→WL</route><lastLogisticStation>外设单位编码描述测试</lastLogisticStation><realDeliDate>2018-03-19</realDeliDate><realDeliTime>09:00:00</realDeliTime><paymmentMode>线上下单门店支付</paymmentMode><cashOnDeliveryValue>100.00</cashOnDeliveryValue><expressCompany>0080000013</expressCompany><expressCompanyExcode>444033803247</expressCompanyExcode><originCode>025</originCode><destCode>025</destCode><createTime>17:27:39</createTime><createDate>2018-03-17</createDate></orderExpBill><orderDeclare><orderDeclareHead><orderNo>BOL031708</orderNo><ieFlag>I</ieFlag><importType>1</importType><inOutDateStr>2018-03-17 17:07:17</inOutDateStr><logisCompanyCode>1505130005</logisCompanyCode><logisCompanyName>江苏苏宁物流有限公司</logisCompanyName><companyName>江苏苏宁易购电子商务有限公司</companyName><companyCode>PTE51001410280000005</companyCode><wayBill/><tradeCountry>502</tradeCountry><packNo>1</packNo><grossWeight>1.500</grossWeight><netWeight>1.500</netWeight><warpType>2</warpType><remark>37</remark><enteringPerson>9999</enteringPerson><enteringCompanyName>9999</enteringCompanyName><senderName>versace1563212333333范思哲海外专营店</senderName><consignee>无名</consignee><consigneeAddress>江苏南京市玄武区徐庄苏宁总部鼓楼1号</consigneeAddress><senderCountry>502</senderCountry><payerName>无名</payerName><payerPhoneNumber>13951783938</payerPhoneNumber><paperType>01</paperType><paperNumber>320102198001010059</paperNumber><freight>10.0000</freight><insuranceFee/><payTaxAmount>0.0000</payTaxAmount><worth>109.0000</worth><currCode>142</currCode><mainGName>移动端苏宁内测试购专</mainGName><isAuthorize>1</isAuthorize><paySerialNo/><payType/><payTime/><payMoney/><otherPayPrice/><goodsPriceIncludeTax/><senderProvince/><senderAddr/><senderZip/><senderTel/></orderDeclareHead><orderDeclareItems><logisticOrderId>LOS36300000945410000</logisticOrderId><expressCode>62K900000210</expressCode><orderNo>BOL031708</orderNo><orderItemNo>BOL031708</orderItemNo><goodsOrder>1</goodsOrder><codeTs>11</codeTs><goodsItemNo>000000000690105971</goodsItemNo><goodsName>移动端苏宁内测试购专</goodsName><goodsModel/><originCountry>701</originCountry><tradeCurr>142</tradeCurr><tradeTotal>99.0000</tradeTotal><declPrice>99.00</declPrice><declTotalPrice>99.0000</declTotalPrice><useTo>11</useTo><declareCount>1</declareCount><goodsUnit>011</goodsUnit><goodsGrossWeight>1.500</goodsGrossWeight><firstUnit>011</firstUnit><firstCount>1</firstCount><postalTax/></orderDeclareItems></orderDeclare></orders></ordersList></inputData>";
+//		 "<inputData><ordersList><orders><orderImformation><orderHead><logisticsOrderId>LOS36100001120690200</logisticsOrderId><oriSys>LOS</oriSys><taskOrderid>36100001120690200</taskOrderid><thirdPartyCompany>0080010331</thirdPartyCompany><businessType>C005</businessType><btcOrderId>BOL031707</btcOrderId><announcedValue>100.00</announcedValue><valueUnit>CNY</valueUnit><expectDate>2015-09-07</expectDate><expectTime>11:38:10</expectTime></orderHead><orderItems><logisticsOrderId>LOS36100001120690200</logisticsOrderId><itemNumber>10</itemNumber><location>L971</location><locationDescription>天津口岸</locationDescription><storage>0001</storage><goodsCode>20166666</goodsCode><goodsDescription>长虹空调KFR35GWBP2DN1YF</goodsDescription><goodsNumber>5.000</goodsNumber><goodsUnit>S01</goodsUnit><comValue>100.00</comValue><valueUnit>CNY</valueUnit></orderItems><feedBackOrderCustomers><logisticsOrderId>LOS36100001120690200</logisticsOrderId><itemNumber>10</itemNumber><customerType>AG</customerType><customerId>70057297</customerId><name>C店商户苏宁</name><country>CN</country><city>南京市</city><address>南京市玄武区</address><zipCode>210012</zipCode><fixedLineTelephone>02566996699</fixedLineTelephone><mobilePhone>15295599233</mobilePhone></feedBackOrderCustomers></orderImformation><orderExpBill><logisticOrderId>LOS36300000945410000</logisticOrderId><expressCode>62K900000210</expressCode><btcOrder>BTC01631803170701</btcOrder><btcItemOrder/><name>1asd2</name><telNumber>18513891234</telNumber><province>江苏省</province><city>南京市</city><district>栖霞区</district><adress>仙鹤门仙鹤名苑28-608</adress><firstPlantCrossing/><setLocation/><preparedTime>01:00:00</preparedTime><note/><shipCondition>配送</shipCondition><rePrintFlag/><valueAddTaxFlag/><shipTypeFlag>陆</shipTypeFlag><obligateFlag/><lastPlantCrossing/><route>郑州保税仓→南京小件→WL</route><lastLogisticStation>外设单位编码描述测试</lastLogisticStation><realDeliDate>2018-03-19</realDeliDate><realDeliTime>09:00:00</realDeliTime><paymmentMode>线上下单门店支付</paymmentMode><cashOnDeliveryValue>100.00</cashOnDeliveryValue><expressCompany>0080000013</expressCompany><expressCompanyExcode>444033803247</expressCompanyExcode><originCode>025</originCode><destCode>025</destCode><createTime>17:27:39</createTime><createDate>2018-03-17</createDate></orderExpBill><orderDeclare><orderDeclareHead><orderNo>BOL031707</orderNo><ieFlag>I</ieFlag><importType>1</importType><inOutDateStr>2018-03-17 17:07:17</inOutDateStr><logisCompanyCode>1505130005</logisCompanyCode><logisCompanyName>江苏苏宁物流有限公司</logisCompanyName><companyName>江苏苏宁易购电子商务有限公司</companyName><companyCode>PTE51001410280000005</companyCode><wayBill/><tradeCountry>502</tradeCountry><packNo>1</packNo><grossWeight>1.500</grossWeight><netWeight>1.500</netWeight><warpType>2</warpType><remark>37</remark><enteringPerson>9999</enteringPerson><enteringCompanyName>9999</enteringCompanyName><senderName>versace1563212333333范思哲海外专营店</senderName><consignee>无名</consignee><consigneeAddress>江苏南京市玄武区徐庄苏宁总部鼓楼1号</consigneeAddress><senderCountry>502</senderCountry><payerName>无名</payerName><payerPhoneNumber>13951783938</payerPhoneNumber><paperType>01</paperType><paperNumber>320102198001010059</paperNumber><freight>10.0000</freight><insuranceFee/><payTaxAmount>0.0000</payTaxAmount><worth>109.0000</worth><currCode>142</currCode><mainGName>移动端苏宁内测试购专</mainGName><isAuthorize>1</isAuthorize><paySerialNo/><payType/><payTime/><payMoney/><otherPayPrice/><goodsPriceIncludeTax/><senderProvince/><senderAddr/><senderZip/><senderTel/></orderDeclareHead><orderDeclareItems><logisticOrderId>LOS36300000945410000</logisticOrderId><expressCode>62K900000210</expressCode><orderNo>BOL031707</orderNo><orderItemNo>BOL031707</orderItemNo><goodsOrder>1</goodsOrder><codeTs>11</codeTs><goodsItemNo>000000000690105971</goodsItemNo><goodsName>移动端苏宁内测试购专</goodsName><goodsModel/><originCountry>701</originCountry><tradeCurr>142</tradeCurr><tradeTotal>99.0000</tradeTotal><declPrice>99.00</declPrice><declTotalPrice>99.0000</declTotalPrice><useTo>11</useTo><declareCount>1</declareCount><goodsUnit>011</goodsUnit><goodsGrossWeight>1.500</goodsGrossWeight><firstUnit>011</firstUnit><firstCount>1</firstCount><postalTax/></orderDeclareItems></orderDeclare></orders><orders><orderImformation><orderHead><logisticsOrderId>xxxxxxxxxxxxxxxxxxxx</logisticsOrderId><oriSys>LOS</oriSys><taskOrderid>36100001120690200</taskOrderid><thirdPartyCompany>0080010331</thirdPartyCompany><businessType>C005</businessType><btcOrderId>BOL031708</btcOrderId><announcedValue>100.00</announcedValue><valueUnit>CNY</valueUnit><expectDate>2015-09-07</expectDate><expectTime>11:38:10</expectTime></orderHead><orderItems><logisticsOrderId>xxxxxxxxxxxxxxxxxxxx</logisticsOrderId><itemNumber>10</itemNumber><location>L971</location><locationDescription>天津口岸</locationDescription><storage>0001</storage><goodsCode>20166666</goodsCode><goodsDescription>长虹空调KFR35GWBP2DN1YF</goodsDescription><goodsNumber>5.000</goodsNumber><goodsUnit>S01</goodsUnit><comValue>100.00</comValue><valueUnit>CNY</valueUnit></orderItems><feedBackOrderCustomers><logisticsOrderId>xxxxxxxxxxxxxxxxxxxx</logisticsOrderId><itemNumber>10</itemNumber><customerType>AG</customerType><customerId>70057297</customerId><name>C店商户苏宁</name><country>CN</country><city>南京市</city><address>南京市玄武区</address><zipCode>210012</zipCode><fixedLineTelephone>02566996699</fixedLineTelephone><mobilePhone>15295599233</mobilePhone></feedBackOrderCustomers></orderImformation><orderExpBill><logisticOrderId>LOS36300000945410000</logisticOrderId><expressCode>62K900000210</expressCode><btcOrder>BTC01631803170701</btcOrder><btcItemOrder/><name>1asd2</name><telNumber>18513891234</telNumber><province>江苏省</province><city>南京市</city><district>栖霞区</district><adress>仙鹤门仙鹤名苑28-608</adress><firstPlantCrossing/><setLocation/><preparedTime>01:00:00</preparedTime><note/><shipCondition>配送</shipCondition><rePrintFlag/><valueAddTaxFlag/><shipTypeFlag>陆</shipTypeFlag><obligateFlag/><lastPlantCrossing/><route>郑州保税仓→南京小件→WL</route><lastLogisticStation>外设单位编码描述测试</lastLogisticStation><realDeliDate>2018-03-19</realDeliDate><realDeliTime>09:00:00</realDeliTime><paymmentMode>线上下单门店支付</paymmentMode><cashOnDeliveryValue>100.00</cashOnDeliveryValue><expressCompany>0080000013</expressCompany><expressCompanyExcode>444033803247</expressCompanyExcode><originCode>025</originCode><destCode>025</destCode><createTime>17:27:39</createTime><createDate>2018-03-17</createDate></orderExpBill><orderDeclare><orderDeclareHead><orderNo>BOL031708</orderNo><ieFlag>I</ieFlag><importType>1</importType><inOutDateStr>2018-03-17 17:07:17</inOutDateStr><logisCompanyCode>1505130005</logisCompanyCode><logisCompanyName>江苏苏宁物流有限公司</logisCompanyName><companyName>江苏苏宁易购电子商务有限公司</companyName><companyCode>PTE51001410280000005</companyCode><wayBill/><tradeCountry>502</tradeCountry><packNo>1</packNo><grossWeight>1.500</grossWeight><netWeight>1.500</netWeight><warpType>2</warpType><remark>37</remark><enteringPerson>9999</enteringPerson><enteringCompanyName>9999</enteringCompanyName><senderName>versace1563212333333范思哲海外专营店</senderName><consignee>无名</consignee><consigneeAddress>江苏南京市玄武区徐庄苏宁总部鼓楼1号</consigneeAddress><senderCountry>502</senderCountry><payerName>无名</payerName><payerPhoneNumber>13951783938</payerPhoneNumber><paperType>01</paperType><paperNumber>320102198001010059</paperNumber><freight>10.0000</freight><insuranceFee/><payTaxAmount>0.0000</payTaxAmount><worth>109.0000</worth><currCode>142</currCode><mainGName>移动端苏宁内测试购专</mainGName><isAuthorize>1</isAuthorize><paySerialNo/><payType/><payTime/><payMoney/><otherPayPrice/><goodsPriceIncludeTax/><senderProvince/><senderAddr/><senderZip/><senderTel/></orderDeclareHead><orderDeclareItems><logisticOrderId>LOS36300000945410000</logisticOrderId><expressCode>62K900000210</expressCode><orderNo>BOL031708</orderNo><orderItemNo>BOL031708</orderItemNo><goodsOrder>1</goodsOrder><codeTs>11</codeTs><goodsItemNo>000000000690105971</goodsItemNo><goodsName>移动端苏宁内测试购专</goodsName><goodsModel/><originCountry>701</originCountry><tradeCurr>142</tradeCurr><tradeTotal>99.0000</tradeTotal><declPrice>99.00</declPrice><declTotalPrice>99.0000</declTotalPrice><useTo>11</useTo><declareCount>1</declareCount><goodsUnit>011</goodsUnit><goodsGrossWeight>1.500</goodsGrossWeight><firstUnit>011</firstUnit><firstCount>1</firstCount><postalTax/></orderDeclareItems></orderDeclare></orders></ordersList></inputData>";
 		// 库存
 //		 this.requestType = HttpServerManagerService.requestType_inventory;
 //		 this.content =
@@ -76,9 +74,9 @@ public class HttpHandleThread implements Callable<Object> {
 		// this.content =
 		// "<LoadHead><loadContents><loadContent><loadContentId>1</loadContentId><outorderId>6666666666</outorderId></loadContent><loadContent><loadContentId>2</loadContentId><outorderId>7777777777</outorderId></loadContent></loadContents><loadHeadId>12</loadHeadId><loadId>1736474588</loadId><total>2</total><tracyNum>3</tracyNum><TotalWeight>2.5</TotalWeight><CarEcNo>苏A234234</CarEcNo></LoadHead>";
 
-		// 出库单状态报文
-//		 this.requestType = HttpServerManagerService.requestType_listRelease;
-//		 this.content =
+		// requestType_listRelease
+		// this.requestType = HttpServerManagerService.requestType_listRelease;
+		// this.content =
 //		 "<InventoryReturnList><InventoryReturn><orderNo>AAAA0016172051200208</orderNo><invtNo>02132018I651591534</invtNo><returnStatus>3070</returnStatus><returnInfo></returnInfo></InventoryReturn><InventoryReturn><orderNo>AAAA0028172236190126</orderNo><invtNo>02132018I651643914</invtNo><returnStatus>3070</returnStatus><returnInfo></returnInfo></InventoryReturn></InventoryReturnList>";
 
 		// sn_sku--商品数据分发，苏宁发起
@@ -95,7 +93,7 @@ public class HttpHandleThread implements Callable<Object> {
 //		 "{\"orderInfo\":{\"ownerUserId\":\"RH100\",\"fpsOrderId\":\"123456XXXXX\",\"storeCode\":\"WM10xxxxxx\",\"orderCode\":\"W107xxxxxx\",\"orderType\":\"601\",\"orderNumber\":\"A22xxxx\",\"outsourcingFlag\":\"01\",\"orderSource\":\"305\",\"remark\":\"商品情况：未开包未使用包装完好;;\",\"returnReason\":\"商品情况：未开包未使用包装完好;;\",\"orderCreateTime\":\"2018-01-03 11:47:07\",\"expectStartTime\":\"2018-01-03 11:47:06\",\"expectEndTime\":\"2018-01-03 11:47:06\",\"orderFlag\":\"9\",\"tmsServiceCode\":\"S02\",\"tmsServiceName\":\"苏宁物流\",\"tmsOrderCode\":\"896102xxxxxx\",\"prevOrderCode\":\"W107xxxxxx\",\"receiverInfo\":{\"receiverProvince\":\"江苏\",\"receiverCity\":\"南京市\",\"receiverArea\":\"雨花台区\",\"receiverTown\":\"全区\",\"receiverAddress\":\"龙藏大道2号\",\"receiverName\":\"沈xx\",\"receiverMobile\":\"18666xxxxxx\",\"receiverPhone\":\"15172xxxxxx\"},\"senderInfo\":{\"senderAddress\":\"雨花经济开发区龙藏大道与凤舞路交叉口\",\"senderProvince\":\"浙江省\",\"senderCity\":\"杭州市\",\"senderArea\":\"滨江区\",\"senderTown\":\"全区\",\"senderCode\":\"7016xxxx\",\"senderName\":\"左xx\",\"senderMobile\":\"15172xxxxxx\",\"senderPhone\":\"15172xxxxxx\"},\"orderItemList\":[{\"orderItemId\":\"420000002xxxxxx\",\"userId\":\"7016xxxx\",\"userName\":\"安利（中国）日用品有限公司\",\"ownerUserId\":\"7016xxxx\",\"ownerUserName\":\"安利（中国）日用品有限公司\",\"itemId\":\"917080415493xxxxxx\",\"itemName\":\"雅蜜润肤沐浴露 750ML\",\"inventoryType\":\"1\",\"itemQuantity\":\"750\",\"produceCode\":\"7359xxxx\",\"condition\":\"A\"},{\"orderItemId\":\"420000002xxxxxx\",\"userId\":\"7016xxxx\",\"userName\":\"安利（中国）日用品有限公司\",\"ownerUserId\":\"70168xxx\",\"ownerUserName\":\"安利（中国）日用品有限公司\",\"itemId\":\"917080415493xxxxxx\",\"itemName\":\"雅蜜润肤沐浴露 750ML\",\"inventoryType\":\"1\",\"itemQuantity\":\"750\",\"produceCode\":\"7359xxxx\",\"condition\":\"A\"}]}}";
 
 		//cj_entryOrderConfirm--入库确认，川佐发起
-//		 this.requestType =
+		// this.requestType =
 //		 HttpServerManagerService.requestType_cj_entryOrderConfirm;
 		// this.content =
 		// "{\"orderInfo\":{\"fpsOrderId\":\"4111110000197\",\"ownerUserId\":\"70057018\",\"storeCode\":\"WM10000079\",\"orderCode\":\"W100112051\",\"orderType\":\"601\",\"orderNumber\":\"ZT201808212027001\",\"outsourcingFlag\":\"01\",\"orderSource\":\"301\",\"orderCreateTime\":\"2018-08-21 22:06:54\",\"returnReason\":\"\",\"expectStartTime\":\"2018-08-29 15:13:38\",\"expectEndTime\":\"2018-08-29 15:13:38\",\"remark\":\"\",\"receiverInfo\":{},\"senderInfo\":{\"senderAddress\":\"江苏南京市软件大道203号\",\"senderCode\":\"70057018\",\"senderName\":\"C店-平行仓商家E 新1\",\"senderMobile\":\"025-66996699-880665\",\"senderPhone\":\"025-66996699-880665\"},\"orderItemList\":[{\"orderItemId\":\"410111000019511\",\"userId\":\"70057018\",\"userName\":\"C店-平行仓商家E 新1\",\"ownerUserId\":\"70057018\",\"ownerUserName\":\"C店-平行仓商家E 新1\",\"itemId\":\"000000001002512101\",\"itemName\":\"千丰浴霸壁挂式二灯双灯三灯浴霸卫生间浴室取暖灯泡挂墙式灯暖 小玲珑2米线护眼黄泡两灯挂浴霸 漏电保护\",\"itemCode\":\"000000001002512101\",\"inventoryType\":\"301\",\"itemQuantity\":\"1\",\"produceCode\":\"\",\"condition\":\"\",\"batchCode\":\"\"}]}}";
@@ -120,7 +118,7 @@ public class HttpHandleThread implements Callable<Object> {
 		this.content = content;
 		this.signKey = signKey;
 	}
-	
+
 //	@Transactional(rollbackFor = Exception.class)
 //	public void test(){
 //		List<String> colNames = new ArrayList<String>();
@@ -165,7 +163,7 @@ public class HttpHandleThread implements Callable<Object> {
 			result = handleXml_Load(content);
 		} else if (requestType
 				.equals(HttpServerManagerService.requestType_listRelease)) {
-			// 处理出库单状态
+			// 处理装载数据
 			result = handleXml_ListRelease(content);
 		} else if (requestType
 				.equals(HttpServerManagerService.requestType_sn_sku)) {
@@ -199,7 +197,7 @@ public class HttpHandleThread implements Callable<Object> {
 	}
 
 	// 处理订单数据
-	private String handleXml_Order(String xmlString) {
+	private synchronized String handleXml_Order(String xmlString) {
 
 		String xmlReturnString = "";
 
@@ -250,27 +248,26 @@ public class HttpHandleThread implements Callable<Object> {
 					result = handleOrderC061(xmlData, bundle);
 
 				} else if (checkBusinessType_C005.equals(businessType)) {
-					//多线程调测代码
-//					synchronized(HttpHandleThread.class){
-//						// C005报文处理
-//						Map xxx = commonManagerMapper.selectTableById(
-//								"t_new_import_books", "BOOKS_ID", 1);
-//						
-//						System.out.println("更新前qty："+xxx.get("QTY"));
-//						xxx.put("QTY",
-//								Double.parseDouble(xxx.get("QTY").toString()) + 1);
-//
-//						commonManagerMapper.updateTableByNVList(
-//								"t_new_import_books", "BOOKS_ID", 1,
-//								new ArrayList<String>(xxx.keySet()),
-//								new ArrayList<Object>(xxx.values()));
-//						Thread.sleep(500);
+//					try{
+//						if(currentHandleOrder.containsKey(head.get("btcOrderId").toString())){
+//							synchronized(this){
+//								// C005报文处理
+//								result = handleOrderC005(head, xmlData, bundle);
+//							}
+//						}else{
+//							currentHandleOrder.put(head.get("btcOrderId").toString(), "");
+//							// C005报文处理
+//							result = handleOrderC005(head, xmlData, bundle);
+//						}
+//					}finally{
+//						currentHandleOrder.remove(head.get("btcOrderId").toString());
 //					}
-					
-//					result = handleOrderC005(head, xmlData, bundle);
-					synchronized(HttpHandleThread.class){
-					result = handleOrderC005_new(head, xmlData, bundle);
-					}
+//					synchronized(this){
+//						// C005报文处理
+//						result = handleOrderC005(head, xmlData, bundle);
+//					}
+					// C005报文处理
+					result = handleOrderC005(head, xmlData, bundle);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -532,7 +529,7 @@ public class HttpHandleThread implements Callable<Object> {
 //					
 //					String xmlStringData = XmlUtil.generalCommonXml(
 //							"InventoryCancel", InventoryCancelData);
-					//
+//
 //					// 第五步 向天津外运发送清单数据
 //					Map reponse = postToTJ(xmlStringData);
 				}
@@ -666,7 +663,6 @@ public class HttpHandleThread implements Callable<Object> {
 		return xmlReturnString;
 	}
 
-	//出库单状态
 	private String handleXml_ListRelease(String xmlString) {
 
 		String xmlReturnString = "";
@@ -674,47 +670,50 @@ public class HttpHandleThread implements Callable<Object> {
 		System.out
 				.println("---------------------------【FPAPI_ListRelease】-------------------------------");
 
-//		boolean isSuccess = true;
+		boolean isSuccess = true;
 
 		SimpleDateFormat sf = CommonUtil
 				.getDateFormatter(CommonDefine.COMMON_FORMAT);
 		// 向苏宁回传订单状态--7.3章节
 		List<Map> dataList = new ArrayList<Map>();
 		try {
-			
+
 			// 包含数据orderNo、invtNo，returnStatus
 			List<Map> dataListArray = XmlUtil.parseXmlFPAPI_MulitpleNodes(xmlString, "//InventoryReturnList/InventoryReturn");
 
 			for(Map head:dataListArray){
-				
-				Map data = new HashMap();
-				
-				//用orderNo在t_new_import_inventory_detail找到对应的LOS_NO，填在给苏宁的回执报文中logisticsOrderId
-				List<Map<String,Object>> searchDataList = commonManagerMapper.selectTableListByCol("t_new_import_inventory_detail", "ORDER_NO", head.get("orderNo"), null, null);
-				
-				for(Map item:searchDataList){
-					data.put("messageId", getMessageId());
-					data.put("logisticsOrderId", item!=null?item.get("LOS_NO"):"");
-					data.put("logisticsExpressId", "");
-					data.put("statusCode", head.get("returnStatus"));
-					data.put("logisticsStation", "tianjin");
-					data.put("finishedDate", sf.format(new Date()).split(" ")[0]);
-					data.put("finishedTime", sf.format(new Date()).split(" ")[1]);
-					data.put("operator", "sinotrans");
-					data.put("telNumber", "");
-					data.put("shipmentCode", "");
-					data.put("weight", "");
-					data.put("weightUnit", "");
-					data.put("note", "");
-					data.put("consignee", "");
-					data.put("airwayBillNo", "");
-					data.put("flightNo", "");
-					data.put("flightDate", "");
-					data.put("keyValueAdd", "");
-					data.put("thirdPartyCompany", "");
-					
-					dataList.add(data);
-				}
+
+			Map data = new HashMap();
+
+			//用orderNo在t_new_import_inventory找到对应的LOS_NO，填在给苏宁的回执报文中logisticsOrderId
+			List<Map<String,Object>> searchDataList = commonManagerMapper.selectTableListByCol("t_new_import_inventory", "ORDER_NO", head.get("orderNo"), null, null);
+
+			Map item = null;
+			if (searchDataList != null && searchDataList.size() > 0) {
+				item = searchDataList.get(0);
+			}
+			
+			data.put("messageId", getMessageId());
+			data.put("logisticsOrderId", item!=null?item.get("LOS_NO"):"");
+			data.put("logisticsExpressId", "");
+			data.put("statusCode", head.get("returnStatus"));
+			data.put("logisticsStation", "tianjin");
+			data.put("finishedDate", sf.format(new Date()).split(" ")[0]);
+			data.put("finishedTime", sf.format(new Date()).split(" ")[1]);
+			data.put("operator", "sinotrans");
+			data.put("telNumber", "");
+			data.put("shipmentCode", "");
+			data.put("weight", "");
+			data.put("weightUnit", "");
+			data.put("note", "");
+			data.put("consignee", "");
+			data.put("airwayBillNo", "");
+			data.put("flightNo", "");
+			data.put("flightDate", "");
+			data.put("keyValueAdd", "");
+			data.put("thirdPartyCompany", "");
+
+			dataList.add(data);
 			}
 			Map requestParam = new HashMap();
 			requestParam
@@ -738,7 +737,7 @@ public class HttpHandleThread implements Callable<Object> {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-//			isSuccess = false;
+			isSuccess = false;
 		}
 		// 无需内容，直接返回200
 		xmlReturnString = "";
@@ -756,8 +755,14 @@ public class HttpHandleThread implements Callable<Object> {
 		String url = requestParam.get("url").toString();
 
 		String requestUrl = "";
+		String postContent = "";
 		try {
 			requestUrl = url + "?" + "logistics_interface="
+					+ URLEncoder.encode(content, "utf-8") + "&data_digest="
+					+ URLEncoder.encode(data_digest, "utf-8")
+					+ "&logistic_provider_id=" + logistic_provider_id
+					+ "&msg_type=" + msg_type;
+			postContent = "logistics_interface="
 					+ URLEncoder.encode(content, "utf-8") + "&data_digest="
 					+ URLEncoder.encode(data_digest, "utf-8")
 					+ "&logistic_provider_id=" + logistic_provider_id
@@ -766,7 +771,7 @@ public class HttpHandleThread implements Callable<Object> {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		
 		// 发送http请求
 		Map<String, Object> head = new HashMap<String, Object>();
 		head.put("Content-Type",
@@ -1007,7 +1012,7 @@ public class HttpHandleThread implements Callable<Object> {
 		}else{
 			//异常返回
 			//返回给苏宁的错误代码只填B0007,错误原因透传。
-			result.put("success", "false");	
+			result.put("success", "false");
 			result.put("errorCode", "B0007");
 			result.put("errorMsg", orderResult.get("INFO"));
 		}
@@ -1018,21 +1023,16 @@ public class HttpHandleThread implements Callable<Object> {
 
 /*	// 川佐收货确认----未完成、暂不入库，直接转发给苏宁
 	private String handleXml_sn_warehousing(String jsonString) {
-
 		// String jsonReturnString = "";
 		SimpleDateFormat sf = CommonUtil
 				.getDateFormatter(CommonDefine.RETRIEVAL_TIME_FORMAT);
-
 		System.out
 				.println("---------------------------【FPAPI_SN_WAREHOUSING】-------------------------------");
 		// 入库
 		JSONObject jsonObject = JSONObject.fromObject(jsonString);
-
 		JSONObject orderInfo = (JSONObject) jsonObject.get("orderInfo");
 		JSONObject senderInfo = (JSONObject) orderInfo.get("senderInfo");
-
 		JSONArray orderItemList = (JSONArray) orderInfo.get("orderItemList");
-
 		// 查询数据库明细表中数据
 		List<String> colNames = new ArrayList<String>();
 		List<Object> colValues = new ArrayList<Object>();
@@ -1041,20 +1041,16 @@ public class HttpHandleThread implements Callable<Object> {
 		List<Map<String, Object>> items = commonManagerMapper
 				.selectTableListByNVList("t_sn_receipt", colNames, colValues,
 						null, null);
-
 		Map item = null;
 		if (items.size() > 0) {
 			item = items.get(0);
 		} else {
 			return "";
 		}
-
 		// ------------------- orderItem ------------
 		JSONArray orderItem = new JSONArray();
-
 		int i = 0;
 		for (Iterator it = orderItemList.iterator(); it.hasNext();) {
-
 			JSONObject data = (JSONObject) it.next();
 			// //查询数据库明细表中数据
 			// List<String> colNames = new ArrayList<String>();
@@ -1065,7 +1061,6 @@ public class HttpHandleThread implements Callable<Object> {
 			// colValues.add(data.get("itemId"));
 			// commonManagerMapper.selectTableListByNVList("t_sn_receipt_detail",
 			// colNames, colValues, null, null);
-
 			JSONObject orderSingleItem = new JSONObject();
 			// 明细表ORDER_ITEM_ID
 			orderSingleItem.put("orderItemId", data.get("orderItemId"));
@@ -1076,7 +1071,6 @@ public class HttpHandleThread implements Callable<Object> {
 			orderSingleItem.put("isCompleted", true);
 			// 明细表SKU
 			orderSingleItem.put("itemId", data.get("itemId"));
-
 			// ------------------- itemInventorySingleItem ------------
 			JSONObject itemInventorySingleItem = new JSONObject();
 			itemInventorySingleItem.put("inventoryType", "1");
@@ -1095,34 +1089,28 @@ public class HttpHandleThread implements Callable<Object> {
 			produceCodeSingleItem.put("expirationDate", "2099-01-01");
 			// 明细表 ACTUAL_QTY
 			produceCodeSingleItem.put("quantity", data.get("itemQuantity"));
-
 			// ------------------- itemInventory ------------
 			JSONArray itemInventory = new JSONArray();
 			itemInventory.add(itemInventorySingleItem);
 			// ------------------- produceCodeItem ------------
 			JSONArray produceCodeItem = new JSONArray();
 			produceCodeItem.add(produceCodeSingleItem);
-
 			// ------------------- itemInventoryList ------------
 			JSONObject itemInventoryList = new JSONObject();
 			itemInventoryList.put("itemInventory", itemInventory);
 			// ------------------- produceCodeItems ------------
 			JSONObject produceCodeItems = new JSONObject();
 			produceCodeItems.put("produceCodeItem", produceCodeItem);
-
 			orderSingleItem.put("itemInventoryList", itemInventoryList);
 			orderSingleItem.put("produceCodeItems", produceCodeItems);
-
 			orderItem.add(orderSingleItem);
 			
 			i++;
 		}
-
 		// 返回苏宁数据
 		// ------------------- orderItems ------------
 		JSONObject orderItems = new JSONObject();
 		orderItems.put("orderItem", orderItem);
-
 		// ------------------- orderConfirmInfo ------------
 		JSONObject orderConfirmInfo = new JSONObject();
 		// STORE_CODE
@@ -1145,10 +1133,8 @@ public class HttpHandleThread implements Callable<Object> {
 				CommonUtil.getDateFormatter(CommonDefine.COMMON_FORMAT).format(
 						new Date()));
 		orderConfirmInfo.put("confirmType", "0");
-
 		JSONObject content = new JSONObject();
 		content.put("orderConfirmInfo", orderConfirmInfo);
-
 		Map requestParam = new HashMap();
 		requestParam
 				.put("logistic_provider_id",
@@ -1158,10 +1144,8 @@ public class HttpHandleThread implements Callable<Object> {
 				.getSystemConfigProperty("SN_orderConfirmInfo_msg_type"));
 		requestParam.put("url", CommonUtil
 				.getSystemConfigProperty("SN_orderConfirmInfo_requestUrl"));
-
 		// 发送请求
 		String result = send2SN(requestParam, content.toString());
-
 		return "";
 	}*/
 	
@@ -1731,7 +1715,7 @@ public class HttpHandleThread implements Callable<Object> {
 			primary_sub.put("primaryId", null);
 
 			Map dataSub = new HashMap();
-			
+
 			Map dataSubForCJ = new HashMap();
 
 			for (Object key : item.keySet()) {
@@ -1759,7 +1743,7 @@ public class HttpHandleThread implements Callable<Object> {
 			commonManagerMapper.insertTableByNVList("T_SN_ORDER_DETAIL",
 					new ArrayList<String>(dataSub.keySet()),
 					new ArrayList<Object>(dataSub.values()), primary_sub);
-			
+
 			//发送给川佐数据组装
 			dataSubForCJ.put("ORDER_ITEM_ID", dataSub.get("ORDER_ITEM_ID"));
 			dataSubForCJ.put("SKU", dataSub.get("SKU"));
@@ -1831,9 +1815,9 @@ public class HttpHandleThread implements Callable<Object> {
 			//正常返回
 			if(orderResult.containsKey("CD") && "OK".equals(orderResult.get("CD").toString())){
 				//返回给苏宁
-				result.put("success", "true");
-				result.put("errorCode", "");
-				result.put("errorMsg", "");
+		result.put("success", "true");
+		result.put("errorCode", "");
+		result.put("errorMsg", "");
 			}else{
 				//异常返回
 				//返回给苏宁的错误代码只填B0007,错误原因透传。
@@ -1909,135 +1893,123 @@ public class HttpHandleThread implements Callable<Object> {
 			result.put("isSuccess", true);
 			// result.put("errorMsg", "出库单已存在");
 		} else {
-			List<Map> items = XmlUtil
-					.parseXmlFPAPI_MulitpleNodes(xmlString,
-							"//orders/orderImformation/orderItems");
+			Map orderItems = XmlUtil
+					.parseXmlFPAPI_SingleNodes(xmlString, "//orders/orderImformation/orderItems/child::*");
 
 			// 循环商品，看是否库存不足
 			boolean isSkuEnough = true;
-			List<BookOrderModel> bookOrders = new ArrayList<BookOrderModel>();
-			for (Map item : items) {
-				String goodsCode = item.get("goodsCode") != null ? item.get(
-						"goodsCode").toString() : "";
-				String goodsNumber = item.get("goodsNumber") != null ? item
-						.get("goodsNumber").toString() : "";
 
-				double goodsNumberDouble = !goodsNumber.isEmpty() ? Double
-						.valueOf(goodsNumber) : 0;
-				// t_new_import_books表中查找数据
-				// ADD_REDUCE_FLAG=1
-				// SKU=<orderItems><goodsCode>
-				// QTY>=<orderItems><goodsNumber>
-				List<Map> dataList = snCommonManagerMapper.selectBookNumber(
-						goodsCode, goodsNumberDouble);
+			String goodsCode = orderItems.get("goodsCode") != null ? orderItems.get(
+					"goodsCode").toString() : "";
+			String goodsNumber = orderItems.get("goodsNumber") != null ? orderItems
+					.get("goodsNumber").toString() : "";
 
-				if (dataList.size() == 0) {
-					isSkuEnough = false;
-					break;
-				} else {
-					BookOrderModel bookOrder = new BookOrderModel();
-					bookOrder.setHead(head);
-					bookOrder.setOrderitem(item);
-					bookOrder.setBookItems(dataList);
-					bookOrders.add(bookOrder);
-				}
+			double goodsNumberDouble = !goodsNumber.isEmpty() ? Double
+					.valueOf(goodsNumber) : 0;
+			// t_new_import_books表中查找数据
+			// ADD_REDUCE_FLAG=1
+			// SKU=<orderItems><goodsCode>
+			// QTY>=<orderItems><goodsNumber>
+			List<Map> dataList = snCommonManagerMapper.selectBookNumber(
+					goodsCode, goodsNumberDouble);
+
+			if (dataList.size() == 0) {
+				isSkuEnough = false;
+			} else {
 			}
+		
 			if (isSkuEnough) {
-				List<Map> skuList;
-				for (BookOrderModel xxx : bookOrders) {
-					skuList = xxx.getBookItems();
-					// QTY最小的，RECORD_NO最小的记录减去<orderItems><goodsNumber>。
-					Collections.sort(skuList, new Comparator<Map>() {
-						public int compare(Map o1, Map o2) {
-							double qty1 = Double.valueOf(o1.get("QTY")
-									.toString());
-							double qty2 = Double.valueOf(o2.get("QTY")
-									.toString());
-							String recordNo1 = o1.get("RECORD_NO")!=null?o1.get("RECORD_NO").toString():"";
-							String recordNo2 = o2.get("RECORD_NO")!=null?o2.get("RECORD_NO").toString():"";
-							// SimpleDateFormat sf =
-							// CommonUtil.getDateFormatter(CommonDefine.COMMON_FORMAT);
-							// Date creatTime1 = null;
-							// Date creatTime2 = null;
-							// try {
-							// creatTime1 =
-							// sf.parse(o1.get("CREAT_TIME").toString());
-							// creatTime2 =
-							// sf.parse(o2.get("CREAT_TIME").toString());
-							// } catch (ParseException e) {
-							// // TODO Auto-generated catch block
-							// e.printStackTrace();
-							// }
-							if (qty1 > qty2) {
-								if(recordNo1.compareTo(recordNo2)<0){
-									return 1;
-								}else{
-									return 0;
-								}
-							} else {
-								return 0;
-							}
+				String inventoryId;
+
+				// QTY最小的，RECORD_NO最小的记录减去<orderItems><goodsNumber>。
+				Collections.sort(dataList, new Comparator<Map>() {
+					public int compare(Map o1, Map o2) {
+						double qty1 = Double.valueOf(o1.get("QTY")
+								.toString());
+						double qty2 = Double.valueOf(o2.get("QTY")
+								.toString());
+						String recordNo1 = o1.get("RECORD_NO")!=null?o1.get("RECORD_NO").toString():"";
+						String recordNo2 = o2.get("RECORD_NO")!=null?o2.get("RECORD_NO").toString():"";
+						if (qty1 > qty2) {
+							if(recordNo1.compareTo(recordNo2)<0){
+							return 1;
+						} else {
+							return 0;
 						}
-					});
-					// 插入新记录
-					Map recorder = skuList.get(0);
-					colNames.clear();
-					colValues.clear();
+						} else {
+							return 0;
+						}
+					}
+				});
+				// 插入新记录
+				for(Map recorder:dataList){
 					double updateQty = Double.valueOf(recorder.get("QTY")
 							.toString())
-							- Double.valueOf(xxx.getOrderitem()
+							- Double.valueOf(orderItems
 									.get("goodsNumber").toString());
-					recorder.put("QTY", updateQty);
-					for (Object key : recorder.keySet()) {
-						colNames.add(key.toString());
-						colValues.add(recorder.get(key));
+					if(updateQty>=0){
+						colNames.clear();
+						colValues.clear();
+						colNames.add("QTY");
+						colValues.add(updateQty);
+						// 更新数据
+						commonManagerMapper.updateTableByNVList(
+								"t_new_import_books", "BOOKS_ID",
+								recorder.get("BOOKS_ID"), colNames, colValues);
+						
+						System.out.println("出库sku号:"
+								+ orderItems.get("goodsCode") + "_" + "出库数量:"
+								+ orderItems.get("goodsNumber") + "_"
+								+ "账册更新ID:" + recorder.get("BOOKS_ID") + "_"
+								+ "账册更新sku:" + recorder.get("SKU") + "_"
+								+ "账册更新前数据量:" + recorder.get("QTY") + "_"
+								+ "账册更新后数量:" + updateQty);
+						
+						// 插入新记录
+						Map primary = new HashMap();
+						primary.put("primaryId", null);
+						colNames.clear();
+						colValues.clear();
+						colNames.add("SKU");
+						colNames.add("DESCRIPTION");
+						colNames.add("QTY");
+						colNames.add("GOODS_SERIALNO");
+						colNames.add("DECL_NO");
+						colNames.add("CON_MODEL");
+						colNames.add("CON_NUM");
+						colNames.add("CON_NO");
+						colNames.add("RECORD_NO");
+						colNames.add("ADD_REDUCE_FLAG");
+						colNames.add("ORDER_NO");
+						colNames.add("CREAT_DATE");
+						colNames.add("CREAT_TIME");
+						colValues.add(orderItems.get("goodsCode"));
+						colValues.add(orderItems.get("goodsDescription"));
+						colValues.add(orderItems.get("goodsNumber"));
+						colValues.add(recorder.get("GOODS_SERIALNO"));
+						colValues.add(recorder.get("DECL_NO"));
+						colValues.add(recorder.get("CON_MODEL"));
+						colValues.add(recorder.get("CON_NUM"));
+						colValues.add(recorder.get("CON_NO"));
+						colValues.add(recorder.get("RECORD_NO"));
+						colValues.add("2");
+						colValues.add(head.get("btcOrderId"));
+						colValues.add(sf.format(new Date()));
+						colValues.add(new Date());
+						commonManagerMapper.insertTableByNVList(
+								"t_new_import_books", colNames, colValues, primary);
+						break;
+					}else{
+						continue;
 					}
-					// 更新数据
-					commonManagerMapper.updateTableByNVList(
-							"t_new_import_books", "BOOKS_ID",
-							recorder.get("BOOKS_ID"), colNames, colValues);
-
-					// 插入新记录
-					Map primary = new HashMap();
-					primary.put("primaryId", null);
-					colNames.clear();
-					colValues.clear();
-					colNames.add("SKU");
-					colNames.add("DESCRIPTION");
-					colNames.add("QTY");
-					colNames.add("GOODS_SERIALNO");
-					colNames.add("DECL_NO");
-					colNames.add("CON_MODEL");
-					colNames.add("CON_NUM");
-					colNames.add("CON_NO");
-					colNames.add("RECORD_NO");
-					colNames.add("ADD_REDUCE_FLAG");
-					colNames.add("ORDER_NO");
-					colNames.add("CREAT_DATE");
-					colNames.add("CREAT_TIME");
-					colValues.add(xxx.getOrderitem().get("goodsCode"));
-					colValues.add(xxx.getOrderitem().get("goodsDescription"));
-					colValues.add(xxx.getOrderitem().get("goodsNumber"));
-					colValues.add(recorder.get("GOODS_SERIALNO"));
-					colValues.add(recorder.get("DECL_NO"));
-					colValues.add(recorder.get("CON_MODEL"));
-					colValues.add(recorder.get("CON_NUM"));
-					colValues.add(recorder.get("CON_NO"));
-					colValues.add(recorder.get("RECORD_NO"));
-					colValues.add("2");
-					colValues.add(xxx.getHead().get("btcOrderId"));
-					colValues.add(sf.format(new Date()));
-					colValues.add(new Date());
-					commonManagerMapper.insertTableByNVList(
-							"t_new_import_books", colNames, colValues, primary);
 				}
 				// 第四步 插入t_new_import_inventory表和t_new_import_inventory_detail表
 				//
-				String id = insertInventory(xmlString);
-
+				inventoryId = insertInventory(xmlString);
+				
 				// 第五步
 				// 将t_new_import_inventory和t_new_import_inventory_detail表中部分数据组成xml，先保存本地，再通过接口发送
-				String xmlStringData = generalRequestXml4TJ(id, bundle);
+				String xmlStringData = generalRequestXml4TJ(inventoryId, bundle);
 
 				// 第五步 向天津外运发送清单数据
 				Map reponse = postToTJ(xmlStringData);
@@ -2058,229 +2030,6 @@ public class HttpHandleThread implements Callable<Object> {
 		}
 
 		return result;
-	}
-	
-	
-	private Map handleOrderC005_new(Map head, String xmlString,
-			ResourceBundle bundle) {
-		Map result = new HashMap();
-
-		result.put("isSuccess", "true");
-
-		SimpleDateFormat sf = CommonUtil
-				.getDateFormatter(CommonDefine.COMMON_FORMAT_1);
-		// t_new_import_inventory表中查找数据
-		List<String> colNames = new ArrayList<String>();
-		List<Object> colValues = new ArrayList<Object>();
-		colNames.add("ORDER_NO");
-		colValues.add(head.get("btcOrderId"));
-		List<Map<String, Object>> rows = commonManagerMapper
-				.selectTableListByNVList("t_new_import_inventory", colNames,
-						colValues, null, null);
-		
-		Map order = null;
-		int orderStatus = 0;
-		
-		//step1:根据ORDER_NO号查询t_new_import_inventory.status
-		if(rows != null && rows.size()>0){
-			order = rows.get(0);
-			orderStatus = Integer.parseInt(order.get("STATUS").toString());
-		}
-		
-		if (0 == orderStatus || 2 == orderStatus) {
-			String inventoryId = (order!=null?order.get("INVENTORY_ID").toString():null);
-			if(0 == orderStatus){
-				// 未生成清单，数据入库，更新或插入
-				// 插入主数据
-				inventoryId = insertInventory_main(xmlString, order);
-				// 插入子数据
-				String subId = insertInventoryDetail_new(xmlString, inventoryId);
-			}
-			// 获取商品种类数据量
-			int itemNumber = Integer.parseInt(head.get("btcItemNumber")
-					.toString());
-			//获取商品种类
-			List<Map<String, Object>> subDataList = commonManagerMapper
-					.selectTableListByCol("t_new_import_inventory_detail",
-							"ORDER_NO", head.get("btcOrderId"), null, null);
-			//更新主表的netWeight和grossWeight
-			double qtyCount = 0;
-			for(Map<String, Object> subData:subDataList){
-				if(subData.get("QTY1")!=null && !subData.get("QTY1").toString().isEmpty()){
-					qtyCount = qtyCount+Double.parseDouble(subData.get("QTY1").toString());
-				}
-			}
-			//t_new_import_inventory表更新net_weight,gross_weight
-			colNames.clear();
-			colValues.clear();
-			colNames.add("GROSS_WEIGHT");
-			colNames.add("NET_WEIGHT");
-			colValues.add(qtyCount);
-			colValues.add(qtyCount);
-			commonManagerMapper.updateTableByNVList("t_new_import_inventory", "INVENTORY_ID", inventoryId, colNames, colValues);
-			//判断库存是否足够
-			if(itemNumber == subDataList.size() || 2 == orderStatus){
-				//判断库存是否足够
-				List<BookOrderModel> bookOrders = isSkuEnough(head,subDataList);
-				boolean isSkuEnough = (bookOrders !=null);
-				//扣库存，发报文
-				if (isSkuEnough) {
-					//更新账册表
-					updateBookRecord(bookOrders);
-					//t_new_import_inventory表更新status
-					colNames.clear();
-					colValues.clear();
-					colNames.add("STATUS");
-					colValues.add("1");
-					commonManagerMapper.updateTableByNVList("t_new_import_inventory", "INVENTORY_ID", inventoryId, colNames, colValues);
-					// 将t_new_import_inventory和t_new_import_inventory_detail表中部分数据组成xml，先保存本地，再通过接口发送
-					String xmlStringData = generalRequestXml4TJ(inventoryId, bundle);
-
-					// 第五步 向天津外运发送清单数据
-					Map reponse = postToTJ(xmlStringData);
-					// 回传数据处理
-					String status = reponse.get("status") != null ? reponse.get(
-							"status").toString() : "";
-					String reason = reponse.get("reason") != null ? reponse.get(
-							"reason").toString() : "";
-					if ("fail".equals(status)) {
-						result.put("isSuccess", "true");
-						result.put("errorMsg", reason);
-					}
-				}else{
-					//库存不足
-					//t_new_import_inventory表更新status
-					colNames.clear();
-					colValues.clear();
-					colNames.add("STATUS");
-					colValues.add("2");
-					commonManagerMapper.updateTableByNVList("t_new_import_inventory", "INVENTORY_ID", inventoryId, colNames, colValues);
-					//流程结束
-					result.put("isSuccess", "true");
-					result.put("errorMsg", "库存不足");
-				}
-			}else{
-				//流程结束
-				result.put("isSuccess", "true");
-				result.put("errorMsg", "订单商品种类不全");
-			}
-		}else {
-			//已生成清单，返回苏宁成功，结束流程
-			result.put("isSuccess", "true");
-			result.put("errorMsg", "已生成清单");
-		}
-
-		return result;
-	}
-	
-	//判断库存是否足够
-	private List<BookOrderModel> isSkuEnough(Map head,List<Map<String, Object>> inventoryDetailList){
-		boolean isSkuEnough = true;
-		List<BookOrderModel> bookOrders = new ArrayList<BookOrderModel>();
-		for (Map item : inventoryDetailList) {
-			String goodsCode = item.get("ITEM_NO") != null ? item.get(
-					"ITEM_NO").toString() : "";
-			String goodsNumber = item.get("QTY") != null ? item
-					.get("QTY").toString() : "";
-
-			double goodsNumberDouble = !goodsNumber.isEmpty() ? Double
-					.valueOf(goodsNumber) : 0;
-			// t_new_import_books表中查找数据
-			// ADD_REDUCE_FLAG=1
-			// SKU=<orderItems><goodsCode>
-			// QTY>=<orderItems><goodsNumber>
-			List<Map> dataList = snCommonManagerMapper.selectBookNumber(
-					goodsCode, goodsNumberDouble);
-
-			if (dataList.size() == 0) {
-				isSkuEnough = false;
-				break;
-			} else {
-				BookOrderModel bookOrder = new BookOrderModel();
-				bookOrder.setHead(head);
-				bookOrder.setOrderitem(item);
-				bookOrder.setBookItems(dataList);
-				bookOrders.add(bookOrder);
-			}
-		}
-		if(isSkuEnough){
-			return bookOrders;
-		}else{
-			return null;
-		}
-	}
-	
-	//更新账册表
-	private void updateBookRecord(List<BookOrderModel> bookOrders){
-		List<String> colNames = new ArrayList<String>();
-		List<Object> colValues = new ArrayList<Object>();
-		for (BookOrderModel xxx : bookOrders) {
-			List<Map> skuList = xxx.getBookItems();
-			// QTY最小的，RECORD_NO最小的记录减去<orderItems><goodsNumber>。
-			Collections.sort(skuList, new Comparator<Map>() {
-				public int compare(Map o1, Map o2) {
-					double qty1 = Double.valueOf(o1.get("QTY")
-							.toString());
-					double qty2 = Double.valueOf(o2.get("QTY")
-							.toString());
-					String recordNo1 = o1.get("RECORD_NO")!=null?o1.get("RECORD_NO").toString():"";
-					String recordNo2 = o2.get("RECORD_NO")!=null?o2.get("RECORD_NO").toString():"";
-					if (qty1 > qty2) {
-						if(recordNo1.compareTo(recordNo2)<0){
-							return 1;
-						}else{
-							return 0;
-						}
-					} else {
-						return 0;
-					}
-				}
-			});
-
-			// 插入新记录
-			Map recorder = skuList.get(0);
-			
-			colNames.clear();
-			colValues.clear();
-			double updateQty = Double.valueOf(recorder.get("QTY")
-					.toString())
-					- Double.valueOf(xxx.getOrderitem()
-							.get("QTY").toString());
-			recorder.put("QTY", updateQty);
-			for (Object key : recorder.keySet()) {
-				colNames.add(key.toString());
-				colValues.add(recorder.get(key));
-			}
-			// 更新数据
-			commonManagerMapper.updateTableByNVList(
-					"t_new_import_books", "BOOKS_ID",
-					recorder.get("BOOKS_ID"), colNames, colValues);
-
-			// 插入新记录
-			Map primary = new HashMap();
-			primary.put("primaryId", null);
-			Map newBook = new HashMap();
-			
-			newBook.put("SKU", xxx.getOrderitem().get("ITEM_NO"));
-			newBook.put("DESCRIPTION", xxx.getOrderitem().get("ITEM_NAME"));
-			newBook.put("QTY", xxx.getOrderitem().get("QTY"));
-			
-			newBook.put("GOODS_SERIALNO", recorder.get("GOODS_SERIALNO"));
-			newBook.put("DECL_NO", recorder.get("DECL_NO"));
-			newBook.put("CON_MODEL", recorder.get("CON_MODEL"));
-			newBook.put("CON_NUM", recorder.get("CON_NUM"));
-			newBook.put("CON_NO", recorder.get("CON_NO"));
-			newBook.put("RECORD_NO", recorder.get("RECORD_NO"));
-			newBook.put("ADD_REDUCE_FLAG", "2");
-			newBook.put("ORDER_NO", xxx.getHead().get("btcOrderId"));
-			newBook.put("CREAT_DATE", CommonUtil
-					.getDateFormatter(CommonDefine.COMMON_FORMAT_1).format(new Date()));
-			newBook.put("CREAT_TIME", new Date());
-
-			commonManagerMapper.insertTableByNVList(
-					"t_new_import_books", new ArrayList<String>(newBook.keySet()),
-					new ArrayList<Object>(newBook.values()), primary);
-		}
 	}
 
 	private Map postToTJ(String xmlData) {
@@ -2359,7 +2108,7 @@ public class HttpHandleThread implements Callable<Object> {
 					idInt).get(0);
 			
 			//如果t_new_import_sku.unit2为空，则<qty2>保持不变，继续填t_new_import_inventory_detail.qty2。
-			//如果t_new_import_sku.unit2不为空，则<qty2>改成t_new_import_inventory_detail.qty1
+			//如果t_new_import_sku.unit2不为空，则<qty2>改成t_new_import_inventory.NET_WEIGHT
 			if(item.get("UNIT2") == null || item.get("UNIT2").toString().isEmpty()){
 				//不变
 			}else{
@@ -2589,23 +2338,47 @@ public class HttpHandleThread implements Callable<Object> {
 		colNames.add("PACK_NO");
 		colValues.add("1");
 
-		colNames.add("GROSS_WEIGHT");
+//		colNames.add("GROSS_WEIGHT");
+//		if (orderDeclareHead.get("grossWeight") != null
+//				&& !orderDeclareHead.get("grossWeight").toString().isEmpty()) {
+//			colValues.add(orderDeclareHead.get("grossWeight"));
+//		} else {
+//			colValues.add(null);
+//		}
+
+//		colNames.add("NET_WEIGHT");
+//		if (orderDeclareHead.get("netWeight") != null
+//				&& !orderDeclareHead.get("netWeight").toString().isEmpty()) {
+//			colValues.add(orderDeclareHead.get("netWeight"));
+//		} else {
+//			colValues.add(null);
+//		}
+		
 		colNames.add("NET_WEIGHT");
-		if (orderDeclareItems.get("goodsGrossWeight") != null
-				&& !orderDeclareItems.get("goodsGrossWeight").toString()
+		if (orderDeclareHead.get("netWeight") != null
+				&& !orderDeclareHead.get("netWeight").toString()
 						.isEmpty()
 				&& orderDeclareItems.get("declareCount") != null
 				&& !orderDeclareItems.get("declareCount").toString().isEmpty()) {
-			colValues.add(Double.parseDouble(orderDeclareItems.get(
-					"goodsGrossWeight").toString())
-					* Double.parseDouble(orderDeclareItems.get("declareCount")
-							.toString()));
-			colValues.add(Double.parseDouble(orderDeclareItems.get(
-					"goodsGrossWeight").toString())
+			colValues.add(Double.parseDouble(orderDeclareHead.get(
+					"netWeight").toString())
 					* Double.parseDouble(orderDeclareItems.get("declareCount")
 							.toString()));
 		} else {
 			colValues.add(null);
+		}
+		
+		colNames.add("GROSS_WEIGHT");
+		if (orderDeclareHead.get("grossWeight") != null
+				&& !orderDeclareHead.get("grossWeight").toString()
+						.isEmpty()
+				&& orderDeclareItems.get("declareCount") != null
+				&& !orderDeclareItems.get("declareCount").toString().isEmpty()) {
+			colValues.add(Double.parseDouble(orderDeclareHead.get(
+					"grossWeight").toString())
+					* Double.parseDouble(orderDeclareItems.get("declareCount")
+							.toString()));
+		} else {
 			colValues.add(null);
 		}
 
@@ -2627,7 +2400,7 @@ public class HttpHandleThread implements Callable<Object> {
 
 		colNames.add("NOTE");
 		colValues.add("");
-		
+
 		colNames.add("LOS_NO");
 		colValues.add(head.get("logisticsOrderId"));
 
@@ -2686,15 +2459,9 @@ public class HttpHandleThread implements Callable<Object> {
 		}
 
 		colNames.add("QTY1");
-		if (orderDeclareItems.get("goodsGrossWeight") != null
-				&& !orderDeclareItems.get("goodsGrossWeight").toString()
-						.isEmpty()
-				&& orderDeclareItems.get("declareCount") != null
-				&& !orderDeclareItems.get("declareCount").toString().isEmpty()) {
-			colValues.add(Double.parseDouble(orderDeclareItems.get(
-					"goodsGrossWeight").toString())
-					* Double.parseDouble(orderDeclareItems.get("declareCount")
-							.toString()));
+		if (orderDeclareItems.get("firstCount") != null
+				&& !orderDeclareItems.get("firstCount").toString().isEmpty()) {
+			colValues.add(orderDeclareItems.get("firstCount"));
 		} else {
 			colValues.add(null);
 		}
@@ -2742,259 +2509,6 @@ public class HttpHandleThread implements Callable<Object> {
 				primary_sub);
 
 		return primary.get("primaryId").toString();
-	}
-	
-	
-	// 插入t_new_import_inventory表
-	private String insertInventory_main(String xmlString,Map order) {
-		Map head = XmlUtil
-				.parseXmlFPAPI_SingleNodes(xmlString,
-						"//orders/orderImformation/orderHead/child::*");
-		Map orderDeclareHead = XmlUtil
-				.parseXmlFPAPI_SingleNodes(xmlString,
-						"//orders/orderDeclare/orderDeclareHead/child::*");
-		
-		Map orderExpBill = XmlUtil
-				.parseXmlFPAPI_SingleNodes(xmlString,
-						"//orders/orderExpBill/child::*");
-		
-		Map orderDeclareItems = XmlUtil.parseXmlFPAPI_SingleNodes(
-				xmlString,
-				"//orders/orderDeclare/orderDeclareItems/child::*");
-
-		SimpleDateFormat sf = CommonUtil
-				.getDateFormatter(CommonDefine.RETRIEVAL_TIME_FORMAT);
-
-		SimpleDateFormat sf1 = CommonUtil
-				.getDateFormatter(CommonDefine.COMMON_FORMAT_1);
-
-		
-		if(order == null){
-			order = new HashMap();
-		}
-		
-		order.put("GUID", CommonUtil.generalGuid(
-				CommonDefine.GUID_FOR_LOGISTICS_SN_1, 10,
-				"t_new_import_inventory"));
-		order.put("CUSTOM_CODE", "0213");
-		order.put("APP_TYPE", "1");
-		order.put("APP_TIME", sf.format(new Date()));
-		order.put("APP_STATUS", "2");
-		order.put("COP_NO", head.get("taskOrderid"));
-		order.put("PRE_NO", "");
-		order.put("EBC_CODE", "3201966A69");
-		order.put("EBC_NAME", "江苏苏宁易购电子商务有限公司");
-		order.put("EBP_CODE", "3201966A69");
-		order.put("EBP_NAME", "江苏苏宁易购电子商务有限公司");
-		order.put("ORDER_NO", head.get("btcOrderId"));
-		order.put("LOGISTICS_NO", orderExpBill.get("expressCompanyExcode"));
-		order.put("LOGISTICS_CODE", "3201961A28");
-		order.put("LOGISTICS_NAME", "江苏苏宁物流有限公司");
-		order.put("ASSURE_CODE", "3201966A69");
-		order.put("EMS_NO", "T0213W000152");
-		order.put("INVT_NO", "");
-		order.put("DECL_TIME", sf1.format(new Date()));
-		order.put("PORT_CODE", "0213");
-		order.put("IE_DATE", null);
-		order.put("BUYER_NAME", orderDeclareHead.get("payerName"));
-		order.put("BUYER_IDTYPE", "1");
-		order.put("BUYER_IDNUMBER", orderDeclareHead.get("paperNumber"));
-		order.put("BUYER_TELEPHONE", orderDeclareHead.get("payerPhoneNumber"));
-		order.put("CONSIGNEE_ADDRESS", orderDeclareHead.get("consigneeAddress"));
-		order.put("AGENT_CODE", "1207980025");
-		order.put("AGENT_NAME", "天津中外运报关有限公司");
-		order.put("AERA_CODE", "1207610251");
-		order.put("AERA_NAME", "天津中外运国际物流发展有限公司");
-		order.put("TRADE_MODE", "1210");
-		order.put("TRAF_MODE", "Y");
-		order.put("TRAF_NO", "");
-		order.put("LOCT_NO", "");
-		order.put("LICENSE_NO", "");
-		order.put("COUNTRY", "142");
-		order.put("CURRENCY", "142");
-		if (orderDeclareHead.get("freight") != null
-				&& !orderDeclareHead.get("freight").toString().isEmpty()) {
-			order.put("FREIGHT", orderDeclareHead.get("freight"));
-		} else {
-			order.put("FREIGHT", null);
-		}
-		if (orderDeclareHead.get("insuranceFee") != null
-				&& !orderDeclareHead.get("insuranceFee").toString().isEmpty()) {
-			order.put("INSURE_FEE", orderDeclareHead.get("insuranceFee"));
-		} else {
-			order.put("INSURE_FEE", 0);
-		}
-		order.put("WRAP_TYPE", orderDeclareHead.get("warpType"));
-		order.put("PACK_NO", "1");
-//		if (orderDeclareHead.get("grossWeight") != null
-//				&& !orderDeclareHead.get("grossWeight").toString().isEmpty()) {
-//			order.put("GROSS_WEIGHT", orderDeclareHead.get("grossWeight"));
-//		} else {
-//			order.put("GROSS_WEIGHT", null);
-//		}
-//		if (orderDeclareHead.get("netWeight") != null
-//				&& !orderDeclareHead.get("netWeight").toString().isEmpty()) {
-//			order.put("NET_WEIGHT", orderDeclareHead.get("netWeight"));
-//		} else {
-//			order.put("NET_WEIGHT", null);
-//		}
-		if (orderDeclareHead.get("paySerialNo") != null
-				&& !orderDeclareHead.get("paySerialNo").toString().isEmpty()) {
-			order.put("PAY_SERIAL_NO", orderDeclareHead.get("paySerialNo"));
-		} else {
-			order.put("PAY_SERIAL_NO", null);
-		}
-		if (orderDeclareItems.get("tradeTotal") != null
-				&& !orderDeclareItems.get("tradeTotal").toString().isEmpty()) {
-			order.put("WORTH", orderDeclareItems.get("tradeTotal"));
-		} else {
-			order.put("WORTH", null);
-		}
-		order.put("NOTE", "");
-//		order.put("LOS_NO", head.get("logisticsOrderId"));
-		order.put("CREAT_TIME", new Date());
-		
-		order.put("ITEM_NUMBER", head.get("btcItemNumber"));
-		order.put("STATUS", "0");
-		
-		String id;
-		//插入或更新
-		if (order.containsKey("INVENTORY_ID")) {
-			id = order.get("INVENTORY_ID").toString();
-			commonManagerMapper.updateTableByNVList("t_new_import_inventory",
-					"INVENTORY_ID", order.get("INVENTORY_ID"),
-					new ArrayList<String>(order.keySet()),
-					new ArrayList<Object>(order.values()));
-		} else {
-			Map primary = new HashMap();
-			primary.put("primaryId", null);
-			commonManagerMapper.insertTableByNVList("t_new_import_inventory",
-					new ArrayList<String>(order.keySet()),
-					new ArrayList<Object>(order.values()), primary);
-			id = primary.get("primaryId").toString();
-		}
-		
-		return id;
-	}
-	
-	// 插入t_new_import_inventory_detail表
-	private String insertInventoryDetail_new(String xmlString,String mainId) {
-		Map head = XmlUtil
-				.parseXmlFPAPI_SingleNodes(xmlString,
-						"//orders/orderImformation/orderHead/child::*");
-		Map orderDeclareHead = XmlUtil
-				.parseXmlFPAPI_SingleNodes(xmlString,
-						"//orders/orderDeclare/orderDeclareHead/child::*");
-		
-		Map orderExpBill = XmlUtil
-				.parseXmlFPAPI_SingleNodes(xmlString,
-						"//orders/orderExpBill/child::*");
-		
-		Map orderDeclareItems = XmlUtil.parseXmlFPAPI_SingleNodes(
-				xmlString,
-				"//orders/orderDeclare/orderDeclareItems/child::*");
-
-		SimpleDateFormat sf = CommonUtil
-				.getDateFormatter(CommonDefine.RETRIEVAL_TIME_FORMAT);
-
-		SimpleDateFormat sf1 = CommonUtil
-				.getDateFormatter(CommonDefine.COMMON_FORMAT_1);
-		
-		//查询
-		List<String> colNames = new ArrayList<String>();
-		List<Object> colValues = new ArrayList<Object>();
-		colNames.add("ORDER_NO");
-		colNames.add("LOS_NO");
-		colValues.add(head.get("btcOrderId"));
-		colValues.add(head.get("logisticsOrderId"));
-		List<Map<String, Object>> rows = commonManagerMapper
-				.selectTableListByNVList("t_new_import_inventory_detail", colNames,
-						colValues, null, null);
-		
-		Map subOrder = new HashMap();
-		if(rows != null && rows.size()>0){
-			subOrder = rows.get(0);
-		}
-		//插入t_new_import_inventory_detail表
-		subOrder.put("INVENTORY_ID", mainId);
-		subOrder.put("GNUM", orderDeclareItems.get("goodsOrder"));
-		subOrder.put("ITEM_NO", orderDeclareItems.get("goodsItemNo"));
-		subOrder.put("ITEM_NAME", orderDeclareItems.get("goodsName"));
-		subOrder.put("G_CODE", "");
-		subOrder.put("G_NAME", orderDeclareItems.get("goodsName"));
-		subOrder.put("G_MODEL", orderDeclareItems.get("goodsModel"));
-		subOrder.put("BARCODE", "");
-		subOrder.put("COUNTRY", orderDeclareItems.get("originCountry"));
-		subOrder.put("TRADE_COUNTRY", orderDeclareHead.get("tradeCountry"));
-		subOrder.put("CURRENCY", orderDeclareItems.get("tradeCurr"));
-		if (orderDeclareItems.get("declareCount") != null
-				&& !orderDeclareItems.get("declareCount").toString()
-						.isEmpty()) {
-			subOrder.put("QTY", orderDeclareItems.get("declareCount"));
-		} else {
-			subOrder.put("QTY", null);
-		}
-		// 填<orderDeclareItems><goodsGrossWeight>的值乘以<orderDeclareItems><declareCount>的值。
-		if (orderDeclareItems.get("goodsGrossWeight") != null
-				&& !orderDeclareItems.get("goodsGrossWeight").toString()
-						.isEmpty()
-				&& orderDeclareItems.get("declareCount") != null
-				&& !orderDeclareItems.get("declareCount").toString().isEmpty()) {
-			subOrder.put(
-					"QTY1",
-					Double.parseDouble(orderDeclareItems
-							.get("goodsGrossWeight").toString())
-							* Double.parseDouble(orderDeclareItems
-									.get("declareCount").toString()));
-		} else {
-			subOrder.put("QTY1", null);
-		}
-		if (orderDeclareItems.get("secondCount") != null
-				&& !orderDeclareItems.get("secondCount").toString()
-						.isEmpty()) {
-			subOrder.put("QTY2", orderDeclareItems.get("secondCount"));
-		} else {
-			subOrder.put("QTY2", null);
-		}
-		subOrder.put("UNIT", orderDeclareItems.get("goodsUnit"));
-		subOrder.put("UNIT1", orderDeclareItems.get("firstUnit"));
-		subOrder.put("UNIT2", orderDeclareItems.get("secondUnit"));
-		if (orderDeclareItems.get("declPrice") != null
-				&& !orderDeclareItems.get("declPrice").toString().isEmpty()) {
-			subOrder.put("PRICE", orderDeclareItems.get("declPrice"));
-		} else {
-			subOrder.put("PRICE", null);
-		}
-		if (orderDeclareItems.get("declTotalPrice") != null
-				&& !orderDeclareItems.get("declTotalPrice").toString()
-						.isEmpty()) {
-			subOrder.put("TOTAL_PRICE", orderDeclareItems.get("declTotalPrice"));
-		} else {
-			subOrder.put("TOTAL_PRICE", null);
-		}
-		subOrder.put("CREAT_TIME", new Date());
-		
-		subOrder.put("LOS_NO", head.get("logisticsOrderId"));
-		subOrder.put("ORDER_NO", head.get("btcOrderId"));
-
-		String id;
-		//插入或更新
-		if (subOrder.containsKey("INVENTORY_DETAIL_ID")) {
-			id = subOrder.get("INVENTORY_DETAIL_ID").toString();
-			commonManagerMapper.updateTableByNVList("t_new_import_inventory_detail",
-					"INVENTORY_DETAIL_ID", subOrder.get("INVENTORY_DETAIL_ID"),
-					new ArrayList<String>(subOrder.keySet()),
-					new ArrayList<Object>(subOrder.values()));
-		} else {
-			Map primary = new HashMap();
-			primary.put("primaryId", null);
-			commonManagerMapper.insertTableByNVList("t_new_import_inventory_detail",
-					new ArrayList<String>(subOrder.keySet()),
-					new ArrayList<Object>(subOrder.values()), primary);
-			id = primary.get("primaryId").toString();
-		}
-
-		return id;
 	}
 
 	public static void main(String arg[]) {

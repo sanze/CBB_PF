@@ -117,7 +117,7 @@ public class InitJob extends HttpServlet {
 				ExceptionHandler.handleException(e);
 			}
 	        server.createContext(httpServerUrl, new HttpServerManagerServiceImpl());
-	        server.setExecutor(Executors.newCachedThreadPool());
+	        server.setExecutor(Executors.newFixedThreadPool(Integer.valueOf(CommonUtil.getSystemConfigProperty("threadNumber"))));
 	        server.start();
 	        System.out.println("server started"); 
 		}
