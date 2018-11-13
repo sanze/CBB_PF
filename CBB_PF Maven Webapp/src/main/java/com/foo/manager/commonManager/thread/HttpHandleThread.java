@@ -2,7 +2,6 @@ package com.foo.manager.commonManager.thread;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,8 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.concurrent.Callable;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 
@@ -24,6 +21,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.collections.map.LinkedMap;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.stereotype.Service;
 
 import com.foo.common.CommonDefine;
@@ -986,8 +984,10 @@ public class HttpHandleThread implements Callable<Object> {
 				.getSystemConfigProperty("CJ_sendInStockOrder_requestUrl").toString());
 
 		//获取返回信息
-		String returnXmlData = XmlUtil
-				.getResponseFromXmlString_CJ(response);
+//		String returnXmlData = XmlUtil
+//				.getResponseFromXmlString_CJ(response);
+		
+		String returnXmlData = XmlUtil.getTotalMidValue(StringEscapeUtils.unescapeXml(response),"<ns:return>","</ns:return>");
 		
 		//正常测试报文
 //		String returnXmlData = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><DATA><ORDER><ORDER_CODE>3434222e333</ORDER_CODE><CD>OK</CD><INFO><![CDATA[]]></INFO><ITEMS><ITEM><ORDER_ITEM_ID>420000002xxxxxx</ORDER_ITEM_ID><SKU>P0000KMM</SKU><ACTUAL_QTY>1</ACTUAL_QTY><ACTUAL_QTY_DEFECT>5590</ACTUAL_QTY_DEFECT></ITEM><ITEM><ORDER_ITEM_ID>1234567891</ORDER_ITEM_ID><SKU>P0001KMM</SKU><ACTUAL_QTY>1</ACTUAL_QTY><ACTUAL_QTY_DEFECT>5591</ACTUAL_QTY_DEFECT></ITEM></ITEMS></ORDER></DATA>";
@@ -1816,8 +1816,10 @@ public class HttpHandleThread implements Callable<Object> {
 					.getSystemConfigProperty("CJ_sendOrder_requestUrl").toString());
 			
 			//获取返回信息
-			String returnXmlData = XmlUtil
-					.getResponseFromXmlString_CJ(response);
+//			String returnXmlData = XmlUtil
+//					.getResponseFromXmlString_CJ(response);
+			
+			String returnXmlData = XmlUtil.getTotalMidValue(StringEscapeUtils.unescapeXml(response),"<ns:return>","</ns:return>");
 			
 			//正常测试报文
 //			String returnXmlData = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><DATA><ORDER><ORDER_CODE>3434222e333</ORDER_CODE><CD>OK</CD><INFO><![CDATA[]]></INFO><ITEMS><ITEM><ORDER_ITEM_ID>420000002xxxxxx</ORDER_ITEM_ID><SKU>P0000KMM</SKU><ACTUAL_QTY>1</ACTUAL_QTY><ACTUAL_QTY_DEFECT>5590</ACTUAL_QTY_DEFECT></ITEM><ITEM><ORDER_ITEM_ID>1234567891</ORDER_ITEM_ID><SKU>P0001KMM</SKU><ACTUAL_QTY>1</ACTUAL_QTY><ACTUAL_QTY_DEFECT>5591</ACTUAL_QTY_DEFECT></ITEM></ITEMS></ORDER></DATA>";
@@ -1897,8 +1899,8 @@ public class HttpHandleThread implements Callable<Object> {
 		// t_new_import_inventory表中查找数据
 		List<String> colNames = new ArrayList<String>();
 		List<Object> colValues = new ArrayList<Object>();
-		colNames.add("LOGISTICS_NO");
-		colValues.add(head.get("logisticsOrderId"));
+		colNames.add("ORDER_NO");
+		colValues.add(head.get("btcOrderId"));
 		List<Map<String, Object>> rows = commonManagerMapper
 				.selectTableListByNVList("t_new_import_inventory", colNames,
 						colValues, null, null);
@@ -2074,27 +2076,27 @@ public class HttpHandleThread implements Callable<Object> {
 		List<Object> colValues = new ArrayList<Object>();
 		colNames.add("ORDER_NO");
 		colValues.add(head.get("btcOrderId"));
-		List<Map<String, Object>> rows = commonManagerMapper
+		List<Map<String, Object>> inventoryList = commonManagerMapper
 				.selectTableListByNVList("t_new_import_inventory", colNames,
 						colValues, null, null);
 		
-		Map order = null;
-		int orderStatus = 0;
+		Map inventory = null;
+		int inventoryStatus = 0;
 		
 		//step1:根据ORDER_NO号查询t_new_import_inventory.status
-		if(rows != null && rows.size()>0){
-			order = rows.get(0);
-			orderStatus = Integer.parseInt(order.get("STATUS").toString());
+		if(inventoryList != null && inventoryList.size()>0){
+			inventory = inventoryList.get(0);
+			inventoryStatus = Integer.parseInt(inventory.get("STATUS").toString());
 		}
 		
-		if (0 == orderStatus || 2 == orderStatus) {
-			String inventoryId = (order!=null?order.get("INVENTORY_ID").toString():null);
-			if(0 == orderStatus){
+		if (0 == inventoryStatus || 2 == inventoryStatus) {
+			String inventoryId = (inventory!=null?inventory.get("INVENTORY_ID").toString():null);
+			if(0 == inventoryStatus){
 				// 未生成清单，数据入库，更新或插入
 				// 插入主数据
-				inventoryId = insertInventory_main(xmlString, order);
+				inventoryId = insertOrUpdateInventory_main(xmlString, inventory);
 				// 插入子数据
-				String subId = insertInventoryDetail_new(xmlString, inventoryId);
+				String subId = insertOrUpdateInventoryDetail_new(xmlString, inventoryId);
 			}
 			// 获取商品种类数据量
 			int itemNumber = Integer.parseInt(head.get("btcItemNumber")
@@ -2119,7 +2121,7 @@ public class HttpHandleThread implements Callable<Object> {
 			colValues.add(qtyCount);
 			commonManagerMapper.updateTableByNVList("t_new_import_inventory", "INVENTORY_ID", inventoryId, colNames, colValues);
 			//判断库存是否足够
-			if(itemNumber == subDataList.size() || 2 == orderStatus){
+			if(itemNumber == subDataList.size() || 2 == inventoryStatus){
 				//判断库存是否足够
 				List<BookOrderModel> bookOrders = isSkuEnough(head,subDataList);
 				boolean isSkuEnough = (bookOrders !=null);
@@ -2746,7 +2748,7 @@ public class HttpHandleThread implements Callable<Object> {
 	
 	
 	// 插入t_new_import_inventory表
-	private String insertInventory_main(String xmlString,Map order) {
+	private String insertOrUpdateInventory_main(String xmlString,Map inventory) {
 		Map head = XmlUtil
 				.parseXmlFPAPI_SingleNodes(xmlString,
 						"//orders/orderImformation/orderHead/child::*");
@@ -2769,63 +2771,63 @@ public class HttpHandleThread implements Callable<Object> {
 				.getDateFormatter(CommonDefine.COMMON_FORMAT_1);
 
 		
-		if(order == null){
-			order = new HashMap();
+		if(inventory == null){
+			inventory = new HashMap();
 		}
 		
-		order.put("GUID", CommonUtil.generalGuid(
+		inventory.put("GUID", CommonUtil.generalGuid(
 				CommonDefine.GUID_FOR_LOGISTICS_SN_1, 10,
 				"t_new_import_inventory"));
-		order.put("CUSTOM_CODE", "0213");
-		order.put("APP_TYPE", "1");
-		order.put("APP_TIME", sf.format(new Date()));
-		order.put("APP_STATUS", "2");
-		order.put("COP_NO", head.get("taskOrderid"));
-		order.put("PRE_NO", "");
-		order.put("EBC_CODE", "3201966A69");
-		order.put("EBC_NAME", "江苏苏宁易购电子商务有限公司");
-		order.put("EBP_CODE", "3201966A69");
-		order.put("EBP_NAME", "江苏苏宁易购电子商务有限公司");
-		order.put("ORDER_NO", head.get("btcOrderId"));
-		order.put("LOGISTICS_NO", orderExpBill.get("expressCompanyExcode"));
-		order.put("LOGISTICS_CODE", "3201961A28");
-		order.put("LOGISTICS_NAME", "江苏苏宁物流有限公司");
-		order.put("ASSURE_CODE", "3201966A69");
-		order.put("EMS_NO", "T0213W000152");
-		order.put("INVT_NO", "");
-		order.put("DECL_TIME", sf1.format(new Date()));
-		order.put("PORT_CODE", "0213");
-		order.put("IE_DATE", null);
-		order.put("BUYER_NAME", orderDeclareHead.get("payerName"));
-		order.put("BUYER_IDTYPE", "1");
-		order.put("BUYER_IDNUMBER", orderDeclareHead.get("paperNumber"));
-		order.put("BUYER_TELEPHONE", orderDeclareHead.get("payerPhoneNumber"));
-		order.put("CONSIGNEE_ADDRESS", orderDeclareHead.get("consigneeAddress"));
-		order.put("AGENT_CODE", "1207980025");
-		order.put("AGENT_NAME", "天津中外运报关有限公司");
-		order.put("AERA_CODE", "1207610251");
-		order.put("AERA_NAME", "天津中外运国际物流发展有限公司");
-		order.put("TRADE_MODE", "1210");
-		order.put("TRAF_MODE", "Y");
-		order.put("TRAF_NO", "");
-		order.put("LOCT_NO", "");
-		order.put("LICENSE_NO", "");
-		order.put("COUNTRY", "142");
-		order.put("CURRENCY", "142");
+		inventory.put("CUSTOM_CODE", "0213");
+		inventory.put("APP_TYPE", "1");
+		inventory.put("APP_TIME", sf.format(new Date()));
+		inventory.put("APP_STATUS", "2");
+		inventory.put("COP_NO", head.get("taskOrderid"));
+		inventory.put("PRE_NO", "");
+		inventory.put("EBC_CODE", "3201966A69");
+		inventory.put("EBC_NAME", "江苏苏宁易购电子商务有限公司");
+		inventory.put("EBP_CODE", "3201966A69");
+		inventory.put("EBP_NAME", "江苏苏宁易购电子商务有限公司");
+		inventory.put("ORDER_NO", head.get("btcOrderId"));
+		inventory.put("LOGISTICS_NO", orderExpBill.get("expressCompanyExcode"));
+		inventory.put("LOGISTICS_CODE", "3201961A28");
+		inventory.put("LOGISTICS_NAME", "江苏苏宁物流有限公司");
+		inventory.put("ASSURE_CODE", "3201966A69");
+		inventory.put("EMS_NO", "T0213W000152");
+		inventory.put("INVT_NO", "");
+		inventory.put("DECL_TIME", sf1.format(new Date()));
+		inventory.put("PORT_CODE", "0213");
+		inventory.put("IE_DATE", null);
+		inventory.put("BUYER_NAME", orderDeclareHead.get("payerName"));
+		inventory.put("BUYER_IDTYPE", "1");
+		inventory.put("BUYER_IDNUMBER", orderDeclareHead.get("paperNumber"));
+		inventory.put("BUYER_TELEPHONE", orderDeclareHead.get("payerPhoneNumber"));
+		inventory.put("CONSIGNEE_ADDRESS", orderDeclareHead.get("consigneeAddress"));
+		inventory.put("AGENT_CODE", "1207980025");
+		inventory.put("AGENT_NAME", "天津中外运报关有限公司");
+		inventory.put("AERA_CODE", "1207610251");
+		inventory.put("AERA_NAME", "天津中外运国际物流发展有限公司");
+		inventory.put("TRADE_MODE", "1210");
+		inventory.put("TRAF_MODE", "Y");
+		inventory.put("TRAF_NO", "");
+		inventory.put("LOCT_NO", "");
+		inventory.put("LICENSE_NO", "");
+		inventory.put("COUNTRY", "142");
+		inventory.put("CURRENCY", "142");
 		if (orderDeclareHead.get("freight") != null
 				&& !orderDeclareHead.get("freight").toString().isEmpty()) {
-			order.put("FREIGHT", orderDeclareHead.get("freight"));
+			inventory.put("FREIGHT", orderDeclareHead.get("freight"));
 		} else {
-			order.put("FREIGHT", null);
+			inventory.put("FREIGHT", null);
 		}
 		if (orderDeclareHead.get("insuranceFee") != null
 				&& !orderDeclareHead.get("insuranceFee").toString().isEmpty()) {
-			order.put("INSURE_FEE", orderDeclareHead.get("insuranceFee"));
+			inventory.put("INSURE_FEE", orderDeclareHead.get("insuranceFee"));
 		} else {
-			order.put("INSURE_FEE", 0);
+			inventory.put("INSURE_FEE", 0);
 		}
-		order.put("WRAP_TYPE", orderDeclareHead.get("warpType"));
-		order.put("PACK_NO", "1");
+		inventory.put("WRAP_TYPE", orderDeclareHead.get("warpType"));
+		inventory.put("PACK_NO", "1");
 //		if (orderDeclareHead.get("grossWeight") != null
 //				&& !orderDeclareHead.get("grossWeight").toString().isEmpty()) {
 //			order.put("GROSS_WEIGHT", orderDeclareHead.get("grossWeight"));
@@ -2840,37 +2842,37 @@ public class HttpHandleThread implements Callable<Object> {
 //		}
 		if (orderDeclareHead.get("paySerialNo") != null
 				&& !orderDeclareHead.get("paySerialNo").toString().isEmpty()) {
-			order.put("PAY_SERIAL_NO", orderDeclareHead.get("paySerialNo"));
+			inventory.put("PAY_SERIAL_NO", orderDeclareHead.get("paySerialNo"));
 		} else {
-			order.put("PAY_SERIAL_NO", null);
+			inventory.put("PAY_SERIAL_NO", null);
 		}
 		if (orderDeclareItems.get("tradeTotal") != null
 				&& !orderDeclareItems.get("tradeTotal").toString().isEmpty()) {
-			order.put("WORTH", orderDeclareItems.get("tradeTotal"));
+			inventory.put("WORTH", orderDeclareItems.get("tradeTotal"));
 		} else {
-			order.put("WORTH", null);
+			inventory.put("WORTH", null);
 		}
-		order.put("NOTE", "");
+		inventory.put("NOTE", "");
 //		order.put("LOS_NO", head.get("logisticsOrderId"));
-		order.put("CREAT_TIME", new Date());
+		inventory.put("CREAT_TIME", new Date());
 		
-		order.put("ITEM_NUMBER", head.get("btcItemNumber"));
-		order.put("STATUS", "0");
+		inventory.put("ITEM_NUMBER", head.get("btcItemNumber"));
+		inventory.put("STATUS", "0");
 		
 		String id;
 		//插入或更新
-		if (order.containsKey("INVENTORY_ID")) {
-			id = order.get("INVENTORY_ID").toString();
+		if (inventory.containsKey("INVENTORY_ID")) {
+			id = inventory.get("INVENTORY_ID").toString();
 			commonManagerMapper.updateTableByNVList("t_new_import_inventory",
-					"INVENTORY_ID", order.get("INVENTORY_ID"),
-					new ArrayList<String>(order.keySet()),
-					new ArrayList<Object>(order.values()));
+					"INVENTORY_ID", inventory.get("INVENTORY_ID"),
+					new ArrayList<String>(inventory.keySet()),
+					new ArrayList<Object>(inventory.values()));
 		} else {
 			Map primary = new HashMap();
 			primary.put("primaryId", null);
 			commonManagerMapper.insertTableByNVList("t_new_import_inventory",
-					new ArrayList<String>(order.keySet()),
-					new ArrayList<Object>(order.values()), primary);
+					new ArrayList<String>(inventory.keySet()),
+					new ArrayList<Object>(inventory.values()), primary);
 			id = primary.get("primaryId").toString();
 		}
 		
@@ -2878,7 +2880,7 @@ public class HttpHandleThread implements Callable<Object> {
 	}
 	
 	// 插入t_new_import_inventory_detail表
-	private String insertInventoryDetail_new(String xmlString,String mainId) {
+	private String insertOrUpdateInventoryDetail_new(String xmlString,String mainId) {
 		Map head = XmlUtil
 				.parseXmlFPAPI_SingleNodes(xmlString,
 						"//orders/orderImformation/orderHead/child::*");
@@ -2999,97 +3001,112 @@ public class HttpHandleThread implements Callable<Object> {
 
 	public static void main(String arg[]) {
 
-		String logistics_interface = "<LoadHead><loadContents><loadContent><loadContentId>1</loadContentId><outorderId>6666666666</outorderId></loadContent><loadContent><loadContentId>2</loadContentId><outorderId>7777777777</outorderId></loadContent></loadContents><loadHeadId>12</loadHeadId><loadId>1736474588</loadId><total>2</total><tracyNum>3</tracyNum><TotalWeight>2.5</TotalWeight><CarEcNo>苏A234234</CarEcNo></LoadHead>";
+//		String logistics_interface = "<LoadHead><loadContents><loadContent><loadContentId>1</loadContentId><outorderId>6666666666</outorderId></loadContent><loadContent><loadContentId>2</loadContentId><outorderId>7777777777</outorderId></loadContent></loadContents><loadHeadId>12</loadHeadId><loadId>1736474588</loadId><total>2</total><tracyNum>3</tracyNum><TotalWeight>2.5</TotalWeight><CarEcNo>苏A234234</CarEcNo></LoadHead>";
+//
+//		String data_digest = CommonUtil.makeSign(logistics_interface);
+//
+//		System.out.println(data_digest);
+//		try {
+//			System.out
+//					.println("logistics_interface="
+//							+ URLEncoder.encode(logistics_interface, "utf-8")
+//							+ "&data_digest="
+//							+ URLEncoder.encode(data_digest, "utf-8"));
+//		} catch (UnsupportedEncodingException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//
+//		try {
+//			System.out.println(URLEncoder.encode("helloworld", "utf-8"));
+//			System.out.println(URLEncoder.encode("voQc3u6+f6pSflMPdw4ySQ==",
+//					"utf-8"));
+//		} catch (UnsupportedEncodingException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+//		Map<String, Object> map1 = new HashMap<String, Object>();
+//		map1.put("QTY", "10");
+//		map1.put("CREAT_TIME", "2018-09-14 21:46:17");
+//		Map<String, Object> map2 = new HashMap<String, Object>();
+//		map2.put("QTY", "8");
+//		map2.put("CREAT_TIME", "2018-09-14 23:46:17");
+//		Map<String, Object> map3 = new HashMap<String, Object>();
+//		map3.put("QTY", "12");
+//		map3.put("CREAT_TIME", "2018-09-14 22:46:17");
+//		list.add(map1);
+//		list.add(map3);
+//		list.add(map2);
+//		// 排序前
+//		for (Map<String, Object> map : list) {
+//			System.out.println(map);
+//		}
+//
+//		Collections.sort(list, new Comparator<Map>() {
+//			public int compare(Map o1, Map o2) {
+//
+//				SimpleDateFormat sf = CommonUtil
+//						.getDateFormatter(CommonDefine.COMMON_FORMAT);
+//
+//				int qty1 = Integer.valueOf(o1.get("QTY").toString());
+//				Date creatTime1 = null;
+//				try {
+//					creatTime1 = sf.parse(o1.get("CREAT_TIME").toString());
+//				} catch (ParseException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//
+//				int qty2 = Integer.valueOf(o2.get("QTY").toString());
+//				Date creatTime2 = null;
+//				try {
+//					creatTime2 = sf.parse(o2.get("CREAT_TIME").toString());
+//				} catch (ParseException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//
+//				if (qty1 > qty2 || creatTime1.before(creatTime2)) {
+//					return 1;
+//				} else {
+//					return 0;
+//				}
+//			}
+//		});
+//
+//		System.out.println("-------------------");
+//		for (Map<String, Object> map : list) {
+//			System.out.println(map);
+//		}
+//
+//		String s = "<![CDATA[南京市玄武区]]>";
+//		Pattern p = Pattern.compile(".*<!\\[CDATA\\[(.*)\\]\\]>.*");
+//		Matcher m = p.matcher(s);
+//
+//		if (m.matches()) {
+//			System.out.println(m.group(1));
+//		}else{
+//			System.out.println(s);
+//		}
+//		
+//		System.out.println(CommonUtil.getDateFormatter(CommonDefine.COMMON_FORMAT_2)
+//					.format(new Date()));
 
-		String data_digest = CommonUtil.makeSign(logistics_interface);
+		String response = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soapenv:Envelope xmlns:soapenv=\"http://www.w3.org/2003/05/soap-envelope\"><soapenv:Body><ns:sendOrderResponse xmlns:ns=\"http://ws.com\"><ns:return><?xml version=\"1.0\" encoding=\"UTF-8\"?><DATA><ORDER><ORDER_CODE>W100133410</ORDER_CODE><CD>OK</CD><INFO>11811000073</INFO></ORDER></DATA></ns:return></ns:sendOrderResponse></soapenv:Body></soapenv:Envelope>";
 
-		System.out.println(data_digest);
-		try {
-			System.out
-					.println("logistics_interface="
-							+ URLEncoder.encode(logistics_interface, "utf-8")
-							+ "&data_digest="
-							+ URLEncoder.encode(data_digest, "utf-8"));
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		String xxxx = StringEscapeUtils.escapeXml(response);
 
-		try {
-			System.out.println(URLEncoder.encode("helloworld", "utf-8"));
-			System.out.println(URLEncoder.encode("voQc3u6+f6pSflMPdw4ySQ==",
-					"utf-8"));
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-		Map<String, Object> map1 = new HashMap<String, Object>();
-		map1.put("QTY", "10");
-		map1.put("CREAT_TIME", "2018-09-14 21:46:17");
-		Map<String, Object> map2 = new HashMap<String, Object>();
-		map2.put("QTY", "8");
-		map2.put("CREAT_TIME", "2018-09-14 23:46:17");
-		Map<String, Object> map3 = new HashMap<String, Object>();
-		map3.put("QTY", "12");
-		map3.put("CREAT_TIME", "2018-09-14 22:46:17");
-		list.add(map1);
-		list.add(map3);
-		list.add(map2);
-		// 排序前
-		for (Map<String, Object> map : list) {
-			System.out.println(map);
-		}
+//		String returnXmlData = XmlUtil
+//				.getResponseFromXmlString_CJ(xxxx);
 
-		Collections.sort(list, new Comparator<Map>() {
-			public int compare(Map o1, Map o2) {
+		String returnXmlData = XmlUtil.getTotalMidValue(response,"<ns:return>","</ns:return>");
 
-				SimpleDateFormat sf = CommonUtil
-						.getDateFormatter(CommonDefine.COMMON_FORMAT);
+		Map orderResult = XmlUtil.parseXmlFPAPI_SingleNodes(returnXmlData, "//DATA/ORDER/child::*");
 
-				int qty1 = Integer.valueOf(o1.get("QTY").toString());
-				Date creatTime1 = null;
-				try {
-					creatTime1 = sf.parse(o1.get("CREAT_TIME").toString());
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+//		System.out.println(xxxx);
 
-				int qty2 = Integer.valueOf(o2.get("QTY").toString());
-				Date creatTime2 = null;
-				try {
-					creatTime2 = sf.parse(o2.get("CREAT_TIME").toString());
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
-				if (qty1 > qty2 || creatTime1.before(creatTime2)) {
-					return 1;
-				} else {
-					return 0;
-				}
-			}
-		});
-
-		System.out.println("-------------------");
-		for (Map<String, Object> map : list) {
-			System.out.println(map);
-		}
-
-		String s = "<![CDATA[南京市玄武区]]>";
-		Pattern p = Pattern.compile(".*<!\\[CDATA\\[(.*)\\]\\]>.*");
-		Matcher m = p.matcher(s);
-
-		if (m.matches()) {
-			System.out.println(m.group(1));
-		}else{
-			System.out.println(s);
-		}
-		
-		System.out.println(CommonUtil.getDateFormatter(CommonDefine.COMMON_FORMAT_2)
-					.format(new Date()));
+		System.out.println(orderResult);
 
 	}
 

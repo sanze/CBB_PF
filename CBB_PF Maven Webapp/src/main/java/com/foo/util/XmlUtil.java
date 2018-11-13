@@ -1825,6 +1825,18 @@ public class XmlUtil {
 		return result;
 	}
 	
+	public static String getTotalMidValue(String source, String priStr, String suxStr) {
+		if (source == null)
+			return null;
+		int iFirst = source.indexOf(priStr);
+		int iLast = source.lastIndexOf(suxStr);
+		if (iFirst < 0 || iLast < 0)
+			return null;
+		int beginIndex = iFirst + priStr.length();
+
+		return source.substring(beginIndex, iLast);
+	}
+	
 	
 	/**
 	 * 格式化xml字符串并生成文件，并生成文件，文件名为当前时刻

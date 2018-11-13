@@ -24,6 +24,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.collections.map.LinkedMap;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.stereotype.Service;
 
 import com.foo.common.CommonDefine;
@@ -248,26 +249,10 @@ public class HttpHandleThreadBak implements Callable<Object> {
 					result = handleOrderC061(xmlData, bundle);
 
 				} else if (checkBusinessType_C005.equals(businessType)) {
-//					try{
-//						if(currentHandleOrder.containsKey(head.get("btcOrderId").toString())){
-//							synchronized(this){
-//								// C005报文处理
-//								result = handleOrderC005(head, xmlData, bundle);
-//							}
-//						}else{
-//							currentHandleOrder.put(head.get("btcOrderId").toString(), "");
-//							// C005报文处理
-//							result = handleOrderC005(head, xmlData, bundle);
-//						}
-//					}finally{
-//						currentHandleOrder.remove(head.get("btcOrderId").toString());
-//					}
-//					synchronized(this){
-//						// C005报文处理
-//						result = handleOrderC005(head, xmlData, bundle);
-//					}
 					// C005报文处理
+					synchronized(HttpHandleThreadBak.class){
 					result = handleOrderC005(head, xmlData, bundle);
+				}
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -991,8 +976,10 @@ public class HttpHandleThreadBak implements Callable<Object> {
 				.getSystemConfigProperty("CJ_sendInStockOrder_requestUrl").toString());
 
 		//获取返回信息
-		String returnXmlData = XmlUtil
-				.getResponseFromXmlString_CJ(response);
+//		String returnXmlData = XmlUtil
+//				.getResponseFromXmlString_CJ(response);
+		
+		String returnXmlData = XmlUtil.getTotalMidValue(StringEscapeUtils.unescapeXml(response),"<ns:return>","</ns:return>");
 		
 		//正常测试报文
 //		String returnXmlData = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><DATA><ORDER><ORDER_CODE>3434222e333</ORDER_CODE><CD>OK</CD><INFO><![CDATA[]]></INFO><ITEMS><ITEM><ORDER_ITEM_ID>420000002xxxxxx</ORDER_ITEM_ID><SKU>P0000KMM</SKU><ACTUAL_QTY>1</ACTUAL_QTY><ACTUAL_QTY_DEFECT>5590</ACTUAL_QTY_DEFECT></ITEM><ITEM><ORDER_ITEM_ID>1234567891</ORDER_ITEM_ID><SKU>P0001KMM</SKU><ACTUAL_QTY>1</ACTUAL_QTY><ACTUAL_QTY_DEFECT>5591</ACTUAL_QTY_DEFECT></ITEM></ITEMS></ORDER></DATA>";
@@ -1800,8 +1787,10 @@ public class HttpHandleThreadBak implements Callable<Object> {
 					.getSystemConfigProperty("CJ_sendOrder_requestUrl").toString());
 			
 			//获取返回信息
-			String returnXmlData = XmlUtil
-					.getResponseFromXmlString_CJ(response);
+//			String returnXmlData = XmlUtil
+//					.getResponseFromXmlString_CJ(response);
+			
+			String returnXmlData = XmlUtil.getTotalMidValue(StringEscapeUtils.unescapeXml(response),"<ns:return>","</ns:return>");
 			
 			//正常测试报文
 //			String returnXmlData = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><DATA><ORDER><ORDER_CODE>3434222e333</ORDER_CODE><CD>OK</CD><INFO><![CDATA[]]></INFO><ITEMS><ITEM><ORDER_ITEM_ID>420000002xxxxxx</ORDER_ITEM_ID><SKU>P0000KMM</SKU><ACTUAL_QTY>1</ACTUAL_QTY><ACTUAL_QTY_DEFECT>5590</ACTUAL_QTY_DEFECT></ITEM><ITEM><ORDER_ITEM_ID>1234567891</ORDER_ITEM_ID><SKU>P0001KMM</SKU><ACTUAL_QTY>1</ACTUAL_QTY><ACTUAL_QTY_DEFECT>5591</ACTUAL_QTY_DEFECT></ITEM></ITEMS></ORDER></DATA>";
@@ -1874,15 +1863,16 @@ public class HttpHandleThreadBak implements Callable<Object> {
 			ResourceBundle bundle) {
 		Map result = new HashMap();
 
-		result.put("isSuccess", true);
+		result.put("isSuccess", "true");
 
 		SimpleDateFormat sf = CommonUtil
 				.getDateFormatter(CommonDefine.COMMON_FORMAT_1);
+		
 		// t_new_import_inventory表中查找数据
 		List<String> colNames = new ArrayList<String>();
 		List<Object> colValues = new ArrayList<Object>();
-		colNames.add("LOGISTICS_NO");
-		colValues.add(head.get("logisticsOrderId"));
+		colNames.add("ORDER_NO");
+		colValues.add(head.get("btcOrderId"));
 		List<Map<String, Object>> rows = commonManagerMapper
 				.selectTableListByNVList("t_new_import_inventory", colNames,
 						colValues, null, null);
@@ -1890,8 +1880,8 @@ public class HttpHandleThreadBak implements Callable<Object> {
 		// 如果存在，直接向苏宁返回“出库单已存在”，没有进一步操作。
 		if (rows.size() > 0) {
 			// 返回错误，出库单已存在--直接返回true，当做成功
-			result.put("isSuccess", true);
-			// result.put("errorMsg", "出库单已存在");
+			result.put("isSuccess", "true");
+			result.put("errorMsg", "出库单已存在");
 		} else {
 			Map orderItems = XmlUtil
 					.parseXmlFPAPI_SingleNodes(xmlString, "//orders/orderImformation/orderItems/child::*");
@@ -2019,12 +2009,12 @@ public class HttpHandleThreadBak implements Callable<Object> {
 				String reason = reponse.get("reason") != null ? reponse.get(
 						"reason").toString() : "";
 				if ("fail".equals(status)) {
-					result.put("isSuccess", "false");
+					result.put("isSuccess", "true");
 					result.put("errorMsg", reason);
 				}
 			} else {
 				// 返回错误，库存不足
-				result.put("isSuccess", "false");
+				result.put("isSuccess", "true");
 				result.put("errorMsg", "库存不足");
 			}
 		}
