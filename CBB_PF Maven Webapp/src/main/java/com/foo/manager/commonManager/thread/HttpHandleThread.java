@@ -2871,10 +2871,10 @@ public class HttpHandleThread implements Callable<Object> {
 		//插入或更新
 		if (inventory.containsKey("INVENTORY_ID")) {
 			id = inventory.get("INVENTORY_ID").toString();
-			commonManagerMapper.updateTableByNVList("t_new_import_inventory",
-					"INVENTORY_ID", inventory.get("INVENTORY_ID"),
-					new ArrayList<String>(inventory.keySet()),
-					new ArrayList<Object>(inventory.values()));
+//			commonManagerMapper.updateTableByNVList("t_new_import_inventory",
+//					"INVENTORY_ID", inventory.get("INVENTORY_ID"),
+//					new ArrayList<String>(inventory.keySet()),
+//					new ArrayList<Object>(inventory.values()));
 		} else {
 			Map primary = new HashMap();
 			primary.put("primaryId", null);
@@ -2991,10 +2991,10 @@ public class HttpHandleThread implements Callable<Object> {
 		//插入或更新
 		if (subOrder.containsKey("INVENTORY_DETAIL_ID")) {
 			id = subOrder.get("INVENTORY_DETAIL_ID").toString();
-			commonManagerMapper.updateTableByNVList("t_new_import_inventory_detail",
-					"INVENTORY_DETAIL_ID", subOrder.get("INVENTORY_DETAIL_ID"),
-					new ArrayList<String>(subOrder.keySet()),
-					new ArrayList<Object>(subOrder.values()));
+//			commonManagerMapper.updateTableByNVList("t_new_import_inventory_detail",
+//					"INVENTORY_DETAIL_ID", subOrder.get("INVENTORY_DETAIL_ID"),
+//					new ArrayList<String>(subOrder.keySet()),
+//					new ArrayList<Object>(subOrder.values()));
 		} else {
 			Map primary = new HashMap();
 			primary.put("primaryId", null);
