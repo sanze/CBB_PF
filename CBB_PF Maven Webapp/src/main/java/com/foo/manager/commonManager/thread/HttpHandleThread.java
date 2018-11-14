@@ -685,6 +685,14 @@ public class HttpHandleThread implements Callable<Object> {
 
 			for(Map head:dataListArray){
 				
+				// 查询数据库明细表中数据
+				List<String> colNames = new ArrayList<String>();
+				List<Object> colValues = new ArrayList<Object>();
+				colNames.add("INVT_NO");
+				colValues.add(head.get("invtNo"));
+				//更新t_new_import_inventory.invtNo到值
+				commonManagerMapper.updateTableByNVList("t_new_import_inventory", "ORDER_NO", head.get("orderNo"), colNames, colValues);
+				
 				Map data = new HashMap();
 				
 				//用orderNo在t_new_import_inventory_detail找到对应的LOS_NO，填在给苏宁的回执报文中logisticsOrderId

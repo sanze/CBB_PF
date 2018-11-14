@@ -664,14 +664,17 @@ public class HttpHandleThreadBak implements Callable<Object> {
 		try {
 
 			// 包含数据orderNo、invtNo，returnStatus
-			List<Map> dataListArray = XmlUtil.parseXmlFPAPI_MulitpleNodes(xmlString, "//InventoryReturnList/InventoryReturn");
+			List<Map> dataListArray = XmlUtil.parseXmlFPAPI_MulitpleNodes(
+					xmlString, "//InventoryReturnList/InventoryReturn");
 
 			for(Map head:dataListArray){
 
 			Map data = new HashMap();
 
 			//用orderNo在t_new_import_inventory找到对应的LOS_NO，填在给苏宁的回执报文中logisticsOrderId
-			List<Map<String,Object>> searchDataList = commonManagerMapper.selectTableListByCol("t_new_import_inventory", "ORDER_NO", head.get("orderNo"), null, null);
+				List<Map<String, Object>> searchDataList = commonManagerMapper
+						.selectTableListByCol("t_new_import_inventory",
+								"ORDER_NO", head.get("orderNo"), null, null);
 
 			Map item = null;
 			if (searchDataList != null && searchDataList.size() > 0) {
@@ -679,7 +682,8 @@ public class HttpHandleThreadBak implements Callable<Object> {
 			}
 			
 			data.put("messageId", getMessageId());
-			data.put("logisticsOrderId", item!=null?item.get("LOS_NO"):"");
+				data.put("logisticsOrderId", item != null ? item.get("LOS_NO")
+						: "");
 			data.put("logisticsExpressId", "");
 			data.put("statusCode", head.get("returnStatus"));
 			data.put("logisticsStation", "tianjin");
