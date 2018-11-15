@@ -7,7 +7,7 @@
 		  *
 		FROM
 		  t_new_import_books 
-		WHERE SKU = #{sku} and QTY >= #{qty} and ADD_REDUCE_FLAG = '1' and QTY > 0
+		WHERE SKU = #{sku} and QTY >= #{qty} and ADD_REDUCE_FLAG = '1' and QTY > 0 and ORDER_NO is not null
 	</select>
 	
 	<select id="selectInventoryHead" resultType="java.util.LinkedHashMap" >

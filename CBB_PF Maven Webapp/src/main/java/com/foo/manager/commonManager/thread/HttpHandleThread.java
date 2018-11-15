@@ -2199,6 +2199,7 @@ public class HttpHandleThread implements Callable<Object> {
 			// ADD_REDUCE_FLAG=1
 			// SKU=<orderItems><goodsCode>
 			// QTY>=<orderItems><goodsNumber>
+			//增加一个条件，RECORD_NO不等于空
 			List<Map> dataList = snCommonManagerMapper.selectBookNumber(
 					goodsCode, goodsNumberDouble);
 
