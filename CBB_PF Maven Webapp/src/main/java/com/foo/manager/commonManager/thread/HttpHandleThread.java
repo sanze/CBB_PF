@@ -2227,24 +2227,24 @@ public class HttpHandleThread implements Callable<Object> {
 		List<Object> colValues = new ArrayList<Object>();
 		for (BookOrderModel xxx : bookOrders) {
 			List<Map> skuList = xxx.getBookItems();
-			// QTY最小的，RECORD_NO最小的记录减去<orderItems><goodsNumber>。
+			// RECORD_NO最小的记录减去<orderItems><goodsNumber>。
 			Collections.sort(skuList, new Comparator<Map>() {
 				public int compare(Map o1, Map o2) {
-					double qty1 = Double.valueOf(o1.get("QTY")
-							.toString());
-					double qty2 = Double.valueOf(o2.get("QTY")
-							.toString());
+//					double qty1 = Double.valueOf(o1.get("QTY")
+//							.toString());
+//					double qty2 = Double.valueOf(o2.get("QTY")
+//							.toString());
 					String recordNo1 = o1.get("RECORD_NO")!=null?o1.get("RECORD_NO").toString():"";
 					String recordNo2 = o2.get("RECORD_NO")!=null?o2.get("RECORD_NO").toString():"";
-					if (qty1 > qty2) {
+//					if (qty1 > qty2) {
 						if(recordNo1.compareTo(recordNo2)<0){
-							return 1;
-						}else{
 							return 0;
-						}
 					} else {
-						return 0;
+							return 1;
 					}
+//					} else {
+//						return 0;
+//					}
 				}
 			});
 
@@ -3034,60 +3034,52 @@ public class HttpHandleThread implements Callable<Object> {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
-//		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-//		Map<String, Object> map1 = new HashMap<String, Object>();
-//		map1.put("QTY", "10");
-//		map1.put("CREAT_TIME", "2018-09-14 21:46:17");
-//		Map<String, Object> map2 = new HashMap<String, Object>();
-//		map2.put("QTY", "8");
-//		map2.put("CREAT_TIME", "2018-09-14 23:46:17");
-//		Map<String, Object> map3 = new HashMap<String, Object>();
-//		map3.put("QTY", "12");
-//		map3.put("CREAT_TIME", "2018-09-14 22:46:17");
-//		list.add(map1);
-//		list.add(map3);
-//		list.add(map2);
-//		// 排序前
-//		for (Map<String, Object> map : list) {
-//			System.out.println(map);
-//		}
-//
-//		Collections.sort(list, new Comparator<Map>() {
-//			public int compare(Map o1, Map o2) {
-//
-//				SimpleDateFormat sf = CommonUtil
-//						.getDateFormatter(CommonDefine.COMMON_FORMAT);
-//
-//				int qty1 = Integer.valueOf(o1.get("QTY").toString());
-//				Date creatTime1 = null;
-//				try {
-//					creatTime1 = sf.parse(o1.get("CREAT_TIME").toString());
-//				} catch (ParseException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//
-//				int qty2 = Integer.valueOf(o2.get("QTY").toString());
-//				Date creatTime2 = null;
-//				try {
-//					creatTime2 = sf.parse(o2.get("CREAT_TIME").toString());
-//				} catch (ParseException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//
-//				if (qty1 > qty2 || creatTime1.before(creatTime2)) {
-//					return 1;
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		Map<String, Object> map1 = new HashMap<String, Object>();
+		map1.put("RECORD_NO", "335");
+		map1.put("CREAT_TIME", "2018-09-14 21:46:17");
+		Map<String, Object> map2 = new HashMap<String, Object>();
+		map2.put("RECORD_NO", "145");
+		map2.put("CREAT_TIME", "2018-09-14 23:46:17");
+		Map<String, Object> map3 = new HashMap<String, Object>();
+		map3.put("RECORD_NO", "285");
+		map3.put("CREAT_TIME", "2018-09-14 22:46:17");
+		Map<String, Object> map4 = new HashMap<String, Object>();
+		map4.put("RECORD_NO", "265");
+		map4.put("CREAT_TIME", "2018-09-14 22:46:17");
+		list.add(map1);
+		list.add(map2);
+		list.add(map3);
+		list.add(map4);
+		// 排序前
+		for (Map<String, Object> map : list) {
+			System.out.println(map);
+		}
+
+		Collections.sort(list, new Comparator<Map>() {
+			public int compare(Map o1, Map o2) {
+//				double qty1 = Double.valueOf(o1.get("QTY")
+//						.toString());
+//				double qty2 = Double.valueOf(o2.get("QTY")
+//						.toString());
+				String recordNo1 = o1.get("RECORD_NO")!=null?o1.get("RECORD_NO").toString():"";
+				String recordNo2 = o2.get("RECORD_NO")!=null?o2.get("RECORD_NO").toString():"";
+//				if (qty1 > qty2) {
+					if(recordNo1.compareTo(recordNo2)<0){
+						return 0;
+					}else{
+						return 1;
+					}
 //				} else {
 //					return 0;
 //				}
-//			}
-//		});
-//
-//		System.out.println("-------------------");
-//		for (Map<String, Object> map : list) {
-//			System.out.println(map);
-//		}
+			}
+		});
+
+		System.out.println("-------------------");
+		for (Map<String, Object> map : list) {
+			System.out.println(map);
+		}
 //
 //		String s = "<![CDATA[南京市玄武区]]>";
 //		Pattern p = Pattern.compile(".*<!\\[CDATA\\[(.*)\\]\\]>.*");
