@@ -2162,9 +2162,11 @@ public class HttpHandleThreadBak implements Callable<Object> {
 
 		LinkedHashMap BaseTransfer = snCommonManagerMapper.selectBaseTransfer();
 
-		String resultXmlString = XmlUtil.generalRequestXml4TJ_621(
-				InventoryHead, InventoryList, IODeclContainerList,
-				IODeclOrderRelationList, BaseTransfer, bundle);
+//		String resultXmlString = XmlUtil.generalRequestXml4TJ_621(
+//				InventoryHead, InventoryList, IODeclContainerList,
+//				IODeclOrderRelationList, BaseTransfer, bundle);
+		
+		String resultXmlString = "";
 
 		return resultXmlString;
 	}

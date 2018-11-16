@@ -29,6 +29,10 @@ public interface SNCommonManagerMapper {
 	public List<LinkedHashMap> selectInventoryList(
 			@Param(value = "id") int id);
 	
+	public List<LinkedHashMap> selectInventoryListRelateBookInfo(
+			@Param(value = "orderNo") String orderNo,
+			@Param(value = "itemNo") String itemNo);
+	
 	public List<LinkedHashMap> selectIODeclContainerList(
 			@Param(value = "id") int id);
 	

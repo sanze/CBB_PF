@@ -693,12 +693,12 @@ public class HttpHandleThread implements Callable<Object> {
 				//更新t_new_import_inventory.invtNo到值
 				commonManagerMapper.updateTableByNVList("t_new_import_inventory", "ORDER_NO", head.get("orderNo"), colNames, colValues);
 				
-				Map data = new HashMap();
-				
 				//用orderNo在t_new_import_inventory_detail找到对应的LOS_NO，填在给苏宁的回执报文中logisticsOrderId
 				List<Map<String,Object>> searchDataList = commonManagerMapper.selectTableListByCol("t_new_import_inventory_detail", "ORDER_NO", head.get("orderNo"), null, null);
 				
 				for(Map item:searchDataList){
+					
+					Map data = new HashMap();
 					data.put("messageId", getMessageId());
 					data.put("logisticsOrderId", item!=null?item.get("LOS_NO"):"");
 					data.put("logisticsExpressId", "");
@@ -2347,9 +2347,10 @@ public class HttpHandleThread implements Callable<Object> {
 		int idInt = Integer.valueOf(id);
 		// step 1 生成xml
 		LinkedHashMap InventoryHead = new LinkedHashMap();
-		if (snCommonManagerMapper.selectInventoryHead(idInt) != null) {
-			LinkedHashMap item = snCommonManagerMapper.selectInventoryHead(
-					idInt).get(0);
+		//查询数据
+		List<LinkedHashMap> headList = snCommonManagerMapper.selectInventoryHead(idInt);
+		if (headList != null) {
+			LinkedHashMap item = headList.get(0);
 			// 转换
 			if (item != null) {
 				for (Object key : item.keySet()) {
@@ -2364,11 +2365,24 @@ public class HttpHandleThread implements Callable<Object> {
 			}
 		}
 
-		LinkedHashMap InventoryList = new LinkedHashMap();
-		if (snCommonManagerMapper.selectInventoryList(idInt) != null) {
-			LinkedHashMap item = snCommonManagerMapper.selectInventoryList(
-					idInt).get(0);
+		List<LinkedHashMap> InventoryList = new ArrayList<LinkedHashMap>();
+		//查询数据
+		List<LinkedHashMap> ItemList = snCommonManagerMapper.selectInventoryList(idInt);
+		if(ItemList!=null){
+			for(LinkedHashMap item:ItemList){
+				//查询book表的关联数据
+				List<LinkedHashMap> bookInfoList = snCommonManagerMapper
+						.selectInventoryListRelateBookInfo(
+								item.get("ORDER_NO").toString(),
+								item.get("ITEM_NO").toString());
+				
+				for(LinkedHashMap bookInfo:bookInfoList){
+					//book信息添加
+					item.put("RECORD_NO", bookInfo.get("RECORD_NO"));
+					item.put("GOODS_SERIALNO", bookInfo.get("GOODS_SERIALNO"));
+					item.put("DECL_NO", bookInfo.get("DECL_NO"));
 			
+					LinkedHashMap Inventory = new LinkedHashMap();
 			//如果t_new_import_sku.unit2为空，则<qty2>保持不变，继续填t_new_import_inventory_detail.qty2。
 			//如果t_new_import_sku.unit2不为空，则<qty2>改成t_new_import_inventory_detail.qty1
 			if(item.get("UNIT2") == null || item.get("UNIT2").toString().isEmpty()){
@@ -2376,25 +2390,29 @@ public class HttpHandleThread implements Callable<Object> {
 			}else{
 				item.put("QTY2", item.get("QTY1"));
 			}
-			
 			// 转换
 			if (item != null) {
 				for (Object key : item.keySet()) {
 					if (bundle.containsKey("TJ_LIST_" + key.toString())) {
-						InventoryList.put(
+								Inventory.put(
 								bundle.getObject("TJ_LIST_" + key.toString()),
 								item.get(key));
 					} else {
-						InventoryList.put(key.toString(), item.get(key));
+								Inventory.put(key.toString(), item.get(key));
 					}
 				}
+			}
+					
+					InventoryList.add(Inventory);
+				}
+
 			}
 		}
 
 		LinkedHashMap IODeclContainerList = new LinkedHashMap();
-		if (snCommonManagerMapper.selectIODeclContainerList(idInt) != null) {
-			LinkedHashMap item = snCommonManagerMapper
-					.selectIODeclContainerList(idInt).get(0);
+		List<LinkedHashMap> IODeclContainerListTemp = snCommonManagerMapper.selectIODeclContainerList(idInt);
+		if (IODeclContainerListTemp != null) {
+			LinkedHashMap item = IODeclContainerListTemp.get(0);
 			// 转换
 			if (item != null) {
 				for (Object key : item.keySet()) {
@@ -2410,9 +2428,9 @@ public class HttpHandleThread implements Callable<Object> {
 
 		}
 		LinkedHashMap IODeclOrderRelationList = new LinkedHashMap();
-		if (snCommonManagerMapper.selectIODeclOrderRelationList(idInt) != null) {
-			LinkedHashMap item = snCommonManagerMapper
-					.selectIODeclOrderRelationList(idInt).get(0);
+		List<LinkedHashMap> IODeclOrderRelationListTemp = snCommonManagerMapper.selectIODeclOrderRelationList(idInt);
+		if (IODeclOrderRelationListTemp != null) {
+			LinkedHashMap item = IODeclOrderRelationListTemp.get(0);
 			// 转换
 			if (item != null) {
 				for (Object key : item.keySet()) {

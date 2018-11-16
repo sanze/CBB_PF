@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -18,7 +19,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.collections.map.LinkedMap;
-import org.dom4j.Attribute;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
@@ -1099,7 +1099,7 @@ public class XmlUtil {
 	
 	// 生成回执xml
 	public static String generalRequestXml4TJ_621(Map InventoryHead,
-			Map InventoryList, Map IODeclContainerList,
+			List<LinkedHashMap> InventoryList, Map IODeclContainerList,
 			Map IODeclOrderRelationList, Map BaseTransfer,ResourceBundle bundle) {
 
 		String resultXml = "";
@@ -1149,12 +1149,15 @@ public class XmlUtil {
 				leaf.addText(InventoryHead.get(elementName) != null?InventoryHead.get(elementName).toString():"");
 			}
 			//InventoryList
+			for(LinkedHashMap Inventory:InventoryList){
 			Element secondElement_2 = firstElement_1.addElement("InventoryList");
-			for(Object obj:InventoryList.keySet()){
+				for(Object obj:Inventory.keySet()){
 				String elementName = (String)obj;
 				Element leaf = secondElement_2.addElement(elementName);
-				leaf.addText(InventoryList.get(elementName) != null?InventoryList.get(elementName).toString():"");
+					leaf.addText(Inventory.get(elementName) != null?Inventory.get(elementName).toString():"");
 			}
+			}
+			
 			//IODeclContainerList
 			Element secondElement_3 = firstElement_1.addElement("IODeclContainerList");
 			for(Object obj:IODeclContainerList.keySet()){

@@ -99,7 +99,7 @@
 	<select id="selectInventoryList" resultType="java.util.LinkedHashMap" >
 		SELECT 
 		  t.GNUM,
-		  b.RECORD_NO,
+		  <!-- b.RECORD_NO, -->
 		  t.ITEM_NO as ITEM_NO,
 		  t.ITEM_NAME as itemName,
 		  s.G_CODE,
@@ -119,10 +119,10 @@
 		  t.PRICE,
 		  t.TOTAL_PRICE,
 		  "" as note,
-		  b.GOODS_SERIALNO,
+		  <!-- b.GOODS_SERIALNO, -->
 		  "Q120000201808000039" as entCode,
 		  s.SJ_RECORD_NO,
-		  b.DECL_NO,
+		  <!-- b.DECL_NO, -->
 		  i.LOGISTICS_NO,
 		  i.ORDER_NO,
 		  i.PAY_SERIAL_NO,
@@ -136,11 +136,25 @@
 		  t_new_import_inventory_detail t 
 		  LEFT JOIN t_new_import_inventory i 
 		    ON i.INVENTORY_ID = t.INVENTORY_ID 
-		  LEFT JOIN t_new_import_books b 
-		    ON b.ORDER_NO = i.ORDER_NO 
+		  <!-- LEFT JOIN t_new_import_books b 
+		    ON b.ORDER_NO = i.ORDER_NO AND b.SKU = t.ITEM_NO AND b.QTY = t.QTY  AND b.ADD_REDUCE_FLAG = 2  -->
 		  LEFT JOIN t_new_import_sku s 
 		    ON s.ITEM_NO = t.ITEM_NO 
 		WHERE t.INVENTORY_ID = #{id} ; 
+	</select>
+	
+	<select id="selectInventoryListRelateBookInfo" resultType="java.util.LinkedHashMap" >
+		SELECT DISTINCT 
+		  b.RECORD_NO,
+		  b.GOODS_SERIALNO,
+		  b.DECL_NO 
+		FROM
+		  t_new_import_books b 
+		WHERE b.ORDER_NO = #{orderNo} 
+		  AND b.SKU = #{itemNo}
+		GROUP BY b.RECORD_NO,
+		  b.GOODS_SERIALNO,
+		  b.DECL_NO ;
 	</select>
 	
 	<select id="selectIODeclContainerList" resultType="java.util.LinkedHashMap" >
