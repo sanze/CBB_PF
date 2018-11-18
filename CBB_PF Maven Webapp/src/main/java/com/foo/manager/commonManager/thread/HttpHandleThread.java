@@ -1462,16 +1462,18 @@ public class HttpHandleThread implements Callable<Object> {
 			// ------------------- tmsOrderSingleItem ------------
 			JSONObject tmsOrderSingleItem = new JSONObject();
 			// 主表
-			tmsOrderSingleItem.put("packageWeight", item.get("PACKAGE_WEIGHT"));
-			tmsOrderSingleItem.put("packageLength", item.get("PACKAGE_LENGTH"));
-			tmsOrderSingleItem.put("packageHeight", item.get("PACKAGE_HEIGHT"));
-			tmsOrderSingleItem.put("packageWidth", item.get("PACKAGE_WIDTH"));
+			tmsOrderSingleItem.put("packageWeight", orderInfo.get("package_weight"));
+			tmsOrderSingleItem.put("packageLength", orderInfo.get("package_length"));
+			tmsOrderSingleItem.put("packageHeight", orderInfo.get("package_height"));
+			tmsOrderSingleItem.put("packageWidth", orderInfo.get("package_width"));
+			tmsOrderSingleItem.put("tmsOrderCode", orderInfo.get("tms_order_code"));
+			
 			tmsOrderSingleItem.put("tmsCode", item.get("TMS_SERVICE_CODE"));
-			tmsOrderSingleItem.put("tmsOrderCode", item.get("TMS_ORDER_CODE"));
+
 			// ------------------- tmsItemSingleItem ------------
 			JSONObject tmsItemSingleItem = new JSONObject();
 			tmsItemSingleItem.put("orderItemId", data.get("ORDER_ITEM_ID"));
-			tmsItemSingleItem.put("itemId", data.get("ORDER_ID"));
+			tmsItemSingleItem.put("itemId", data.get("SKU"));
 			tmsItemSingleItem.put("itemCode", data.get("ITEM_CODE"));
 			tmsItemSingleItem.put("itemQuantity", data.get("QTY"));
 			// ------------------- packageMaterialSingleItem ------------
