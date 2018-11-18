@@ -2757,13 +2757,25 @@ public class HttpHandleThread implements Callable<Object> {
 		}
 
 		colNames.add("TOTAL_PRICE");
-		if (orderDeclareItems.get("declTotalPrice") != null
-				&& !orderDeclareItems.get("declTotalPrice").toString()
-						.isEmpty()) {
-			colValues.add(orderDeclareItems.get("declTotalPrice"));
+		if (orderDeclareItems.get("declPrice") != null
+				&& !orderDeclareItems.get("declPrice").toString()
+						.isEmpty()
+				&& orderDeclareItems.get("declareCount") != null
+				&& !orderDeclareItems.get("declareCount").toString().isEmpty()) {
+			colValues.add(Double.parseDouble(orderDeclareItems.get(
+					"declPrice").toString())
+					* Double.parseDouble(orderDeclareItems.get("declareCount")
+							.toString()));
 		} else {
 			colValues.add(null);
 		}
+//		if (orderDeclareItems.get("declTotalPrice") != null
+//				&& !orderDeclareItems.get("declTotalPrice").toString()
+//						.isEmpty()) {
+//			colValues.add(orderDeclareItems.get("declTotalPrice"));
+//		} else {
+//			colValues.add(null);
+//		}
 
 		colNames.add("CREAT_TIME");
 		colValues.add(new Date());
