@@ -1898,7 +1898,7 @@ public class HttpHandleThread implements Callable<Object> {
 
 	}
 
-	private Map handleOrderC005(Map head, String xmlString,
+/*	private Map handleOrderC005(Map head, String xmlString,
 			ResourceBundle bundle) {
 		Map result = new HashMap();
 
@@ -2070,7 +2070,7 @@ public class HttpHandleThread implements Callable<Object> {
 		}
 
 		return result;
-	}
+	}*/
 	
 	
 	private Map handleOrderC005_new(Map head, String xmlString,
@@ -2458,334 +2458,334 @@ public class HttpHandleThread implements Callable<Object> {
 	}
 
 	// 插入t_new_import_inventory表和t_new_import_inventory_detail表
-	private String insertInventory(String xmlString) {
-		Map head = XmlUtil
-				.parseXmlFPAPI_SingleNodes(xmlString,
-						"//orders/orderImformation/orderHead/child::*");
-		Map orderDeclareHead = XmlUtil
-				.parseXmlFPAPI_SingleNodes(xmlString,
-						"//orders/orderDeclare/orderDeclareHead/child::*");
-		
-		Map orderExpBill = XmlUtil
-				.parseXmlFPAPI_SingleNodes(xmlString,
-						"//orders/orderExpBill/child::*");
-		
-		Map orderDeclareItems = XmlUtil.parseXmlFPAPI_SingleNodes(
-				xmlString,
-				"//orders/orderDeclare/orderDeclareItems/child::*");
-
-		SimpleDateFormat sf = CommonUtil
-				.getDateFormatter(CommonDefine.RETRIEVAL_TIME_FORMAT);
-
-		SimpleDateFormat sf1 = CommonUtil
-				.getDateFormatter(CommonDefine.COMMON_FORMAT_1);
-
-		List<String> colNames = new ArrayList<String>();
-		List<Object> colValues = new ArrayList<Object>();
-		Map primary = new HashMap();
-		primary.put("primaryId", null);
-
-		colNames.add("GUID");
-		colValues.add(CommonUtil.generalGuid(
-				CommonDefine.GUID_FOR_LOGISTICS_SN_1, 10,
-				"t_new_import_inventory"));
-
-		colNames.add("CUSTOM_CODE");
-		colValues.add("0213");
-
-		colNames.add("APP_TYPE");
-		colValues.add("1");
-
-		colNames.add("APP_TIME");
-		colValues.add(sf.format(new Date()));
-
-		colNames.add("APP_STATUS");
-		colValues.add("2");
-
-		colNames.add("COP_NO");
-		colValues.add(head.get("taskOrderid"));
-
-		colNames.add("PRE_NO");
-		colValues.add("");
-
-		colNames.add("EBC_CODE");
-		colValues.add("3201966A69");
-
-		colNames.add("EBC_NAME");
-		colValues.add("江苏苏宁易购电子商务有限公司");
-
-		colNames.add("EBP_CODE");
-		colValues.add("3201966A69");
-
-		colNames.add("EBP_NAME");
-		colValues.add("江苏苏宁易购电子商务有限公司");
-
-		colNames.add("ORDER_NO");
-		colValues.add(head.get("btcOrderId"));
-
-		colNames.add("LOGISTICS_NO");
-		colValues.add(orderExpBill.get("expressCompanyExcode"));
-
-		colNames.add("LOGISTICS_CODE");
-		colValues.add("3201961A28");
-
-		colNames.add("LOGISTICS_NAME");
-		colValues.add("江苏苏宁物流有限公司");
-
-		colNames.add("ASSURE_CODE");
-		colValues.add("3201966A69");
-
-		colNames.add("EMS_NO");
-		colValues.add("T0213W000152");
-
-		colNames.add("INVT_NO");
-		colValues.add("");
-
-		colNames.add("DECL_TIME");
-		colValues.add(sf1.format(new Date()));
-
-		colNames.add("PORT_CODE");
-		colValues.add("0213");
-
-		colNames.add("IE_DATE");
-		colValues.add(null);
-
-		colNames.add("BUYER_NAME");
-		colValues.add(orderDeclareHead.get("payerName"));
-
-		colNames.add("BUYER_IDTYPE");
-		colValues.add("1");
-
-		colNames.add("BUYER_IDNUMBER");
-		colValues.add(orderDeclareHead.get("paperNumber"));
-
-		colNames.add("BUYER_TELEPHONE");
-		colValues.add(orderDeclareHead.get("payerPhoneNumber"));
-
-		colNames.add("CONSIGNEE_ADDRESS");
-		colValues.add(orderDeclareHead.get("consigneeAddress"));
-
-		colNames.add("AGENT_CODE");
-		colValues.add("1207980025");
-
-		colNames.add("AGENT_NAME");
-		colValues.add("天津中外运报关有限公司");
-
-		colNames.add("AERA_CODE");
-		colValues.add("1207610251");
-
-		colNames.add("AERA_NAME");
-		colValues.add("天津中外运国际物流发展有限公司");
-
-		colNames.add("TRADE_MODE");
-		colValues.add("1210");
-
-		colNames.add("TRAF_MODE");
-		colValues.add("Y");
-
-		colNames.add("TRAF_NO");
-		colValues.add("");
-
-		colNames.add("LOCT_NO");
-		colValues.add("");
-
-		colNames.add("LICENSE_NO");
-		colValues.add("");
-
-		colNames.add("COUNTRY");
-		colValues.add("142");
-
-		colNames.add("CURRENCY");
-		colValues.add("142");
-
-		colNames.add("FREIGHT");
-		if (orderDeclareHead.get("freight") != null
-				&& !orderDeclareHead.get("freight").toString().isEmpty()) {
-			colValues.add(orderDeclareHead.get("freight"));
-		} else {
-			colValues.add(null);
-		}
-
-		colNames.add("INSURE_FEE");
-		if (orderDeclareHead.get("insuranceFee") != null
-				&& !orderDeclareHead.get("insuranceFee").toString().isEmpty()) {
-			colValues.add(orderDeclareHead.get("insuranceFee"));
-		} else {
-			colValues.add(0);
-		}
-
-		colNames.add("WRAP_TYPE");
-		colValues.add(orderDeclareHead.get("warpType"));
-
-		colNames.add("PACK_NO");
-		colValues.add("1");
-
-		colNames.add("GROSS_WEIGHT");
-		colNames.add("NET_WEIGHT");
-		if (orderDeclareItems.get("goodsGrossWeight") != null
-				&& !orderDeclareItems.get("goodsGrossWeight").toString()
-						.isEmpty()
-				&& orderDeclareItems.get("declareCount") != null
-				&& !orderDeclareItems.get("declareCount").toString().isEmpty()) {
-			colValues.add(Double.parseDouble(orderDeclareItems.get(
-					"goodsGrossWeight").toString())
-					* Double.parseDouble(orderDeclareItems.get("declareCount")
-							.toString()));
-			colValues.add(Double.parseDouble(orderDeclareItems.get(
-					"goodsGrossWeight").toString())
-					* Double.parseDouble(orderDeclareItems.get("declareCount")
-							.toString()));
-		} else {
-			colValues.add(null);
-			colValues.add(null);
-		}
-
-		colNames.add("PAY_SERIAL_NO");
-		if (orderDeclareHead.get("paySerialNo") != null
-				&& !orderDeclareHead.get("paySerialNo").toString().isEmpty()) {
-			colValues.add(orderDeclareHead.get("paySerialNo"));
-		} else {
-			colValues.add(null);
-		}
-
-		colNames.add("WORTH");
-		if (orderDeclareItems.get("tradeTotal") != null
-				&& !orderDeclareItems.get("tradeTotal").toString().isEmpty()) {
-			colValues.add(orderDeclareItems.get("tradeTotal"));
-		} else {
-			colValues.add(null);
-		}
-
-		colNames.add("NOTE");
-		colValues.add("");
-		
-		colNames.add("LOS_NO");
-		colValues.add(head.get("logisticsOrderId"));
-
-		colNames.add("CREAT_TIME");
-		colValues.add(new Date());
-
-		commonManagerMapper.insertTableByNVList("t_new_import_inventory",
-				colNames, colValues, primary);
-		
-		//插入t_new_import_inventory_detail表
-		colNames.clear();
-		colValues.clear();
-		Map primary_sub = new HashMap();
-		primary_sub.put("primaryId", null);
-
-		colNames.add("INVENTORY_ID");
-		colValues.add(primary.get("primaryId"));
-
-		colNames.add("GNUM");
-		colValues.add(orderDeclareItems.get("goodsOrder"));
-
-		colNames.add("ITEM_NO");
-		colValues.add(orderDeclareItems.get("goodsItemNo"));
-
-		colNames.add("ITEM_NAME");
-		colValues.add(orderDeclareItems.get("goodsName"));
-
-		colNames.add("G_CODE");
-		colValues.add("");
-
-		colNames.add("G_NAME");
-		colValues.add(orderDeclareItems.get("goodsName"));
-
-		colNames.add("G_MODEL");
-		colValues.add(orderDeclareItems.get("goodsModel"));
-
-		colNames.add("BARCODE");
-		colValues.add("");
-
-		colNames.add("COUNTRY");
-		colValues.add(orderDeclareItems.get("originCountry"));
-		
-		colNames.add("TRADE_COUNTRY");
-		colValues.add(orderDeclareHead.get("tradeCountry"));
-
-		colNames.add("CURRENCY");
-		colValues.add(orderDeclareItems.get("tradeCurr"));
-
-		colNames.add("QTY");
-		if (orderDeclareItems.get("declareCount") != null
-				&& !orderDeclareItems.get("declareCount").toString()
-						.isEmpty()) {
-			colValues.add(orderDeclareItems.get("declareCount"));
-		} else {
-			colValues.add(null);
-		}
-
-		colNames.add("QTY1");
-		if (orderDeclareItems.get("goodsGrossWeight") != null
-				&& !orderDeclareItems.get("goodsGrossWeight").toString()
-						.isEmpty()
-				&& orderDeclareItems.get("declareCount") != null
-				&& !orderDeclareItems.get("declareCount").toString().isEmpty()) {
-			colValues.add(Double.parseDouble(orderDeclareItems.get(
-					"goodsGrossWeight").toString())
-					* Double.parseDouble(orderDeclareItems.get("declareCount")
-							.toString()));
-		} else {
-			colValues.add(null);
-		}
-
-		colNames.add("QTY2");
-		if (orderDeclareItems.get("secondCount") != null
-				&& !orderDeclareItems.get("secondCount").toString()
-						.isEmpty()) {
-			colValues.add(orderDeclareItems.get("secondCount"));
-		} else {
-			colValues.add(null);
-		}
-
-		colNames.add("UNIT");
-		colValues.add(orderDeclareItems.get("goodsUnit"));
-
-		colNames.add("UNIT1");
-		colValues.add(orderDeclareItems.get("firstUnit"));
-
-		colNames.add("UNIT2");
-		colValues.add(orderDeclareItems.get("secondUnit"));
-
-		colNames.add("PRICE");
-		if (orderDeclareItems.get("declPrice") != null
-				&& !orderDeclareItems.get("declPrice").toString().isEmpty()) {
-			colValues.add(orderDeclareItems.get("declPrice"));
-		} else {
-			colValues.add(null);
-		}
-
-		colNames.add("TOTAL_PRICE");
-		if (orderDeclareItems.get("declPrice") != null
-				&& !orderDeclareItems.get("declPrice").toString()
-						.isEmpty()
-				&& orderDeclareItems.get("declareCount") != null
-				&& !orderDeclareItems.get("declareCount").toString().isEmpty()) {
-			colValues.add(Double.parseDouble(orderDeclareItems.get(
-					"declPrice").toString())
-					* Double.parseDouble(orderDeclareItems.get("declareCount")
-							.toString()));
-		} else {
-			colValues.add(null);
-		}
-//		if (orderDeclareItems.get("declTotalPrice") != null
-//				&& !orderDeclareItems.get("declTotalPrice").toString()
-//						.isEmpty()) {
-//			colValues.add(orderDeclareItems.get("declTotalPrice"));
+//	private String insertInventory(String xmlString) {
+//		Map head = XmlUtil
+//				.parseXmlFPAPI_SingleNodes(xmlString,
+//						"//orders/orderImformation/orderHead/child::*");
+//		Map orderDeclareHead = XmlUtil
+//				.parseXmlFPAPI_SingleNodes(xmlString,
+//						"//orders/orderDeclare/orderDeclareHead/child::*");
+//		
+//		Map orderExpBill = XmlUtil
+//				.parseXmlFPAPI_SingleNodes(xmlString,
+//						"//orders/orderExpBill/child::*");
+//		
+//		Map orderDeclareItems = XmlUtil.parseXmlFPAPI_SingleNodes(
+//				xmlString,
+//				"//orders/orderDeclare/orderDeclareItems/child::*");
+//
+//		SimpleDateFormat sf = CommonUtil
+//				.getDateFormatter(CommonDefine.RETRIEVAL_TIME_FORMAT);
+//
+//		SimpleDateFormat sf1 = CommonUtil
+//				.getDateFormatter(CommonDefine.COMMON_FORMAT_1);
+//
+//		List<String> colNames = new ArrayList<String>();
+//		List<Object> colValues = new ArrayList<Object>();
+//		Map primary = new HashMap();
+//		primary.put("primaryId", null);
+//
+//		colNames.add("GUID");
+//		colValues.add(CommonUtil.generalGuid(
+//				CommonDefine.GUID_FOR_LOGISTICS_SN_1, 10,
+//				"t_new_import_inventory"));
+//
+//		colNames.add("CUSTOM_CODE");
+//		colValues.add("0213");
+//
+//		colNames.add("APP_TYPE");
+//		colValues.add("1");
+//
+//		colNames.add("APP_TIME");
+//		colValues.add(sf.format(new Date()));
+//
+//		colNames.add("APP_STATUS");
+//		colValues.add("2");
+//
+//		colNames.add("COP_NO");
+//		colValues.add(head.get("taskOrderid"));
+//
+//		colNames.add("PRE_NO");
+//		colValues.add("");
+//
+//		colNames.add("EBC_CODE");
+//		colValues.add("3201966A69");
+//
+//		colNames.add("EBC_NAME");
+//		colValues.add("江苏苏宁易购电子商务有限公司");
+//
+//		colNames.add("EBP_CODE");
+//		colValues.add("3201966A69");
+//
+//		colNames.add("EBP_NAME");
+//		colValues.add("江苏苏宁易购电子商务有限公司");
+//
+//		colNames.add("ORDER_NO");
+//		colValues.add(head.get("btcOrderId"));
+//
+//		colNames.add("LOGISTICS_NO");
+//		colValues.add(orderExpBill.get("expressCompanyExcode"));
+//
+//		colNames.add("LOGISTICS_CODE");
+//		colValues.add("3201961A28");
+//
+//		colNames.add("LOGISTICS_NAME");
+//		colValues.add("江苏苏宁物流有限公司");
+//
+//		colNames.add("ASSURE_CODE");
+//		colValues.add("3201966A69");
+//
+//		colNames.add("EMS_NO");
+//		colValues.add("T0213W000152");
+//
+//		colNames.add("INVT_NO");
+//		colValues.add("");
+//
+//		colNames.add("DECL_TIME");
+//		colValues.add(sf1.format(new Date()));
+//
+//		colNames.add("PORT_CODE");
+//		colValues.add("0213");
+//
+//		colNames.add("IE_DATE");
+//		colValues.add(null);
+//
+//		colNames.add("BUYER_NAME");
+//		colValues.add(orderDeclareHead.get("payerName"));
+//
+//		colNames.add("BUYER_IDTYPE");
+//		colValues.add("1");
+//
+//		colNames.add("BUYER_IDNUMBER");
+//		colValues.add(orderDeclareHead.get("paperNumber"));
+//
+//		colNames.add("BUYER_TELEPHONE");
+//		colValues.add(orderDeclareHead.get("payerPhoneNumber"));
+//
+//		colNames.add("CONSIGNEE_ADDRESS");
+//		colValues.add(orderDeclareHead.get("consigneeAddress"));
+//
+//		colNames.add("AGENT_CODE");
+//		colValues.add("1207980025");
+//
+//		colNames.add("AGENT_NAME");
+//		colValues.add("天津中外运报关有限公司");
+//
+//		colNames.add("AERA_CODE");
+//		colValues.add("1207610251");
+//
+//		colNames.add("AERA_NAME");
+//		colValues.add("天津中外运国际物流发展有限公司");
+//
+//		colNames.add("TRADE_MODE");
+//		colValues.add("1210");
+//
+//		colNames.add("TRAF_MODE");
+//		colValues.add("Y");
+//
+//		colNames.add("TRAF_NO");
+//		colValues.add("");
+//
+//		colNames.add("LOCT_NO");
+//		colValues.add("");
+//
+//		colNames.add("LICENSE_NO");
+//		colValues.add("");
+//
+//		colNames.add("COUNTRY");
+//		colValues.add("142");
+//
+//		colNames.add("CURRENCY");
+//		colValues.add("142");
+//
+//		colNames.add("FREIGHT");
+//		if (orderDeclareHead.get("freight") != null
+//				&& !orderDeclareHead.get("freight").toString().isEmpty()) {
+//			colValues.add(orderDeclareHead.get("freight"));
 //		} else {
 //			colValues.add(null);
 //		}
-
-		colNames.add("CREAT_TIME");
-		colValues.add(new Date());
-
-		commonManagerMapper.insertTableByNVList(
-				"t_new_import_inventory_detail", colNames, colValues,
-				primary_sub);
-
-		return primary.get("primaryId").toString();
-	}
+//
+//		colNames.add("INSURE_FEE");
+//		if (orderDeclareHead.get("insuranceFee") != null
+//				&& !orderDeclareHead.get("insuranceFee").toString().isEmpty()) {
+//			colValues.add(orderDeclareHead.get("insuranceFee"));
+//		} else {
+//			colValues.add(0);
+//		}
+//
+//		colNames.add("WRAP_TYPE");
+//		colValues.add(orderDeclareHead.get("warpType"));
+//
+//		colNames.add("PACK_NO");
+//		colValues.add("1");
+//
+//		colNames.add("GROSS_WEIGHT");
+//		colNames.add("NET_WEIGHT");
+//		if (orderDeclareItems.get("goodsGrossWeight") != null
+//				&& !orderDeclareItems.get("goodsGrossWeight").toString()
+//						.isEmpty()
+//				&& orderDeclareItems.get("declareCount") != null
+//				&& !orderDeclareItems.get("declareCount").toString().isEmpty()) {
+//			colValues.add(Double.parseDouble(orderDeclareItems.get(
+//					"goodsGrossWeight").toString())
+//					* Double.parseDouble(orderDeclareItems.get("declareCount")
+//							.toString()));
+//			colValues.add(Double.parseDouble(orderDeclareItems.get(
+//					"goodsGrossWeight").toString())
+//					* Double.parseDouble(orderDeclareItems.get("declareCount")
+//							.toString()));
+//		} else {
+//			colValues.add(null);
+//			colValues.add(null);
+//		}
+//
+//		colNames.add("PAY_SERIAL_NO");
+//		if (orderDeclareHead.get("paySerialNo") != null
+//				&& !orderDeclareHead.get("paySerialNo").toString().isEmpty()) {
+//			colValues.add(orderDeclareHead.get("paySerialNo"));
+//		} else {
+//			colValues.add(null);
+//		}
+//
+//		colNames.add("WORTH");
+//		if (orderDeclareItems.get("tradeTotal") != null
+//				&& !orderDeclareItems.get("tradeTotal").toString().isEmpty()) {
+//			colValues.add(orderDeclareItems.get("tradeTotal"));
+//		} else {
+//			colValues.add(null);
+//		}
+//
+//		colNames.add("NOTE");
+//		colValues.add("");
+//		
+//		colNames.add("LOS_NO");
+//		colValues.add(head.get("logisticsOrderId"));
+//
+//		colNames.add("CREAT_TIME");
+//		colValues.add(new Date());
+//
+//		commonManagerMapper.insertTableByNVList("t_new_import_inventory",
+//				colNames, colValues, primary);
+//		
+//		//插入t_new_import_inventory_detail表
+//		colNames.clear();
+//		colValues.clear();
+//		Map primary_sub = new HashMap();
+//		primary_sub.put("primaryId", null);
+//
+//		colNames.add("INVENTORY_ID");
+//		colValues.add(primary.get("primaryId"));
+//
+//		colNames.add("GNUM");
+//		colValues.add(orderDeclareItems.get("goodsOrder"));
+//
+//		colNames.add("ITEM_NO");
+//		colValues.add(orderDeclareItems.get("goodsItemNo"));
+//
+//		colNames.add("ITEM_NAME");
+//		colValues.add(orderDeclareItems.get("goodsName"));
+//
+//		colNames.add("G_CODE");
+//		colValues.add("");
+//
+//		colNames.add("G_NAME");
+//		colValues.add(orderDeclareItems.get("goodsName"));
+//
+//		colNames.add("G_MODEL");
+//		colValues.add(orderDeclareItems.get("goodsModel"));
+//
+//		colNames.add("BARCODE");
+//		colValues.add("");
+//
+//		colNames.add("COUNTRY");
+//		colValues.add(orderDeclareItems.get("originCountry"));
+//		
+//		colNames.add("TRADE_COUNTRY");
+//		colValues.add(orderDeclareHead.get("tradeCountry"));
+//
+//		colNames.add("CURRENCY");
+//		colValues.add(orderDeclareItems.get("tradeCurr"));
+//
+//		colNames.add("QTY");
+//		if (orderDeclareItems.get("declareCount") != null
+//				&& !orderDeclareItems.get("declareCount").toString()
+//						.isEmpty()) {
+//			colValues.add(orderDeclareItems.get("declareCount"));
+//		} else {
+//			colValues.add(null);
+//		}
+//
+//		colNames.add("QTY1");
+//		if (orderDeclareItems.get("goodsGrossWeight") != null
+//				&& !orderDeclareItems.get("goodsGrossWeight").toString()
+//						.isEmpty()
+//				&& orderDeclareItems.get("declareCount") != null
+//				&& !orderDeclareItems.get("declareCount").toString().isEmpty()) {
+//			colValues.add(Double.parseDouble(orderDeclareItems.get(
+//					"goodsGrossWeight").toString())
+//					* Double.parseDouble(orderDeclareItems.get("declareCount")
+//							.toString()));
+//		} else {
+//			colValues.add(null);
+//		}
+//
+//		colNames.add("QTY2");
+//		if (orderDeclareItems.get("secondCount") != null
+//				&& !orderDeclareItems.get("secondCount").toString()
+//						.isEmpty()) {
+//			colValues.add(orderDeclareItems.get("secondCount"));
+//		} else {
+//			colValues.add(null);
+//		}
+//
+//		colNames.add("UNIT");
+//		colValues.add(orderDeclareItems.get("goodsUnit"));
+//
+//		colNames.add("UNIT1");
+//		colValues.add(orderDeclareItems.get("firstUnit"));
+//
+//		colNames.add("UNIT2");
+//		colValues.add(orderDeclareItems.get("secondUnit"));
+//
+//		colNames.add("PRICE");
+//		if (orderDeclareItems.get("declPrice") != null
+//				&& !orderDeclareItems.get("declPrice").toString().isEmpty()) {
+//			colValues.add(orderDeclareItems.get("declPrice"));
+//		} else {
+//			colValues.add(null);
+//		}
+//
+//		colNames.add("TOTAL_PRICE");
+//		if (orderDeclareItems.get("declPrice") != null
+//				&& !orderDeclareItems.get("declPrice").toString()
+//						.isEmpty()
+//				&& orderDeclareItems.get("declareCount") != null
+//				&& !orderDeclareItems.get("declareCount").toString().isEmpty()) {
+//			colValues.add(Double.parseDouble(orderDeclareItems.get(
+//					"declPrice").toString())
+//					* Double.parseDouble(orderDeclareItems.get("declareCount")
+//							.toString()));
+//		} else {
+//			colValues.add(null);
+//		}
+////		if (orderDeclareItems.get("declTotalPrice") != null
+////				&& !orderDeclareItems.get("declTotalPrice").toString()
+////						.isEmpty()) {
+////			colValues.add(orderDeclareItems.get("declTotalPrice"));
+////		} else {
+////			colValues.add(null);
+////		}
+//
+//		colNames.add("CREAT_TIME");
+//		colValues.add(new Date());
+//
+//		commonManagerMapper.insertTableByNVList(
+//				"t_new_import_inventory_detail", colNames, colValues,
+//				primary_sub);
+//
+//		return primary.get("primaryId").toString();
+//	}
 	
 	
 	// 插入t_new_import_inventory表
@@ -3002,19 +3002,23 @@ public class HttpHandleThread implements Callable<Object> {
 		subOrder.put("UNIT", orderDeclareItems.get("goodsUnit"));
 		subOrder.put("UNIT1", orderDeclareItems.get("firstUnit"));
 		subOrder.put("UNIT2", orderDeclareItems.get("secondUnit"));
+		
 		if (orderDeclareItems.get("declPrice") != null
 				&& !orderDeclareItems.get("declPrice").toString().isEmpty()) {
 			subOrder.put("PRICE", orderDeclareItems.get("declPrice"));
 		} else {
 			subOrder.put("PRICE", null);
 		}
-		if (orderDeclareItems.get("declTotalPrice") != null
-				&& !orderDeclareItems.get("declTotalPrice").toString()
-						.isEmpty()) {
-			subOrder.put("TOTAL_PRICE", orderDeclareItems.get("declTotalPrice"));
+				
+		if (subOrder.get("PRICE") != null && subOrder.get("QTY") != null) {
+			subOrder.put(
+					"TOTAL_PRICE",
+					Double.parseDouble(subOrder.get("PRICE").toString())
+							* Double.parseDouble(subOrder.get("QTY").toString()));
 		} else {
 			subOrder.put("TOTAL_PRICE", null);
 		}
+		
 		subOrder.put("CREAT_TIME", new Date());
 		
 		subOrder.put("LOS_NO", head.get("logisticsOrderId"));
