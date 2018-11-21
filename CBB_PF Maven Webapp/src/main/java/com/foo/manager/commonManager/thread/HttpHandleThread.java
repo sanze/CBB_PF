@@ -1394,7 +1394,7 @@ public class HttpHandleThread implements Callable<Object> {
 		JSONArray orderItemListArray = new JSONArray();
 		JSONArray tmsOrdersListArray = new JSONArray();
 
-		int i = 0;
+		int i = 1;
 		for (Map orderItem:orderItemList) {
 			 //查询数据库明细表中数据
 			colNames.clear();
@@ -1497,8 +1497,6 @@ public class HttpHandleThread implements Callable<Object> {
 			tmsOrderSingleItem.put("packageMaterialList", packageMaterialList);
 			tmsOrdersListArray.add(tmsOrderSingleItem);
 			
-			
-			
 			i++;
 		}
 
@@ -1591,24 +1589,36 @@ public class HttpHandleThread implements Callable<Object> {
 		JSONObject snRequest = new JSONObject();
 		
 		JSONArray statusList = new JSONArray();
-		JSONObject statusSingleItem = new JSONObject();
-//		statusSingleItem.put("address", item.get("RECEIVER_ADDRESS"));
-//		statusSingleItem.put("expressNo", item.get("FPS_ORDER_ID"));
-//		statusSingleItem.put("mailStatus", item.get("ORDER_TYPE"));
-//		statusSingleItem.put("orderId", item.get("ORDER_CODE"));
-//		statusSingleItem.put("expressCompanyCode", item.get("ORDER_NUMBER"));
-//		statusSingleItem.put("signer", item.get("ORDER_NUMBER"));
-//		statusSingleItem.put("remark", item.get("ORDER_NUMBER"));
-//		statusSingleItem.put("expressName", item.get("ORDER_NUMBER"));
-//		statusSingleItem.put("expressPhone", item.get("ORDER_NUMBER"));
-//		statusSingleItem.put("statusType", item.get("ORDER_NUMBER"));
 		
+		colNames.clear();
+		colValues.clear();
+		colNames.add("STATUS_CODE");
+		colValues.add(orderInfo.get("status_code"));
+		List<Map<String, Object>> statusChangeList = commonManagerMapper
+				.selectTableListByNVList("T_SN_STATUS_CHANGE", colNames, colValues,
+						null, null);
+		for(Map<String, Object> statusChange:statusChangeList){
+			
+		JSONObject statusSingleItem = new JSONObject();
+		
+			String statusType = statusChange.get("STATUS_TYPE")!=null?statusChange.get("STATUS_TYPE").toString():"";
+			
+			if("WMS".equals(statusType)){
+				statusSingleItem.put("expressNo", orderInfo.get("order_code"));
+				statusSingleItem.put("expressCompanyCode", "WMS");
+			}else if("TMS".equals(statusType)){
+				statusSingleItem.put("expressNo", item.get("TMS_ORDER_CODE"));
+				statusSingleItem.put("expressCompanyCode", item.get("TMS_SERVICE_CODE"));
+			}		
+			statusSingleItem.put("mailStatus", statusChange.get("CN_CODE"));
+			statusSingleItem.put("address", statusChange.get("CN_REMARK"));
+			statusSingleItem.put("statusType", statusChange.get("STATUS_TYPE"));
 		statusSingleItem.put("time",
 				CommonUtil.getDateFormatter(CommonDefine.COMMON_FORMAT)
 						.format(new Date()));
 		
 		statusList.add(statusSingleItem);
-
+		}
 		snRequest.put("statusList", statusList);
 
 		JSONObject content = new JSONObject();
@@ -1627,6 +1637,34 @@ public class HttpHandleThread implements Callable<Object> {
 		System.out.println(content.toString());
 		// 发送请求
 		String result = send2SN(requestParam, content.toString());
+
+		//插入t_sn_return_status表
+		// 获取资源文件
+		ResourceBundle bundle = CommonUtil.getMessageMappingResource("CEB_SN");
+		Map primary = new HashMap();
+		primary.put("primaryId", null);
+		Map data = new HashMap();
+		for (Object key : orderInfo.keySet()) {
+			if (bundle
+					.containsKey("SN_RETURN_STATUS_" + key.toString().toUpperCase())) {
+
+				if (orderInfo.get(key) == null
+						|| orderInfo.get(key).toString().isEmpty()) {
+					data.put(
+							bundle.getObject("SN_RETURN_STATUS_"
+									+ key.toString().toUpperCase()), null);
+				} else {
+					data.put(
+							bundle.getObject("SN_RETURN_STATUS_"
+									+ key.toString().toUpperCase()),
+							orderInfo.get(key));
+				}
+			}
+		}
+		data.put("CREAT_TIME", new Date());
+		commonManagerMapper.insertTableByNVList("T_SN_RETURN_STATUS",
+				new ArrayList<String>(data.keySet()), new ArrayList<Object>(
+						data.values()), primary);
 
 		return "<deliveryorderstatusreturn><status>success</status></deliveryorderstatusreturn>";
 	}
