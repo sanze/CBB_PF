@@ -7,7 +7,7 @@
 		  *
 		FROM
 		  t_new_import_books 
-		WHERE SKU = #{sku} and QTY >= #{qty} and ADD_REDUCE_FLAG = '1' and QTY > 0 and ORDER_NO is not null
+		WHERE SKU = #{sku} and QTY >= #{qty} and ADD_REDUCE_FLAG = '1' and QTY > 0 and RECORD_NO is not null
 	</select>
 	
 	<select id="selectInventoryHead" resultType="java.util.LinkedHashMap" >
@@ -61,8 +61,8 @@
 		  t.NOTE,
 		  t.LOGISTICS_NO as ioSerialNo,
 		  b.DECL_NO,
-		   "江苏苏宁易购电子商务有限公司" as declPerson,
-		  "18222309097" as declTel,
+		  "天津中外运报关有限公司" as declPerson,
+		  "13388033561" as declTel,
 		  "" as mainDeclNo,
 		  "" as combineFlag,
 		  "" as orderNum,
@@ -80,13 +80,13 @@
 		  t.WORTH,
 		   "C" as stockFlag,
 		  "" as consigneeNo,
-		  "樊胜男" as consigneeCname,
+		  "华新琴" as consigneeCname,
 		  "" as consigneeEname,
-		  "18622704752" as consigneeTel,
+		  "13388033561" as consigneeTel,
 		  "" as consinorNo,
-		  "江苏苏宁易购电子商务有限公司" as consignorCname,
+		  "苏宁易购" as consignorCname,
 		  "" as consignorEname,
-		  "18551604361" as consignorTel,
+		  "18622704752" as consignorTel,
 		  "天津东疆保税港区洛阳道600号3-3单元" as consignorAddress,
 		  "3201966A69" as idCard
 		FROM
@@ -130,7 +130,7 @@
 		  i.BUYER_NAME,
 		  i.BUYER_IDTYPE,
 		  s.SJ_COUNTRY as originCountryCode,
-		  t.UNIT as qtyUnitCode,
+		  s.UNIT as qtyUnitCode,
 		  "Q120000201808000039" as consigneeNo
 		FROM
 		  t_new_import_inventory_detail t 
