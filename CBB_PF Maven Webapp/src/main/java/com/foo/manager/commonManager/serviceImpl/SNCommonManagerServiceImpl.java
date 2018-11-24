@@ -143,4 +143,162 @@ public class SNCommonManagerServiceImpl extends CommonManagerService implements 
 	}
 
 
+	
+	@Override
+	public Map<String, Object> getAllSku(Map<String, Object> params)
+			throws CommonException {
+		List<Map<String, Object>> rows = new ArrayList<Map<String, Object>>();
+
+		int total = 0;
+
+		// 开始
+		Integer start = params.get("start") == null ? null : Integer
+				.valueOf(params.get("start").toString());
+		// 结束
+		Integer limit = params.get("limit") == null ? null : Integer
+				.valueOf(params.get("limit").toString());
+
+		params.remove("start");
+		params.remove("limit");
+		try {
+			List<String> keys=new ArrayList<String>(params.keySet());
+			List<Object> values=new ArrayList<Object>(params.values());
+			
+			if(!params.containsKey("Fuzzy")){
+				rows = commonManagerMapper.selectTableListByNVList(T_SN_SKU, 
+						keys,values,start, limit);
+				total = commonManagerMapper.selectTableListCountByNVList(T_SN_SKU,
+						keys,values);
+			}else{
+				//模糊查询
+				params.remove("Fuzzy");
+				keys=new ArrayList<String>(params.keySet());
+				values=new ArrayList<Object>(params.values());
+				rows = commonManagerMapper.selectTableListByNVList_Fuzzy(T_SN_SKU, 
+						keys,values,start, limit);
+				total = commonManagerMapper.selectTableListCountByNVList_Fuzzy(T_SN_SKU,
+						keys,values);
+			}
+
+//			rows = commonManagerMapper.selectTableListByNVList(T_NJ_SKU, 
+//					keys,values,start, limit);
+//
+//			total = commonManagerMapper.selectTableListCountByNVList(T_NJ_SKU,
+//					keys,values);
+
+			Map<String, Object> result = new HashMap<String, Object>();
+			result.put("total", total);
+			result.put("rows", rows);
+			return result;
+		} catch (Exception e) {
+			throw new CommonException(e,
+					MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR);
+		}
+	}
+	
+	@Override
+	public Map<String, Object> getAllReceipt(Map<String, Object> params)
+			throws CommonException {
+		List<Map<String, Object>> rows = new ArrayList<Map<String, Object>>();
+
+		int total = 0;
+
+		// 开始
+		Integer start = params.get("start") == null ? null : Integer
+				.valueOf(params.get("start").toString());
+		// 结束
+		Integer limit = params.get("limit") == null ? null : Integer
+				.valueOf(params.get("limit").toString());
+
+		params.remove("start");
+		params.remove("limit");
+		try {
+			List<String> keys=new ArrayList<String>(params.keySet());
+			List<Object> values=new ArrayList<Object>(params.values());
+			
+			if(!params.containsKey("Fuzzy")){
+				rows = commonManagerMapper.selectTableListByNVList(T_SN_RECEIPT, 
+						keys,values,start, limit);
+				total = commonManagerMapper.selectTableListCountByNVList(T_SN_RECEIPT,
+						keys,values);
+			}else{
+				//模糊查询
+				params.remove("Fuzzy");
+				keys=new ArrayList<String>(params.keySet());
+				values=new ArrayList<Object>(params.values());
+				rows = commonManagerMapper.selectTableListByNVList_Fuzzy(T_SN_RECEIPT, 
+						keys,values,start, limit);
+				total = commonManagerMapper.selectTableListCountByNVList_Fuzzy(T_SN_RECEIPT,
+						keys,values);
+			}
+
+//			rows = commonManagerMapper.selectTableListByNVList(T_NJ_SKU, 
+//					keys,values,start, limit);
+//
+//			total = commonManagerMapper.selectTableListCountByNVList(T_NJ_SKU,
+//					keys,values);
+
+			Map<String, Object> result = new HashMap<String, Object>();
+			result.put("total", total);
+			result.put("rows", rows);
+			return result;
+		} catch (Exception e) {
+			throw new CommonException(e,
+					MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR);
+		}
+	}
+	
+	@Override
+	public Map<String, Object> getAllInventory(Map<String, Object> params)
+			throws CommonException {
+		List<Map<String, Object>> rows = new ArrayList<Map<String, Object>>();
+
+		int total = 0;
+
+		// 开始
+		Integer start = params.get("start") == null ? null : Integer
+				.valueOf(params.get("start").toString());
+		// 结束
+		Integer limit = params.get("limit") == null ? null : Integer
+				.valueOf(params.get("limit").toString());
+
+		params.remove("start");
+		params.remove("limit");
+		try {
+			List<String> keys=new ArrayList<String>(params.keySet());
+			List<Object> values=new ArrayList<Object>(params.values());
+			
+			if(!params.containsKey("Fuzzy")){
+				rows = commonManagerMapper.selectTableListByNVList(T_SN_INVENTORY, 
+						keys,values,start, limit);
+				total = commonManagerMapper.selectTableListCountByNVList(T_SN_INVENTORY,
+						keys,values);
+			}else{
+				//模糊查询
+				params.remove("Fuzzy");
+				keys=new ArrayList<String>(params.keySet());
+				values=new ArrayList<Object>(params.values());
+				rows = commonManagerMapper.selectTableListByNVList_Fuzzy(T_SN_INVENTORY, 
+						keys,values,start, limit);
+				total = commonManagerMapper.selectTableListCountByNVList_Fuzzy(T_SN_INVENTORY,
+						keys,values);
+			}
+
+//			rows = commonManagerMapper.selectTableListByNVList(T_NJ_SKU, 
+//					keys,values,start, limit);
+//
+//			total = commonManagerMapper.selectTableListCountByNVList(T_NJ_SKU,
+//					keys,values);
+
+			Map<String, Object> result = new HashMap<String, Object>();
+			result.put("total", total);
+			result.put("rows", rows);
+			return result;
+		} catch (Exception e) {
+			throw new CommonException(e,
+					MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR);
+		}
+	}
+	
+
 }

@@ -32,6 +32,8 @@ import com.sun.net.httpserver.HttpExchange;
 public class HttpServerManagerServiceImpl extends HttpServerManagerService{
 
 	private static boolean printAble = Boolean.parseBoolean(CommonUtil.getSystemConfigProperty("printRequestInfo"));
+	private static boolean printAble_requestType_order = Boolean.parseBoolean(CommonUtil.getSystemConfigProperty("printAble_requestType_order"));
+	private static String requestType_Order = CommonUtil.getSystemConfigProperty("requestType_Order").toString();
 
 	@Override
 	public void handle(HttpExchange exchange) throws IOException {
@@ -84,8 +86,14 @@ public class HttpServerManagerServiceImpl extends HttpServerManagerService{
 		} finally {
 			
 			if(printAble){
+				
+				if(queryString.contains(requestType_Order)
+						&& !printAble_requestType_order){
+					
+				}else{
 			System.out.println("【URI】:"+queryString);
 			System.out.println("【queryBody】:"+queryBody);
+			}
 			}
 			try {
 				os.flush();  
