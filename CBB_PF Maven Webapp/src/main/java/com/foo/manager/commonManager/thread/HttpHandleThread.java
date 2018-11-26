@@ -752,7 +752,7 @@ public class HttpHandleThread implements Callable<Object> {
 		return xmlReturnString;
 	}
 
-	private String send2SN(Map requestParam, String content) {
+	public static String send2SN(Map requestParam, String content) {
 		// 向苏宁发送报文
 		// 请求数据
 		String data_digest = CommonUtil.makeSign(content);
@@ -1661,6 +1661,8 @@ public class HttpHandleThread implements Callable<Object> {
 				}
 			}
 		}
+		data.put("STATUS_TIME", CommonUtil
+				.getDateFormatter(CommonDefine.COMMON_FORMAT).format(new Date()));
 		data.put("CREAT_TIME", new Date());
 		commonManagerMapper.insertTableByNVList("T_SN_RETURN_STATUS",
 				new ArrayList<String>(data.keySet()), new ArrayList<Object>(

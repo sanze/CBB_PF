@@ -253,6 +253,8 @@ public class CommonDefine {
 		public static final int JOB_TYPE_GET_RECEIPT_DATA_LOGISTICS = 300;
 		public static final int JOB_TYPE_GET_RECEIPT_DATA_INVENTORY = 400;
 		
+		public static final int JOB_TYPE_GET_KD100_DATA = 500;
+		
 		public static final int JOB_TYPE_GET_INPUT_DATA_ORDER = 900;
 	}
 

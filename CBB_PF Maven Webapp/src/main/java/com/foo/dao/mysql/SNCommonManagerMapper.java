@@ -40,5 +40,7 @@ public interface SNCommonManagerMapper {
 			@Param(value = "id") int id);
 	
 	public LinkedHashMap selectBaseTransfer();
+	
+	public List<Map> selectNeedUpdateEmsStatusOrder();
 
 }

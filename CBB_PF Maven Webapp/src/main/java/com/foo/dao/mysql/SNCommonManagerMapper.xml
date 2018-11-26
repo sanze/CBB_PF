@@ -78,7 +78,7 @@
 		  "121500" as checkOrgCode,
 		  "1" as idType,
 		  t.WORTH,
-		   "C" as stockFlag,
+		  "C" as stockFlag,
 		  "" as consigneeNo,
 		  "华新琴" as consigneeCname,
 		  "" as consigneeEname,
@@ -123,7 +123,7 @@
 		  "Q120000201808000039" as entCode,
 		  s.SJ_RECORD_NO,
 		  <!-- b.DECL_NO, -->
-		  i.LOGISTICS_NO,
+		  i.LOGISTICS_NO, 
 		  i.ORDER_NO,
 		  i.PAY_SERIAL_NO,
 		  i.EBC_NAME,
@@ -191,6 +191,13 @@
 		  "" as note
 	</select>
 	
-	
-	
+	<select id="selectNeedUpdateEmsStatusOrder" resultType="hashmap" >
+		SELECT 
+		  * 
+		FROM
+		  t_sn_order t 
+		WHERE t.CUSTOMS_MODE = "04" 
+		  AND t.TMS_ORDER_CODE IS NOT NULL 
+		  AND t.EMS_STATE != "3" ;
+	</select>
 </mapper>

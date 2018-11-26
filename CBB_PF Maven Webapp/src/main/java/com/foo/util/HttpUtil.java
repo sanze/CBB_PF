@@ -3,7 +3,12 @@ package com.foo.util;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -12,6 +17,7 @@ import java.util.Map.Entry;
 
 import net.sf.json.JSONObject;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.httpclient.methods.InputStreamRequestEntity;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.RequestEntity;
@@ -196,20 +202,29 @@ public class HttpUtil {
 			return result;
 		}
 		
-		public static void main(String args[]){
-//			String userName = "ttkj001";
-//			String password = "9ol.)P:?";
-//			String appkey = "EXEpBMZH6p3lJ6R6rlLdZ1ft5zD1";
-//			String host = "223.87.15.132";
-//			String path = "/rest/fastlogin/v1.0";
-//			String url = "https://"+host+path+"?app_key="+appkey+"&username="+userName;
-//			Map<String,String> head = new HashMap<String,String>();
-//			head.put("Authorization", password);
-//			head.put("Content-Type", "application/json");
-//			Map<String,String> body = new HashMap<String,String>();
-//			HttpUtil util = new HttpUtil();
-//			Map result = util.doPost(url,head,body);
-//			System.out.println(result.toString());
+		
+
+		
+		public static void main(String args[]) throws UnsupportedEncodingException, NoSuchAlgorithmException{
+
+			JSONObject param = new JSONObject();
+			param.put("com", "emsen");
+			param.put("num", "CI160872127JP");
+
+			String customer = "ADB5D6A4727EDE79EF585B534DA1DEFB";
+			String key = "zudoJhZX7023";
+			String sign = CommonUtil.encryptionMD5(param.toString()+key+customer);
+
+			String url = "http://poll.kuaidi100.com/poll/query.do";
+			
+			
+			String requestUrl = url + "?" + "customer=" + customer + "&sign="
+					+ sign.toUpperCase() + "&param=" + URLEncoder.encode(param.toString(), "utf-8");
+			
+			Map<String,Object> head = new HashMap<String,Object>();
+
+			String result = HttpUtil.doPost4TJ(requestUrl,head,"",false);
+			System.out.println(result);
 			
 		}
 		

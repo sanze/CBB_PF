@@ -11,6 +11,7 @@ import com.foo.IService.IQuartzManagerService;
 import com.foo.common.CommonDefine;
 import com.foo.handler.ExceptionHandler;
 import com.foo.job.ScanInputDataJob_ORDER;
+import com.foo.job.ScanKD100Status;
 import com.foo.job.ScanReceiptJob_INVENTORY;
 import com.foo.job.ScanReceiptJob_LOGISTICS;
 import com.foo.job.ScanReceiptJob_ORDER;
@@ -85,6 +86,11 @@ public class InitJob extends HttpServlet {
 				CommonDefine.QUARTZ.JOB_TYPE_GET_RECEIPT_DATA_INVENTORY,
 				ScanReceiptJob_INVENTORY.class);
 
+		initGetKD100DataJob("GetKD100DataJob",
+				"JobCronExpression",
+				CommonDefine.QUARTZ.JOB_TYPE_GET_KD100_DATA,
+				ScanKD100Status.class);
+
 	}
 	
 	private void startHttpServer(){
@@ -146,6 +152,44 @@ public class InitJob extends HttpServlet {
 				if (!quartzManagerService.IsJobExist(jobType)) {
 					quartzManagerService.addJob(jobType,
 							jobClass, cronExpression);
+				}
+			} else {
+				// 删除任务
+				if (quartzManagerService.IsJobExist(jobType)) {
+					quartzManagerService.ctrlJob(jobType,
+							CommonDefine.QUARTZ.JOB_DELETE);
+				}
+			}
+		} catch (Exception e) {
+			ExceptionHandler.handleException(e);
+		}
+	}
+	
+	//创建任务
+	private void initGetKD100DataJob(String jobNameConfigProperty,
+			String cronExpressionConfigProperty, int jobType, Class jobClass ) {
+
+		boolean getKD100DataJob = false;
+		// 获取配置
+		if (CommonUtil.getSystemConfigProperty(jobNameConfigProperty) != null) {
+			getKD100DataJob = Boolean.parseBoolean(CommonUtil
+					.getSystemConfigProperty(jobNameConfigProperty));
+		}
+		try {
+			if (getKD100DataJob) {
+				// 获取执行周期表达式
+				String cronExpression = "0/30 * * * * ?";
+				if (CommonUtil
+						.getSystemConfigProperty(cronExpressionConfigProperty) != null) {
+					cronExpression = CommonUtil.getSystemConfigProperty(
+							cronExpressionConfigProperty).toString();
+				}
+				//
+				if (!quartzManagerService.IsJobExist(jobType)) {
+					quartzManagerService.addJob(jobType,
+							jobClass, cronExpression);
+				}else{
+					quartzManagerService.modifyJobTime(jobType, cronExpression);
 				}
 			} else {
 				// 删除任务
