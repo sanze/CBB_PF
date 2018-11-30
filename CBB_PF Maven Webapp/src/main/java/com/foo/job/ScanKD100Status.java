@@ -65,9 +65,10 @@ public class ScanKD100Status extends AbstractJob {
 					new HashMap<String, Object>(), "", false);
 			
 //			String result = "{\"message\":\"ok\",\"nu\":\"W107xxxxxx\",\"ischeck\":\"1\",\"condition\":\"F00\",\"com\":\"emsen\",\"status\":\"200\",\"state\":\"3\",\"data\":[{\"time\":\"2018-10-07 16:25:54\",\"ftime\":\"2018-10-07 16:25:54\",\"context\":\"【JiangSuShengNanJingShi BaiJiaHu】 Delivery\"},{\"time\":\"2018-10-07 16:22:06\",\"ftime\":\"2018-10-07 16:22:06\",\"context\":\"【JiangSuShengNanJingShi BaiJiaHu】 Delivery arranged\"},{\"time\":\"2018-10-04 18:20:07\",\"ftime\":\"2018-10-04 18:20:07\",\"context\":\"【JiangSuShengNanJingShi BaiJiaHu】 Attempted delivery\"},{\"time\":\"2018-10-04 18:08:04\",\"ftime\":\"2018-10-04 18:08:04\",\"context\":\"【JiangSuShengNanJingShi BaiJiaHu】 Delivery arranged\"},{\"time\":\"2018-10-04 10:28:00\",\"ftime\":\"2018-10-04 10:28:00\",\"context\":\"【NANJING】 Held by Customs\"},{\"time\":\"2018-09-15 11:18:00\",\"ftime\":\"2018-09-15 11:18:00\",\"context\":\"【JAPAN JPJPKWSI】 Despatch from Sorting Center\"},{\"time\":\"2018-09-15 11:16:00\",\"ftime\":\"2018-09-15 11:16:00\",\"context\":\"【JAPAN JPJPKWSA】 Arrival at Sorting Center\"},{\"time\":\"2018-09-14 22:09:00\",\"ftime\":\"2018-09-14 22:09:00\",\"context\":\"【JP5500022】 Posting\"}]}";
-			
+			synchronized(ScanKD100Status.class){
 			handleKD100ReturnMessage(result);
 		}
+	}
 	}
 	
 	private void handleKD100ReturnMessage(String jsonString){

@@ -68,7 +68,7 @@ public class HttpHandleThread implements Callable<Object> {
 		// 库存
 //		 this.requestType = HttpServerManagerService.requestType_inventory;
 //		 this.content =
-//		 "<inputList><inventoryOrder><inventoryDetailHead><messageId>1df3154d823c49f7a13bbb69801d94cd</messageId><logisticsOrderId>1215001180620011114YG</logisticsOrderId><businessType>C005</businessType><statusCode>1131</statusCode><offsetFlag/><note>天津外部公司测试</note></inventoryDetailHead><inventoryDetailItems><itemNumber>10</itemNumber><goodsCode>20166666</goodsCode><goodsDescription>Rafferty&apos;s Garden 婴儿辅食 南瓜苹果玉米泥 120克/袋 海外进口 蔬果泥 </goodsDescription><goodsNumber>99</goodsNumber><goodsUnit>G</goodsUnit><inventoryType>A</inventoryType><keyValueAdd/></inventoryDetailItems></inventoryOrder></inputList>";
+//		 "<inputList><inventoryOrder><inventoryDetailHead><messageId>001550fb0407445c8199971b85cf39d2</messageId><logisticsOrderId>LOS36300259871403000</logisticsOrderId><businessType>C061</businessType><statusCode>1060</statusCode><offsetFlag></offsetFlag><finishedDate>2018-11-25</finishedDate><finishedTime>17:21:40</finishedTime></inventoryDetailHead><inventoryDetailItems><itemNumber>10</itemNumber><goodsCode>000000000686902504</goodsCode><goodsDescription>花王 Merries 大号婴儿纸尿裤 L58片 (L码增量装)</goodsDescription><goodsNumber>1</goodsNumber><goodsUnit>S01</goodsUnit><inventoryType>A</inventoryType></inventoryDetailItems></inventoryOrder><inventoryOrder><inventoryDetailHead><messageId>0038eee2fddf4305a31ac2aa2b8333e5</messageId><logisticsOrderId>LOS36300260644470300</logisticsOrderId><businessType>C061</businessType><statusCode>1060</statusCode><offsetFlag></offsetFlag><finishedDate>2018-11-25</finishedDate><finishedTime>18:24:16</finishedTime></inventoryDetailHead><inventoryDetailItems><itemNumber>10</itemNumber><goodsCode>000000000686897623</goodsCode><goodsDescription>尤妮佳 Moony 小号婴儿纸尿裤 S号S84片 （4kg-8kg）</goodsDescription><goodsNumber>2</goodsNumber><goodsUnit>S01</goodsUnit><inventoryType>A</inventoryType></inventoryDetailItems></inventoryOrder><inventoryOrder><inventoryDetailHead><messageId>006e59bb562a4372844915f90734a1a3</messageId><logisticsOrderId>LOS36300261078420600</logisticsOrderId><businessType>C061</businessType><statusCode>1060</statusCode><offsetFlag></offsetFlag><finishedDate>2018-11-25</finishedDate><finishedTime>18:24:11</finishedTime></inventoryDetailHead><inventoryDetailItems><itemNumber>10</itemNumber><goodsCode>000000000686897623</goodsCode><goodsDescription>尤妮佳 Moony 小号婴儿纸尿裤 S号S84片 （4kg-8kg）</goodsDescription><goodsNumber>2</goodsNumber><goodsUnit>S01</goodsUnit><inventoryType>A</inventoryType></inventoryDetailItems></inventoryOrder></inputList>";
 		// 装载
 		// this.requestType = HttpServerManagerService.requestType_load;
 		// this.content =
@@ -310,6 +310,13 @@ public class HttpHandleThread implements Callable<Object> {
 		System.out
 				.println("---------------------------【FPAPI_INVENTORY】-------------------------------");
 
+		List<String> inventoryOrderDataXML = XmlUtil.getNodesXmlData(xmlString, "//inputList/inventoryOrder");
+		
+		List<Map> resultList = new ArrayList<Map>();
+		
+		// 向苏宁回传订单状态
+		List<Map> dataList = new ArrayList<Map>();
+
 		// 收到库存明细同步报文中<businessType>等于C061时，两步操作。
 
 		// 第一步将报文中<inventoryDetailItems>的<goodsNumber>的值写入t_new_import_receipt表已有数据的ACTUAL_QTY中。
@@ -324,14 +331,30 @@ public class HttpHandleThread implements Callable<Object> {
 		// <logisticsOrderId>插入ORDER_NO
 		// CREAT_DATE填当前日期的YYYYMMDD
 		// 没有进一步操作。
+		String checkBusinessTypeC061 = CommonUtil
+				.getSystemConfigProperty("checkInventoryBusinessType_C061");
+		String checkBusinessTypeC005 = CommonUtil
+				.getSystemConfigProperty("checkInventoryBusinessType_C005");
+		
+		// 获取资源文件
+		ResourceBundle bundle = CommonUtil
+				.getMessageMappingResource("CEB_SN");
+		
+		SimpleDateFormat sf = CommonUtil
+				.getDateFormatter(CommonDefine.COMMON_FORMAT_1);
+		
+		for(String xmlData:inventoryOrderDataXML){
 
 		Map head = null;
-		boolean isSuccess = true;
 
+			Map singleResult = new HashMap();
+			singleResult.put("isSuccess", "true");
 		try {
 			// 判断businessType
-			head = XmlUtil.parseXmlFPAPI_SingleNodes(xmlString,
-					"//inputList/inventoryOrder/inventoryDetailHead/child::*");
+				head = XmlUtil.parseXmlFPAPI_SingleNodes(xmlData,
+						"//inventoryDetailHead/child::*");
+				
+				singleResult.put("messageId", head.get("messageId"));
 
 			String businessType = null;
 			String logisticsOrderId = head.get("logisticsOrderId") != null ? head
@@ -342,22 +365,11 @@ public class HttpHandleThread implements Callable<Object> {
 				businessType = (String) head.get("businessType");
 			}
 
-			String checkBusinessTypeC061 = CommonUtil
-					.getSystemConfigProperty("checkInventoryBusinessType_C061");
-			String checkBusinessTypeC005 = CommonUtil
-					.getSystemConfigProperty("checkInventoryBusinessType_C005");
-
-			// 获取资源文件
-			ResourceBundle bundle = CommonUtil
-					.getMessageMappingResource("CEB_SN");
 			// 报文入库--C061
 			if (checkBusinessTypeC061.equals(businessType)) {
 				List<Map> items = XmlUtil.parseXmlFPAPI_MulitpleNodes(
-						xmlString,
-						"//inputList/inventoryOrder/inventoryDetailItems");
-
-				SimpleDateFormat sf = CommonUtil
-						.getDateFormatter(CommonDefine.COMMON_FORMAT_1);
+							xmlData,
+							"//inventoryDetailItems");
 
 				List<String> colNames = new ArrayList<String>();
 				List<Object> colValues = new ArrayList<Object>();
@@ -409,7 +421,7 @@ public class HttpHandleThread implements Callable<Object> {
 										data.keySet()), new ArrayList<Object>(
 										data.values()), primary);
 					} else {
-						isSuccess = false;
+							singleResult.put("isSuccess", "false");
 					}
 				}
 				// 订单状态回传接口--SN
@@ -438,35 +450,8 @@ public class HttpHandleThread implements Callable<Object> {
 				data.put("keyValueAdd", "");
 				data.put("thirdPartyCompany", "");
 
-				// 向苏宁回传订单状态
-				List<Map> dataList = new ArrayList<Map>();
-
 				dataList.add(data);
 
-				Map requestParam = new HashMap();
-				requestParam
-						.put("logistic_provider_id",
-								CommonUtil
-										.getSystemConfigProperty("SN_inputStatusList_logistic_provider_id"));
-				requestParam
-						.put("msg_type",
-								CommonUtil
-										.getSystemConfigProperty("SN_inputStatusList_msg_type"));
-				requestParam
-						.put("url",
-								CommonUtil
-										.getSystemConfigProperty("SN_inputStatusList_requestUrl"));
-
-				String content = XmlUtil
-						.generalReceiptXml_LoadRec_FP(
-								CommonUtil
-										.getSystemConfigProperty("inputStatusListRoot"),
-								CommonUtil
-										.getSystemConfigProperty("inputStatusListFirstElement"),
-								dataList);
-
-				// 发送请求
-				String result = send2SN(requestParam, content);
 			} else if (checkBusinessTypeC005.equals(businessType)) {
 				String statusCode = head.get("statusCode") != null ? head.get(
 						"statusCode").toString() : "";
@@ -537,19 +522,42 @@ public class HttpHandleThread implements Callable<Object> {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			isSuccess = false;
+				singleResult.put("isSuccess", "false");
+			}
+			
+			resultList.add(singleResult);
+		}
+
+		// 订单状态回传接口
+		if (dataList.size() > 0) {
+			Map requestParam = new HashMap();
+			requestParam
+					.put("logistic_provider_id",
+							CommonUtil
+									.getSystemConfigProperty("SN_inputStatusList_logistic_provider_id"));
+			requestParam.put("msg_type", CommonUtil
+					.getSystemConfigProperty("SN_inputStatusList_msg_type"));
+			requestParam.put("url", CommonUtil
+					.getSystemConfigProperty("SN_inputStatusList_requestUrl"));
+			String content = XmlUtil.generalReceiptXml_LoadRec_FP(CommonUtil
+					.getSystemConfigProperty("inputStatusListRoot"), CommonUtil
+					.getSystemConfigProperty("inputStatusListFirstElement"),
+					dataList);
+//			System.out.println(content);
+			// 发送请求
+			send2SN(requestParam, content);
 		}
 
 		// 返回数据构建
-		List<LinkedMap> dataList = new ArrayList<LinkedMap>();
+		List<LinkedMap> dataListReturn = new ArrayList<LinkedMap>();
 
-		for (int i = 0; i < 1; i++) {
+		for (int i = 0; i < resultList.size(); i++) {
 			LinkedMap resultData = new LinkedMap();
-			resultData.put("messageId", head.get("messageId"));
-			resultData.put("success", String.valueOf(isSuccess));
+			resultData.put("messageId", resultList.get(i).get("messageId"));
+			resultData.put("success", resultList.get(i).get("isSuccess"));
 			resultData.put("errorCode", "");
 			resultData.put("errorMsg", "");
-			dataList.add(resultData);
+			dataListReturn.add(resultData);
 		}
 		String root = CommonUtil
 				.getSystemConfigProperty("inventoryReceiptRoot");
@@ -557,7 +565,7 @@ public class HttpHandleThread implements Callable<Object> {
 				.getSystemConfigProperty("inventoryFirstElement");
 
 		xmlReturnString = XmlUtil.generalReceiptXml_FP(root, firstElement,
-				dataList);
+				dataListReturn);
 
 		return xmlReturnString;
 	}
@@ -911,6 +919,7 @@ public class HttpHandleThread implements Callable<Object> {
 
 			}
 		}
+		data.put("RECEIPT_STATUS", "0");
 		data.put("CREAT_DATE", sf.format(new Date()));
 		data.put("CREAT_TIME", new Date());
 		commonManagerMapper.insertTableByNVList("T_SN_RECEIPT",
@@ -1205,6 +1214,13 @@ public class HttpHandleThread implements Callable<Object> {
 			return "<entryorderconfirmreturn><status>fail</status></entryorderconfirmreturn>";
 		}
 		
+		//更新主表RECEIPT_STATUS
+		colNames.clear();
+		colValues.clear();
+		colNames.add("RECEIPT_STATUS");
+		colValues.add("1");
+		commonManagerMapper.updateTableByNVList("t_sn_receipt", "ORDER_CODE", orderInfo.get("order_code"), colNames, colValues);
+		
 		//更新明细表
 		//将ACTUAL_QTY和ACTUAL_QTY_DEFECT字段写入t_sn_receipt_detail
 		for(Map orderItem:orderItemList){
@@ -1366,11 +1382,13 @@ public class HttpHandleThread implements Callable<Object> {
 		//更新主表
 		colNames.clear();
 		colValues.clear();
+		colNames.add("ORDER_STATUS");
 		colNames.add("TMS_ORDER_CODE");
 		colNames.add("PACKAGE_HEIGHT");
 		colNames.add("PACKAGE_WEIGHT");
 		colNames.add("PACKAGE_LENGTH");
 		colNames.add("PACKAGE_WIDTH");
+		colValues.add("1");
 		colValues.add(orderInfo.get("tms_order_code"));
 		colValues.add(orderInfo.get("package_weight"));
 		colValues.add(orderInfo.get("package_length"));
@@ -1764,6 +1782,7 @@ public class HttpHandleThread implements Callable<Object> {
 			bolCount = Integer.valueOf(data.get("BOL_COUNT").toString());
 			bolCount = bolCount==0?0:bolCount-1;
 		}
+		data.put("ORDER_STATUS", "0");
 		data.put("BOL_COUNT", bolCount);
 		data.put("CREAT_DATE", sf.format(new Date()));
 		data.put("CREAT_TIME", new Date());
