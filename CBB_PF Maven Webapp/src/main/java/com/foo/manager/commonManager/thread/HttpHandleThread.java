@@ -1782,8 +1782,17 @@ public class HttpHandleThread implements Callable<Object> {
 			bolCount = Integer.valueOf(data.get("BOL_COUNT").toString());
 			bolCount = bolCount==0?0:bolCount-1;
 		}
-		data.put("ORDER_STATUS", "0");
 		data.put("BOL_COUNT", bolCount);
+		
+		//收到苏宁的“销售发货通知”后，把“receiverAddress插入t_sn_order.RECEIVER_ADDRESS”
+		//改成将苏宁报文中receiverProvince，receiverCity，receiverArea，receiverAddress四个字段内容直接连接在一起插入t_sn_order .RECEIVER_ADDRESS
+		String receiverProvince = receiverInfo.get("receiverProvince")!=null?receiverInfo.get("receiverProvince").toString():"";
+		String receiverCity = receiverInfo.get("receiverCity")!=null?receiverInfo.get("receiverCity").toString():"";
+		String receiverArea = receiverInfo.get("receiverArea")!=null?receiverInfo.get("receiverArea").toString():"";
+		String receiverAddress = receiverInfo.get("receiverAddress")!=null?receiverInfo.get("receiverAddress").toString():"";
+		data.put("RECEIVER_ADDRESS", receiverProvince+receiverCity+receiverArea+receiverAddress);
+		
+		data.put("ORDER_STATUS", "0");
 		data.put("CREAT_DATE", sf.format(new Date()));
 		data.put("CREAT_TIME", new Date());
 		commonManagerMapper.insertTableByNVList("T_SN_ORDER",
@@ -3189,20 +3198,20 @@ public class HttpHandleThread implements Callable<Object> {
 //		System.out.println(CommonUtil.getDateFormatter(CommonDefine.COMMON_FORMAT_2)
 //					.format(new Date()));
 
-		String response = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soapenv:Envelope xmlns:soapenv=\"http://www.w3.org/2003/05/soap-envelope\"><soapenv:Body><ns:sendOrderResponse xmlns:ns=\"http://ws.com\"><ns:return><?xml version=\"1.0\" encoding=\"UTF-8\"?><DATA><ORDER><ORDER_CODE>W100133410</ORDER_CODE><CD>OK</CD><INFO>11811000073</INFO></ORDER></DATA></ns:return></ns:sendOrderResponse></soapenv:Body></soapenv:Envelope>";
-
-		String xxxx = StringEscapeUtils.escapeXml(response);
+//		String response = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soapenv:Envelope xmlns:soapenv=\"http://www.w3.org/2003/05/soap-envelope\"><soapenv:Body><ns:sendOrderResponse xmlns:ns=\"http://ws.com\"><ns:return><?xml version=\"1.0\" encoding=\"UTF-8\"?><DATA><ORDER><ORDER_CODE>W100133410</ORDER_CODE><CD>OK</CD><INFO>11811000073</INFO></ORDER></DATA></ns:return></ns:sendOrderResponse></soapenv:Body></soapenv:Envelope>";
+//		
+//		String xxxx = StringEscapeUtils.escapeXml(response);
 
 //		String returnXmlData = XmlUtil
 //				.getResponseFromXmlString_CJ(xxxx);
 
-		String returnXmlData = XmlUtil.getTotalMidValue(response,"<ns:return>","</ns:return>");
-
-		Map orderResult = XmlUtil.parseXmlFPAPI_SingleNodes(returnXmlData, "//DATA/ORDER/child::*");
+//		String returnXmlData = XmlUtil.getTotalMidValue(response,"<ns:return>","</ns:return>");
+//		
+//		Map orderResult = XmlUtil.parseXmlFPAPI_SingleNodes(returnXmlData, "//DATA/ORDER/child::*");
 
 //		System.out.println(xxxx);
 
-		System.out.println(orderResult);
+//		System.out.println(orderResult);
 
 	}
 
