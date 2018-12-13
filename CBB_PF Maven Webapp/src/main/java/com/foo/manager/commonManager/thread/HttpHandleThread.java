@@ -719,7 +719,7 @@ public class HttpHandleThread implements Callable<Object> {
 					data.put("shipmentCode", "");
 					data.put("weight", "");
 					data.put("weightUnit", "");
-					data.put("note", "");
+					data.put("note", head.get("returnInfo"));
 					data.put("consignee", "");
 					data.put("airwayBillNo", "");
 					data.put("flightNo", "");
