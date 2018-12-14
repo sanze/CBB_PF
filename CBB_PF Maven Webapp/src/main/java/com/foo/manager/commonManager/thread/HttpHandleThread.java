@@ -704,6 +704,8 @@ public class HttpHandleThread implements Callable<Object> {
 				//用orderNo在t_new_import_inventory_detail找到对应的LOS_NO，填在给苏宁的回执报文中logisticsOrderId
 				List<Map<String,Object>> searchDataList = commonManagerMapper.selectTableListByCol("t_new_import_inventory_detail", "ORDER_NO", head.get("orderNo"), null, null);
 				
+				String returnInfo = head.get("returnInfo")!=null?head.get("returnInfo").toString():"";
+
 				for(Map item:searchDataList){
 					
 					Map data = new HashMap();
@@ -719,7 +721,7 @@ public class HttpHandleThread implements Callable<Object> {
 					data.put("shipmentCode", "");
 					data.put("weight", "");
 					data.put("weightUnit", "");
-					data.put("note", head.get("returnInfo"));
+					data.put("note", new String(returnInfo.getBytes("GBK"),"UTF-8"));
 					data.put("consignee", "");
 					data.put("airwayBillNo", "");
 					data.put("flightNo", "");
@@ -3212,6 +3214,14 @@ public class HttpHandleThread implements Callable<Object> {
 //		System.out.println(xxxx);
 
 //		System.out.println(orderResult);
+
+//		try {
+//			System.out.println(new String("AAAA124613101110701-112345浣犳垜AAAA124613101110701".getBytes("GBK"),"UTF-8"));
+//			System.out.println(new String("".getBytes("GBK"),"UTF-8"));
+//		} catch (UnsupportedEncodingException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 
 	}
 
