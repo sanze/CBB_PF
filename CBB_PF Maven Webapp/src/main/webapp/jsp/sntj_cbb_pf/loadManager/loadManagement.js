@@ -13,7 +13,7 @@ var store = new Ext.data.Store({
 	reader : new Ext.data.JsonReader({
 		totalProperty : 'total',
 		root : "rows"
-	}, [ "LOAD_ID","LOAD_NO", "TOTAL","WEIGHT","CAR_NO","TRACY_NUM","CREAT_DATE","STATUS"])
+	}, [ "LOAD_ID","LOAD_NO", "TOTAL","WEIGHT","CAR_NO","TRACY_NUM","CREAT_DATE","CREAT_TIME","STATUS"])
 });
 
 
@@ -77,6 +77,15 @@ var columnModel = new Ext.grid.ColumnModel({
 			header : "创建日期",
 			dataIndex:'CREAT_DATE',
 			width:200
+		},
+		{
+			id:'CREAT_TIME',
+			header : "创建时间",
+			dataIndex:'CREAT_TIME',
+			width:200,
+			renderer:function(value) {
+				return new Date(value.time).dateFormat('Y-m-d H:m:s');
+			}
 		},
 		{
 			id:'STATUS',

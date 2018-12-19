@@ -704,7 +704,7 @@ public class HttpHandleThread implements Callable<Object> {
 				//用orderNo在t_new_import_inventory_detail找到对应的LOS_NO，填在给苏宁的回执报文中logisticsOrderId
 				List<Map<String,Object>> searchDataList = commonManagerMapper.selectTableListByCol("t_new_import_inventory_detail", "ORDER_NO", head.get("orderNo"), null, null);
 				
-				String returnInfo = head.get("returnInfo")!=null?head.get("returnInfo").toString():"";
+//				String returnInfo = head.get("returnInfo")!=null?head.get("returnInfo").toString():"";
 
 				for(Map item:searchDataList){
 					
@@ -721,7 +721,7 @@ public class HttpHandleThread implements Callable<Object> {
 					data.put("shipmentCode", "");
 					data.put("weight", "");
 					data.put("weightUnit", "");
-					data.put("note", new String(returnInfo.getBytes("GBK"),"UTF-8"));
+					data.put("note", head.get("returnInfo"));
 					data.put("consignee", "");
 					data.put("airwayBillNo", "");
 					data.put("flightNo", "");
@@ -3215,13 +3215,25 @@ public class HttpHandleThread implements Callable<Object> {
 
 //		System.out.println(orderResult);
 
-//		try {
-//			System.out.println(new String("AAAA124613101110701-112345浣犳垜AAAA124613101110701".getBytes("GBK"),"UTF-8"));
-//			System.out.println(new String("".getBytes("GBK"),"UTF-8"));
-//		} catch (UnsupportedEncodingException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		try {
+			String xxx = "<returnInfo>鐪嬩簡鏀炬帴鍙ｆ噿寰楄璐瑰彂鍔ㄦ満瀵屽惈鐨勫ソ鍙戜簡灏卞簾浜嗗彲瑙佸晩閫傚綋鑰冭檻鍙戞媺鏄鎺ュ彂鏀綞</returnInfo>";
+			
+			xxx = "<returnInfo>鐪嬩簡鏀炬帴鍙ｆ噿寰楄璐瑰彂鍔ㄦ満瀵屽惈鐨勫ソ鍙戜簡灏卞簾浜嗗彲瑙佸晩閫傚綋鑰冭檻鍙戞媺鏄鎺ュ彂鏀�/returnInfo>";
+
+			
+//			String xxx = "清单新增申报成功[电商企业编码：3201966A69订单编号：AAAA124613101110701] 对应电商企业为[3201966A69]订单号为[AAAA124613101110701]的订单信息不存在 对应物流企业为[1210680001]物流单号为[245119218897]的运单信息不存在 对应电商平台为[3201966A69]订单号为[AAAA124613101110701]支付信息不存在";
+			
+//			String uft_gbk = new String(xxx.getBytes("UTF-8"),"GBK");
+			
+			String gbk_utf = new String(xxx.getBytes("GBK"),"UTF-8");
+			
+			
+//			System.out.println(uft_gbk);
+			System.out.println(gbk_utf);
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 

@@ -46,7 +46,7 @@ var columnModel = new Ext.grid.ColumnModel({
 			id:'ORDER_NO',
 			header:'出库单号',
 			dataIndex:'ORDER_NO',
-			width:120
+			width:250
 		},        
 		{
 			id:'ITEM_NUMBER',
@@ -109,7 +109,7 @@ var tbar = new Ext.Toolbar({
         fieldLabel: '',
         id:"ORDER_NO_SEARCH",
         emptyText:"",
-        width:100,
+        width:250,
         anchor:'50%'
     },{
         xtype: 'tbtext',

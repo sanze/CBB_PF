@@ -215,9 +215,9 @@ public class HttpServerManagerServiceImpl extends HttpServerManagerService{
 					for (String param : params) {
 						String[] pair = param.split("=");
 						if (pair.length == 2) {
-							pairs.put(pair[0],pair[1]);
+							pairs.put(pair[0],URLDecoder.decode(pair[1], "utf-8"));
 						} else if(param.startsWith("data=")){
-							pairs.put("data",param.substring(5));
+							pairs.put("data",URLDecoder.decode(param.substring(5), "utf-8"));
 						}else{
 							continue;
 						}

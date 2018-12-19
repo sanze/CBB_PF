@@ -47,13 +47,13 @@ var columnModel = new Ext.grid.ColumnModel({
 			id:'SKU',
 			header:'商品编码',
 			dataIndex:'SKU',
-			width:120
+			width:150
 		},        
 		{
 			id:'DESCRIPTION',
 			header:'商品名称',
 			dataIndex:'DESCRIPTION',
-			width:200
+			width:250
 		}, {
 			id:'EXPECT_QTY',
 			header:'预计数量',
@@ -92,7 +92,7 @@ var tbar = new Ext.Toolbar({
         fieldLabel: '',
         id:"SKU_SEARCH",
         emptyText:"",
-        width:100,
+        width:150,
         anchor:'50%'
     },{
         xtype: 'tbtext',
@@ -103,7 +103,7 @@ var tbar = new Ext.Toolbar({
         fieldLabel: '',
         id:"RECEIPT_NO_SEARCH",
         emptyText:"",
-        width:100,
+        width:200,
         anchor:'50%'
     },{
         xtype: 'tbtext',
