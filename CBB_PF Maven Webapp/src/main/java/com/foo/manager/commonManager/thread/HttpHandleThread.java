@@ -92,6 +92,11 @@ public class HttpHandleThread implements Callable<Object> {
 //		 this.content =
 //		 "{\"orderInfo\":{\"ownerUserId\":\"RH100\",\"fpsOrderId\":\"123456XXXXX\",\"storeCode\":\"WM10xxxxxx\",\"orderCode\":\"W107xxxxxx\",\"orderType\":\"601\",\"orderNumber\":\"A22xxxx\",\"outsourcingFlag\":\"01\",\"orderSource\":\"305\",\"remark\":\"商品情况：未开包未使用包装完好;;\",\"returnReason\":\"商品情况：未开包未使用包装完好;;\",\"orderCreateTime\":\"2018-01-03 11:47:07\",\"expectStartTime\":\"2018-01-03 11:47:06\",\"expectEndTime\":\"2018-01-03 11:47:06\",\"orderFlag\":\"9\",\"tmsServiceCode\":\"S02\",\"tmsServiceName\":\"苏宁物流\",\"tmsOrderCode\":\"896102xxxxxx\",\"prevOrderCode\":\"W107xxxxxx\",\"receiverInfo\":{\"receiverProvince\":\"江苏\",\"receiverCity\":\"南京市\",\"receiverArea\":\"雨花台区\",\"receiverTown\":\"全区\",\"receiverAddress\":\"龙藏大道2号\",\"receiverName\":\"沈xx\",\"receiverMobile\":\"18666xxxxxx\",\"receiverPhone\":\"15172xxxxxx\"},\"senderInfo\":{\"senderAddress\":\"雨花经济开发区龙藏大道与凤舞路交叉口\",\"senderProvince\":\"浙江省\",\"senderCity\":\"杭州市\",\"senderArea\":\"滨江区\",\"senderTown\":\"全区\",\"senderCode\":\"7016xxxx\",\"senderName\":\"左xx\",\"senderMobile\":\"15172xxxxxx\",\"senderPhone\":\"15172xxxxxx\"},\"orderItemList\":[{\"orderItemId\":\"420000002xxxxxx\",\"userId\":\"7016xxxx\",\"userName\":\"安利（中国）日用品有限公司\",\"ownerUserId\":\"7016xxxx\",\"ownerUserName\":\"安利（中国）日用品有限公司\",\"itemId\":\"917080415493xxxxxx\",\"itemName\":\"雅蜜润肤沐浴露 750ML\",\"inventoryType\":\"1\",\"itemQuantity\":\"750\",\"produceCode\":\"7359xxxx\",\"condition\":\"A\"},{\"orderItemId\":\"420000002xxxxxx\",\"userId\":\"7016xxxx\",\"userName\":\"安利（中国）日用品有限公司\",\"ownerUserId\":\"70168xxx\",\"ownerUserName\":\"安利（中国）日用品有限公司\",\"itemId\":\"917080415493xxxxxx\",\"itemName\":\"雅蜜润肤沐浴露 750ML\",\"inventoryType\":\"1\",\"itemQuantity\":\"750\",\"produceCode\":\"7359xxxx\",\"condition\":\"A\"}]}}";
 
+		//sn_receipt--取消通知，苏宁发起
+//		 this.requestType = HttpServerManagerService.requestType_sn_cancel;
+//		 this.content =
+//		 "{\"orderInfo\":{\"orderType\":\"201\",\"orderCode\":\"W107xxxxxx\",\"outOrderCode\":\"S201712291750xxxxxx\",\"ownerUserId\":\"RH007\"}}";
+		
 		//cj_entryOrderConfirm--入库确认，川佐发起
 //		 this.requestType =
 //		 HttpServerManagerService.requestType_cj_entryOrderConfirm;
@@ -185,6 +190,10 @@ public class HttpHandleThread implements Callable<Object> {
 				.equals(HttpServerManagerService.requestType_cj_deliveryOrderConfirm)) {
 			// 川佐出库确认
 			result = handleXml_cj_deliveryOrderConfirm(content);
+		} else if (requestType
+				.equals(HttpServerManagerService.requestType_sn_cancel)) {
+			// 苏宁取消通知
+			result = handleXml_sn_cancelNotify(content);
 		} else if (requestType
 				.equals(HttpServerManagerService.requestType_cj_deliveryOrderStatus)) {
 			// 川佐出库状态
@@ -1384,13 +1393,13 @@ public class HttpHandleThread implements Callable<Object> {
 		//更新主表
 		colNames.clear();
 		colValues.clear();
-		colNames.add("ORDER_STATUS");
+//		colNames.add("ORDER_STATUS");
 		colNames.add("TMS_ORDER_CODE");
 		colNames.add("PACKAGE_HEIGHT");
 		colNames.add("PACKAGE_WEIGHT");
 		colNames.add("PACKAGE_LENGTH");
 		colNames.add("PACKAGE_WIDTH");
-		colValues.add("1");
+//		colValues.add("1");
 		colValues.add(orderInfo.get("tms_order_code"));
 		colValues.add(orderInfo.get("package_weight"));
 		colValues.add(orderInfo.get("package_length"));
@@ -1603,7 +1612,16 @@ public class HttpHandleThread implements Callable<Object> {
 			return "<deliveryorderstatusreturn><status>fail</status></deliveryorderstatusreturn>";
 		}
 		
-		//更新主表--暂无
+		//更新主表
+		String statusCode = orderInfo.get("status_code")!=null?orderInfo.get("status_code").toString():"";
+		if("001".equals(statusCode)){
+			colNames.clear();
+			colValues.clear();
+			colNames.add("ORDER_STATUS");
+			colValues.add("1");
+			commonManagerMapper.updateTableByNVList("t_sn_order", "ORDER_CODE", orderInfo.get("order_code"), colNames, colValues);
+		}
+
 
 		//给苏宁报文--7.10章节
 		JSONObject snRequest = new JSONObject();
@@ -1929,6 +1947,124 @@ public class HttpHandleThread implements Callable<Object> {
 			
 		}
 
+		return result.toString();
+	}
+	
+	
+	private String handleXml_sn_cancelNotify(String jsonString)  throws CommonException{
+
+		// String jsonReturnString = "";
+		SimpleDateFormat sf = CommonUtil
+				.getDateFormatter(CommonDefine.COMMON_FORMAT_1);
+
+		System.out
+				.println("---------------------------【FPAPI_SN_cancelNotify】-------------------------------");
+		// 入库
+		JSONObject jsonObject = JSONObject.fromObject(jsonString);
+
+		JSONObject orderInfo = (JSONObject) jsonObject.get("orderInfo");
+
+		// 获取资源文件
+		ResourceBundle bundle = CommonUtil.getMessageMappingResource("CEB_SN");
+		
+		JSONObject result = new JSONObject();
+		
+		String orderCode = orderInfo.get("orderCode")!=null?orderInfo.get("orderCode").toString():"";
+		String orderType = orderInfo.get("orderType")!=null?orderInfo.get("orderType").toString():"";
+		
+		if("201".equals(orderType)){
+			//t_sn_order中搜索ORDER_CODE = orderCode记录
+			List orderList = commonManagerMapper.selectTableListByCol("T_SN_ORDER", "ORDER_CODE", orderCode, null, null);
+			
+			Map orderSearch = orderList.size()>0?(Map) orderList.get(0):null;
+
+			//判断是否存在
+			if(orderSearch == null){
+				//不存在返回false
+				result.put("success", "false");
+				result.put("errorCode", "");
+				result.put("errorMsg", "");
+			}else{
+				String orderStatus = orderSearch.get("ORDER_STATUS")!=null?orderSearch.get("ORDER_STATUS").toString():"";
+				
+				if("2".equals(orderStatus)){
+					//ORDER_STATUS = 2返回True
+					result.put("success", "true");
+					result.put("errorCode", "");
+					result.put("errorMsg", "");
+				}else if("1".equals(orderStatus)){
+					//ORDER_STATUS = 1返回false
+					result.put("success", "false");
+					result.put("errorCode", "");
+					result.put("errorMsg", "");
+				}else if("0".equals(orderStatus)){
+					//ORDER_STATUS = 0向川佐发送拦截单并等待回执,回执OK，返回True，回执非OK,修改ORDER_STATUS为1，返回false
+					Map order = new HashMap();
+					
+					List<Map> orderItemListForCJ = new ArrayList<Map>();
+					
+					order.put("ORDER_CODE", orderCode);
+					order.put("ORDER_TYPE", orderType);
+					order.put("CUST", CommonUtil
+							.getSystemConfigProperty("CJ_cust"));
+					
+					String xmlStringData = XmlUtil.generalCommonXml_CJ(
+							"DATA", order, orderItemListForCJ);
+					
+					String requestXmlData = XmlUtil.generalSoapXml_CJ(xmlStringData,"sendCancelStockOrder");
+					
+					//System.out.println(requestXmlData);
+					//向川佐发送拦截单
+					String response = HttpUtil.sendHttpCMD_CJ(requestXmlData,CommonUtil
+							.getSystemConfigProperty("CJ_sendCancel_requestUrl").toString());
+
+					//获取返回信息
+//					String returnXmlData = XmlUtil
+//							.getResponseFromXmlString_CJ(response);
+					
+					String returnXmlData = XmlUtil.getTotalMidValue(StringEscapeUtils.unescapeXml(response),"<ns:return>","</ns:return>");
+					
+					//解析返回报文
+					//正常报文
+					Map orderResult = XmlUtil.parseXmlFPAPI_SingleNodes(returnXmlData, "//DATA/ORDER/child::*");
+					
+					//正常返回
+					if(orderResult.containsKey("CD") && "OK".equals(orderResult.get("CD").toString())){
+						//返回给苏宁
+						result.put("success", "true");
+						result.put("errorCode", "");
+						result.put("errorMsg", "");
+					}else{
+						//更新ORDER_STATUS为1
+						List<String> colNames = new ArrayList<String>();
+						List<Object> colValues = new ArrayList<Object>();
+						colNames.add("ORDER_STATUS");
+						colValues.add("1");
+						commonManagerMapper.updateTableByNVList("t_sn_order", "ORDER_CODE", orderCode, colNames, colValues);
+						//异常返回
+						result.put("success", "false");	
+						result.put("errorCode", "");
+						result.put("errorMsg", orderResult.get("INFO"));
+					}
+					
+				}
+				
+			}
+		}else if("501".equals(orderType)){
+			
+		}else if("601".equals(orderType)){
+			
+		}else if("901".equals(orderType)){
+			
+		}else{
+			//返回给苏宁
+			result.put("success", "false");
+			result.put("errorCode", "");
+			result.put("errorMsg", "");
+		}
+		
+		result.put("orderCode", orderCode);
+		
 		return result.toString();
 	}
 	

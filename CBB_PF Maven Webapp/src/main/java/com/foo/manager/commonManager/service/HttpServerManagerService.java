@@ -26,6 +26,7 @@ public abstract class HttpServerManagerService extends AbstractService implement
 	public static String requestType_sn_deliverGoodsNotify = CommonUtil.getSystemConfigProperty("requestType_sn_deliverGoodsNotify");
 	public static String requestType_cj_deliveryOrderConfirm = CommonUtil.getSystemConfigProperty("requestType_cj_deliveryOrderConfirm");
 	public static String requestType_cj_deliveryOrderStatus = CommonUtil.getSystemConfigProperty("requestType_cj_deliveryOrderStatus");
+	public static String requestType_sn_cancel = CommonUtil.getSystemConfigProperty("requestType_sn_cancel");
 	
 	protected static String requestParame_1 =  CommonUtil.getSystemConfigProperty("requestParame_1");
 	protected static String requestParame_2 =  CommonUtil.getSystemConfigProperty("requestParame_2");

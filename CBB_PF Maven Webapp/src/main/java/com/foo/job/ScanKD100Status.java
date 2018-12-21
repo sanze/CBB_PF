@@ -151,6 +151,14 @@ public class ScanKD100Status extends AbstractJob {
 				context = dataList.get(0).get("TRANSLATE_OUT").toString();
 			}
 		}
+		String tmsServiceCode = "";
+		List<Map<String,Object>> dataListOrder = commonManagerMapper.selectTableListByCol("t_sn_order", "TMS_ORDER_CODE", tmsOrderCode, null, null);
+		if(dataListOrder.size()>0){
+			if(dataListOrder.get(0).get("TMS_SERVICE_CODE")!=null){
+				tmsServiceCode = dataListOrder.get(0).get("TMS_SERVICE_CODE").toString();
+			}
+		}
+		
 		
 		JSONObject statusSingleItem = new JSONObject();
 		statusSingleItem.put("time", time);
@@ -158,7 +166,7 @@ public class ScanKD100Status extends AbstractJob {
 		statusSingleItem.put("expressNo", tmsOrderCode);
 		statusSingleItem.put("mailStatus", "");
 		statusSingleItem.put("orderId", "");
-		statusSingleItem.put("expressCompanyCode", "Z05");
+		statusSingleItem.put("expressCompanyCode", tmsServiceCode);
 		statusSingleItem.put("signer", "");
 		statusSingleItem.put("remark", "");
 		statusSingleItem.put("expressName", "");
