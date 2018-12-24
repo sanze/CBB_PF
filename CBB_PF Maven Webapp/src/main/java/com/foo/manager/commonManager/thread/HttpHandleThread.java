@@ -887,6 +887,18 @@ public class HttpHandleThread implements Callable<Object> {
 		ResourceBundle bundle = CommonUtil.getMessageMappingResource("CEB_SN");
 
 		JSONObject result = new JSONObject();
+		//判断报文中ORDER_CODE在t_sn_order.ORDER_CODE是否已存在。如果已存在，什么都不做，返回苏宁成功。
+		List orderDataList = commonManagerMapper.selectTableListByCol(
+				"T_SN_ORDER", "ORDER_CODE", orderInfo.get("orderCode"), null,
+				null);
+		if(orderDataList.size()>0){
+			result.put("success", "true");
+			result.put("errorCode", "");
+			result.put("errorMsg", "");
+			result.put("orderCode", orderInfo.get("orderCode"));
+			return result.toString();
+		}
+		
 		JSONArray resultArray = new JSONArray();
 
 		// 入库T_SN_RECEIPT
@@ -1731,6 +1743,19 @@ public class HttpHandleThread implements Callable<Object> {
 		ResourceBundle bundle = CommonUtil.getMessageMappingResource("CEB_SN");
 
 		JSONObject result = new JSONObject();
+		
+		//判断报文中ORDER_CODE在t_sn_order.ORDER_CODE是否已存在。如果已存在，什么都不做，返回苏宁成功。
+		List orderDataList = commonManagerMapper.selectTableListByCol(
+				"T_SN_ORDER", "ORDER_CODE", orderInfo.get("orderCode"), null,
+				null);
+		if(orderDataList.size()>0){
+			result.put("success", "true");
+			result.put("errorCode", "");
+			result.put("errorMsg", "");
+			result.put("orderCode", orderInfo.get("orderCode"));
+			return result.toString();
+		}
+		
 		JSONArray resultArray = new JSONArray();
 
 		// 入库T_SN_ORDER
