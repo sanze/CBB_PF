@@ -200,4 +200,14 @@
 		  AND t.TMS_ORDER_CODE IS NOT NULL 
 		  AND t.EMS_STATE != "3" ;
 	</select>
+	
+	<select id="selectRecordNoSum" resultType="hashmap" >
+		SELECT 
+		  t.RECORD_NO,
+		  SUM(t.QTY) as QTY 
+		FROM
+		  t_new_import_books t 
+		WHERE t.ORDER_NO = #{orderNo} 
+		GROUP BY t.RECORD_NO 
+	</select>
 </mapper>

@@ -1327,6 +1327,65 @@ public class CommonManagerServiceImpl extends CommonManagerService implements IC
 					}
 
 				}
+			}else if(type.equals("cancel")){
+				String cancelConfig = CommonUtil
+						.getSystemConfigProperty("t_new_import_return_column");
+				//获取sku数据
+				List<Map<String,Object>> readDataList = POIExcelUtil.readExcel((File) param.get("file"),cancelConfig.split(","));
+				
+				List<String> colNames = new ArrayList<String>();
+				List<Object> colValues = new ArrayList<Object>();
+				
+				for(Map data:readDataList){
+					String orderNo = data.get("ORDER_NO")!=null?data.get("ORDER_NO").toString():"";
+					if(orderNo.isEmpty()){
+						continue;
+					}
+					
+					//t_new_import_inventory表中ORDER_NO对应的记录行的STATUS改成3
+					colNames.clear();
+					colValues.clear();
+					colNames.add("STATUS");
+					colValues.add(3);
+					commonManagerMapper.updateTableByNVList("t_new_import_inventory", "ORDER_NO", orderNo, colNames, colValues);
+					
+					//搜索t_new_import_books，将=ORDER_NO的记录的RECORD_NO和QTY插入t_new_import_return，如果已存在则累加
+					List<Map> dataList = snCommonManagerMapper.selectRecordNoSum(orderNo);
+					for (Map recordData : dataList) {
+						Map<String, Object> tempData = null;
+						List<Map<String, Object>> tempDataList = commonManagerMapper
+								.selectTableListByCol("t_new_import_return",
+										"RECORD_NO",
+										recordData.get("RECORD_NO"), null, null);
+						if (tempDataList.size() > 0) {
+							tempData = tempDataList.get(0);
+							tempData.put("QTY", Integer.valueOf(tempData.get("QTY")!=null?tempData.get("QTY").toString():"0")
+									+ Integer.valueOf(recordData.get("QTY")!=null?recordData.get("QTY").toString():"0"));
+							commonManagerMapper.updateTableByNVList(
+									"t_new_import_return", "RETURN_ID",
+									tempData.get("RETURN_ID"),
+									new ArrayList<String>(tempData.keySet()),
+									new ArrayList<Object>(tempData.values()));
+						} else {
+							tempData = new HashMap();
+							tempData.put("RECORD_NO", recordData.get("RECORD_NO"));
+							tempData.put("QTY", recordData.get("QTY"));
+							tempData.put("CREAT_TIME", new Date());
+							Map primary = new HashMap();
+							primary.put("primaryId", null);
+							commonManagerMapper.insertTableByNVList("t_new_import_return", new ArrayList<String>(tempData.keySet()),
+									new ArrayList<Object>(tempData.values()), primary);
+						}
+					}
+					
+					//t_new_import_books表中ORDER_NO对应的记录行的QTY改成0。
+					colNames.clear();
+					colValues.clear();
+					colNames.add("QTY");
+					colValues.add(0);
+					commonManagerMapper.updateTableByNVList("t_new_import_books", "ORDER_NO", orderNo, colNames, colValues);
+				}
+				
 			}
 			
 			

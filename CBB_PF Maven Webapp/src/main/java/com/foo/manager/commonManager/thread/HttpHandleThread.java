@@ -2055,6 +2055,12 @@ public class HttpHandleThread implements Callable<Object> {
 					
 					//正常返回
 					if(orderResult.containsKey("CD") && "OK".equals(orderResult.get("CD").toString())){
+						//更新ORDER_STATUS为2
+						List<String> colNames = new ArrayList<String>();
+						List<Object> colValues = new ArrayList<Object>();
+						colNames.add("ORDER_STATUS");
+						colValues.add("2");
+						commonManagerMapper.updateTableByNVList("t_sn_order", "ORDER_CODE", orderCode, colNames, colValues);
 						//返回给苏宁
 						result.put("success", "true");
 						result.put("errorCode", "");

@@ -30,6 +30,7 @@ import com.foo.common.MessageCodeDefine;
 import com.foo.dao.mysql.CommonManagerMapper;
 import com.foo.dao.mysql.ImportCommonManagerMapper;
 import com.foo.dao.mysql.NJCommonManagerMapper;
+import com.foo.dao.mysql.SNCommonManagerMapper;
 import com.foo.handler.ExceptionHandler;
 import com.foo.util.CommonUtil;
 import com.foo.util.ConfigUtil;
@@ -48,6 +49,9 @@ public abstract class CommonManagerService extends AbstractService {
 	protected NJCommonManagerMapper njCommonManagerMapper;
 	@Resource
 	protected ImportCommonManagerMapper importCommonManagerMapper;
+	@Resource
+	protected SNCommonManagerMapper snCommonManagerMapper;
+	
 	
 	public Map<String, Object> getAllCodeNames(Map<String, Object> params)
 			throws CommonException {

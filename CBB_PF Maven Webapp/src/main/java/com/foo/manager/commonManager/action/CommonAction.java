@@ -627,6 +627,27 @@ public class CommonAction extends AbstractAction{
 		return RESULT_OBJ;
 	}
 
+	/**
+	 * 将文件上传至服务器
+	 * 
+	 * @return
+	 */
+	@IMethodLog(desc = "SN撤销单导入")
+	public String importCancelFile() {
+		params.put("file", uploadFile);
+		params.put("type", "cancel");
+		try {
+			commonManagerService.importFile(params);
+			result.setReturnResult(CommonDefine.SUCCESS);
+			resultObj = JSONObject.fromObject(result);
+		} catch (CommonException e) {
+			result.setReturnResult(CommonDefine.FAILED);
+			result.setReturnMessage(e.getErrorMessage());
+			resultObj = JSONObject.fromObject(result);
+		}
+		return RESULT_OBJ;
+	}
+
 	
 	public void setRELATION_CATEGORY(String RELATION_CATEGORY){
 		params.put("RELATION_CATEGORY", RELATION_CATEGORY);

@@ -42,5 +42,8 @@ public interface SNCommonManagerMapper {
 	public LinkedHashMap selectBaseTransfer();
 	
 	public List<Map> selectNeedUpdateEmsStatusOrder();
+	
+	public List<Map> selectRecordNoSum(
+			@Param(value = "orderNo") String orderNo);
 
 }
