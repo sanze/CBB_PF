@@ -144,6 +144,22 @@ public class ScanKD100Status extends AbstractJob {
 	//发送出库单状态给苏宁  7.10
 	private void send2SN(String tmsOrderCode,String time,String context){
 		
+		//查找翻译的mailStatus
+		String mailStatus = "";
+		Map searchCondition = new HashMap();
+		searchCondition.put("STATUS_TYPE", "TMS");
+		searchCondition.put("CN_REMARK", context);
+		List<Map<String, Object>> dataListStatus = commonManagerMapper
+				.selectTableListByNVList("t_sn_status_change",
+						new ArrayList<String>(searchCondition.keySet()),
+						new ArrayList<Object>(searchCondition.values()), null,
+						null);
+		if(dataListStatus.size()>0){
+			if(dataListStatus.get(0).get("CN_CODE")!=null){
+				mailStatus = dataListStatus.get(0).get("CN_CODE").toString();
+			}
+		}
+		
 		//查找翻译的address
 		List<Map<String,Object>> dataList = commonManagerMapper.selectTableListByCol("t_sn_ems_translate", "TRANSLATE_IN", context, null, null);
 		if(dataList.size()>0){
@@ -151,6 +167,8 @@ public class ScanKD100Status extends AbstractJob {
 				context = dataList.get(0).get("TRANSLATE_OUT").toString();
 			}
 		}
+		
+		
 		String tmsServiceCode = "";
 		List<Map<String,Object>> dataListOrder = commonManagerMapper.selectTableListByCol("t_sn_order", "TMS_ORDER_CODE", tmsOrderCode, null, null);
 		if(dataListOrder.size()>0){
@@ -164,7 +182,7 @@ public class ScanKD100Status extends AbstractJob {
 		statusSingleItem.put("time", time);
 		statusSingleItem.put("address", context);
 		statusSingleItem.put("expressNo", tmsOrderCode);
-		statusSingleItem.put("mailStatus", "");
+		statusSingleItem.put("mailStatus", mailStatus);
 		statusSingleItem.put("orderId", "");
 		statusSingleItem.put("expressCompanyCode", tmsServiceCode);
 		statusSingleItem.put("signer", "");

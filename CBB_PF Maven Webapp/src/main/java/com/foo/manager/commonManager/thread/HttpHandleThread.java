@@ -706,7 +706,9 @@ public class HttpHandleThread implements Callable<Object> {
 				List<String> colNames = new ArrayList<String>();
 				List<Object> colValues = new ArrayList<Object>();
 				colNames.add("INVT_NO");
+				colNames.add("RETURN_STATUS");
 				colValues.add(head.get("invtNo"));
+				colValues.add(head.get("returnStatus"));
 				//更新t_new_import_inventory.invtNo到值
 				commonManagerMapper.updateTableByNVList("t_new_import_inventory", "ORDER_NO", head.get("orderNo"), colNames, colValues);
 				
