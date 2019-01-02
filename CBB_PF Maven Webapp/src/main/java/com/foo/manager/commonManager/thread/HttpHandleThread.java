@@ -715,7 +715,7 @@ public class HttpHandleThread implements Callable<Object> {
 				//用orderNo在t_new_import_inventory_detail找到对应的LOS_NO，填在给苏宁的回执报文中logisticsOrderId
 				List<Map<String,Object>> searchDataList = commonManagerMapper.selectTableListByCol("t_new_import_inventory_detail", "ORDER_NO", head.get("orderNo"), null, null);
 				
-//				String returnInfo = head.get("returnInfo")!=null?head.get("returnInfo").toString():"";
+				String returnInfo = head.get("returnInfo")!=null?head.get("returnInfo").toString():"";
 
 				for(Map item:searchDataList){
 					
@@ -732,7 +732,8 @@ public class HttpHandleThread implements Callable<Object> {
 					data.put("shipmentCode", "");
 					data.put("weight", "");
 					data.put("weightUnit", "");
-					data.put("note", head.get("returnInfo"));
+					data.put("note", new String(returnInfo.getBytes("GBK"),"UTF-8"));
+//					data.put("note", head.get("returnInfo"));
 					data.put("consignee", "");
 					data.put("airwayBillNo", "");
 					data.put("flightNo", "");
@@ -944,6 +945,7 @@ public class HttpHandleThread implements Callable<Object> {
 
 			}
 		}
+		data.put("SENDER_CODE", orderInfo.get("ownerUserId"));
 		data.put("RECEIPT_STATUS", "0");
 		data.put("CREAT_DATE", sf.format(new Date()));
 		data.put("CREAT_TIME", new Date());
