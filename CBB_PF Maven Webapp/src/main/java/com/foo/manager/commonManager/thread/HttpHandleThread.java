@@ -467,66 +467,44 @@ public class HttpHandleThread implements Callable<Object> {
 				if ("1060".equals(statusCode)) {
 					// 什么也不做
 				} else if ("1131".equals(statusCode)) {
-//					// 撤销操作
-//					// t_new_import_inventory表中查找数据
-//					List<String> colNames = new ArrayList<String>();
-//					List<Object> colValues = new ArrayList<Object>();
-//					colNames.add("ADD_REDUCE_FLAG");
-//					colNames.add("ORDER_NO");
-//					colValues.add("2");
-//					colValues.add(logisticsOrderId);
-//					List<Map<String, Object>> rows = commonManagerMapper
-//							.selectTableListByNVList("t_new_import_books",
-//									colNames, colValues, null, null);
-//					//
-//					for (Map<String, Object> data : rows) {
-//						// 查找母数据
-//						colNames.clear();
-//						colValues.clear();
-//
-//						colNames.add("ADD_REDUCE_FLAG");
-//						colNames.add("GOODS_SERIALNO");
-//						colValues.add("1");
-//						colValues.add(data.get("GOODS_SERIALNO"));
-//
-//						Map<String, Object> mainData = commonManagerMapper
-//								.selectTableListByNVList("t_new_import_books",
-//										colNames, colValues, null, null).get(0);
-//
-//						double updateQty = Double.valueOf(mainData.get("QTY")
-//								.toString())
-//								+ Double.valueOf(data.get("QTY").toString());
-//						mainData.put("QTY", updateQty);
-//						// 更新母数据
-//						commonManagerMapper.updateTableByNVList(
-//								"t_new_import_books", "BOOKS_ID",
-//								mainData.get("BOOKS_ID"),
-//								new ArrayList<String>(mainData.keySet()),
-//								new ArrayList<Object>(mainData.values()));
-//						// 更新子数据
-//						data.put("QTY", 0d);
-//						commonManagerMapper.updateTableByNVList(
-//								"t_new_import_books", "BOOKS_ID", data
-//										.get("BOOKS_ID"),
-//								new ArrayList<String>(data.keySet()),
-//								new ArrayList<Object>(data.values()));
-//
-//					}
-//					// 向天津发送清单撤销消息
-//					/*<InventoryCancel>
-//						<orderNo></orderNo>
-//						<ebpCode></ebpCode>
-//					</InventoryCancel>*/
-//					Map InventoryCancelData = new HashMap();
-//					
-//					InventoryCancelData.put("orderNo", logisticsOrderId);
-//					InventoryCancelData.put("ebpCode", "3201966A69");
-//					
-//					String xmlStringData = XmlUtil.generalCommonXml(
-//							"InventoryCancel", InventoryCancelData);
-					//
-//					// 第五步 向天津外运发送清单数据
-//					Map reponse = postToTJ(xmlStringData);
+						// 撤销操作
+						// t_new_import_inventory_detail表中查找数据
+						List<String> colNames = new ArrayList<String>();
+						List<Object> colValues = new ArrayList<Object>();
+						colNames.add("ORDER_NO");
+						colValues.add(logisticsOrderId);
+						
+						List<Map<String, Object>> rows = commonManagerMapper
+								.selectTableListByCol("t_new_import_inventory_detail", "LOS_NO", logisticsOrderId, null, null);
+						
+						if (rows != null && rows.size() > 0) {
+							// 向天津发送清单撤销消息
+							/*
+							 * <InventoryCancel> <orderNo></orderNo>
+							 * <ebpCode></ebpCode> </InventoryCancel>
+							 */
+							for (Map<String, Object> row : rows) {
+								Map InventoryCancelData = new HashMap();
+
+								InventoryCancelData.put("orderNo",
+										row.get("ORDER_NO"));
+								InventoryCancelData
+										.put("ebpCode", "3201966A69");
+
+								String xmlStringData = XmlUtil
+										.generalCommonXml("InventoryCancel",
+												InventoryCancelData);
+
+								// 第五步 向天津外运发送清单数据
+								Map reponse = postToTJ(xmlStringData);
+							}
+							singleResult.put("isSuccess", "true");
+
+						} else {
+							singleResult.put("isSuccess", "false");
+						}
+						
+						
 				}
 			}
 		} catch (Exception e) {
@@ -732,8 +710,8 @@ public class HttpHandleThread implements Callable<Object> {
 					data.put("shipmentCode", "");
 					data.put("weight", "");
 					data.put("weightUnit", "");
-					data.put("note", new String(returnInfo.getBytes("GBK"),"UTF-8"));
-//					data.put("note", head.get("returnInfo"));
+//					data.put("note", new String(returnInfo.getBytes("GBK"),"UTF-8"));
+					data.put("note", returnInfo);
 					data.put("consignee", "");
 					data.put("airwayBillNo", "");
 					data.put("flightNo", "");
