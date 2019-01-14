@@ -648,6 +648,27 @@ public class CommonAction extends AbstractAction{
 		return RESULT_OBJ;
 	}
 
+	/**
+	 * 将文件上传至服务器
+	 * 
+	 * @return
+	 */
+	@IMethodLog(desc = "SN航班信息导入")
+	public String importFlightInfoFile() {
+		params.put("file", uploadFile);
+		params.put("type", "flightInfo");
+		try {
+			commonManagerService.importFile(params);
+			result.setReturnResult(CommonDefine.SUCCESS);
+			resultObj = JSONObject.fromObject(result);
+		} catch (CommonException e) {
+			result.setReturnResult(CommonDefine.FAILED);
+			result.setReturnMessage(e.getErrorMessage());
+			resultObj = JSONObject.fromObject(result);
+		}
+		return RESULT_OBJ;
+	}
+
 	
 	public void setRELATION_CATEGORY(String RELATION_CATEGORY){
 		params.put("RELATION_CATEGORY", RELATION_CATEGORY);

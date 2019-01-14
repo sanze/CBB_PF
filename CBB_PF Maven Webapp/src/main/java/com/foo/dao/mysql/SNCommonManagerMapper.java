@@ -45,5 +45,8 @@ public interface SNCommonManagerMapper {
 	
 	public List<Map> selectRecordNoSum(
 			@Param(value = "orderNo") String orderNo);
+	
+	public List<Map> selectFlightInfo(
+			@Param(value = "bol") String bol);
 
 }

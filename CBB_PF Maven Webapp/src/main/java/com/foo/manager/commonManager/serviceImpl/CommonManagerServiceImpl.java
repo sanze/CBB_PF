@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.json.JSONObject;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +21,7 @@ import com.foo.common.CommonException;
 import com.foo.common.MessageCodeDefine;
 import com.foo.handler.ExceptionHandler;
 import com.foo.manager.commonManager.service.CommonManagerService;
+import com.foo.manager.commonManager.thread.HttpHandleThread;
 import com.foo.util.CommonUtil;
 import com.foo.util.ConfigUtil;
 import com.foo.util.FtpUtils;
@@ -1384,6 +1387,50 @@ public class CommonManagerServiceImpl extends CommonManagerService implements IC
 					colNames.add("QTY");
 					colValues.add(0);
 					commonManagerMapper.updateTableByNVList("t_new_import_books", "ORDER_NO", orderNo, colNames, colValues);
+				}
+				
+			}else if(type.equals("flightInfo")){
+				String config = CommonUtil.getSystemConfigProperty("t_sn_order_column");
+				//获取sku数据
+				List<Map<String,Object>> dataList = POIExcelUtil.readExcel((File) param.get("file"),config.split(","));
+				
+				//用BOL在t_sn_order和t_sn_order_detail中查到t_sn_order.WAY_BILLS，t_sn_order_detail.FPS_ORDER_ID，t_sn_order_detail.ORDER_CODE
+				//加上导入文件的后三个字段，填在苏宁接口文档7.11.2中。同时将导入文件后3列数据保存在t_sn_order表中。
+				for(Map data:dataList){
+					String bol = data.get("BOL") != null ? data
+							.get("BOL").toString() : "";
+					if(bol.isEmpty()){
+						continue;
+					}
+					List<Map> orderDetailList = snCommonManagerMapper.selectFlightInfo(bol);
+					//发送报文
+					for(Map orderDetail:orderDetailList){
+						JSONObject content = new JSONObject();
+						content.put("fpsOrderId", orderDetail.get("FPS_ORDER_ID"));
+						content.put("orderCode", orderDetail.get("ORDER_CODE"));
+						content.put("wayBill", orderDetail.get("WAY_BILLS"));
+						content.put("masterWayBill", data.get("MASTER_WAYBILL"));
+						content.put("flightDate", data.get("FLIGHT_DATE"));
+						content.put("flightNo", data.get("FLIGHT_NO"));
+
+						Map requestParam = new HashMap();
+						requestParam
+								.put("logistic_provider_id",
+										CommonUtil
+												.getSystemConfigProperty("SN_fightInfo_logistic_provider_id"));
+						requestParam.put("msg_type", CommonUtil
+								.getSystemConfigProperty("SN_fightInfo_msg_type"));
+						requestParam.put("url", CommonUtil
+								.getSystemConfigProperty("SN_fightInfo_requestUrl"));
+
+						System.out.println(content.toString());
+						// 发送请求
+						String result = HttpHandleThread.send2SN(requestParam, content.toString());
+					}
+					//更新数据
+					commonManagerMapper.updateTableByNVList("T_SN_ORDER", "BOL", bol, new ArrayList<String>(data.keySet()),
+							new ArrayList<Object>(data.values()));
+
 				}
 				
 			}

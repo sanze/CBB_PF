@@ -490,13 +490,14 @@ public class HttpHandleThread implements Callable<Object> {
 										row.get("ORDER_NO"));
 								InventoryCancelData
 										.put("ebpCode", "3201966A69");
-
+								InventoryCancelData.put("note", "客户取消订单");
 								String xmlStringData = XmlUtil
 										.generalCommonXml("InventoryCancel",
 												InventoryCancelData);
 
 								// 第五步 向天津外运发送清单数据
-								Map reponse = postToTJ(xmlStringData);
+								Map reponse = postToTJ(xmlStringData,CommonUtil
+										.getSystemConfigProperty("TJ_business_type_cancel"));
 							}
 							singleResult.put("isSuccess", "true");
 
@@ -2368,7 +2369,8 @@ public class HttpHandleThread implements Callable<Object> {
 					String xmlStringData = generalRequestXml4TJ(inventoryId, bundle);
 
 					// 第五步 向天津外运发送清单数据
-					Map reponse = postToTJ(xmlStringData);
+					Map reponse = postToTJ(xmlStringData,CommonUtil
+							.getSystemConfigProperty("TJ_business_type"));
 					// 回传数据处理
 					String status = reponse.get("status") != null ? reponse.get(
 							"status").toString() : "";
@@ -2515,16 +2517,14 @@ public class HttpHandleThread implements Callable<Object> {
 		}
 	}
 
-	private Map postToTJ(String xmlData) {
+	private Map postToTJ(String xmlData,String businessType) {
 		String partner_id = CommonUtil.getSystemConfigProperty("TJ_partner_id");
-		String business_type = CommonUtil
-				.getSystemConfigProperty("TJ_business_type");
 		String data_type = CommonUtil.getSystemConfigProperty("TJ_data_type");
 		// 请求数据
 		String requestData = null;
 		try {
 			requestData = "partner_id=" + partner_id + "&business_type="
-					+ business_type + "&data_type=" + data_type + "&data="
+					+ businessType + "&data_type=" + data_type + "&data="
 					+ URLEncoder.encode(xmlData, "utf-8");
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block

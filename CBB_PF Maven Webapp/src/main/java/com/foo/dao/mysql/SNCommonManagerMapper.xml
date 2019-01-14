@@ -210,4 +210,17 @@
 		WHERE t.ORDER_NO = #{orderNo} 
 		GROUP BY t.RECORD_NO 
 	</select>
+	
+	<select id="selectFlightInfo" resultType="hashmap" >
+		SELECT 
+		  t.WAY_BILLS,
+		  d.FPS_ORDER_ID,
+		  d.ORDER_CODE 
+		FROM
+		  t_sn_order t,
+		  t_sn_order_detail d 
+		WHERE t.ORDER_ID = d.ORDER_ID 
+		  AND t.BOL = #{bol}  
+	</select>
+	
 </mapper>
