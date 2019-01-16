@@ -55,7 +55,7 @@ public class HttpHandleThread implements Callable<Object> {
 			snCommonManagerMapper = (SNCommonManagerMapper) SpringContextUtil
 					.getBean("SNCommonManagerMapper");
 		}
-
+		
 
 		// 订单信息--C061
 		// this.requestType = HttpServerManagerService.requestType_Order;
@@ -190,7 +190,7 @@ public class HttpHandleThread implements Callable<Object> {
 				.equals(HttpServerManagerService.requestType_cj_deliveryOrderConfirm)) {
 			// 川佐出库确认
 			result = handleXml_cj_deliveryOrderConfirm(content);
-		} else if (requestType
+		}else if (requestType
 				.equals(HttpServerManagerService.requestType_sn_cancel)) {
 			// 苏宁取消通知
 			result = handleXml_sn_cancelNotify(content);
@@ -276,7 +276,7 @@ public class HttpHandleThread implements Callable<Object> {
 					
 //					result = handleOrderC005(head, xmlData, bundle);
 					synchronized(HttpHandleThread.class){
-					result = handleOrderC005_new(head, xmlData, bundle);
+						result = handleOrderC005_new(head, xmlData, bundle);
 					}
 				}
 			} catch (Exception e) {
@@ -318,7 +318,7 @@ public class HttpHandleThread implements Callable<Object> {
 
 		System.out
 				.println("---------------------------【FPAPI_INVENTORY】-------------------------------");
-
+		
 		List<String> inventoryOrderDataXML = XmlUtil.getNodesXmlData(xmlString, "//inputList/inventoryOrder");
 		
 		List<Map> resultList = new ArrayList<Map>();
@@ -353,120 +353,120 @@ public class HttpHandleThread implements Callable<Object> {
 				.getDateFormatter(CommonDefine.COMMON_FORMAT_1);
 		
 		for(String xmlData:inventoryOrderDataXML){
-
-		Map head = null;
-
+			
+			Map head = null;
+			
 			Map singleResult = new HashMap();
 			singleResult.put("isSuccess", "true");
-		try {
-			// 判断businessType
+			try {
+				// 判断businessType
 				head = XmlUtil.parseXmlFPAPI_SingleNodes(xmlData,
 						"//inventoryDetailHead/child::*");
 				
 				singleResult.put("messageId", head.get("messageId"));
 
-			String businessType = null;
-			String logisticsOrderId = head.get("logisticsOrderId") != null ? head
-					.get("logisticsOrderId").toString() : "";
+				String businessType = null;
+				String logisticsOrderId = head.get("logisticsOrderId") != null ? head
+						.get("logisticsOrderId").toString() : "";
 
-			if (head != null && head.containsKey("businessType")
-					&& head.get("businessType") != null) {
-				businessType = (String) head.get("businessType");
-			}
-
-			// 报文入库--C061
-			if (checkBusinessTypeC061.equals(businessType)) {
-				List<Map> items = XmlUtil.parseXmlFPAPI_MulitpleNodes(
+				if (head != null && head.containsKey("businessType")
+						&& head.get("businessType") != null) {
+					businessType = (String) head.get("businessType");
+				}
+				
+				// 报文入库--C061
+				if (checkBusinessTypeC061.equals(businessType)) {
+					List<Map> items = XmlUtil.parseXmlFPAPI_MulitpleNodes(
 							xmlData,
 							"//inventoryDetailItems");
 
-				List<String> colNames = new ArrayList<String>();
-				List<Object> colValues = new ArrayList<Object>();
+					List<String> colNames = new ArrayList<String>();
+					List<Object> colValues = new ArrayList<Object>();
 
-				for (Map item : items) {
-					Map data = new HashMap();
-					// 转换
-					for (Object key : item.keySet()) {
-						if (bundle.containsKey("inventory_" + key.toString())) {
-							data.put(
-									bundle.getObject("inventory_"
-											+ key.toString()), item.get(key));
+					for (Map item : items) {
+						Map data = new HashMap();
+						// 转换
+						for (Object key : item.keySet()) {
+							if (bundle.containsKey("inventory_" + key.toString())) {
+								data.put(
+										bundle.getObject("inventory_"
+												+ key.toString()), item.get(key));
+							}
 						}
-					}
-					// 更新t_new_import_receipt.ACTUAL_QTY, 条件SKU和RECEIPT_NO
-					String sku = data.get("SKU").toString();
+						// 更新t_new_import_receipt.ACTUAL_QTY, 条件SKU和RECEIPT_NO
+						String sku = data.get("SKU").toString();
 
-					colNames.clear();
-					colValues.clear();
-					colNames.add("RECEIPT_NO");
-					colNames.add("SKU");
-					colValues.add(logisticsOrderId);
-					colValues.add(sku);
+						colNames.clear();
+						colValues.clear();
+						colNames.add("RECEIPT_NO");
+						colNames.add("SKU");
+						colValues.add(logisticsOrderId);
+						colValues.add(sku);
 
-					List<Map<String, Object>> rows = commonManagerMapper
-							.selectTableListByNVList("t_new_import_receipt",
-									colNames, colValues, null, null);
+						List<Map<String, Object>> rows = commonManagerMapper
+								.selectTableListByNVList("t_new_import_receipt",
+										colNames, colValues, null, null);
 
-					if (rows.size() > 0) {
-						for (Map row : rows) {
-							colNames.clear();
-							colValues.clear();
-							colNames.add("ACTUAL_QTY");
-							colValues.add(data.get("QTY"));
-							// 更新数据
-							commonManagerMapper.updateTableByNVList(
-									"t_new_import_receipt", "RECEIPT_ID",
-									row.get("RECEIPT_ID"), colNames, colValues);
-						}
-						// 数据入库
-						data.put("ORDER_NO", logisticsOrderId);
-						data.put("ADD_REDUCE_FLAG", "1");
-						data.put("CREAT_DATE", sf.format(new Date()));
-						data.put("CREAT_TIME", new Date());
-						Map primary = new HashMap();
-						primary.put("primaryId", null);
-						commonManagerMapper.insertTableByNVList(
-								"t_new_import_books", new ArrayList<String>(
-										data.keySet()), new ArrayList<Object>(
-										data.values()), primary);
-					} else {
+						if (rows.size() > 0) {
+							for (Map row : rows) {
+								colNames.clear();
+								colValues.clear();
+								colNames.add("ACTUAL_QTY");
+								colValues.add(data.get("QTY"));
+								// 更新数据
+								commonManagerMapper.updateTableByNVList(
+										"t_new_import_receipt", "RECEIPT_ID",
+										row.get("RECEIPT_ID"), colNames, colValues);
+							}
+							// 数据入库
+							data.put("ORDER_NO", logisticsOrderId);
+							data.put("ADD_REDUCE_FLAG", "1");
+							data.put("CREAT_DATE", sf.format(new Date()));
+							data.put("CREAT_TIME", new Date());
+							Map primary = new HashMap();
+							primary.put("primaryId", null);
+							commonManagerMapper.insertTableByNVList(
+									"t_new_import_books", new ArrayList<String>(
+											data.keySet()), new ArrayList<Object>(
+											data.values()), primary);
+						} else {
 							singleResult.put("isSuccess", "false");
+						}
 					}
-				}
-				// 订单状态回传接口--SN
-				Map data = new HashMap();
+					// 订单状态回传接口--SN
+					Map data = new HashMap();
 
-				String dateFormatString = CommonUtil.getDateFormatter(
-						CommonDefine.COMMON_FORMAT).format(new Date());
+					String dateFormatString = CommonUtil.getDateFormatter(
+							CommonDefine.COMMON_FORMAT).format(new Date());
 
-				data.put("messageId", getMessageId());
-				data.put("logisticsOrderId", logisticsOrderId);
-				data.put("logisticsExpressId", "");
-				data.put("statusCode", "1120");
-				data.put("logisticsStation", "tianjin");
-				data.put("finishedDate", dateFormatString.split(" ")[0]);
-				data.put("finishedTime", dateFormatString.split(" ")[1]);
-				data.put("operator", "sinotrans");
-				data.put("telNumber", "");
-				data.put("shipmentCode", "");
-				data.put("weight", "");
-				data.put("weightUnit", "");
-				data.put("note", "");
-				data.put("consignee", "");
-				data.put("airwayBillNo", "");
-				data.put("flightNo", "");
-				data.put("flightDate", "");
-				data.put("keyValueAdd", "");
-				data.put("thirdPartyCompany", "");
+					data.put("messageId", getMessageId());
+					data.put("logisticsOrderId", logisticsOrderId);
+					data.put("logisticsExpressId", "");
+					data.put("statusCode", "1120");
+					data.put("logisticsStation", "tianjin");
+					data.put("finishedDate", dateFormatString.split(" ")[0]);
+					data.put("finishedTime", dateFormatString.split(" ")[1]);
+					data.put("operator", "sinotrans");
+					data.put("telNumber", "");
+					data.put("shipmentCode", "");
+					data.put("weight", "");
+					data.put("weightUnit", "");
+					data.put("note", "");
+					data.put("consignee", "");
+					data.put("airwayBillNo", "");
+					data.put("flightNo", "");
+					data.put("flightDate", "");
+					data.put("keyValueAdd", "");
+					data.put("thirdPartyCompany", "");
 
-				dataList.add(data);
+					dataList.add(data);
 
-			} else if (checkBusinessTypeC005.equals(businessType)) {
-				String statusCode = head.get("statusCode") != null ? head.get(
-						"statusCode").toString() : "";
-				if ("1060".equals(statusCode)) {
-					// 什么也不做
-				} else if ("1131".equals(statusCode)) {
+				} else if (checkBusinessTypeC005.equals(businessType)) {
+					String statusCode = head.get("statusCode") != null ? head.get(
+							"statusCode").toString() : "";
+					if ("1060".equals(statusCode)) {
+						// 什么也不做
+					} else if ("1131".equals(statusCode)) {
 						// 撤销操作
 						// t_new_import_inventory_detail表中查找数据
 						List<String> colNames = new ArrayList<String>();
@@ -506,10 +506,10 @@ public class HttpHandleThread implements Callable<Object> {
 						}
 						
 						
+					}
 				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
 				singleResult.put("isSuccess", "false");
 			}
 			
@@ -690,7 +690,7 @@ public class HttpHandleThread implements Callable<Object> {
 				colValues.add(head.get("returnStatus"));
 				//更新t_new_import_inventory.invtNo到值
 				commonManagerMapper.updateTableByNVList("t_new_import_inventory", "ORDER_NO", head.get("orderNo"), colNames, colValues);
-				
+	
 				//用orderNo在t_new_import_inventory_detail找到对应的LOS_NO，填在给苏宁的回执报文中logisticsOrderId
 				List<Map<String,Object>> searchDataList = commonManagerMapper.selectTableListByCol("t_new_import_inventory_detail", "ORDER_NO", head.get("orderNo"), null, null);
 				
@@ -1520,7 +1520,7 @@ public class HttpHandleThread implements Callable<Object> {
 			tmsOrderSingleItem.put("tmsItems", tmsItems);
 			tmsOrderSingleItem.put("packageMaterialList", packageMaterialList);
 			tmsOrdersListArray.add(tmsOrderSingleItem);
-			
+
 			i++;
 		}
 
@@ -1632,8 +1632,8 @@ public class HttpHandleThread implements Callable<Object> {
 						null, null);
 		for(Map<String, Object> statusChange:statusChangeList){
 			
-		JSONObject statusSingleItem = new JSONObject();
-		
+			JSONObject statusSingleItem = new JSONObject();
+			
 			String statusType = statusChange.get("STATUS_TYPE")!=null?statusChange.get("STATUS_TYPE").toString():"";
 			
 			if("WMS".equals(statusType)){
@@ -1646,11 +1646,11 @@ public class HttpHandleThread implements Callable<Object> {
 			statusSingleItem.put("mailStatus", statusChange.get("CN_CODE"));
 			statusSingleItem.put("address", statusChange.get("CN_REMARK"));
 			statusSingleItem.put("statusType", statusChange.get("STATUS_TYPE"));
-		statusSingleItem.put("time",
-				CommonUtil.getDateFormatter(CommonDefine.COMMON_FORMAT)
-						.format(new Date()));
-		
-		statusList.add(statusSingleItem);
+			statusSingleItem.put("time",
+					CommonUtil.getDateFormatter(CommonDefine.COMMON_FORMAT)
+							.format(new Date()));
+			
+			statusList.add(statusSingleItem);
 		}
 		snRequest.put("statusList", statusList);
 
@@ -1670,7 +1670,7 @@ public class HttpHandleThread implements Callable<Object> {
 		System.out.println(content.toString());
 		// 发送请求
 		String result = send2SN(requestParam, content.toString());
-
+		
 		//插入t_sn_return_status表
 		// 获取资源文件
 		ResourceBundle bundle = CommonUtil.getMessageMappingResource("CEB_SN");
@@ -1724,12 +1724,12 @@ public class HttpHandleThread implements Callable<Object> {
 		// JSONArray barCodeInfo = (JSONArray) jsonObject.get("barCodeInfo");
 		// 获取资源文件
 		ResourceBundle bundle = CommonUtil.getMessageMappingResource("CEB_SN");
-
+		
 		JSONObject result = new JSONObject();
 		
 		//判断报文中ORDER_CODE在t_sn_order.ORDER_CODE是否已存在。如果已存在，什么都不做，返回苏宁成功。
-		List orderDataList = commonManagerMapper.selectTableListByCol(
-				"T_SN_ORDER", "ORDER_CODE", orderInfo.get("orderCode"), null,
+		List<Map<String,Object>> orderDataList = commonManagerMapper.selectTableListByCol(
+				"T_SN_ORDER_DETAIL", "ORDER_CODE", orderInfo.get("orderCode"), null,
 				null);
 		if(orderDataList.size()>0){
 			result.put("success", "true");
@@ -1739,18 +1739,65 @@ public class HttpHandleThread implements Callable<Object> {
 			return result.toString();
 		}
 		
-		JSONArray resultArray = new JSONArray();
+		//根据苏宁报文中CUSTOMS_MODE字段走不同的流程。先测CUSTOMS_MODE等于04时，直接发给佐川。等于02时走另外的流程。
+		String customsMode = orderInfo.get("customsMode")!=null?orderInfo.get("customsMode").toString():"";
+		
+		//直接发给川佐
+		if("04".equals(customsMode)){
+			//插入表
+			int orderId = insertOrder(orderInfo,senderInfo,receiverInfo);
+			
+			insertOrderDetail(orderId,orderInfo,orderItemList);
+			//发送给川佐
+			result = send2CJ_deliverGoodsNotify(orderInfo,receiverInfo,orderItemList);
 
-		// 入库T_SN_ORDER
-//		commonManagerMapper.selectTableListByCol("T_SN_ORDER", "ORDER_CODE", orderInfo.get(key), startNumber, pageSize);
+		}else if("02".equals(customsMode)){
+			//判断苏宁报文中bol在t_sn_order中是否已存在
+			orderDataList = commonManagerMapper.selectTableListByCol(
+					"T_SN_ORDER", "BOL", orderInfo.get("bol"), null,
+					null);
+			Integer orderId = null;
+			int bolCount = 0;
+			int orderDetailCount = 0;
+			//如果已存在，插入t_sn_order_detail表
+			if(orderDataList.size()>0){
+				orderId = Integer.valueOf(orderDataList.get(0).get("ORDER_ID").toString());
+				insertOrderDetail(orderId,orderInfo,orderItemList);
+				bolCount = Integer.valueOf(orderDataList.get(0).get("BOL_COUNT").toString());
+			}else{
+				//插入表
+				orderId = insertOrder(orderInfo,senderInfo,receiverInfo);
+				insertOrderDetail(orderId,orderInfo,orderItemList);
+				bolCount = Integer.valueOf(orderInfo.get("bolCount").toString());
+			}
+			orderDetailCount = commonManagerMapper.selectTableListCountByCol("T_SN_ORDER_DETAIL", "ORDER_ID", orderId);
+			
+			if(orderDetailCount<bolCount){
+				//不发送出库单给佐川，返回苏宁成功
+				result.put("success", "true");
+				result.put("errorCode", "");
+				result.put("errorMsg", "");
+				result.put("orderCode", orderInfo.get("orderCode"));
+			}else{
+				//发送川佐
+				result = send2CJ_deliverGoodsNotify(orderInfo,receiverInfo,orderItemList);
+			}
+		}
+		return result.toString();
+	}
 	
+	// 插入order表
+	private int insertOrder(JSONObject orderInfo, JSONObject senderInfo,
+			JSONObject receiverInfo) {
+		ResourceBundle bundle = CommonUtil.getMessageMappingResource("CEB_SN");
+		SimpleDateFormat sf = CommonUtil
+				.getDateFormatter(CommonDefine.COMMON_FORMAT_1);
 		Map primary = new HashMap();
 		primary.put("primaryId", null);
 
 		Map data = new HashMap();
 		for (Object key : orderInfo.keySet()) {
-			if (bundle
-					.containsKey("SN_ORDER_" + key.toString().toUpperCase())) {
+			if (bundle.containsKey("SN_ORDER_" + key.toString().toUpperCase())) {
 
 				if (orderInfo.get(key) == null
 						|| orderInfo.get(key).toString().isEmpty()) {
@@ -1767,8 +1814,7 @@ public class HttpHandleThread implements Callable<Object> {
 			}
 		}
 		for (Object key : senderInfo.keySet()) {
-			if (bundle
-					.containsKey("SN_ORDER_" + key.toString().toUpperCase())) {
+			if (bundle.containsKey("SN_ORDER_" + key.toString().toUpperCase())) {
 
 				if (senderInfo.get(key) == null
 						|| senderInfo.get(key).toString().isEmpty()) {
@@ -1785,8 +1831,7 @@ public class HttpHandleThread implements Callable<Object> {
 			}
 		}
 		for (Object key : receiverInfo.keySet()) {
-			if (bundle
-					.containsKey("SN_ORDER_" + key.toString().toUpperCase())) {
+			if (bundle.containsKey("SN_ORDER_" + key.toString().toUpperCase())) {
 
 				if (receiverInfo.get(key) == null
 						|| receiverInfo.get(key).toString().isEmpty()) {
@@ -1797,29 +1842,26 @@ public class HttpHandleThread implements Callable<Object> {
 					data.put(
 							bundle.getObject("SN_ORDER_"
 									+ key.toString().toUpperCase()),
-									receiverInfo.get(key));
+							receiverInfo.get(key));
 				}
 
 			}
 		}
-		//bolCount如果为空或等于0，BOL_COUNT填0。如果bolCount大于0，BOL_COUNT填bolCount减1
-		int bolCount = 0;
-		if(data.get("BOL_COUNT") == null ||data.get("BOL_COUNT").toString().isEmpty()){
-			
-		}else{
-			bolCount = Integer.valueOf(data.get("BOL_COUNT").toString());
-			bolCount = bolCount==0?0:bolCount-1;
-		}
-		data.put("BOL_COUNT", bolCount);
-		
-		//收到苏宁的“销售发货通知”后，把“receiverAddress插入t_sn_order.RECEIVER_ADDRESS”
-		//改成将苏宁报文中receiverProvince，receiverCity，receiverArea，receiverAddress四个字段内容直接连接在一起插入t_sn_order .RECEIVER_ADDRESS
-		String receiverProvince = receiverInfo.get("receiverProvince")!=null?receiverInfo.get("receiverProvince").toString():"";
-		String receiverCity = receiverInfo.get("receiverCity")!=null?receiverInfo.get("receiverCity").toString():"";
-		String receiverArea = receiverInfo.get("receiverArea")!=null?receiverInfo.get("receiverArea").toString():"";
-		String receiverAddress = receiverInfo.get("receiverAddress")!=null?receiverInfo.get("receiverAddress").toString():"";
-		data.put("RECEIVER_ADDRESS", receiverProvince+receiverCity+receiverArea+receiverAddress);
-		
+
+		// 收到苏宁的“销售发货通知”后，把“receiverAddress插入t_sn_order.RECEIVER_ADDRESS”
+		// 改成将苏宁报文中receiverProvince，receiverCity，receiverArea，receiverAddress四个字段内容直接连接在一起插入t_sn_order
+		// .RECEIVER_ADDRESS
+		String receiverProvince = receiverInfo.get("receiverProvince") != null ? receiverInfo
+				.get("receiverProvince").toString() : "";
+		String receiverCity = receiverInfo.get("receiverCity") != null ? receiverInfo
+				.get("receiverCity").toString() : "";
+		String receiverArea = receiverInfo.get("receiverArea") != null ? receiverInfo
+				.get("receiverArea").toString() : "";
+		String receiverAddress = receiverInfo.get("receiverAddress") != null ? receiverInfo
+				.get("receiverAddress").toString() : "";
+		data.put("RECEIVER_ADDRESS", receiverProvince + receiverCity
+				+ receiverArea + receiverAddress);
+
 		data.put("ORDER_STATUS", "0");
 		data.put("CREAT_DATE", sf.format(new Date()));
 		data.put("CREAT_TIME", new Date());
@@ -1827,9 +1869,16 @@ public class HttpHandleThread implements Callable<Object> {
 				new ArrayList<String>(data.keySet()), new ArrayList<Object>(
 						data.values()), primary);
 
-		//发送给川佐
-		List<Map> orderItemListForCJ = new ArrayList<Map>();
-		
+		return Integer.valueOf(primary.get("primaryId").toString());
+	}
+
+	// 插入detail表
+	private void insertOrderDetail(int orderId, JSONObject orderInfo,
+			JSONArray orderItemList) {
+		ResourceBundle bundle = CommonUtil.getMessageMappingResource("CEB_SN");
+		SimpleDateFormat sf = CommonUtil
+				.getDateFormatter(CommonDefine.COMMON_FORMAT_1);
+
 		for (Iterator it = orderItemList.iterator(); it.hasNext();) {
 
 			JSONObject item = (JSONObject) it.next();
@@ -1837,8 +1886,6 @@ public class HttpHandleThread implements Callable<Object> {
 			primary_sub.put("primaryId", null);
 
 			Map dataSub = new HashMap();
-			
-			Map dataSubForCJ = new HashMap();
 
 			for (Object key : item.keySet()) {
 				if (bundle.containsKey("SN_ORDER_DETAIL_"
@@ -1859,106 +1906,119 @@ public class HttpHandleThread implements Callable<Object> {
 			}
 
 			// 数据入库
-			dataSub.put("ORDER_ID", primary.get("primaryId"));
+			dataSub.put("ORDER_ID", orderId);
+			dataSub.put("ORDER_CODE", orderInfo.get("orderCode"));
+			dataSub.put("FPS_ORDER_ID", orderInfo.get("fpsOrderId"));
+			dataSub.put("ORDER_NUMBER", orderInfo.get("orderNumber"));
 			// data.put("CREAT_DATE", sf.format(new Date()));
 			dataSub.put("CREAT_TIME", new Date());
 			commonManagerMapper.insertTableByNVList("T_SN_ORDER_DETAIL",
 					new ArrayList<String>(dataSub.keySet()),
 					new ArrayList<Object>(dataSub.values()), primary_sub);
-			
-			//发送给川佐数据组装
-			dataSubForCJ.put("ORDER_ITEM_ID", dataSub.get("ORDER_ITEM_ID"));
-			dataSubForCJ.put("SKU", dataSub.get("SKU"));
-			dataSubForCJ.put("ITEM_NAME", dataSub.get("ITEM_NAME"));
-			dataSubForCJ.put("QTY", dataSub.get("QTY"));
-			orderItemListForCJ.add(dataSubForCJ);
-
 		}
-		//根据苏宁报文中CUSTOMS_MODE字段走不同的流程。先测CUSTOMS_MODE等于04时，直接发给佐川。等于02时走另外的流程。
-		String customsMode = data.get("CUSTOMS_MODE")!=null?data.get("CUSTOMS_MODE").toString():"";
-		
-		//直接发给川佐
-		if("04".equals(customsMode)){
-			
-			String skuString = "";
-			if(orderItemListForCJ.size()>0 && orderItemListForCJ.get(0).get("SKU")!=null){
-				skuString = orderItemListForCJ.get(0).get("SKU").toString();
-			}
-			List<Map<String,Object>> skuList = commonManagerMapper.selectTableListByCol("t_sn_sku", "SKU", skuString, null, null);
-			
-			Map<String,Object> sku = null;
-			if(skuList !=null &&skuList.size()>0){
-				sku = skuList.get(0);
-			}
-			//给川佐发送销售出库单
-			Map order = new HashMap();
-			order.put("OWNER", data.get("OWNER"));
-			order.put("ORDER_CODE", data.get("ORDER_CODE"));
-			order.put("ORDER_TYPE", data.get("ORDER_TYPE"));
-			order.put("CUSTOMS_MODE", data.get("CUSTOMS_MODE"));
-			order.put("TOTAL_WEIGHT", data.get("TOTAL_WEIGHT"));
-			order.put("WAY_BILLS", data.get("WAY_BILLS"));
-			order.put("PAY_AMOUNT", data.get("PAY_AMOUNT"));
-			order.put("DEST_CODE", data.get("DEST_CODE"));
-			//出库单下任意一个商品sku在商品表中的t_sn_sku.GRP
-			order.put("CMMDTY_GRP", sku!=null?sku.get("GRP"):"");
-			order.put("TMS_ORDER_CODE", data.get("TMS_ORDER_CODE"));
-			order.put("RECEIVER_ADDRESS", data.get("RECEIVER_ADDRESS"));
-			order.put("RECEIVER_NAME", data.get("RECEIVER_NAME"));
-			order.put("RECEIVER_MOBILE", data.get("RECEIVER_MOBILE"));
-			order.put("RECEIVER_PHONE", data.get("RECEIVER_PHONE"));
-			
-			order.put("CUST", CommonUtil
-					.getSystemConfigProperty("CJ_cust"));
-			
-			String xmlStringData = XmlUtil.generalCommonXml_CJ(
-					"DATA", order, orderItemListForCJ);
-			
-			String requestXmlData = XmlUtil.generalSoapXml_CJ(xmlStringData,"sendOutStockOrder");
-			
-			//System.out.println(requestXmlData);
-			//向川佐发送销售出库单
-			String response = HttpUtil.sendHttpCMD_CJ(requestXmlData,CommonUtil
-					.getSystemConfigProperty("CJ_sendOrder_requestUrl").toString());
-			
-			//获取返回信息
-//			String returnXmlData = XmlUtil
-//					.getResponseFromXmlString_CJ(response);
-			
-			String returnXmlData = XmlUtil.getTotalMidValue(StringEscapeUtils.unescapeXml(response),"<ns:return>","</ns:return>");
-			
-			//正常测试报文
-//			String returnXmlData = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><DATA><ORDER><ORDER_CODE>3434222e333</ORDER_CODE><CD>OK</CD><INFO><![CDATA[]]></INFO><ITEMS><ITEM><ORDER_ITEM_ID>420000002xxxxxx</ORDER_ITEM_ID><SKU>P0000KMM</SKU><ACTUAL_QTY>1</ACTUAL_QTY><ACTUAL_QTY_DEFECT>5590</ACTUAL_QTY_DEFECT></ITEM><ITEM><ORDER_ITEM_ID>1234567891</ORDER_ITEM_ID><SKU>P0001KMM</SKU><ACTUAL_QTY>1</ACTUAL_QTY><ACTUAL_QTY_DEFECT>5591</ACTUAL_QTY_DEFECT></ITEM></ITEMS></ORDER></DATA>";
-			//异常测试报文
-//			String returnXmlData = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><DATA><ORDER><ORDER_CODE>W107xxxxxx</ORDER_CODE><CD>102</CD><INFO>发货人编号在系统中未找到。</INFO></ORDER></DATA>";
-
-			//解析返回报文
-			//正常报文
-			Map orderResult = XmlUtil.parseXmlFPAPI_SingleNodes(returnXmlData, "//DATA/ORDER/child::*");
-			
-			//正常返回
-			if(orderResult.containsKey("CD") && "OK".equals(orderResult.get("CD").toString())){
-				//返回给苏宁
-				result.put("success", "true");
-				result.put("errorCode", "");
-				result.put("errorMsg", "");
-			}else{
-				//异常返回
-				//返回给苏宁的错误代码只填B0007,错误原因透传。
-				result.put("success", "false");	
-				result.put("errorCode", "B0007");
-				result.put("errorMsg", orderResult.get("INFO"));
-			}
-			result.put("orderCode", orderResult.get("ORDER_CODE"));
-			
-		}else if("02".equals(customsMode)){
-			
-		}
-
-		return result.toString();
 	}
-	
-	
+	//发送给川佐出库单报文
+	private JSONObject send2CJ_deliverGoodsNotify(JSONObject orderInfo,
+			JSONObject receiverInfo, JSONArray orderItemList)
+			throws CommonException {
+		// 发送给川佐
+		List<Map> orderItemListForCJ = new ArrayList<Map>();
+
+		Map dataSubForCJ = new HashMap();
+
+		for (Iterator it = orderItemList.iterator(); it.hasNext();) {
+			JSONObject item = (JSONObject) it.next();
+			// 发送给川佐数据组装
+			dataSubForCJ.put("ORDER_ITEM_ID", item.get("orderItemId"));
+			dataSubForCJ.put("SKU", item.get("itemId"));
+			dataSubForCJ.put("ITEM_NAME", item.get("itemName"));
+			dataSubForCJ.put("QTY", item.get("itemQuantity"));
+			orderItemListForCJ.add(dataSubForCJ);
+		}
+
+		String skuString = "";
+		if (orderItemListForCJ.size() > 0
+				&& orderItemListForCJ.get(0).get("SKU") != null) {
+			skuString = orderItemListForCJ.get(0).get("SKU").toString();
+		}
+		List<Map<String, Object>> skuList = commonManagerMapper
+				.selectTableListByCol("t_sn_sku", "SKU", skuString, null, null);
+
+		Map<String, Object> sku = null;
+		if (skuList != null && skuList.size() > 0) {
+			sku = skuList.get(0);
+		}
+		// 给川佐发送销售出库单
+		Map order = new HashMap();
+		order.put("OWNER", orderInfo.get("ownerUserId"));
+		order.put("ORDER_CODE", orderInfo.get("bol"));
+		order.put("ORDER_TYPE", orderInfo.get("orderType"));
+		order.put("CUSTOMS_MODE", orderInfo.get("customsMode"));
+		order.put("TOTAL_WEIGHT", orderInfo.get("totalWeight"));
+		order.put("WAY_BILLS", orderInfo.get("wayBills"));
+		order.put("PAY_AMOUNT", orderInfo.get("payAmount"));
+		order.put("DEST_CODE", orderInfo.get("destcode"));
+		// 出库单下任意一个商品sku在商品表中的t_sn_sku.GRP
+		order.put("CMMDTY_GRP", sku != null ? sku.get("GRP") : "");
+		order.put("TMS_ORDER_CODE", orderInfo.get("tmsOrderCode"));
+		order.put("RECEIVER_ADDRESS", receiverInfo.get("receiverAddress"));
+		order.put("RECEIVER_NAME", receiverInfo.get("receiverName"));
+		order.put("RECEIVER_MOBILE", receiverInfo.get("receiverMobile"));
+		order.put("RECEIVER_PHONE", receiverInfo.get("receiverPhone"));
+
+		order.put("CUST", CommonUtil.getSystemConfigProperty("CJ_cust"));
+
+		String xmlStringData = XmlUtil.generalCommonXml_CJ("DATA", order,
+				orderItemListForCJ);
+
+		String requestXmlData = XmlUtil.generalSoapXml_CJ(xmlStringData,
+				"sendOutStockOrder");
+
+		// System.out.println(requestXmlData);
+		// 向川佐发送销售出库单
+		String response = HttpUtil.sendHttpCMD_CJ(requestXmlData, CommonUtil
+				.getSystemConfigProperty("CJ_sendOrder_requestUrl").toString());
+
+		// 获取返回信息
+		// String returnXmlData = XmlUtil
+		// .getResponseFromXmlString_CJ(response);
+
+		String returnXmlData = XmlUtil.getTotalMidValue(
+				StringEscapeUtils.unescapeXml(response), "<ns:return>",
+				"</ns:return>");
+
+		// 正常测试报文
+		// String returnXmlData =
+		// "<?xml version=\"1.0\" encoding=\"UTF-8\"?><DATA><ORDER><ORDER_CODE>3434222e333</ORDER_CODE><CD>OK</CD><INFO><![CDATA[]]></INFO><ITEMS><ITEM><ORDER_ITEM_ID>420000002xxxxxx</ORDER_ITEM_ID><SKU>P0000KMM</SKU><ACTUAL_QTY>1</ACTUAL_QTY><ACTUAL_QTY_DEFECT>5590</ACTUAL_QTY_DEFECT></ITEM><ITEM><ORDER_ITEM_ID>1234567891</ORDER_ITEM_ID><SKU>P0001KMM</SKU><ACTUAL_QTY>1</ACTUAL_QTY><ACTUAL_QTY_DEFECT>5591</ACTUAL_QTY_DEFECT></ITEM></ITEMS></ORDER></DATA>";
+		// 异常测试报文
+		// String returnXmlData =
+		// "<?xml version=\"1.0\" encoding=\"UTF-8\"?><DATA><ORDER><ORDER_CODE>W107xxxxxx</ORDER_CODE><CD>102</CD><INFO>发货人编号在系统中未找到。</INFO></ORDER></DATA>";
+
+		// 解析返回报文
+		// 正常报文
+		Map orderResult = XmlUtil.parseXmlFPAPI_SingleNodes(returnXmlData,
+				"//DATA/ORDER/child::*");
+
+		JSONObject result = new JSONObject();
+		// 正常返回
+		if (orderResult.containsKey("CD")
+				&& "OK".equals(orderResult.get("CD").toString())) {
+			// 返回给苏宁
+			result.put("success", "true");
+			result.put("errorCode", "");
+			result.put("errorMsg", "");
+		} else {
+			// 异常返回
+			// 返回给苏宁的错误代码只填B0007,错误原因透传。
+			result.put("success", "false");
+			result.put("errorCode", "B0007");
+			result.put("errorMsg", orderResult.get("INFO"));
+		}
+		result.put("orderCode", orderResult.get("ORDER_CODE"));
+
+		return result;
+	}
+
 	private String handleXml_sn_cancelNotify(String jsonString)  throws CommonException{
 
 		// String jsonReturnString = "";
@@ -2462,9 +2522,9 @@ public class HttpHandleThread implements Callable<Object> {
 //					if (qty1 > qty2) {
 						if(recordNo1.compareTo(recordNo2)<0){
 							return 0;
-					} else {
+						}else{
 							return 1;
-					}
+						}
 //					} else {
 //						return 0;
 //					}
@@ -2602,27 +2662,27 @@ public class HttpHandleThread implements Callable<Object> {
 					item.put("RECORD_NO", bookInfo.get("RECORD_NO"));
 					item.put("GOODS_SERIALNO", bookInfo.get("GOODS_SERIALNO"));
 					item.put("DECL_NO", bookInfo.get("DECL_NO"));
-			
+					
 					LinkedHashMap Inventory = new LinkedHashMap();
-			//如果t_new_import_sku.unit2为空，则<qty2>保持不变，继续填t_new_import_inventory_detail.qty2。
-			//如果t_new_import_sku.unit2不为空，则<qty2>改成t_new_import_inventory_detail.qty1
-			if(item.get("UNIT2") == null || item.get("UNIT2").toString().isEmpty()){
-				//不变
-			}else{
-				item.put("QTY2", item.get("QTY1"));
-			}
-			// 转换
-			if (item != null) {
-				for (Object key : item.keySet()) {
-					if (bundle.containsKey("TJ_LIST_" + key.toString())) {
-								Inventory.put(
-								bundle.getObject("TJ_LIST_" + key.toString()),
-								item.get(key));
-					} else {
-								Inventory.put(key.toString(), item.get(key));
+					//如果t_new_import_sku.unit2为空，则<qty2>保持不变，继续填t_new_import_inventory_detail.qty2。
+					//如果t_new_import_sku.unit2不为空，则<qty2>改成t_new_import_inventory_detail.qty1
+					if(item.get("UNIT2") == null || item.get("UNIT2").toString().isEmpty()){
+						//不变
+					}else{
+						item.put("QTY2", item.get("QTY1"));
 					}
-				}
-			}
+					// 转换
+					if (item != null) {
+						for (Object key : item.keySet()) {
+							if (bundle.containsKey("TJ_LIST_" + key.toString())) {
+								Inventory.put(
+										bundle.getObject("TJ_LIST_" + key.toString()),
+										item.get(key));
+							} else {
+								Inventory.put(key.toString(), item.get(key));
+							}
+						}
+					}
 					
 					InventoryList.add(Inventory);
 				}
@@ -3348,22 +3408,22 @@ public class HttpHandleThread implements Callable<Object> {
 //		
 //		System.out.println(CommonUtil.getDateFormatter(CommonDefine.COMMON_FORMAT_2)
 //					.format(new Date()));
-
+		
 //		String response = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soapenv:Envelope xmlns:soapenv=\"http://www.w3.org/2003/05/soap-envelope\"><soapenv:Body><ns:sendOrderResponse xmlns:ns=\"http://ws.com\"><ns:return><?xml version=\"1.0\" encoding=\"UTF-8\"?><DATA><ORDER><ORDER_CODE>W100133410</ORDER_CODE><CD>OK</CD><INFO>11811000073</INFO></ORDER></DATA></ns:return></ns:sendOrderResponse></soapenv:Body></soapenv:Envelope>";
 //		
 //		String xxxx = StringEscapeUtils.escapeXml(response);
-
+		
 //		String returnXmlData = XmlUtil
 //				.getResponseFromXmlString_CJ(xxxx);
-
+		
 //		String returnXmlData = XmlUtil.getTotalMidValue(response,"<ns:return>","</ns:return>");
 //		
 //		Map orderResult = XmlUtil.parseXmlFPAPI_SingleNodes(returnXmlData, "//DATA/ORDER/child::*");
-
+		
 //		System.out.println(xxxx);
-
+		
 //		System.out.println(orderResult);
-
+		
 		try {
 			String xxx = "<returnInfo>鐪嬩簡鏀炬帴鍙ｆ噿寰楄璐瑰彂鍔ㄦ満瀵屽惈鐨勫ソ鍙戜簡灏卞簾浜嗗彲瑙佸晩閫傚綋鑰冭檻鍙戞媺鏄鎺ュ彂鏀綞</returnInfo>";
 			
