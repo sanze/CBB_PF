@@ -223,4 +223,31 @@
 		  AND t.BOL = #{bol}  
 	</select>
 	
+	<select id="selectOrderConfirmInfo" resultType="hashmap" >
+		SELECT 
+		  t.OWNER,
+		  t.PACKAGE_HEIGHT,
+		  t.PACKAGE_LENGTH,
+		  t.PACKAGE_WEIGHT,
+		  t.PACKAGE_WIDTH,
+		  t.TMS_ORDER_CODE,
+  		  t.TMS_SERVICE_CODE,
+		  t.STORE_CODE,
+		  t.ORDER_TYPE,
+		  
+		  d.ORDER_NUMBER,
+		  d.ORDER_ITEM_ID,
+		  d.SKU,
+		  d.ITEM_CODE,
+		  d.QTY,
+		  d.PRODUCE_CODE,
+		  d.FPS_ORDER_ID,
+		  d.ORDER_CODE
+		FROM
+		  t_sn_order t,
+		  t_sn_order_detail d 
+		WHERE t.ORDER_ID = d.ORDER_ID 
+		  AND t.BOL = #{bol}  
+	</select>
+	
 </mapper>

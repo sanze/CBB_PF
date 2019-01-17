@@ -106,7 +106,11 @@ public class HttpHandleThread implements Callable<Object> {
 
 		//sn_deliverGoodsNotify--销售发货通知，苏宁发起
 //		 this.requestType = HttpServerManagerService.requestType_sn_deliverGoodsNotify;
-//		 this.content = "{\"orderInfo\":{\"ownerUserId\":\"7016xxxx\",\"storeCode\":\"WM10xxxxxx\",\"fpsOrderId\":\"12345xxxxxx\",\"orderCode\":\"W107xxxxxx\",\"orderType\":\"201\",\"orderNumber\":\"W89xxxx\",\"outsourcingFlag\":\"01\",\"customsMode\":\"04\",\"bol\":\"HM121231xxxxxx\",\"bolCount\":\"2\",\"orderSource\":\"S12\",\"tmsServiceCode\":\"S02\",\"tmsServiceName\":\"顺丰\",\"tmsOrderCode\":\"1234556667\",\"orderFlag\":\"\",\"destcode\":\"xxxxx\",\"orderCreateTime\":\"2018-01-03 12:47:11\",\"deliveryType\":\"PTPS\",\"deliverRequirements\":{\"scheduleDay\":\"2018-01-04\",\"scheduleStart\":\"18:00:00\",\"scheduleEnd\":\"18:00:00\"},\"batchSendCtrlParam\":{},\"extendFields\":\"{}\",\"receiverInfo\":{\"receiverProvince\":\"江苏省\",\"receiverCity\":\"宿迁市\",\"receiverArea\":\"宿豫区\",\"receiverTown\":\"全区\",\"receiverMobile\":\"0527-8431xxxx\",\"receiverPhone\":\"0527-8431xxxx\",\"receiverName\":\"谷绍娟\",\"receiverAddress\":\"江苏省宿迁市宿豫区江山大道xxxxxx\"},\"senderInfo\":{\"senderProvince\":\"江苏\",\"senderCity\":\"南京市\",\"senderArea\":\"雨花台区\",\"senderTown\":\"全区\",\"senderAddress\":\"xx大道1号\",\"senderName\":\"董x\",\"senderPhone\":\"025-66996699-87xxxx\",\"senderMobile\":\"025-66996699-87xxxx\"},\"orderItemList\":[{\"itemName\":\"电源xxx\",\"itemQuantity\":\"1\",\"orderItemId\":\"SL201801030000xxxxxx\",\"condition\":\"A\",\"ownerUserId\":\"7016xxxx\",\"itemId\":\"917080409503xxxxxx\",\"inventoryType\":\"1\",\"userId\":\"7016xxxx\",\"itemCode\":\"WTI09xxxx\"}]}}";
+		 //04模式
+//		 this.content = "{\"orderInfo\":{\"ownerUserId\":\"7016xxxx\",\"storeCode\":\"WM10xxxxxx\",\"fpsOrderId\":\"12345xxxxxx\",\"orderCode\":\"aaaaaaaa\",\"orderType\":\"201\",\"orderNumber\":\"W89xxxx\",\"outsourcingFlag\":\"01\",\"customsMode\":\"04\",\"bol\":\"W107xxxxxx\",\"bolCount\":\"2\",\"orderSource\":\"S12\",\"tmsServiceCode\":\"S02\",\"tmsServiceName\":\"顺丰\",\"tmsOrderCode\":\"1234556667\",\"orderFlag\":\"\",\"destcode\":\"xxxxx\",\"orderCreateTime\":\"2018-01-03 12:47:11\",\"deliveryType\":\"PTPS\",\"deliverRequirements\":{\"scheduleDay\":\"2018-01-04\",\"scheduleStart\":\"18:00:00\",\"scheduleEnd\":\"18:00:00\"},\"batchSendCtrlParam\":{},\"extendFields\":\"{}\",\"receiverInfo\":{\"receiverProvince\":\"江苏省\",\"receiverCity\":\"宿迁市\",\"receiverArea\":\"宿豫区\",\"receiverTown\":\"全区\",\"receiverMobile\":\"0527-8431xxxx\",\"receiverPhone\":\"0527-8431xxxx\",\"receiverName\":\"谷绍娟\",\"receiverAddress\":\"江苏省宿迁市宿豫区江山大道xxxxxx\"},\"senderInfo\":{\"senderProvince\":\"江苏\",\"senderCity\":\"南京市\",\"senderArea\":\"雨花台区\",\"senderTown\":\"全区\",\"senderAddress\":\"xx大道1号\",\"senderName\":\"董x\",\"senderPhone\":\"025-66996699-87xxxx\",\"senderMobile\":\"025-66996699-87xxxx\"},\"orderItemList\":[{\"itemName\":\"电源xxx\",\"itemQuantity\":\"1\",\"orderItemId\":\"SL201801030000xxxxxx\",\"condition\":\"A\",\"ownerUserId\":\"7016xxxx\",\"itemId\":\"917080409503xxxxxx\",\"inventoryType\":\"1\",\"userId\":\"7016xxxx\",\"itemCode\":\"WTI09xxxx\"}]}}";
+		 //02模式
+//		 this.content = "{\"orderInfo\":{\"ownerUserId\":\"7016xxxx\",\"storeCode\":\"WM10xxxxxx\",\"fpsOrderId\":\"12345xxxxxx\",\"orderCode\":\"aaaaaaaa\",\"orderType\":\"201\",\"orderNumber\":\"W89xxxx\",\"outsourcingFlag\":\"01\",\"customsMode\":\"04\",\"bol\":\"W107xxxxxx\",\"bolCount\":\"2\",\"orderSource\":\"S12\",\"tmsServiceCode\":\"S02\",\"tmsServiceName\":\"顺丰\",\"tmsOrderCode\":\"1234556667\",\"orderFlag\":\"\",\"destcode\":\"xxxxx\",\"orderCreateTime\":\"2018-01-03 12:47:11\",\"deliveryType\":\"PTPS\",\"deliverRequirements\":{\"scheduleDay\":\"2018-01-04\",\"scheduleStart\":\"18:00:00\",\"scheduleEnd\":\"18:00:00\"},\"batchSendCtrlParam\":{},\"extendFields\":\"{}\",\"receiverInfo\":{\"receiverProvince\":\"江苏省\",\"receiverCity\":\"宿迁市\",\"receiverArea\":\"宿豫区\",\"receiverTown\":\"全区\",\"receiverMobile\":\"0527-8431xxxx\",\"receiverPhone\":\"0527-8431xxxx\",\"receiverName\":\"谷绍娟\",\"receiverAddress\":\"江苏省宿迁市宿豫区江山大道xxxxxx\"},\"senderInfo\":{\"senderProvince\":\"江苏\",\"senderCity\":\"南京市\",\"senderArea\":\"雨花台区\",\"senderTown\":\"全区\",\"senderAddress\":\"xx大道1号\",\"senderName\":\"董x\",\"senderPhone\":\"025-66996699-87xxxx\",\"senderMobile\":\"025-66996699-87xxxx\"},\"orderItemList\":[{\"itemName\":\"电源xxx\",\"itemQuantity\":\"1\",\"orderItemId\":\"SL201801030000xxxxxx\",\"condition\":\"A\",\"ownerUserId\":\"7016xxxx\",\"itemId\":\"917080409503xxxxxx\",\"inventoryType\":\"1\",\"userId\":\"7016xxxx\",\"itemCode\":\"WTI09xxxx\"}]}}";
+		 
 
 		//cj_deliveryOrderConfirm--销售发货确认，川佐发起
 //		 this.requestType =
@@ -1359,7 +1363,7 @@ public class HttpHandleThread implements Callable<Object> {
 
 		// String jsonReturnString = "";
 		SimpleDateFormat sf = CommonUtil
-				.getDateFormatter(CommonDefine.RETRIEVAL_TIME_FORMAT);
+				.getDateFormatter(CommonDefine.RETRIEVAL_TIME_FORMAT); 
 
 		System.out
 				.println("---------------------------【FPAPI_cj_deliveryOrderConfirm】-------------------------------");
@@ -1371,7 +1375,7 @@ public class HttpHandleThread implements Callable<Object> {
 		// 查询数据库明细表中数据
 		List<String> colNames = new ArrayList<String>();
 		List<Object> colValues = new ArrayList<Object>();
-		colNames.add("ORDER_CODE");
+		colNames.add("BOL");
 		colValues.add(orderInfo.get("order_code"));
 		List<Map<String, Object>> items = commonManagerMapper
 				.selectTableListByNVList("t_sn_order", colNames, colValues,
@@ -1400,7 +1404,7 @@ public class HttpHandleThread implements Callable<Object> {
 		colValues.add(orderInfo.get("package_length"));
 		colValues.add(orderInfo.get("package_width"));
 		colValues.add(orderInfo.get("package_height"));
-		commonManagerMapper.updateTableByNVList("t_sn_order", "ORDER_CODE", orderInfo.get("order_code"), colNames, colValues);
+		commonManagerMapper.updateTableByNVList("t_sn_order", "BOL", orderInfo.get("order_code"), colNames, colValues);
 		
 		//更新明细表
 		//将QTY和PRODUCE_CODE字段写入t_sn_order_detail
@@ -1415,49 +1419,41 @@ public class HttpHandleThread implements Callable<Object> {
 		}
 
 		// ------------------- orderItem ------------
-		JSONArray orderItemListArray = new JSONArray();
-		JSONArray tmsOrdersListArray = new JSONArray();
-
+		//根据bol查询orderDetail列表
+		List<Map> orderDetailList = snCommonManagerMapper.selectOrderConfirmInfo(orderInfo.get("order_code").toString());
 		int i = 1;
-		for (Map orderItem:orderItemList) {
-			 //查询数据库明细表中数据
-			colNames.clear();
-			colValues.clear();
-			colNames.add("ORDER_ITEM_ID");
-			colNames.add("SKU");
-			colValues.add(orderItem.get("order_item_id"));
-			colValues.add(orderItem.get("sku"));
-			Map data = commonManagerMapper.selectTableListByNVList("t_sn_order_detail",
-					colNames, colValues, null, null).get(0);
+		for (Map orderItem:orderDetailList) {
+			JSONArray orderItemListArray = new JSONArray();
+			JSONArray tmsOrdersListArray = new JSONArray();
 
 			JSONObject orderSingleItem = new JSONObject();
 			// 明细表ORDER_ITEM_ID
-			orderSingleItem.put("orderItemId", data.get("ORDER_ITEM_ID"));
+			orderSingleItem.put("orderItemId", orderItem.get("ORDER_ITEM_ID"));
 			// OWNER
-			orderSingleItem.put("ownUserId", item.get("OWNER"));
+			orderSingleItem.put("ownUserId", orderItem.get("OWNER"));
 			orderSingleItem.put("stockNumber", "DSWMS"+CommonUtil.getDateFormatter(CommonDefine.COMMON_FORMAT_2)
 					.format(new Date()));
 			orderSingleItem.put("isCompleted", true);
 			// 明细表SKU
-			orderSingleItem.put("itemId", data.get("SKU"));
+			orderSingleItem.put("itemId", orderItem.get("SKU"));
 			// 明细表ITEM_CODE
-			orderSingleItem.put("itemCode", data.get("ITEM_CODE"));	
+			orderSingleItem.put("itemCode", orderItem.get("ITEM_CODE"));	
 
 			// ------------------- itemInventorySingleItem ------------
 			JSONObject itemInventorySingleItem = new JSONObject();
 			itemInventorySingleItem.put("inventoryType", "1");
 			// 明细表 QTY
-			itemInventorySingleItem.put("quantity", data.get("QTY"));
+			itemInventorySingleItem.put("quantity", orderItem.get("QTY"));
 
 			// ------------------- produceCodeSingleItem ------------
 			JSONObject produceCodeSingleItem = new JSONObject();
 			// 填顺序值，从0开始
 			produceCodeSingleItem.put("flag", i);
 			// 明细表 PRODUCE_CODE
-			produceCodeSingleItem.put("produceCode", data.get("PRODUCE_CODE"));
+			produceCodeSingleItem.put("produceCode", orderItem.get("PRODUCE_CODE"));
 			produceCodeSingleItem.put("expirationDate", "2099-01-01");
 			// 明细表 QTY
-			produceCodeSingleItem.put("quantity", data.get("QTY"));
+			produceCodeSingleItem.put("quantity", orderItem.get("QTY"));
 			
 			// ------------------- itemInventory ------------
 			JSONArray itemInventory = new JSONArray();
@@ -1480,26 +1476,24 @@ public class HttpHandleThread implements Callable<Object> {
 			orderSingleItem.put("produceCodeItems", produceCodeItems);
 			
 			orderItemListArray.add(orderSingleItem);
-			
-			
-			
+
 			// ------------------- tmsOrderSingleItem ------------
 			JSONObject tmsOrderSingleItem = new JSONObject();
 			// 主表
-			tmsOrderSingleItem.put("packageWeight", orderInfo.get("package_weight"));
-			tmsOrderSingleItem.put("packageLength", orderInfo.get("package_length"));
-			tmsOrderSingleItem.put("packageHeight", orderInfo.get("package_height"));
-			tmsOrderSingleItem.put("packageWidth", orderInfo.get("package_width"));
-			tmsOrderSingleItem.put("tmsOrderCode", orderInfo.get("tms_order_code"));
+			tmsOrderSingleItem.put("packageWeight", orderItem.get("PACKAGE_WEIGHT"));
+			tmsOrderSingleItem.put("packageLength", orderItem.get("PACKAGE_LENGTH"));
+			tmsOrderSingleItem.put("packageHeight", orderItem.get("PACKAGE_HEIGHT"));
+			tmsOrderSingleItem.put("packageWidth", orderItem.get("PACKAGE_WIDTH"));
+			tmsOrderSingleItem.put("tmsOrderCode", orderItem.get("TMS_ORDER_CODE"));
 			
 			tmsOrderSingleItem.put("tmsCode", item.get("TMS_SERVICE_CODE"));
 
 			// ------------------- tmsItemSingleItem ------------
 			JSONObject tmsItemSingleItem = new JSONObject();
-			tmsItemSingleItem.put("orderItemId", data.get("ORDER_ITEM_ID"));
-			tmsItemSingleItem.put("itemId", data.get("SKU"));
-			tmsItemSingleItem.put("itemCode", data.get("ITEM_CODE"));
-			tmsItemSingleItem.put("itemQuantity", data.get("QTY"));
+			tmsItemSingleItem.put("orderItemId", orderItem.get("ORDER_ITEM_ID"));
+			tmsItemSingleItem.put("itemId", orderItem.get("SKU"));
+			tmsItemSingleItem.put("itemCode", orderItem.get("ITEM_CODE"));
+			tmsItemSingleItem.put("itemQuantity", orderItem.get("QTY"));
 			// ------------------- packageMaterialSingleItem ------------
 			JSONObject packageMaterialSingleItem = new JSONObject();
 			packageMaterialSingleItem.put("materialQuantity", "");
@@ -1522,57 +1516,59 @@ public class HttpHandleThread implements Callable<Object> {
 			tmsOrdersListArray.add(tmsOrderSingleItem);
 
 			i++;
+			
+			// 返回苏宁数据
+			// ------------------- orderItems ------------
+			JSONObject orderItems = new JSONObject();
+			orderItems.put("orderItem", orderItemListArray);
+			// ------------------- tmsOrders ------------
+			JSONObject tmsOrders = new JSONObject();
+			tmsOrders.put("tmsOrder", tmsOrdersListArray);
+
+			// ------------------- orderConfirmInfo ------------
+			JSONObject orderConfirmInfo = new JSONObject();
+			//从detail表中获取
+			// FPS_ORDER_ID
+			orderConfirmInfo.put("fpsOrderId", orderItem.get("FPS_ORDER_ID"));
+			// ORDER_CODE
+			orderConfirmInfo.put("orderCode", orderItem.get("ORDER_CODE"));
+			
+			//从order表中获取
+			// STORE_CODE
+			orderConfirmInfo.put("storeOrderCode", orderItem.get("STORE_CODE"));
+			// ORDER_TYPE
+			orderConfirmInfo.put("orderType", orderItem.get("ORDER_TYPE"));
+			// ORDER_NUMBER
+			orderConfirmInfo.put("orderNumber", orderItem.get("ORDER_NUMBER"));
+			//
+			orderConfirmInfo.put("outBizCode",
+					CommonUtil.getDateFormatter(CommonDefine.RETRIEVAL_TIME_FORMAT)
+							.format(new Date()));
+			orderConfirmInfo.put("orderItems", orderItems);
+			orderConfirmInfo.put("tmsOrders", tmsOrders);
+			orderConfirmInfo.put(
+					"orderConfirmTime",
+					CommonUtil.getDateFormatter(CommonDefine.COMMON_FORMAT).format(
+							new Date()));
+			orderConfirmInfo.put("confirmType", "0");
+
+			JSONObject content = new JSONObject();
+			content.put("orderConfirmInfo", orderConfirmInfo);
+
+			Map requestParam = new HashMap();
+			requestParam
+					.put("logistic_provider_id",
+							CommonUtil
+									.getSystemConfigProperty("SN_deliveryOrderConfirmInfo_logistic_provider_id"));
+			requestParam.put("msg_type", CommonUtil
+					.getSystemConfigProperty("SN_deliveryOrderConfirmInfo_msg_type"));
+			requestParam.put("url", CommonUtil
+					.getSystemConfigProperty("SN_deliveryOrderConfirmInfo_requestUrl"));
+
+//			System.out.println(content.toString());
+			// 发送请求
+			String result = send2SN(requestParam, content.toString());
 		}
-
-		// 返回苏宁数据
-		// ------------------- orderItems ------------
-		JSONObject orderItems = new JSONObject();
-		orderItems.put("orderItem", orderItemListArray);
-		// ------------------- tmsOrders ------------
-		JSONObject tmsOrders = new JSONObject();
-		tmsOrders.put("tmsOrder", tmsOrdersListArray);
-
-		// ------------------- orderConfirmInfo ------------
-		JSONObject orderConfirmInfo = new JSONObject();
-		// STORE_CODE
-		orderConfirmInfo.put("storeOrderCode", item.get("STORE_CODE"));
-		// FPS_ORDER_ID
-		orderConfirmInfo.put("fpsOrderId", item.get("FPS_ORDER_ID"));
-		// ORDER_TYPE
-		orderConfirmInfo.put("orderType", item.get("ORDER_TYPE"));
-		// ORDER_CODE
-		orderConfirmInfo.put("orderCode", item.get("ORDER_CODE"));
-		// ORDER_NUMBER
-		orderConfirmInfo.put("orderNumber", item.get("ORDER_NUMBER"));
-		//
-		orderConfirmInfo.put("outBizCode",
-				CommonUtil.getDateFormatter(CommonDefine.RETRIEVAL_TIME_FORMAT)
-						.format(new Date()));
-		orderConfirmInfo.put("orderItems", orderItems);
-		orderConfirmInfo.put("tmsOrders", tmsOrders);
-		orderConfirmInfo.put(
-				"orderConfirmTime",
-				CommonUtil.getDateFormatter(CommonDefine.COMMON_FORMAT).format(
-						new Date()));
-		orderConfirmInfo.put("confirmType", "0");
-
-		JSONObject content = new JSONObject();
-		content.put("orderConfirmInfo", orderConfirmInfo);
-
-		Map requestParam = new HashMap();
-		requestParam
-				.put("logistic_provider_id",
-						CommonUtil
-								.getSystemConfigProperty("SN_deliveryOrderConfirmInfo_logistic_provider_id"));
-		requestParam.put("msg_type", CommonUtil
-				.getSystemConfigProperty("SN_deliveryOrderConfirmInfo_msg_type"));
-		requestParam.put("url", CommonUtil
-				.getSystemConfigProperty("SN_deliveryOrderConfirmInfo_requestUrl"));
-
-//		System.out.println(content.toString());
-		// 发送请求
-		String result = send2SN(requestParam, content.toString());
-
 		return "<deliveryorderconfirmreturn><status>success</status></deliveryorderconfirmreturn>";
 	}
 	
@@ -1617,7 +1613,6 @@ public class HttpHandleThread implements Callable<Object> {
 			commonManagerMapper.updateTableByNVList("t_sn_order", "ORDER_CODE", orderInfo.get("order_code"), colNames, colValues);
 		}
 
-
 		//给苏宁报文--7.10章节
 		JSONObject snRequest = new JSONObject();
 		
@@ -1637,20 +1632,31 @@ public class HttpHandleThread implements Callable<Object> {
 			String statusType = statusChange.get("STATUS_TYPE")!=null?statusChange.get("STATUS_TYPE").toString():"";
 			
 			if("WMS".equals(statusType)){
-				statusSingleItem.put("expressNo", orderInfo.get("order_code"));
-				statusSingleItem.put("expressCompanyCode", "WMS");
+				//查找orderDetail中的orderCode
+				List<Map> orderDetailList = snCommonManagerMapper.selectFlightInfo(orderInfo.get("order_code").toString());
+				for(Map orderDetail:orderDetailList){
+					statusSingleItem.put("expressNo", orderDetail.get("ORDER_CODE"));
+					statusSingleItem.put("expressCompanyCode", "WMS");
+					statusSingleItem.put("mailStatus", statusChange.get("CN_CODE"));
+					statusSingleItem.put("address", statusChange.get("CN_REMARK"));
+					statusSingleItem.put("statusType", statusChange.get("STATUS_TYPE"));
+					statusSingleItem.put("time",
+							CommonUtil.getDateFormatter(CommonDefine.COMMON_FORMAT)
+									.format(new Date()));
+					statusList.add(statusSingleItem);
+				}
+				
 			}else if("TMS".equals(statusType)){
 				statusSingleItem.put("expressNo", item.get("TMS_ORDER_CODE"));
 				statusSingleItem.put("expressCompanyCode", item.get("TMS_SERVICE_CODE"));
+				statusSingleItem.put("mailStatus", statusChange.get("CN_CODE"));
+				statusSingleItem.put("address", statusChange.get("CN_REMARK"));
+				statusSingleItem.put("statusType", statusChange.get("STATUS_TYPE"));
+				statusSingleItem.put("time",
+						CommonUtil.getDateFormatter(CommonDefine.COMMON_FORMAT)
+								.format(new Date()));
+				statusList.add(statusSingleItem);
 			}		
-			statusSingleItem.put("mailStatus", statusChange.get("CN_CODE"));
-			statusSingleItem.put("address", statusChange.get("CN_REMARK"));
-			statusSingleItem.put("statusType", statusChange.get("STATUS_TYPE"));
-			statusSingleItem.put("time",
-					CommonUtil.getDateFormatter(CommonDefine.COMMON_FORMAT)
-							.format(new Date()));
-			
-			statusList.add(statusSingleItem);
 		}
 		snRequest.put("statusList", statusList);
 
@@ -1974,7 +1980,7 @@ public class HttpHandleThread implements Callable<Object> {
 		String requestXmlData = XmlUtil.generalSoapXml_CJ(xmlStringData,
 				"sendOutStockOrder");
 
-		// System.out.println(requestXmlData);
+		 System.out.println(requestXmlData);
 		// 向川佐发送销售出库单
 		String response = HttpUtil.sendHttpCMD_CJ(requestXmlData, CommonUtil
 				.getSystemConfigProperty("CJ_sendOrder_requestUrl").toString());
@@ -2042,18 +2048,18 @@ public class HttpHandleThread implements Callable<Object> {
 		
 		if("201".equals(orderType)){
 			//t_sn_order中搜索ORDER_CODE = orderCode记录
-			List orderList = commonManagerMapper.selectTableListByCol("T_SN_ORDER", "ORDER_CODE", orderCode, null, null);
+			List orderList = commonManagerMapper.selectTableListByCol("T_SN_ORDER_DETAIL", "ORDER_CODE", orderCode, null, null);
 			
-			Map orderSearch = orderList.size()>0?(Map) orderList.get(0):null;
+			Map orderDetailSearch = orderList.size()>0?(Map) orderList.get(0):null;
 
 			//判断是否存在
-			if(orderSearch == null){
+			if(orderDetailSearch == null){
 				//不存在返回false
 				result.put("success", "false");
 				result.put("errorCode", "");
 				result.put("errorMsg", "");
 			}else{
-				String orderStatus = orderSearch.get("ORDER_STATUS")!=null?orderSearch.get("ORDER_STATUS").toString():"";
+				String orderStatus = orderDetailSearch.get("ORDER_STATUS")!=null?orderDetailSearch.get("ORDER_STATUS").toString():"";
 				
 				if("2".equals(orderStatus)){
 					//ORDER_STATUS = 2返回True
@@ -2067,11 +2073,16 @@ public class HttpHandleThread implements Callable<Object> {
 					result.put("errorMsg", "");
 				}else if("0".equals(orderStatus)){
 					//ORDER_STATUS = 0向川佐发送拦截单并等待回执,回执OK，返回True，回执非OK,修改ORDER_STATUS为1，返回false
-					Map order = new HashMap();
+					Map orderSearch = commonManagerMapper.selectTableById(
+							"T_SN_ORDER", "ORDER_ID", Integer
+									.valueOf(orderDetailSearch.get("ORDER_ID")
+											.toString()));
 					
+					Map order = new HashMap();
+
 					List<Map> orderItemListForCJ = new ArrayList<Map>();
 					
-					order.put("ORDER_CODE", orderCode);
+					order.put("ORDER_CODE", orderSearch.get("BOL"));
 					order.put("ORDER_TYPE", orderType);
 					order.put("CUST", CommonUtil
 							.getSystemConfigProperty("CJ_cust"));
@@ -2103,7 +2114,7 @@ public class HttpHandleThread implements Callable<Object> {
 						List<Object> colValues = new ArrayList<Object>();
 						colNames.add("ORDER_STATUS");
 						colValues.add("2");
-						commonManagerMapper.updateTableByNVList("t_sn_order", "ORDER_CODE", orderCode, colNames, colValues);
+						commonManagerMapper.updateTableByNVList("t_sn_order", "BOL", orderCode, colNames, colValues);
 						//返回给苏宁
 						result.put("success", "true");
 						result.put("errorCode", "");
@@ -2114,7 +2125,7 @@ public class HttpHandleThread implements Callable<Object> {
 						List<Object> colValues = new ArrayList<Object>();
 						colNames.add("ORDER_STATUS");
 						colValues.add("1");
-						commonManagerMapper.updateTableByNVList("t_sn_order", "ORDER_CODE", orderCode, colNames, colValues);
+						commonManagerMapper.updateTableByNVList("t_sn_order", "BOL", orderCode, colNames, colValues);
 						//异常返回
 						result.put("success", "false");	
 						result.put("errorCode", "");

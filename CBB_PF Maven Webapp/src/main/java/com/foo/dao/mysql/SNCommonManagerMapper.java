@@ -48,5 +48,7 @@ public interface SNCommonManagerMapper {
 	
 	public List<Map> selectFlightInfo(
 			@Param(value = "bol") String bol);
+	public List<Map> selectOrderConfirmInfo(
+			@Param(value = "bol") String bol);
 
 }
