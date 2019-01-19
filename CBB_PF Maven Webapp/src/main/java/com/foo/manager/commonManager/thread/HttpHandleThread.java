@@ -1764,7 +1764,6 @@ public class HttpHandleThread implements Callable<Object> {
 					null);
 			Integer orderId = null;
 			int bolCount = 0;
-			int orderDetailCount = 0;
 			//如果已存在，插入t_sn_order_detail表
 			if(orderDataList.size()>0){
 				orderId = Integer.valueOf(orderDataList.get(0).get("ORDER_ID").toString());
@@ -1776,17 +1775,27 @@ public class HttpHandleThread implements Callable<Object> {
 				insertOrderDetail(orderId,orderInfo,orderItemList);
 				bolCount = Integer.valueOf(orderInfo.get("bolCount").toString());
 			}
-			orderDetailCount = commonManagerMapper.selectTableListCountByCol("T_SN_ORDER_DETAIL", "ORDER_ID", orderId);
+			List<Map> orderDetailList = commonManagerMapper.selectTableListById("T_SN_ORDER_DETAIL", "ORDER_ID", orderId, null, null);
 			
-			if(orderDetailCount<bolCount){
+			if(orderDetailList.size()<bolCount){
 				//不发送出库单给佐川，返回苏宁成功
 				result.put("success", "true");
 				result.put("errorCode", "");
 				result.put("errorMsg", "");
 				result.put("orderCode", orderInfo.get("orderCode"));
 			}else{
+				//数据转换
+				JSONArray orderDetailListJson = new JSONArray();
+				for(Map item:orderDetailList){
+					JSONObject orderDetailItem = new JSONObject();
+					orderDetailItem.put("orderItemId", item.get("ORDER_ITEM_ID"));
+					orderDetailItem.put("itemId", item.get("SKU"));
+					orderDetailItem.put("itemName", item.get("ITEM_NAME"));
+					orderDetailItem.put("itemQuantity", item.get("QTY"));
+					orderDetailListJson.add(orderDetailItem);
+				}
 				//发送川佐
-				result = send2CJ_deliverGoodsNotify(orderInfo,receiverInfo,orderItemList);
+				result = send2CJ_deliverGoodsNotify(orderInfo,receiverInfo,orderDetailListJson);
 			}
 		}
 		return result.toString();
