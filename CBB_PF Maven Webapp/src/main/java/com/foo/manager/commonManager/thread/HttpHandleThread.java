@@ -1589,7 +1589,7 @@ public class HttpHandleThread implements Callable<Object> {
 		// 查询数据库明细表中数据
 		List<String> colNames = new ArrayList<String>();
 		List<Object> colValues = new ArrayList<Object>();
-		colNames.add("ORDER_CODE");
+		colNames.add("BOL");
 		colValues.add(orderInfo.get("order_code"));
 		List<Map<String, Object>> items = commonManagerMapper
 				.selectTableListByNVList("t_sn_order", colNames, colValues,
@@ -1610,7 +1610,7 @@ public class HttpHandleThread implements Callable<Object> {
 			colValues.clear();
 			colNames.add("ORDER_STATUS");
 			colValues.add("1");
-			commonManagerMapper.updateTableByNVList("t_sn_order", "ORDER_CODE", orderInfo.get("order_code"), colNames, colValues);
+			commonManagerMapper.updateTableByNVList("t_sn_order", "BOL", orderInfo.get("order_code"), colNames, colValues);
 		}
 
 		//给苏宁报文--7.10章节
