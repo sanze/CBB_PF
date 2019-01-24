@@ -1605,7 +1605,7 @@ public class HttpHandleThread implements Callable<Object> {
 		
 		//更新主表
 		String statusCode = orderInfo.get("status_code")!=null?orderInfo.get("status_code").toString():"";
-		if("001".equals(statusCode)){
+		if("001".equals(statusCode)||"005".equals(statusCode)){
 			colNames.clear();
 			colValues.clear();
 			colNames.add("ORDER_STATUS");
