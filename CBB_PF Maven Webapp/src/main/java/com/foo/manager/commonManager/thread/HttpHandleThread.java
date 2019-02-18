@@ -2056,10 +2056,10 @@ public class HttpHandleThread implements Callable<Object> {
 		String orderType = orderInfo.get("orderType")!=null?orderInfo.get("orderType").toString():"";
 		
 		if("201".equals(orderType)){
-			//t_sn_order中搜索ORDER_CODE = orderCode记录
-			List orderList = commonManagerMapper.selectTableListByCol("T_SN_ORDER_DETAIL", "ORDER_CODE", orderCode, null, null);
+			//t_sn_order_detail中搜索ORDER_CODE = orderCode记录
+			List orderDetailList = commonManagerMapper.selectTableListByCol("T_SN_ORDER_DETAIL", "ORDER_CODE", orderCode, null, null);
 			
-			Map orderDetailSearch = orderList.size()>0?(Map) orderList.get(0):null;
+			Map orderDetailSearch = orderDetailList.size()>0?(Map) orderDetailList.get(0):null;
 
 			//判断是否存在
 			if(orderDetailSearch == null){
@@ -2068,7 +2068,12 @@ public class HttpHandleThread implements Callable<Object> {
 				result.put("errorCode", "");
 				result.put("errorMsg", "");
 			}else{
-				String orderStatus = orderDetailSearch.get("ORDER_STATUS")!=null?orderDetailSearch.get("ORDER_STATUS").toString():"";
+				Map orderSearch = commonManagerMapper.selectTableById(
+						"T_SN_ORDER", "ORDER_ID", Integer
+								.valueOf(orderDetailSearch.get("ORDER_ID")
+										.toString()));
+				
+				String orderStatus = orderSearch.get("ORDER_STATUS")!=null?orderSearch.get("ORDER_STATUS").toString():"";
 				
 				if("2".equals(orderStatus)){
 					//ORDER_STATUS = 2返回True
@@ -2082,11 +2087,6 @@ public class HttpHandleThread implements Callable<Object> {
 					result.put("errorMsg", "");
 				}else if("0".equals(orderStatus)){
 					//ORDER_STATUS = 0向川佐发送拦截单并等待回执,回执OK，返回True，回执非OK,修改ORDER_STATUS为1，返回false
-					Map orderSearch = commonManagerMapper.selectTableById(
-							"T_SN_ORDER", "ORDER_ID", Integer
-									.valueOf(orderDetailSearch.get("ORDER_ID")
-											.toString()));
-					
 					Map order = new HashMap();
 
 					List<Map> orderItemListForCJ = new ArrayList<Map>();
