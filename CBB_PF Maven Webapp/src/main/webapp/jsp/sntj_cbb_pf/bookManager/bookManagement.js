@@ -6,16 +6,15 @@
  */
 //获取数据列表
 var store = new Ext.data.Store({
-	url : 's-ncommon!getAllSku.action',
+	url : 's-ncommon!getAllBooks.action',
 	baseParams : {
 		"limit" : myPageSize
 	},
 	reader : new Ext.data.JsonReader({
 		totalProperty : 'total',
 		root : "rows"
-	}, [ "SKU_ID","ITEM_NO","G_CODE", "SJ_RECORD_NO","SJ_COUNTRY","UNIT","UNIT1","UNIT2","G_NAME"])
+	}, [ "BOOKS_ID","SKU", "RECORD_NO","GOODS_SERIALNO","DESCRIPTION","QTY","ORDER_NO","ADD_REDUCE_FLAG","CREAT_DATE"])
 });
-
 
 
 var pageTool = new Ext.PagingToolbar({
@@ -27,6 +26,8 @@ var pageTool = new Ext.PagingToolbar({
 	emptyMsg : "没有记录"
 });
 
+
+
 var columnModel = new Ext.grid.ColumnModel({
 	defaults : {
 		sortable : true,
@@ -37,57 +38,57 @@ var columnModel = new Ext.grid.ColumnModel({
 		width : 26
 	}),
 		{
-			id:'SKU_ID',
+			id:'BOOKS_ID',
 			header:'id',
-			dataIndex:'SKU_ID',
+			dataIndex:'BOOKS_ID',
 			hidden: true
 		},
 		{
-			id:'G_NAME',
-			header : "商品名称",
-			dataIndex:'G_NAME',
-			width:200
-		},
-		{
-			id:'ITEM_NO',
+			id:'SKU',
 			header:'商品编码',
-			dataIndex:'ITEM_NO',
-			width:120
+			dataIndex:'SKU',
+			width:200
 		},        
 		{
-			id:'G_CODE',
-			header:'海关hscode',
-			dataIndex:'G_CODE',
+			id:'RECORD_NO',
+			header:'项号',
+			dataIndex:'RECORD_NO',
 			width:200
 		}, {
-			id:'SJ_RECORD_NO',
-			header:'商检备案料号',
-			dataIndex:'SJ_RECORD_NO',
+			id:'GOODS_SERIALNO',
+			header:'批次号',
+			dataIndex:'GOODS_SERIALNO',
 			width:200
 		},
 		{
-			id:'SJ_COUNTRY',
-			header : "商检国家码",
-			dataIndex:'SJ_COUNTRY',
+			id:'DESCRIPTION',
+			header : "商品名称",
+			dataIndex:'DESCRIPTION',
 			width:200
 		},
 		{
-			id:'UNIT',
-			header : "申报单位",
-			dataIndex:'UNIT',
+			id:'QTY',
+			header : "数量",
+			dataIndex:'QTY',
+			width:100
+		},
+		{
+			id:'ORDER_NO',
+			header : "外部订单号",
+			dataIndex:'ORDER_NO',
 			width:200
 		},
 		{
-			id:'UNIT1',
-			header : "第一法定单位",
-			dataIndex:'UNIT1',
-			width:200
+			id:'ADD_REDUCE_FLAG',
+			header : "增减标识",
+			dataIndex:'ADD_REDUCE_FLAG',
+			width:100
 		},
 		{
-			id:'UNIT2',
-			header : "第二法定单位",
-			dataIndex:'UNIT2',
-			width:200
+			id:'CREAT_DATE',
+			header : "创建日期",
+			dataIndex:'CREAT_DATE',
+			width:100
 		}
 		
 	]}		
@@ -96,78 +97,56 @@ var columnModel = new Ext.grid.ColumnModel({
 var tbar = new Ext.Toolbar({
 	items : [{
         xtype: 'tbtext',
-        text: '商品名称:',
-        width:60
-    },{
-        xtype: 'textfield',
-        fieldLabel: '',
-        id:"G_NAME_SEARCH",
-        emptyText:"",
-        width:150,
-        anchor:'50%'
-    },{
-        xtype: 'tbtext',
         text: '商品编码:',
-        width:60
+        width:80
     },{
         xtype: 'textfield',
         fieldLabel: '',
-        id:"ITEM_NO_SEARCH",
+        id:"SKU_SEARCH",
         emptyText:"",
         width:150,
         anchor:'50%'
     },{
         xtype: 'tbtext',
-        text: '海关hscode:',
+        text: '项号:',
         width:80
     },{
         xtype: 'textfield',
         fieldLabel: '',
-        id:"G_CODE_SEARCH",
+        id:"RECORD_NO_SEARCH",
         emptyText:"",
         width:100,
         anchor:'50%'
     },{
         xtype: 'tbtext',
-        text: '商检国家码:',
+        text: '增减标识:',
         width:80
     },{
         xtype: 'textfield',
         fieldLabel: '',
-        id:"SJ_COUNTRY_SEARCH",
+        id:"ADD_REDUCE_FLAG_SEARCH",
         emptyText:"",
         width:100,
         anchor:'50%'
     },{
         xtype: 'tbtext',
-        text: '申报单位:',
-        width:60
+        text: '外部订单号:',
+        width:80
     },{
         xtype: 'textfield',
         fieldLabel: '',
-        id:"UNIT_SEARCH",
+        id:"ORDER_NO_SEARCH",
         emptyText:"",
         width:100,
         anchor:'50%'
     },{
         xtype: 'tbtext',
-        text: '第一法定单位:',
+        text: '创建日期:',
         width:80
     },{
         xtype: 'textfield',
         fieldLabel: '',
-        id:"UNIT1_SEARCH",
-        emptyText:"",
-        width:100,
-        anchor:'50%'
-    },{
-        xtype: 'tbtext',
-        text: '第二法定单位:',
-        width:80
-    },{
-        xtype: 'textfield',
-        fieldLabel: '',
-        id:"UNIT2_SEARCH",
+        id:"CREAT_DATE_SEARCH",
         emptyText:"",
         width:100,
         anchor:'50%'
@@ -196,32 +175,27 @@ var gridPanel = new Ext.grid.EditorGridPanel({
 	tbar : tbar
 });
 
-
 //查询数据
 function search(){
 
 	var param = {"limit":myPageSize,"start":0,"fuzzy":true};
-	if(Ext.getCmp('G_NAME_SEARCH').getValue()){
-		Ext.apply(param,{"G_NAME":Ext.getCmp('G_NAME_SEARCH').getValue()});
+	
+	if(Ext.getCmp('SKU_SEARCH').getValue()){
+		Ext.apply(param,{"SKU":Ext.getCmp('SKU_SEARCH').getValue()});
 	}
-	if(Ext.getCmp('ITEM_NO_SEARCH').getValue()){
-		Ext.apply(param,{"ITEM_NO":Ext.getCmp('ITEM_NO_SEARCH').getValue()});
+	if(Ext.getCmp('RECORD_NO_SEARCH').getValue()){
+		Ext.apply(param,{"RECORD_NO":Ext.getCmp('RECORD_NO_SEARCH').getValue()});
 	}
-	if(Ext.getCmp('G_CODE_SEARCH').getValue()){
-		Ext.apply(param,{"G_CODE":Ext.getCmp('G_CODE_SEARCH').getValue()});
+	if(Ext.getCmp('ADD_REDUCE_FLAG_SEARCH').getValue()){
+		Ext.apply(param,{"ADD_REDUCE_FLAG":Ext.getCmp('ADD_REDUCE_FLAG_SEARCH').getValue()});
 	}
-	if(Ext.getCmp('SJ_COUNTRY_SEARCH').getValue()){
-		Ext.apply(param,{"SJ_COUNTRY":Ext.getCmp('SJ_COUNTRY_SEARCH').getValue()});
+	if(Ext.getCmp('ORDER_NO_SEARCH').getValue()){
+		Ext.apply(param,{"ORDER_NO":Ext.getCmp('ORDER_NO_SEARCH').getValue()});
 	}
-	if(Ext.getCmp('UNIT_SEARCH').getValue()){
-		Ext.apply(param,{"UNIT":Ext.getCmp('UNIT_SEARCH').getValue()});
+	if(Ext.getCmp('CREAT_DATE_SEARCH').getValue()){
+		Ext.apply(param,{"CREAT_DATE":Ext.getCmp('CREAT_DATE_SEARCH').getValue()});
 	}
-	if(Ext.getCmp('UNIT1_SEARCH').getValue()){
-		Ext.apply(param,{"UNIT1":Ext.getCmp('UNIT1_SEARCH').getValue()});
-	}
-	if(Ext.getCmp('UNIT2_SEARCH').getValue()){
-		Ext.apply(param,{"UNIT2":Ext.getCmp('UNIT2_SEARCH').getValue()});
-	}
+	
 
 	store.baseParams = param;
 

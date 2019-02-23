@@ -27,9 +27,12 @@ public interface ISNCommonManagerService {
 	public void send(List<Map> dataList) throws CommonException;
 
 
+	public Map sendToTJ(List<Map> dataList) throws CommonException;
+	
+	
 	public Map<String,Object> getAllSku(Map<String,Object> params) throws CommonException;
 	public Map<String,Object> getAllReceipt(Map<String,Object> params) throws CommonException;
 	public Map<String,Object> getAllInventory(Map<String,Object> params) throws CommonException;
-
+	public Map<String,Object> getAllBooks(Map<String,Object> params) throws CommonException;
 
 }

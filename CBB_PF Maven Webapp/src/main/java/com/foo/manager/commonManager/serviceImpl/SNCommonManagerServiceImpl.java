@@ -17,6 +17,7 @@ import com.foo.common.CommonDefine;
 import com.foo.common.CommonException;
 import com.foo.common.MessageCodeDefine;
 import com.foo.manager.commonManager.service.CommonManagerService;
+import com.foo.manager.commonManager.thread.HttpHandleThread;
 import com.foo.util.CommonUtil;
 import com.foo.util.HttpUtil;
 import com.foo.util.XmlUtil;
@@ -143,6 +144,31 @@ public class SNCommonManagerServiceImpl extends CommonManagerService implements 
 	}
 
 
+	@Override
+	public Map sendToTJ(List<Map> items) {
+		Map result = new HashMap();
+		
+		ResourceBundle bundle = CommonUtil.getMessageMappingResource("CEB_SN");
+		// 更新数据
+		List<Map> dataList = new ArrayList<Map>();
+		for (Map item : items) {
+			// 将t_new_import_inventory和t_new_import_inventory_detail表中部分数据组成xml，先保存本地，再通过接口发送
+			String xmlStringData = HttpHandleThread.generalRequestXml4TJ(item.get("INVENTORY_ID").toString(), bundle);
+
+			// 第五步 向天津外运发送清单数据
+			Map reponse = HttpHandleThread.postToTJ(xmlStringData,CommonUtil
+					.getSystemConfigProperty("TJ_business_type"));
+			// 回传数据处理
+//			String status = reponse.get("status") != null ? reponse.get(
+//					"status").toString() : "";
+//			String reason = reponse.get("reason") != null ? reponse.get(
+//					"reason").toString() : "";
+			result.put(item.get("ORDER_NO"),reponse);
+		}
+		return result;
+	}
+
+	
 	
 	@Override
 	public Map<String, Object> getAllSku(Map<String, Object> params)
@@ -281,6 +307,58 @@ public class SNCommonManagerServiceImpl extends CommonManagerService implements 
 				rows = commonManagerMapper.selectTableListByNVList_Fuzzy(T_SN_INVENTORY, 
 						keys,values,start, limit);
 				total = commonManagerMapper.selectTableListCountByNVList_Fuzzy(T_SN_INVENTORY,
+						keys,values);
+			}
+
+//			rows = commonManagerMapper.selectTableListByNVList(T_NJ_SKU, 
+//					keys,values,start, limit);
+//
+//			total = commonManagerMapper.selectTableListCountByNVList(T_NJ_SKU,
+//					keys,values);
+
+			Map<String, Object> result = new HashMap<String, Object>();
+			result.put("total", total);
+			result.put("rows", rows);
+			return result;
+		} catch (Exception e) {
+			throw new CommonException(e,
+					MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR);
+		}
+	}
+	
+	@Override
+	public Map<String, Object> getAllBooks(Map<String, Object> params)
+			throws CommonException {
+		List<Map<String, Object>> rows = new ArrayList<Map<String, Object>>();
+
+		int total = 0;
+
+		// 开始
+		Integer start = params.get("start") == null ? null : Integer
+				.valueOf(params.get("start").toString());
+		// 结束
+		Integer limit = params.get("limit") == null ? null : Integer
+				.valueOf(params.get("limit").toString());
+
+		params.remove("start");
+		params.remove("limit");
+		try {
+			List<String> keys=new ArrayList<String>(params.keySet());
+			List<Object> values=new ArrayList<Object>(params.values());
+			
+			if(!params.containsKey("Fuzzy")){
+				rows = commonManagerMapper.selectTableListByNVList(T_SN_BOOKS, 
+						keys,values,start, limit);
+				total = commonManagerMapper.selectTableListCountByNVList(T_SN_BOOKS,
+						keys,values);
+			}else{
+				//模糊查询
+				params.remove("Fuzzy");
+				keys=new ArrayList<String>(params.keySet());
+				values=new ArrayList<Object>(params.values());
+				rows = commonManagerMapper.selectTableListByNVList_Fuzzy(T_SN_BOOKS, 
+						keys,values,start, limit);
+				total = commonManagerMapper.selectTableListCountByNVList_Fuzzy(T_SN_BOOKS,
 						keys,values);
 			}
 

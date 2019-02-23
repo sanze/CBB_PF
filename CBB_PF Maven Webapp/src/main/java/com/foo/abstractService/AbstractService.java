@@ -53,6 +53,7 @@ public abstract class AbstractService {
 	protected static String T_SN_SKU = "t_new_import_sku";
 	protected static String T_SN_RECEIPT = "t_new_import_receipt";
 	protected static String T_SN_INVENTORY = "t_new_import_inventory";
+	protected static String T_SN_BOOKS = "t_new_import_books";
 	
 
 	protected static String V_NJ_INVENTORY = "V_NJ_INVENTORY";

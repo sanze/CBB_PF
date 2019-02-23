@@ -70,6 +70,31 @@ public class SNCommonAction extends AbstractAction{
 		return RESULT_OBJ;
 	}
 	
+	@IMethodLog(desc = "SN出库单发送_页面重发")
+	public String sendToTJ(){
+		try {
+			JSONArray jsonObject = JSONArray.fromObject(jsonString);
+			
+			List dataList = jsonObject.toList(jsonObject, Map.class);
+
+			Map response = snCommonManagerService.sendToTJ(dataList);
+			
+			String responseMessage = "";
+			
+			for(Object key:response.keySet()){
+				responseMessage = responseMessage+key.toString()+" "+response.get(key).toString()+"<br/>";
+			}
+			result.setReturnResult(CommonDefine.SUCCESS);
+			result.setReturnMessage(responseMessage);
+			resultObj = JSONObject.fromObject(result);
+		} catch (CommonException e) {
+			result.setReturnResult(CommonDefine.FAILED);
+			result.setReturnMessage(e.getErrorMessage());
+			resultObj = JSONObject.fromObject(result);
+		}
+		return RESULT_OBJ;
+	}
+	
 	
 	
 	@IMethodLog(desc = "SN商品查询")
@@ -111,6 +136,19 @@ public class SNCommonAction extends AbstractAction{
 		return RESULT_OBJ;
 	}
 	
+	@IMethodLog(desc = "SN账册查询")
+	public String getAllBooks(){
+		try {
+			Map<String,Object> data = snCommonManagerService.getAllBooks(params);
+			resultObj = JSONObject.fromObject(data);
+		} catch (CommonException e) {
+			result.setReturnResult(CommonDefine.FAILED);
+			result.setReturnMessage(e.getErrorMessage());
+			resultObj = JSONObject.fromObject(result);
+		}
+		return RESULT_OBJ;
+	}
+	
 	public void setLOAD_ID(String LOAD_ID){
 		params.put("LOAD_ID", LOAD_ID);
 	}
@@ -132,6 +170,14 @@ public class SNCommonAction extends AbstractAction{
 	
 	public void setITEM_NO(String ITEM_NO){
 		params.put("ITEM_NO", ITEM_NO);
+	}
+	
+	public void setITEM_NAME(String ITEM_NAME){
+		params.put("ITEM_NAME", ITEM_NAME);
+	}
+	
+	public void setG_NAME(String G_NAME){
+		params.put("G_NAME", G_NAME);
 	}
 	
 	public void setG_CODE(String G_CODE){
@@ -161,6 +207,18 @@ public class SNCommonAction extends AbstractAction{
 	
 	public void setRECEIPT_NO(String RECEIPT_NO){
 		params.put("RECEIPT_NO", RECEIPT_NO);
+	}
+	
+	public void setGOODS_SERIALNO(String GOODS_SERIALNO){
+		params.put("GOODS_SERIALNO",GOODS_SERIALNO);
+	}
+	
+	public void setADD_REDUCE_FLAG(String ADD_REDUCE_FLAG){
+		params.put("ADD_REDUCE_FLAG", ADD_REDUCE_FLAG);
+	}
+	
+	public void setRECORD_NO(String RECORD_NO){
+		params.put("RECORD_NO", RECORD_NO);
 	}
 	
 	public void setORDER_NO(String ORDER_NO){

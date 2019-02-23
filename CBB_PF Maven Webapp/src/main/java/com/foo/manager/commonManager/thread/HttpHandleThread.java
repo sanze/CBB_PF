@@ -2123,7 +2123,7 @@ public class HttpHandleThread implements Callable<Object> {
 						List<Object> colValues = new ArrayList<Object>();
 						colNames.add("ORDER_STATUS");
 						colValues.add("2");
-						commonManagerMapper.updateTableByNVList("t_sn_order", "BOL", orderCode, colNames, colValues);
+						commonManagerMapper.updateTableByNVList("t_sn_order", "ORDER_ID", orderSearch.get("ORDER_ID"), colNames, colValues);
 						//返回给苏宁
 						result.put("success", "true");
 						result.put("errorCode", "");
@@ -2134,7 +2134,7 @@ public class HttpHandleThread implements Callable<Object> {
 						List<Object> colValues = new ArrayList<Object>();
 						colNames.add("ORDER_STATUS");
 						colValues.add("1");
-						commonManagerMapper.updateTableByNVList("t_sn_order", "BOL", orderCode, colNames, colValues);
+						commonManagerMapper.updateTableByNVList("t_sn_order", "ORDER_ID", orderSearch.get("ORDER_ID"), colNames, colValues);
 						//异常返回
 						result.put("success", "false");	
 						result.put("errorCode", "");
@@ -2597,7 +2597,7 @@ public class HttpHandleThread implements Callable<Object> {
 		}
 	}
 
-	private Map postToTJ(String xmlData,String businessType) {
+	public static Map postToTJ(String xmlData,String businessType) {
 		String partner_id = CommonUtil.getSystemConfigProperty("TJ_partner_id");
 		String data_type = CommonUtil.getSystemConfigProperty("TJ_data_type");
 		// 请求数据
@@ -2644,7 +2644,11 @@ public class HttpHandleThread implements Callable<Object> {
 
 	}
 
-	private String generalRequestXml4TJ(String id, ResourceBundle bundle) {
+	public static String generalRequestXml4TJ(String id, ResourceBundle bundle) {
+		if (snCommonManagerMapper == null) {
+			snCommonManagerMapper = (SNCommonManagerMapper) SpringContextUtil
+					.getBean("SNCommonManagerMapper");
+		}
 		int idInt = Integer.valueOf(id);
 		// step 1 生成xml
 		LinkedHashMap InventoryHead = new LinkedHashMap();

@@ -139,6 +139,12 @@ var tbar = new Ext.Toolbar({
 		handler : function() {
 			search();
 		}
+	},{
+		text : '重新发送',
+		icon : '../../../resource/images/btnImages/sync.png',
+		handler : function() {
+			send();
+		}
 	}]
 });
 
@@ -176,6 +182,67 @@ function search(){
 	store.baseParams = param;
 
 	store.load();
+}
+
+//向天津重新发送报文
+function send(){
+	var records= gridPanel.getSelectionModel().getSelections();
+	
+	flag = true;
+	
+	if(Ext.isEmpty(records)||records.length<1){
+		flag = false;
+	}
+	
+	for(var i = 0; i< records.length;i++){
+		if(records[i].get("STATUS") != 1){
+			flag = false;
+			break;
+		}
+	}
+	//判断数据正确性
+	if(flag){
+		var jsonDataList = new Array();
+		for(var i = 0; i< records.length;i++){
+			var jsonData = {
+				"INVENTORY_ID":records[i].get("INVENTORY_ID"),
+				"ORDER_NO":records[i].get("ORDER_NO"),
+				"STATUS":records[i].get("STATUS")
+			};
+			jsonDataList.push(jsonData);
+	    }
+		var jsonString = Ext.encode(jsonDataList);
+		
+		Ext.getBody().mask('正在执行，请稍候...');
+		
+		Ext.Ajax.request({
+			url : 's-ncommon!sendToTJ.action',
+			type : 'post',
+			params : {"jsonString":jsonString},
+			success : function(response) {
+				Ext.getBody().unmask();
+				Ext.Msg.minWidth = 500;
+				var obj = Ext.decode(response.responseText);
+				Ext.Msg.alert("信息", obj.returnMessage);
+				// 刷新列表
+				var pageTool = parent.Ext.getCmp('pageTool');
+				if (pageTool) {
+					pageTool.doLoad(pageTool.cursor);
+				}
+			},
+			error : function(response) {
+				Ext.getBody().unmask();
+				Ext.Msg.alert("错误", response.responseText);
+			},
+			failure : function(response) {
+				Ext.getBody().unmask();
+				Ext.Msg.alert("错误", response.responseText);
+			}
+		});
+	}else{
+		Ext.Msg.alert("信息", '请至少选择一条数据且状态为1！');
+	}
+
 }
 
 
