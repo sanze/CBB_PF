@@ -147,14 +147,18 @@
 		SELECT DISTINCT 
 		  b.RECORD_NO,
 		  b.GOODS_SERIALNO,
-		  b.DECL_NO 
+		  b.DECL_NO,
+		  b.QTY1,
+		  b.QTY2
 		FROM
 		  t_new_import_books b 
 		WHERE b.ORDER_NO = #{orderNo} 
 		  AND b.SKU = #{itemNo}
 		GROUP BY b.RECORD_NO,
 		  b.GOODS_SERIALNO,
-		  b.DECL_NO ;
+		  b.DECL_NO,
+		  b.QTY1,
+		  b.QTY2 ;
 	</select>
 	
 	<select id="selectIODeclContainerList" resultType="java.util.LinkedHashMap" >

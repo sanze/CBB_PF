@@ -2586,6 +2586,8 @@ public class HttpHandleThread implements Callable<Object> {
 			newBook.put("CON_NO", recorder.get("CON_NO"));
 			newBook.put("RECORD_NO", recorder.get("RECORD_NO"));
 			newBook.put("ADD_REDUCE_FLAG", "2");
+			newBook.put("QTY1", recorder.get("QTY1"));
+			newBook.put("QTY2", recorder.get("QTY2"));
 			newBook.put("ORDER_NO", xxx.getHead().get("btcOrderId"));
 			newBook.put("CREAT_DATE", CommonUtil
 					.getDateFormatter(CommonDefine.COMMON_FORMAT_1).format(new Date()));
@@ -2688,13 +2690,31 @@ public class HttpHandleThread implements Callable<Object> {
 					item.put("DECL_NO", bookInfo.get("DECL_NO"));
 					
 					LinkedHashMap Inventory = new LinkedHashMap();
-					//如果t_new_import_sku.unit2为空，则<qty2>保持不变，继续填t_new_import_inventory_detail.qty2。
-					//如果t_new_import_sku.unit2不为空，则<qty2>改成t_new_import_inventory_detail.qty1
-					if(item.get("UNIT2") == null || item.get("UNIT2").toString().isEmpty()){
-						//不变
+					
+					Double qty = item.get("QTY")!=null?Double.parseDouble(item.get("QTY").toString()):null;
+					Double qty1 = bookInfo.get("QTY1")!=null?Double.parseDouble(bookInfo.get("QTY1").toString()):null;
+					Double qty2 = bookInfo.get("QTY2")!=null?Double.parseDouble(bookInfo.get("QTY2").toString()):null;
+					//填t_new_import_inventory_detail.qty乘以t_new_import_books.qty1
+					if(qty == null||qty1==null){
+						item.put("QTY1", null);
 					}else{
-						item.put("QTY2", item.get("QTY1"));
+					item.put("QTY1", qty*qty1);
 					}
+					//填t_new_import_inventory_detail.qty乘以t_new_import_books.qty2
+					if(qty == null||qty2==null){
+						item.put("QTY2", null);
+					}else{
+					item.put("QTY2", qty*qty2);
+					}
+					
+					//判断作废
+//					//如果t_new_import_sku.unit2为空，则<qty2>保持不变，继续填t_new_import_inventory_detail.qty2。
+//					//如果t_new_import_sku.unit2不为空，则<qty2>改成t_new_import_inventory_detail.qty1
+//					if(item.get("UNIT2") == null || item.get("UNIT2").toString().isEmpty()){
+//						//不变
+//					}else{
+//						item.put("QTY2", item.get("QTY1"));
+//					}
 					// 转换
 					if (item != null) {
 						for (Object key : item.keySet()) {
