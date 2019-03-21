@@ -53,6 +53,8 @@ public class InitJob extends HttpServlet {
 		//启动http server
 		startHttpServer();
 
+//		startTJHttpServer();
+
 		quartzManagerService = (IQuartzManagerService) SpringContextUtil
 				.getBean("quartzManagerService");
 		
@@ -104,28 +106,41 @@ public class InitJob extends HttpServlet {
 		}
 		if(startHttpServer){
 			String httpServerPort = "8888";
+//			String TJhttpServerPort = "9999";
 			String httpServerUrl = "/CBB_PF/getData";
 			if (CommonUtil.getSystemConfigProperty("httpServerPort") != null) {
 				httpServerPort = CommonUtil
 						.getSystemConfigProperty("httpServerPort");
 			}
+//			if (CommonUtil.getSystemConfigProperty("TJhttpServerPort") != null) {
+//				TJhttpServerPort = CommonUtil
+//						.getSystemConfigProperty("TJhttpServerPort");
+//			}
 			if (CommonUtil.getSystemConfigProperty("httpServerUrl") != null) {
 				httpServerUrl = CommonUtil
 						.getSystemConfigProperty("httpServerUrl");
 			}
 			HttpServerProvider provider = HttpServerProvider.provider(); 
 			HttpServer server = null;
+//			HttpServer TJserver = null;
 			try {
 				server = provider.createHttpServer(new InetSocketAddress(Integer.valueOf(httpServerPort)), 0);
+//				TJserver = provider.createHttpServer(new InetSocketAddress(Integer.valueOf(TJhttpServerPort)), 0);
 			} catch (NumberFormatException e) {
 				ExceptionHandler.handleException(e);
 			} catch (IOException e) {
 				ExceptionHandler.handleException(e);
 			}
 	        server.createContext(httpServerUrl, new HttpServerManagerServiceImpl());
-	        server.setExecutor(Executors.newFixedThreadPool(Integer.valueOf(CommonUtil.getSystemConfigProperty("threadNumber"))));
+	        server.setExecutor(Executors.newCachedThreadPool());
 	        server.start();
 	        System.out.println("server started"); 
+	        
+//	        TJserver.createContext(httpServerUrl, new HttpServerManagerServiceImpl());
+//	        TJserver.setExecutor(Executors.newCachedThreadPool());
+//	        TJserver.start();
+//	        System.out.println("TJ server started"); 
+	        
 		}
 	}
 	

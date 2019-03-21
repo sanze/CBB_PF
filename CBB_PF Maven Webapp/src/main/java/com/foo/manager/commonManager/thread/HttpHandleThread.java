@@ -28,7 +28,6 @@ import com.foo.common.CommonDefine;
 import com.foo.common.CommonException;
 import com.foo.dao.mysql.CommonManagerMapper;
 import com.foo.dao.mysql.SNCommonManagerMapper;
-import com.foo.manager.commonManager.model.BookOrderModel;
 import com.foo.manager.commonManager.service.HttpServerManagerService;
 import com.foo.util.CommonUtil;
 import com.foo.util.HttpUtil;
@@ -74,7 +73,7 @@ public class HttpHandleThread implements Callable<Object> {
 		// this.content =
 		// "<LoadHead><loadContents><loadContent><loadContentId>1</loadContentId><outorderId>6666666666</outorderId></loadContent><loadContent><loadContentId>2</loadContentId><outorderId>7777777777</outorderId></loadContent></loadContents><loadHeadId>12</loadHeadId><loadId>1736474588</loadId><total>2</total><tracyNum>3</tracyNum><TotalWeight>2.5</TotalWeight><CarEcNo>苏A234234</CarEcNo></LoadHead>";
 
-		// 出库单状态报文
+		// 出库单状态报文--天津发起
 //		 this.requestType = HttpServerManagerService.requestType_listRelease;
 //		 this.content =
 //		 "<InventoryReturnList><InventoryReturn><orderNo>AAAA0016172051200208</orderNo><invtNo>02132018I651591534</invtNo><returnStatus>3070</returnStatus><returnInfo></returnInfo></InventoryReturn><InventoryReturn><orderNo>AAAA0028172236190126</orderNo><invtNo>02132018I651643914</invtNo><returnStatus>3070</returnStatus><returnInfo></returnInfo></InventoryReturn></InventoryReturnList>";
@@ -87,7 +86,6 @@ public class HttpHandleThread implements Callable<Object> {
 		// "{\"cmmdtyInfo\":[{\"kunner\":\"RH007\",\"sncmmdtyCode\":\" 000000010591492016\",\"cmmdtyName\":\" FANCL/芳珂 HTC胶原蛋白饮料 10日装*3 2018版\",\"measureUnit\":\"S01\",\"attributes\":\"\",\"cmmdtyType\":\" Z001\",\"cmmdtyGrp\":\"\",\"brandCode\":\"\",\"cmmdtyLength\":\"\",\"cmmdtyWidth\":\"\",\"cmmdtyHeight\":\"\",\"cmmdtyVolume\":\"\",\"grossCmmdtyWeight\":\"\",\"netCmmdtyWeight\":\"\",\"totalShelfLife\":\"\",\"coldChain\":\"\",\"bigsmall\":\"\",\"cmmdtyFreightGrp\":\"\",\"mprbs\":\"\",\"cmmdtyModel\":\"\",\"cmmdtyOrigin\":\"\",\"weightFlag\":\"\",\"taste\":\"\",\"size\":\"\",\"colour\":\"\",\"keepEnvironment\":\"\",\"cmmdtyFeatures\":\"\",\"physicalForm\":\"\",\"shape\":\"\",\"keepMethod\":\"\",\"pcs\":\"\",\"cmmdtyHierrarchy\":\"\"}],\"customerInfo\":[{\"kunner\":\"\",\"sncmmdtyCode\":\"\",\"isshelflife\":\"\",\"remainingShelfLife\":\"\",\"riskLife\":\"\",\"damageLife\":\"\",\"prototypeManage\":\"\",\"badManage\":\"\",\"cmanage\":\"\",\"batchFlag\":\"\",\"deleteFlag\":\"\",\"versionNo\":\"\"}],\"barCodeInfo\":[{\"kunner\":\"\",\"sncmmdtyCode\":\"\",\"externalEanCode\":\" SN10591492016 \",\"cmmdtyEanCateg\":\"\"}]}";
 
 		//sn_receipt--入库通知，苏宁发起
-		
 //		 this.requestType = HttpServerManagerService.requestType_sn_receipt;
 //		 this.content =
 //		 "{\"orderInfo\":{\"ownerUserId\":\"RH100\",\"fpsOrderId\":\"123456XXXXX\",\"storeCode\":\"WM10xxxxxx\",\"orderCode\":\"W107xxxxxx\",\"orderType\":\"601\",\"orderNumber\":\"A22xxxx\",\"outsourcingFlag\":\"01\",\"orderSource\":\"305\",\"remark\":\"商品情况：未开包未使用包装完好;;\",\"returnReason\":\"商品情况：未开包未使用包装完好;;\",\"orderCreateTime\":\"2018-01-03 11:47:07\",\"expectStartTime\":\"2018-01-03 11:47:06\",\"expectEndTime\":\"2018-01-03 11:47:06\",\"orderFlag\":\"9\",\"tmsServiceCode\":\"S02\",\"tmsServiceName\":\"苏宁物流\",\"tmsOrderCode\":\"896102xxxxxx\",\"prevOrderCode\":\"W107xxxxxx\",\"receiverInfo\":{\"receiverProvince\":\"江苏\",\"receiverCity\":\"南京市\",\"receiverArea\":\"雨花台区\",\"receiverTown\":\"全区\",\"receiverAddress\":\"龙藏大道2号\",\"receiverName\":\"沈xx\",\"receiverMobile\":\"18666xxxxxx\",\"receiverPhone\":\"15172xxxxxx\"},\"senderInfo\":{\"senderAddress\":\"雨花经济开发区龙藏大道与凤舞路交叉口\",\"senderProvince\":\"浙江省\",\"senderCity\":\"杭州市\",\"senderArea\":\"滨江区\",\"senderTown\":\"全区\",\"senderCode\":\"7016xxxx\",\"senderName\":\"左xx\",\"senderMobile\":\"15172xxxxxx\",\"senderPhone\":\"15172xxxxxx\"},\"orderItemList\":[{\"orderItemId\":\"420000002xxxxxx\",\"userId\":\"7016xxxx\",\"userName\":\"安利（中国）日用品有限公司\",\"ownerUserId\":\"7016xxxx\",\"ownerUserName\":\"安利（中国）日用品有限公司\",\"itemId\":\"917080415493xxxxxx\",\"itemName\":\"雅蜜润肤沐浴露 750ML\",\"inventoryType\":\"1\",\"itemQuantity\":\"750\",\"produceCode\":\"7359xxxx\",\"condition\":\"A\"},{\"orderItemId\":\"420000002xxxxxx\",\"userId\":\"7016xxxx\",\"userName\":\"安利（中国）日用品有限公司\",\"ownerUserId\":\"70168xxx\",\"ownerUserName\":\"安利（中国）日用品有限公司\",\"itemId\":\"917080415493xxxxxx\",\"itemName\":\"雅蜜润肤沐浴露 750ML\",\"inventoryType\":\"1\",\"itemQuantity\":\"750\",\"produceCode\":\"7359xxxx\",\"condition\":\"A\"}]}}";
@@ -97,12 +95,6 @@ public class HttpHandleThread implements Callable<Object> {
 //		 this.content =
 //		 "{\"orderInfo\":{\"orderType\":\"201\",\"orderCode\":\"W107xxxxxx\",\"outOrderCode\":\"S201712291750xxxxxx\",\"ownerUserId\":\"RH007\"}}";
 		
-		//cj_entryOrderConfirm--入库确认，川佐发起
-//		 this.requestType =
-//		 HttpServerManagerService.requestType_cj_entryOrderConfirm;
-		// this.content =
-		// "{\"orderInfo\":{\"fpsOrderId\":\"4111110000197\",\"ownerUserId\":\"70057018\",\"storeCode\":\"WM10000079\",\"orderCode\":\"W100112051\",\"orderType\":\"601\",\"orderNumber\":\"ZT201808212027001\",\"outsourcingFlag\":\"01\",\"orderSource\":\"301\",\"orderCreateTime\":\"2018-08-21 22:06:54\",\"returnReason\":\"\",\"expectStartTime\":\"2018-08-29 15:13:38\",\"expectEndTime\":\"2018-08-29 15:13:38\",\"remark\":\"\",\"receiverInfo\":{},\"senderInfo\":{\"senderAddress\":\"江苏南京市软件大道203号\",\"senderCode\":\"70057018\",\"senderName\":\"C店-平行仓商家E 新1\",\"senderMobile\":\"025-66996699-880665\",\"senderPhone\":\"025-66996699-880665\"},\"orderItemList\":[{\"orderItemId\":\"410111000019511\",\"userId\":\"70057018\",\"userName\":\"C店-平行仓商家E 新1\",\"ownerUserId\":\"70057018\",\"ownerUserName\":\"C店-平行仓商家E 新1\",\"itemId\":\"000000001002512101\",\"itemName\":\"千丰浴霸壁挂式二灯双灯三灯浴霸卫生间浴室取暖灯泡挂墙式灯暖 小玲珑2米线护眼黄泡两灯挂浴霸 漏电保护\",\"itemCode\":\"000000001002512101\",\"inventoryType\":\"301\",\"itemQuantity\":\"1\",\"produceCode\":\"\",\"condition\":\"\",\"batchCode\":\"\"}]}}";
-//		this.content = "<entryorderconfirm><order_code>W107xxxxxx</order_code><itemlist><item><order_item_id>420000002xxxxxx</order_item_id><sku>917080415493xxxxxx</sku><actual_qty>12</actual_qty><actual_qty_defect>2</actual_qty_defect></item><item><order_item_id>420000002xxxxxx11</order_item_id><sku>917080415493xxxxxx</sku><actual_qty>10</actual_qty><actual_qty_defect>4</actual_qty_defect></item></itemlist></entryorderconfirm>";
 
 		//sn_deliverGoodsNotify--销售发货通知，苏宁发起
 //		 this.requestType = HttpServerManagerService.requestType_sn_deliverGoodsNotify;
@@ -111,6 +103,14 @@ public class HttpHandleThread implements Callable<Object> {
 		 //02模式
 //		 this.content = "{\"orderInfo\":{\"ownerUserId\":\"7016xxxx\",\"storeCode\":\"WM10xxxxxx\",\"fpsOrderId\":\"12345xxxxxx\",\"orderCode\":\"aaaaaaaa\",\"orderType\":\"201\",\"orderNumber\":\"W89xxxx\",\"outsourcingFlag\":\"01\",\"customsMode\":\"04\",\"bol\":\"W107xxxxxx\",\"bolCount\":\"2\",\"orderSource\":\"S12\",\"tmsServiceCode\":\"S02\",\"tmsServiceName\":\"顺丰\",\"tmsOrderCode\":\"1234556667\",\"orderFlag\":\"\",\"destcode\":\"xxxxx\",\"orderCreateTime\":\"2018-01-03 12:47:11\",\"deliveryType\":\"PTPS\",\"deliverRequirements\":{\"scheduleDay\":\"2018-01-04\",\"scheduleStart\":\"18:00:00\",\"scheduleEnd\":\"18:00:00\"},\"batchSendCtrlParam\":{},\"extendFields\":\"{}\",\"receiverInfo\":{\"receiverProvince\":\"江苏省\",\"receiverCity\":\"宿迁市\",\"receiverArea\":\"宿豫区\",\"receiverTown\":\"全区\",\"receiverMobile\":\"0527-8431xxxx\",\"receiverPhone\":\"0527-8431xxxx\",\"receiverName\":\"谷绍娟\",\"receiverAddress\":\"江苏省宿迁市宿豫区江山大道xxxxxx\"},\"senderInfo\":{\"senderProvince\":\"江苏\",\"senderCity\":\"南京市\",\"senderArea\":\"雨花台区\",\"senderTown\":\"全区\",\"senderAddress\":\"xx大道1号\",\"senderName\":\"董x\",\"senderPhone\":\"025-66996699-87xxxx\",\"senderMobile\":\"025-66996699-87xxxx\"},\"orderItemList\":[{\"itemName\":\"电源xxx\",\"itemQuantity\":\"1\",\"orderItemId\":\"SL201801030000xxxxxx\",\"condition\":\"A\",\"ownerUserId\":\"7016xxxx\",\"itemId\":\"917080409503xxxxxx\",\"inventoryType\":\"1\",\"userId\":\"7016xxxx\",\"itemCode\":\"WTI09xxxx\"}]}}";
 		 
+		
+		//cj_entryOrderConfirm--入库确认，川佐发起
+//		 this.requestType =
+//		 HttpServerManagerService.requestType_cj_entryOrderConfirm;
+		// this.content =
+		// "{\"orderInfo\":{\"fpsOrderId\":\"4111110000197\",\"ownerUserId\":\"70057018\",\"storeCode\":\"WM10000079\",\"orderCode\":\"W100112051\",\"orderType\":\"601\",\"orderNumber\":\"ZT201808212027001\",\"outsourcingFlag\":\"01\",\"orderSource\":\"301\",\"orderCreateTime\":\"2018-08-21 22:06:54\",\"returnReason\":\"\",\"expectStartTime\":\"2018-08-29 15:13:38\",\"expectEndTime\":\"2018-08-29 15:13:38\",\"remark\":\"\",\"receiverInfo\":{},\"senderInfo\":{\"senderAddress\":\"江苏南京市软件大道203号\",\"senderCode\":\"70057018\",\"senderName\":\"C店-平行仓商家E 新1\",\"senderMobile\":\"025-66996699-880665\",\"senderPhone\":\"025-66996699-880665\"},\"orderItemList\":[{\"orderItemId\":\"410111000019511\",\"userId\":\"70057018\",\"userName\":\"C店-平行仓商家E 新1\",\"ownerUserId\":\"70057018\",\"ownerUserName\":\"C店-平行仓商家E 新1\",\"itemId\":\"000000001002512101\",\"itemName\":\"千丰浴霸壁挂式二灯双灯三灯浴霸卫生间浴室取暖灯泡挂墙式灯暖 小玲珑2米线护眼黄泡两灯挂浴霸 漏电保护\",\"itemCode\":\"000000001002512101\",\"inventoryType\":\"301\",\"itemQuantity\":\"1\",\"produceCode\":\"\",\"condition\":\"\",\"batchCode\":\"\"}]}}";
+//		this.content = "<entryorderconfirm><order_code>W107xxxxxx</order_code><itemlist><item><order_item_id>420000002xxxxxx</order_item_id><sku>917080415493xxxxxx</sku><actual_qty>12</actual_qty><actual_qty_defect>2</actual_qty_defect></item><item><order_item_id>420000002xxxxxx11</order_item_id><sku>917080415493xxxxxx</sku><actual_qty>10</actual_qty><actual_qty_defect>4</actual_qty_defect></item></itemlist></entryorderconfirm>";
+
 
 		//cj_deliveryOrderConfirm--销售发货确认，川佐发起
 //		 this.requestType =
@@ -159,10 +159,7 @@ public class HttpHandleThread implements Callable<Object> {
 
 		String result = "";
 		// System.out.println("【content】："+content);
-		if (requestType.equals(HttpServerManagerService.requestType_Order)) {
-			// 处理订单数据
-			result = handleXml_Order(content);
-		} else if (requestType
+		if (requestType
 				.equals(HttpServerManagerService.requestType_inventory)) {
 			// 处理库存数据
 			result = handleXml_Inventory(content);
@@ -208,112 +205,6 @@ public class HttpHandleThread implements Callable<Object> {
 
 		return result;
 	}
-
-	// 处理订单数据
-	private String handleXml_Order(String xmlString) {
-
-		String xmlReturnString = "";
-
-		System.out
-				.println("---------------------------【FPAPI_ORDER】-------------------------------");
-		
-		List<String> ordersDataXML = XmlUtil.getNodesXmlData(xmlString, "//inputData/ordersList/orders");
-		
-		List<Map> resultList = new ArrayList<Map>();
-		
-		for(String xmlData:ordersDataXML){
-			// 入库
-			// 商品的入库流程如下：
-			// 收到订单报文中<businessType>等于C061时，将报文中<orderItems>中内容插入t_new_import_receipt表，一个<orderItems>对应一行记录。没有进一步操作。
-			// <goodsCode>插入SKU
-			// <goodsDescription>插入DESCRIPTION
-			// <goodsNumber>插入EXPECT_QTY
-			// <logisticsOrderId>插入RECEIPT_NO
-			// CREAT_DATE填当前日期的YYYYMMDD
-			Map head = null;
-
-			Map result = new HashMap();
-
-			try {
-				// 判断businessType
-				head = XmlUtil
-						.parseXmlFPAPI_SingleNodes(xmlData,
-								"//orders/orderImformation/orderHead/child::*");
-
-				String businessType = null;
-
-				if (head != null && head.containsKey("businessType")
-						&& head.get("businessType") != null) {
-					businessType = (String) head.get("businessType");
-				}
-
-				// 获取资源文件
-				ResourceBundle bundle = CommonUtil
-						.getMessageMappingResource("CEB_SN");
-
-				String checkBusinessType_C061 = CommonUtil
-						.getSystemConfigProperty("checkOrderBusinessType_C061");
-				String checkBusinessType_C005 = CommonUtil
-						.getSystemConfigProperty("checkOrderBusinessType_C005");
-				// 报文入库
-				if (checkBusinessType_C061.equals(businessType)) {
-					// C061报文处理
-					result = handleOrderC061(xmlData, bundle);
-
-				} else if (checkBusinessType_C005.equals(businessType)) {
-					//多线程调测代码
-//					synchronized(HttpHandleThread.class){
-//						// C005报文处理
-//						Map xxx = commonManagerMapper.selectTableById(
-//								"t_new_import_books", "BOOKS_ID", 1);
-//						
-//						System.out.println("更新前qty："+xxx.get("QTY"));
-//						xxx.put("QTY",
-//								Double.parseDouble(xxx.get("QTY").toString()) + 1);
-//
-//						commonManagerMapper.updateTableByNVList(
-//								"t_new_import_books", "BOOKS_ID", 1,
-//								new ArrayList<String>(xxx.keySet()),
-//								new ArrayList<Object>(xxx.values()));
-//						Thread.sleep(500);
-//					}
-					
-//					result = handleOrderC005(head, xmlData, bundle);
-					synchronized(HttpHandleThread.class){
-						result = handleOrderC005_new(head, xmlData, bundle);
-					}
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-				result.put("isSuccess", "false");
-				result.put("errorMsg", "系统异常");
-			}
-			result.put("logisticsOrderId", head.get("logisticsOrderId"));
-			
-			resultList.add(result);
-		}
-		
-
-		// 构建返回数据
-		List<LinkedMap> dataList = new ArrayList<LinkedMap>();
-		for (Map result:resultList) {
-			LinkedMap resultData = new LinkedMap();
-			resultData.put("logisticsOrderId",result.get("logisticsOrderId"));
-			resultData.put("success", result.get("isSuccess").toString());
-			resultData.put("errorCode", "");
-			resultData.put("errorMsg", result.get("errorMsg"));
-			dataList.add(resultData);
-		}
-		String root = CommonUtil.getSystemConfigProperty("orderReceiptRoot");
-		String firstElement = CommonUtil
-				.getSystemConfigProperty("orderFirstElement");
-
-		xmlReturnString = XmlUtil.generalReceiptXml_FP(root, firstElement,
-				dataList);
-
-		return xmlReturnString;
-	}
-
 
 	// 处理订单数据
 	private String handleXml_Inventory(String xmlString) {
@@ -2163,40 +2054,7 @@ public class HttpHandleThread implements Callable<Object> {
 	}
 	
 	
-	private Map handleOrderC061(String xmlString, ResourceBundle bundle) {
-		Map result = new HashMap();
-		result.put("isSuccess", true);
-
-		SimpleDateFormat sf = CommonUtil
-				.getDateFormatter(CommonDefine.COMMON_FORMAT_1);
-		List<Map> items = XmlUtil.parseXmlFPAPI_MulitpleNodes(xmlString,
-				"//orders/orderImformation/orderItems");
-
-		for (Map item : items) {
-			Map data = new HashMap();
-			// 转换
-			for (Object key : item.keySet()) {
-				if (bundle.containsKey("order_" + key.toString())) {
-					data.put(bundle.getObject("order_" + key.toString()),
-							item.get(key));
-				}
-			}
-			// String uniqueCol="SKU";
-			// String primaryCol="RECEIPT_ID";
-			// // 货号唯一性校验
-			// uniqueCheck("t_new_import_receipt",uniqueCol,data.get(uniqueCol),primaryCol,data.get(primaryCol),false);
-			// 数据入库
-			data.put("CREAT_DATE", sf.format(new Date()));
-			data.put("CREAT_TIME", new Date());
-			Map primary = new HashMap();
-			primary.put("primaryId", null);
-			commonManagerMapper.insertTableByNVList("t_new_import_receipt",
-					new ArrayList<String>(data.keySet()),
-					new ArrayList<Object>(data.values()), primary);
-		}
-		return result;
-
-	}
+	
 
 /*	private Map handleOrderC005(Map head, String xmlString,
 			ResourceBundle bundle) {
@@ -2373,232 +2231,6 @@ public class HttpHandleThread implements Callable<Object> {
 	}*/
 	
 	
-	private Map handleOrderC005_new(Map head, String xmlString,
-			ResourceBundle bundle) {
-		Map result = new HashMap();
-
-		result.put("isSuccess", "true");
-
-		SimpleDateFormat sf = CommonUtil
-				.getDateFormatter(CommonDefine.COMMON_FORMAT_1);
-		// t_new_import_inventory表中查找数据
-		List<String> colNames = new ArrayList<String>();
-		List<Object> colValues = new ArrayList<Object>();
-		colNames.add("ORDER_NO");
-		colValues.add(head.get("btcOrderId"));
-		List<Map<String, Object>> inventoryList = commonManagerMapper
-				.selectTableListByNVList("t_new_import_inventory", colNames,
-						colValues, null, null);
-		
-		Map inventory = null;
-		int inventoryStatus = 0;
-		
-		//step1:根据ORDER_NO号查询t_new_import_inventory.status
-		if(inventoryList != null && inventoryList.size()>0){
-			inventory = inventoryList.get(0);
-			inventoryStatus = Integer.parseInt(inventory.get("STATUS").toString());
-		}
-		
-		if (0 == inventoryStatus || 2 == inventoryStatus) {
-			String inventoryId = (inventory!=null?inventory.get("INVENTORY_ID").toString():null);
-			if(0 == inventoryStatus){
-				// 未生成清单，数据入库，更新或插入
-				// 插入主数据
-				inventoryId = insertOrUpdateInventory_main(xmlString, inventory);
-				// 插入子数据
-				String subId = insertOrUpdateInventoryDetail_new(xmlString, inventoryId);
-			}
-			// 获取商品种类数据量
-			int itemNumber = Integer.parseInt(head.get("btcItemNumber")
-					.toString());
-			//获取商品种类
-			List<Map<String, Object>> subDataList = commonManagerMapper
-					.selectTableListByCol("t_new_import_inventory_detail",
-							"ORDER_NO", head.get("btcOrderId"), null, null);
-			//更新主表的netWeight和grossWeight
-			double qtyCount = 0;
-			for(Map<String, Object> subData:subDataList){
-				if(subData.get("QTY1")!=null && !subData.get("QTY1").toString().isEmpty()){
-					qtyCount = qtyCount+Double.parseDouble(subData.get("QTY1").toString());
-				}
-			}
-			//t_new_import_inventory表更新net_weight,gross_weight
-			colNames.clear();
-			colValues.clear();
-			colNames.add("GROSS_WEIGHT");
-			colNames.add("NET_WEIGHT");
-			colValues.add(qtyCount);
-			colValues.add(qtyCount);
-			commonManagerMapper.updateTableByNVList("t_new_import_inventory", "INVENTORY_ID", inventoryId, colNames, colValues);
-			//判断库存是否足够
-			if(itemNumber == subDataList.size() || 2 == inventoryStatus){
-				//判断库存是否足够
-				List<BookOrderModel> bookOrders = isSkuEnough(head,subDataList);
-				boolean isSkuEnough = (bookOrders !=null);
-				//扣库存，发报文
-				if (isSkuEnough) {
-					//更新账册表
-					updateBookRecord(bookOrders);
-					//t_new_import_inventory表更新status
-					colNames.clear();
-					colValues.clear();
-					colNames.add("STATUS");
-					colValues.add("1");
-					commonManagerMapper.updateTableByNVList("t_new_import_inventory", "INVENTORY_ID", inventoryId, colNames, colValues);
-					// 将t_new_import_inventory和t_new_import_inventory_detail表中部分数据组成xml，先保存本地，再通过接口发送
-					String xmlStringData = generalRequestXml4TJ(inventoryId, bundle);
-
-					// 第五步 向天津外运发送清单数据
-					Map reponse = postToTJ(xmlStringData,CommonUtil
-							.getSystemConfigProperty("TJ_business_type"));
-					// 回传数据处理
-					String status = reponse.get("status") != null ? reponse.get(
-							"status").toString() : "";
-					String reason = reponse.get("reason") != null ? reponse.get(
-							"reason").toString() : "";
-					if ("fail".equals(status)) {
-						result.put("isSuccess", "true");
-						result.put("errorMsg", reason);
-					}
-				}else{
-					//库存不足
-					//t_new_import_inventory表更新status
-					colNames.clear();
-					colValues.clear();
-					colNames.add("STATUS");
-					colValues.add("2");
-					commonManagerMapper.updateTableByNVList("t_new_import_inventory", "INVENTORY_ID", inventoryId, colNames, colValues);
-					//流程结束
-					result.put("isSuccess", "true");
-					result.put("errorMsg", "库存不足");
-				}
-			}else{
-				//流程结束
-				result.put("isSuccess", "true");
-				result.put("errorMsg", "订单商品种类不全");
-			}
-		}else {
-			//已生成清单，返回苏宁成功，结束流程
-			result.put("isSuccess", "true");
-			result.put("errorMsg", "已生成清单");
-		}
-
-		return result;
-	}
-	
-	//判断库存是否足够
-	private List<BookOrderModel> isSkuEnough(Map head,List<Map<String, Object>> inventoryDetailList){
-		boolean isSkuEnough = true;
-		List<BookOrderModel> bookOrders = new ArrayList<BookOrderModel>();
-		for (Map item : inventoryDetailList) {
-			String goodsCode = item.get("ITEM_NO") != null ? item.get(
-					"ITEM_NO").toString() : "";
-			String goodsNumber = item.get("QTY") != null ? item
-					.get("QTY").toString() : "";
-
-			double goodsNumberDouble = !goodsNumber.isEmpty() ? Double
-					.valueOf(goodsNumber) : 0;
-			// t_new_import_books表中查找数据
-			// ADD_REDUCE_FLAG=1
-			// SKU=<orderItems><goodsCode>
-			// QTY>=<orderItems><goodsNumber>
-			//增加一个条件，RECORD_NO不等于空
-			List<Map> dataList = snCommonManagerMapper.selectBookNumber(
-					goodsCode, goodsNumberDouble);
-
-			if (dataList.size() == 0) {
-				isSkuEnough = false;
-				break;
-			} else {
-				BookOrderModel bookOrder = new BookOrderModel();
-				bookOrder.setHead(head);
-				bookOrder.setOrderitem(item);
-				bookOrder.setBookItems(dataList);
-				bookOrders.add(bookOrder);
-			}
-		}
-		if(isSkuEnough){
-			return bookOrders;
-		}else{
-			return null;
-		}
-	}
-	
-	//更新账册表
-	private void updateBookRecord(List<BookOrderModel> bookOrders){
-		List<String> colNames = new ArrayList<String>();
-		List<Object> colValues = new ArrayList<Object>();
-		for (BookOrderModel xxx : bookOrders) {
-			List<Map> skuList = xxx.getBookItems();
-			// RECORD_NO最小的记录减去<orderItems><goodsNumber>。
-			Collections.sort(skuList, new Comparator<Map>() {
-				public int compare(Map o1, Map o2) {
-//					double qty1 = Double.valueOf(o1.get("QTY")
-//							.toString());
-//					double qty2 = Double.valueOf(o2.get("QTY")
-//							.toString());
-					String recordNo1 = o1.get("RECORD_NO")!=null?o1.get("RECORD_NO").toString():"";
-					String recordNo2 = o2.get("RECORD_NO")!=null?o2.get("RECORD_NO").toString():"";
-//					if (qty1 > qty2) {
-						if(recordNo1.compareTo(recordNo2)<0){
-							return 0;
-						}else{
-							return 1;
-						}
-//					} else {
-//						return 0;
-//					}
-				}
-			});
-
-			// 插入新记录
-			Map recorder = skuList.get(0);
-			
-			colNames.clear();
-			colValues.clear();
-			double updateQty = Double.valueOf(recorder.get("QTY")
-					.toString())
-					- Double.valueOf(xxx.getOrderitem()
-							.get("QTY").toString());
-			recorder.put("QTY", updateQty);
-			for (Object key : recorder.keySet()) {
-				colNames.add(key.toString());
-				colValues.add(recorder.get(key));
-			}
-			// 更新数据
-			commonManagerMapper.updateTableByNVList(
-					"t_new_import_books", "BOOKS_ID",
-					recorder.get("BOOKS_ID"), colNames, colValues);
-
-			// 插入新记录
-			Map primary = new HashMap();
-			primary.put("primaryId", null);
-			Map newBook = new HashMap();
-			
-			newBook.put("SKU", xxx.getOrderitem().get("ITEM_NO"));
-			newBook.put("DESCRIPTION", xxx.getOrderitem().get("ITEM_NAME"));
-			newBook.put("QTY", xxx.getOrderitem().get("QTY"));
-			
-			newBook.put("GOODS_SERIALNO", recorder.get("GOODS_SERIALNO"));
-			newBook.put("DECL_NO", recorder.get("DECL_NO"));
-			newBook.put("CON_MODEL", recorder.get("CON_MODEL"));
-			newBook.put("CON_NUM", recorder.get("CON_NUM"));
-			newBook.put("CON_NO", recorder.get("CON_NO"));
-			newBook.put("RECORD_NO", recorder.get("RECORD_NO"));
-			newBook.put("ADD_REDUCE_FLAG", "2");
-			newBook.put("QTY1", recorder.get("QTY1"));
-			newBook.put("QTY2", recorder.get("QTY2"));
-			newBook.put("ORDER_NO", xxx.getHead().get("btcOrderId"));
-			newBook.put("CREAT_DATE", CommonUtil
-					.getDateFormatter(CommonDefine.COMMON_FORMAT_1).format(new Date()));
-			newBook.put("CREAT_TIME", new Date());
-
-			commonManagerMapper.insertTableByNVList(
-					"t_new_import_books", new ArrayList<String>(newBook.keySet()),
-					new ArrayList<Object>(newBook.values()), primary);
-		}
-	}
-
 	public static Map postToTJ(String xmlData,String businessType) {
 		String partner_id = CommonUtil.getSystemConfigProperty("TJ_partner_id");
 		String data_type = CommonUtil.getSystemConfigProperty("TJ_data_type");
@@ -2698,13 +2330,13 @@ public class HttpHandleThread implements Callable<Object> {
 					if(qty == null||qty1==null){
 						item.put("QTY1", null);
 					}else{
-					item.put("QTY1", qty*qty1);
+						item.put("QTY1", qty*qty1);
 					}
 					//填t_new_import_inventory_detail.qty乘以t_new_import_books.qty2
 					if(qty == null||qty2==null){
 						item.put("QTY2", null);
 					}else{
-					item.put("QTY2", qty*qty2);
+						item.put("QTY2", qty*qty2);
 					}
 					
 					//判断作废
@@ -3111,262 +2743,6 @@ public class HttpHandleThread implements Callable<Object> {
 //	}
 	
 	
-	// 插入t_new_import_inventory表
-	private String insertOrUpdateInventory_main(String xmlString,Map inventory) {
-		Map head = XmlUtil
-				.parseXmlFPAPI_SingleNodes(xmlString,
-						"//orders/orderImformation/orderHead/child::*");
-		Map orderDeclareHead = XmlUtil
-				.parseXmlFPAPI_SingleNodes(xmlString,
-						"//orders/orderDeclare/orderDeclareHead/child::*");
-		
-		Map orderExpBill = XmlUtil
-				.parseXmlFPAPI_SingleNodes(xmlString,
-						"//orders/orderExpBill/child::*");
-		
-		Map orderDeclareItems = XmlUtil.parseXmlFPAPI_SingleNodes(
-				xmlString,
-				"//orders/orderDeclare/orderDeclareItems/child::*");
-
-		SimpleDateFormat sf = CommonUtil
-				.getDateFormatter(CommonDefine.RETRIEVAL_TIME_FORMAT);
-
-		SimpleDateFormat sf1 = CommonUtil
-				.getDateFormatter(CommonDefine.COMMON_FORMAT_1);
-
-		
-		if(inventory == null){
-			inventory = new HashMap();
-		}
-		
-		inventory.put("GUID", CommonUtil.generalGuid(
-				CommonDefine.GUID_FOR_LOGISTICS_SN_1, 10,
-				"t_new_import_inventory"));
-		inventory.put("CUSTOM_CODE", "0213");
-		inventory.put("APP_TYPE", "1");
-		inventory.put("APP_TIME", sf.format(new Date()));
-		inventory.put("APP_STATUS", "2");
-		inventory.put("COP_NO", head.get("taskOrderid"));
-		inventory.put("PRE_NO", "");
-		inventory.put("EBC_CODE", "3201966A69");
-		inventory.put("EBC_NAME", "江苏苏宁易购电子商务有限公司");
-		inventory.put("EBP_CODE", "3201966A69");
-		inventory.put("EBP_NAME", "江苏苏宁易购电子商务有限公司");
-		inventory.put("ORDER_NO", head.get("btcOrderId"));
-		inventory.put("LOGISTICS_NO", orderExpBill.get("expressCompanyExcode"));
-		inventory.put("LOGISTICS_CODE", "3201961A28");
-		inventory.put("LOGISTICS_NAME", "江苏苏宁物流有限公司");
-		inventory.put("ASSURE_CODE", "3201966A69");
-		inventory.put("EMS_NO", "T0213W000152");
-		inventory.put("INVT_NO", "");
-		inventory.put("DECL_TIME", sf1.format(new Date()));
-		inventory.put("PORT_CODE", "0213");
-		inventory.put("IE_DATE", null);
-		inventory.put("BUYER_NAME", orderDeclareHead.get("payerName"));
-		inventory.put("BUYER_IDTYPE", "1");
-		inventory.put("BUYER_IDNUMBER", orderDeclareHead.get("paperNumber"));
-		inventory.put("BUYER_TELEPHONE", orderDeclareHead.get("payerPhoneNumber"));
-		inventory.put("CONSIGNEE_ADDRESS", orderDeclareHead.get("consigneeAddress"));
-		inventory.put("AGENT_CODE", "1207980025");
-		inventory.put("AGENT_NAME", "天津中外运报关有限公司");
-		inventory.put("AERA_CODE", "1207610251");
-		inventory.put("AERA_NAME", "天津中外运国际物流发展有限公司");
-		inventory.put("TRADE_MODE", "1210");
-		inventory.put("TRAF_MODE", "Y");
-		inventory.put("TRAF_NO", "");
-		inventory.put("LOCT_NO", "");
-		inventory.put("LICENSE_NO", "");
-		inventory.put("COUNTRY", "142");
-		inventory.put("CURRENCY", "142");
-		if (orderDeclareHead.get("freight") != null
-				&& !orderDeclareHead.get("freight").toString().isEmpty()) {
-			inventory.put("FREIGHT", orderDeclareHead.get("freight"));
-		} else {
-			inventory.put("FREIGHT", null);
-		}
-		if (orderDeclareHead.get("insuranceFee") != null
-				&& !orderDeclareHead.get("insuranceFee").toString().isEmpty()) {
-			inventory.put("INSURE_FEE", orderDeclareHead.get("insuranceFee"));
-		} else {
-			inventory.put("INSURE_FEE", 0);
-		}
-		inventory.put("WRAP_TYPE", orderDeclareHead.get("warpType"));
-		inventory.put("PACK_NO", "1");
-//		if (orderDeclareHead.get("grossWeight") != null
-//				&& !orderDeclareHead.get("grossWeight").toString().isEmpty()) {
-//			order.put("GROSS_WEIGHT", orderDeclareHead.get("grossWeight"));
-//		} else {
-//			order.put("GROSS_WEIGHT", null);
-//		}
-//		if (orderDeclareHead.get("netWeight") != null
-//				&& !orderDeclareHead.get("netWeight").toString().isEmpty()) {
-//			order.put("NET_WEIGHT", orderDeclareHead.get("netWeight"));
-//		} else {
-//			order.put("NET_WEIGHT", null);
-//		}
-		if (orderDeclareHead.get("paySerialNo") != null
-				&& !orderDeclareHead.get("paySerialNo").toString().isEmpty()) {
-			inventory.put("PAY_SERIAL_NO", orderDeclareHead.get("paySerialNo"));
-		} else {
-			inventory.put("PAY_SERIAL_NO", null);
-		}
-		if (orderDeclareItems.get("tradeTotal") != null
-				&& !orderDeclareItems.get("tradeTotal").toString().isEmpty()) {
-			inventory.put("WORTH", orderDeclareItems.get("tradeTotal"));
-		} else {
-			inventory.put("WORTH", null);
-		}
-		inventory.put("NOTE", "");
-//		order.put("LOS_NO", head.get("logisticsOrderId"));
-		inventory.put("CREAT_TIME", new Date());
-		
-		inventory.put("ITEM_NUMBER", head.get("btcItemNumber"));
-		inventory.put("STATUS", "0");
-		
-		String id;
-		//插入或更新
-		if (inventory.containsKey("INVENTORY_ID")) {
-			id = inventory.get("INVENTORY_ID").toString();
-//			commonManagerMapper.updateTableByNVList("t_new_import_inventory",
-//					"INVENTORY_ID", inventory.get("INVENTORY_ID"),
-//					new ArrayList<String>(inventory.keySet()),
-//					new ArrayList<Object>(inventory.values()));
-		} else {
-			Map primary = new HashMap();
-			primary.put("primaryId", null);
-			commonManagerMapper.insertTableByNVList("t_new_import_inventory",
-					new ArrayList<String>(inventory.keySet()),
-					new ArrayList<Object>(inventory.values()), primary);
-			id = primary.get("primaryId").toString();
-		}
-		
-		return id;
-	}
-	
-	// 插入t_new_import_inventory_detail表
-	private String insertOrUpdateInventoryDetail_new(String xmlString,String mainId) {
-		Map head = XmlUtil
-				.parseXmlFPAPI_SingleNodes(xmlString,
-						"//orders/orderImformation/orderHead/child::*");
-		Map orderDeclareHead = XmlUtil
-				.parseXmlFPAPI_SingleNodes(xmlString,
-						"//orders/orderDeclare/orderDeclareHead/child::*");
-		
-		Map orderExpBill = XmlUtil
-				.parseXmlFPAPI_SingleNodes(xmlString,
-						"//orders/orderExpBill/child::*");
-		
-		Map orderDeclareItems = XmlUtil.parseXmlFPAPI_SingleNodes(
-				xmlString,
-				"//orders/orderDeclare/orderDeclareItems/child::*");
-
-		SimpleDateFormat sf = CommonUtil
-				.getDateFormatter(CommonDefine.RETRIEVAL_TIME_FORMAT);
-
-		SimpleDateFormat sf1 = CommonUtil
-				.getDateFormatter(CommonDefine.COMMON_FORMAT_1);
-		
-		//查询
-		List<String> colNames = new ArrayList<String>();
-		List<Object> colValues = new ArrayList<Object>();
-		colNames.add("ORDER_NO");
-		colNames.add("LOS_NO");
-		colValues.add(head.get("btcOrderId"));
-		colValues.add(head.get("logisticsOrderId"));
-		List<Map<String, Object>> rows = commonManagerMapper
-				.selectTableListByNVList("t_new_import_inventory_detail", colNames,
-						colValues, null, null);
-		
-		Map subOrder = new HashMap();
-		if(rows != null && rows.size()>0){
-			subOrder = rows.get(0);
-		}
-		//插入t_new_import_inventory_detail表
-		subOrder.put("INVENTORY_ID", mainId);
-		subOrder.put("GNUM", orderDeclareItems.get("goodsOrder"));
-		subOrder.put("ITEM_NO", orderDeclareItems.get("goodsItemNo"));
-		subOrder.put("ITEM_NAME", orderDeclareItems.get("goodsName"));
-		subOrder.put("G_CODE", "");
-		subOrder.put("G_NAME", orderDeclareItems.get("goodsName"));
-		subOrder.put("G_MODEL", orderDeclareItems.get("goodsModel"));
-		subOrder.put("BARCODE", "");
-		subOrder.put("COUNTRY", orderDeclareItems.get("originCountry"));
-		subOrder.put("TRADE_COUNTRY", orderDeclareHead.get("tradeCountry"));
-		subOrder.put("CURRENCY", orderDeclareItems.get("tradeCurr"));
-		if (orderDeclareItems.get("declareCount") != null
-				&& !orderDeclareItems.get("declareCount").toString()
-						.isEmpty()) {
-			subOrder.put("QTY", orderDeclareItems.get("declareCount"));
-		} else {
-			subOrder.put("QTY", null);
-		}
-		// 填<orderDeclareItems><goodsGrossWeight>的值乘以<orderDeclareItems><declareCount>的值。
-		if (orderDeclareItems.get("goodsGrossWeight") != null
-				&& !orderDeclareItems.get("goodsGrossWeight").toString()
-						.isEmpty()
-				&& orderDeclareItems.get("declareCount") != null
-				&& !orderDeclareItems.get("declareCount").toString().isEmpty()) {
-			subOrder.put(
-					"QTY1",
-					Double.parseDouble(orderDeclareItems
-							.get("goodsGrossWeight").toString())
-							* Double.parseDouble(orderDeclareItems
-									.get("declareCount").toString()));
-		} else {
-			subOrder.put("QTY1", null);
-		}
-		if (orderDeclareItems.get("secondCount") != null
-				&& !orderDeclareItems.get("secondCount").toString()
-						.isEmpty()) {
-			subOrder.put("QTY2", orderDeclareItems.get("secondCount"));
-		} else {
-			subOrder.put("QTY2", null);
-		}
-		subOrder.put("UNIT", orderDeclareItems.get("goodsUnit"));
-		subOrder.put("UNIT1", orderDeclareItems.get("firstUnit"));
-		subOrder.put("UNIT2", orderDeclareItems.get("secondUnit"));
-		
-		if (orderDeclareItems.get("declPrice") != null
-				&& !orderDeclareItems.get("declPrice").toString().isEmpty()) {
-			subOrder.put("PRICE", orderDeclareItems.get("declPrice"));
-		} else {
-			subOrder.put("PRICE", null);
-		}
-				
-		if (subOrder.get("PRICE") != null && subOrder.get("QTY") != null) {
-			subOrder.put(
-					"TOTAL_PRICE",
-					Double.parseDouble(subOrder.get("PRICE").toString())
-							* Double.parseDouble(subOrder.get("QTY").toString()));
-		} else {
-			subOrder.put("TOTAL_PRICE", null);
-		}
-		
-		subOrder.put("CREAT_TIME", new Date());
-		
-		subOrder.put("LOS_NO", head.get("logisticsOrderId"));
-		subOrder.put("ORDER_NO", head.get("btcOrderId"));
-
-		String id;
-		//插入或更新
-		if (subOrder.containsKey("INVENTORY_DETAIL_ID")) {
-			id = subOrder.get("INVENTORY_DETAIL_ID").toString();
-//			commonManagerMapper.updateTableByNVList("t_new_import_inventory_detail",
-//					"INVENTORY_DETAIL_ID", subOrder.get("INVENTORY_DETAIL_ID"),
-//					new ArrayList<String>(subOrder.keySet()),
-//					new ArrayList<Object>(subOrder.values()));
-		} else {
-			Map primary = new HashMap();
-			primary.put("primaryId", null);
-			commonManagerMapper.insertTableByNVList("t_new_import_inventory_detail",
-					new ArrayList<String>(subOrder.keySet()),
-					new ArrayList<Object>(subOrder.values()), primary);
-			id = primary.get("primaryId").toString();
-		}
-
-		return id;
-	}
-
 	public static void main(String arg[]) {
 
 //		String logistics_interface = "<LoadHead><loadContents><loadContent><loadContentId>1</loadContentId><outorderId>6666666666</outorderId></loadContent><loadContent><loadContentId>2</loadContentId><outorderId>7777777777</outorderId></loadContent></loadContents><loadHeadId>12</loadHeadId><loadId>1736474588</loadId><total>2</total><tracyNum>3</tracyNum><TotalWeight>2.5</TotalWeight><CarEcNo>苏A234234</CarEcNo></LoadHead>";

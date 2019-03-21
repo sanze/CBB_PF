@@ -21,6 +21,7 @@ import com.foo.handler.ExceptionHandler;
 import com.foo.manager.commonManager.model.RequestParamModel;
 import com.foo.manager.commonManager.service.HttpServerManagerService;
 import com.foo.manager.commonManager.thread.HttpHandleThread;
+import com.foo.manager.commonManager.thread.HttpHandleThread_SNOrder;
 import com.foo.util.CommonUtil;
 import com.sun.net.httpserver.HttpExchange;
 
@@ -58,10 +59,18 @@ public class HttpServerManagerServiceImpl extends HttpServerManagerService{
 			//
 			if (result.getErrorCode() == CommonDefine.SUCCESS) {
 //			if (1 == CommonDefine.SUCCESS) {
+				FutureTask<Object> future = null;
+				if(result.getRequestType().equals(HttpServerManagerService.requestType_Order)){
 				// 添加采集进程
-				FutureTask<Object> future = new FutureTask<Object>(
+					future = new FutureTask<Object>(
+							new HttpHandleThread_SNOrder(result.getRequestType(),result.getLogistics_interface(),
+									result.getData_digest()));
+				}else{
+					// 添加采集进程
+					future = new FutureTask<Object>(
 						new HttpHandleThread(result.getRequestType(),result.getLogistics_interface(),
 								result.getData_digest()));
+				}
 //				FutureTask<Object> future = new FutureTask<Object>(new CopyOfHttpHandleThread("order","<inputData><ordersList><orders><orderImformation><orderHead><oriSys>LOS</oriSys><businessType>C005</businessType></orderHead></orderImformation></orders></ordersList></inputData>",
 //						""));
 				
