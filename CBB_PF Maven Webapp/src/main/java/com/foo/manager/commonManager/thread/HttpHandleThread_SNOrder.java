@@ -440,6 +440,11 @@ public class HttpHandleThread_SNOrder implements Callable<Object> {
 			newBook.put("QTY1", recorder.get("QTY1"));
 			newBook.put("QTY2", recorder.get("QTY2"));
 			newBook.put("ORDER_NO", xxx.getHead().get("btcOrderId"));
+			
+			newBook.put("PRICE", recorder.get("PRICE"));
+			newBook.put("CURRENCY", recorder.get("CURRENCY"));
+			
+			
 			newBook.put("CREAT_DATE", CommonUtil
 					.getDateFormatter(CommonDefine.COMMON_FORMAT_1).format(new Date()));
 			newBook.put("CREAT_TIME", new Date());
