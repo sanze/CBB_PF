@@ -22,8 +22,10 @@
 		  t.EBC_CODE,
 		  t.EBC_NAME,
 		  t.LOGISTICS_NO as logisticsNo,
-		  "1210680001" as LOGISTICS_CODE,
-		  "天津顺丰速递有限公司" as LOGISTICS_NAME,
+		  <!-- "1210680001" as LOGISTICS_CODE,
+		  "天津顺丰速递有限公司" as LOGISTICS_NAME, -->
+		  t.LOGISTICS_CODE,
+		  t.LOGISTICS_NAME,
 		  t.COP_NO,
 		  t.PRE_NO,
 		  t.ASSURE_CODE,

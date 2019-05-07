@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -25,6 +26,7 @@ import com.foo.dao.mysql.SNCommonManagerMapper;
 import com.foo.manager.commonManager.model.BookOrderModel;
 import com.foo.manager.commonManager.service.HttpServerManagerService;
 import com.foo.util.CommonUtil;
+import com.foo.util.HttpUtil;
 import com.foo.util.SpringContextUtil;
 import com.foo.util.XmlUtil;
 
@@ -297,10 +299,10 @@ public class HttpHandleThread_SNOrder implements Callable<Object> {
 					colValues.add("1");
 					commonManagerMapper.updateTableByNVList("t_new_import_inventory", "INVENTORY_ID", inventoryId, colNames, colValues);
 					// 将t_new_import_inventory和t_new_import_inventory_detail表中部分数据组成xml，先保存本地，再通过接口发送
-					String xmlStringData = HttpHandleThread.generalRequestXml4TJ(inventoryId, bundle);
+					String xmlStringData = generalRequestXml4TJ(inventoryId, bundle);
 
 					// 第五步 向天津外运发送清单数据
-					Map reponse = HttpHandleThread.postToTJ(xmlStringData,CommonUtil
+					Map reponse = postToTJ(xmlStringData,CommonUtil
 							.getSystemConfigProperty("TJ_business_type"));
 					// 回传数据处理
 					String status = reponse.get("status") != null ? reponse.get(
@@ -498,8 +500,17 @@ public class HttpHandleThread_SNOrder implements Callable<Object> {
 		inventory.put("EBP_NAME", "江苏苏宁易购电子商务有限公司");
 		inventory.put("ORDER_NO", head.get("btcOrderId"));
 		inventory.put("LOGISTICS_NO", orderExpBill.get("expressCompanyExcode"));
-		inventory.put("LOGISTICS_CODE", "3201961A28");
-		inventory.put("LOGISTICS_NAME", "江苏苏宁物流有限公司");
+		
+		if(orderExpBill.get("expressCompany")!=null){
+			if("SN".equals(orderExpBill.get("expressCompany").toString())){
+				inventory.put("LOGISTICS_CODE", "3201961A28");
+				inventory.put("LOGISTICS_NAME", "江苏苏宁物流有限公司");
+			}
+			if("SF".equals(orderExpBill.get("expressCompany").toString())){
+				inventory.put("LOGISTICS_CODE", "1210680001");
+				inventory.put("LOGISTICS_NAME", "天津顺丰速递有限公司");
+			}
+		}
 		inventory.put("ASSURE_CODE", "3201966A69");
 		inventory.put("EMS_NO", "T0213W000152");
 		inventory.put("INVT_NO", "");
@@ -709,6 +720,180 @@ public class HttpHandleThread_SNOrder implements Callable<Object> {
 		}
 
 		return id;
+	}
+	
+	public static Map postToTJ(String xmlData,String businessType) {
+		String partner_id = CommonUtil.getSystemConfigProperty("TJ_partner_id");
+		String data_type = CommonUtil.getSystemConfigProperty("TJ_data_type");
+		// 请求数据
+		String requestData = null;
+		try {
+			requestData = "partner_id=" + partner_id + "&business_type="
+					+ businessType + "&data_type=" + data_type + "&data="
+					+ URLEncoder.encode(xmlData, "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		// 发送http请求
+		Map<String, Object> head = new HashMap<String, Object>();
+		head.put("Content-Type",
+				CommonUtil.getSystemConfigProperty("TJ_Content_Type"));
+		head.put("Accept", CommonUtil.getSystemConfigProperty("TJ_Accept"));
+		// 获取url
+		String url = CommonUtil.getSystemConfigProperty("TJ_requestUrl");
+
+		String result = HttpUtil.doPost4TJ(url, head, requestData, false);
+
+		Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+
+		resultMap = XmlUtil.parseXmlFPAPI_SingleNodes(result,
+				"//responses/child::*");
+
+		return resultMap;
+	}
+	
+	public static String generalRequestXml4TJ(String id, ResourceBundle bundle) {
+		if (snCommonManagerMapper == null) {
+			snCommonManagerMapper = (SNCommonManagerMapper) SpringContextUtil
+					.getBean("SNCommonManagerMapper");
+		}
+		int idInt = Integer.valueOf(id);
+		// step 1 生成xml
+		LinkedHashMap InventoryHead = new LinkedHashMap();
+		//查询数据
+		List<LinkedHashMap> headList = snCommonManagerMapper.selectInventoryHead(idInt);
+		if (headList != null) {
+			LinkedHashMap item = headList.get(0);
+			if(item.get("LOGISTICS_CODE")!=null){
+				if("1210680001".equals(item.get("LOGISTICS_CODE").toString())){
+					item.put("ciqLogisticsCode", "Q120000201609000060");
+				}
+				if("3201961A28".equals(item.get("LOGISTICS_CODE").toString())){
+					item.put("ciqLogisticsCode", "Q120000201808000038");
+				}
+			}
+			// 转换
+			if (item != null) {
+				for (Object key : item.keySet()) {
+					if (bundle.containsKey("TJ_HEAD_" + key.toString())) {
+						InventoryHead.put(
+								bundle.getObject("TJ_HEAD_" + key.toString()),
+								item.get(key));
+					} else {
+						InventoryHead.put(key.toString(), item.get(key));
+					}
+				}
+			}
+		}
+
+		List<LinkedHashMap> InventoryList = new ArrayList<LinkedHashMap>();
+		//查询数据
+		List<LinkedHashMap> ItemList = snCommonManagerMapper.selectInventoryList(idInt);
+		if(ItemList!=null){
+			for(LinkedHashMap item:ItemList){
+				//查询book表的关联数据
+				List<LinkedHashMap> bookInfoList = snCommonManagerMapper
+						.selectInventoryListRelateBookInfo(
+								item.get("ORDER_NO").toString(),
+								item.get("ITEM_NO").toString());
+				
+				for(LinkedHashMap bookInfo:bookInfoList){
+					//book信息添加
+					item.put("RECORD_NO", bookInfo.get("RECORD_NO"));
+					item.put("GOODS_SERIALNO", bookInfo.get("GOODS_SERIALNO"));
+					item.put("DECL_NO", bookInfo.get("DECL_NO"));
+					
+					LinkedHashMap Inventory = new LinkedHashMap();
+					
+					Double qty = item.get("QTY")!=null?Double.parseDouble(item.get("QTY").toString()):null;
+					Double qty1 = bookInfo.get("QTY1")!=null?Double.parseDouble(bookInfo.get("QTY1").toString()):null;
+					Double qty2 = bookInfo.get("QTY2")!=null?Double.parseDouble(bookInfo.get("QTY2").toString()):null;
+					//填t_new_import_inventory_detail.qty乘以t_new_import_books.qty1
+					if(qty == null||qty1==null){
+						item.put("QTY1", null);
+					}else{
+						item.put("QTY1", qty*qty1);
+					}
+					//填t_new_import_inventory_detail.qty乘以t_new_import_books.qty2
+					if(qty == null||qty2==null){
+						item.put("QTY2", null);
+					}else{
+						item.put("QTY2", qty*qty2);
+					}
+					
+					//判断作废
+//					//如果t_new_import_sku.unit2为空，则<qty2>保持不变，继续填t_new_import_inventory_detail.qty2。
+//					//如果t_new_import_sku.unit2不为空，则<qty2>改成t_new_import_inventory_detail.qty1
+//					if(item.get("UNIT2") == null || item.get("UNIT2").toString().isEmpty()){
+//						//不变
+//					}else{
+//						item.put("QTY2", item.get("QTY1"));
+//					}
+					// 转换
+					if (item != null) {
+						for (Object key : item.keySet()) {
+							if (bundle.containsKey("TJ_LIST_" + key.toString())) {
+								Inventory.put(
+										bundle.getObject("TJ_LIST_" + key.toString()),
+										item.get(key));
+							} else {
+								Inventory.put(key.toString(), item.get(key));
+							}
+						}
+					}
+					
+					InventoryList.add(Inventory);
+				}
+
+			}
+		}
+
+		LinkedHashMap IODeclContainerList = new LinkedHashMap();
+		List<LinkedHashMap> IODeclContainerListTemp = snCommonManagerMapper.selectIODeclContainerList(idInt);
+		if (IODeclContainerListTemp != null) {
+			LinkedHashMap item = IODeclContainerListTemp.get(0);
+			// 转换
+			if (item != null) {
+				for (Object key : item.keySet()) {
+					if (bundle.containsKey("TJ_IO_" + key.toString())) {
+						IODeclContainerList.put(
+								bundle.getObject("TJ_IO_" + key.toString()),
+								item.get(key));
+					} else {
+						IODeclContainerList.put(key.toString(), item.get(key));
+					}
+				}
+			}
+
+		}
+		LinkedHashMap IODeclOrderRelationList = new LinkedHashMap();
+		List<LinkedHashMap> IODeclOrderRelationListTemp = snCommonManagerMapper.selectIODeclOrderRelationList(idInt);
+		if (IODeclOrderRelationListTemp != null) {
+			LinkedHashMap item = IODeclOrderRelationListTemp.get(0);
+			// 转换
+			if (item != null) {
+				for (Object key : item.keySet()) {
+					if (bundle.containsKey("TJ_IO_" + key.toString())) {
+						IODeclOrderRelationList.put(
+								bundle.getObject("TJ_IO_" + key.toString()),
+								item.get(key));
+					} else {
+						IODeclOrderRelationList.put(key.toString(),
+								item.get(key));
+					}
+				}
+			}
+		}
+
+		LinkedHashMap BaseTransfer = snCommonManagerMapper.selectBaseTransfer();
+
+		String resultXmlString = XmlUtil.generalRequestXml4TJ_621(
+				InventoryHead, InventoryList, IODeclContainerList,
+				IODeclOrderRelationList, BaseTransfer, bundle);
+
+		return resultXmlString;
 	}
 
 	public static void main(String arg[]) {

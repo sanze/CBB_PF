@@ -1757,16 +1757,7 @@ public class HttpHandleThread implements Callable<Object> {
 		// 收到苏宁的“销售发货通知”后，把“receiverAddress插入t_sn_order.RECEIVER_ADDRESS”
 		// 改成将苏宁报文中receiverProvince，receiverCity，receiverArea，receiverAddress四个字段内容直接连接在一起插入t_sn_order
 		// .RECEIVER_ADDRESS
-		String receiverProvince = receiverInfo.get("receiverProvince") != null ? receiverInfo
-				.get("receiverProvince").toString() : "";
-		String receiverCity = receiverInfo.get("receiverCity") != null ? receiverInfo
-				.get("receiverCity").toString() : "";
-		String receiverArea = receiverInfo.get("receiverArea") != null ? receiverInfo
-				.get("receiverArea").toString() : "";
-		String receiverAddress = receiverInfo.get("receiverAddress") != null ? receiverInfo
-				.get("receiverAddress").toString() : "";
-		data.put("RECEIVER_ADDRESS", receiverProvince + receiverCity
-				+ receiverArea + receiverAddress);
+		data.put("RECEIVER_ADDRESS", constructReceiverAddress(receiverInfo));
 
 		data.put("ORDER_STATUS", "0");
 		data.put("CREAT_DATE", sf.format(new Date()));
@@ -1776,6 +1767,19 @@ public class HttpHandleThread implements Callable<Object> {
 						data.values()), primary);
 
 		return Integer.valueOf(primary.get("primaryId").toString());
+	}
+
+	private String constructReceiverAddress(JSONObject receiverInfo){
+		String receiverProvince = receiverInfo.get("receiverProvince") != null ? receiverInfo
+				.get("receiverProvince").toString() : "";
+		String receiverCity = receiverInfo.get("receiverCity") != null ? receiverInfo
+				.get("receiverCity").toString() : "";
+		String receiverArea = receiverInfo.get("receiverArea") != null ? receiverInfo
+				.get("receiverArea").toString() : "";
+		String receiverAddress = receiverInfo.get("receiverAddress") != null ? receiverInfo
+				.get("receiverAddress").toString() : "";
+		return receiverProvince + receiverCity
+				+ receiverArea + receiverAddress;
 	}
 
 	// 插入detail表
@@ -1867,7 +1871,7 @@ public class HttpHandleThread implements Callable<Object> {
 		// 出库单下任意一个商品sku在商品表中的t_sn_sku.GRP
 		order.put("CMMDTY_GRP", sku != null ? sku.get("GRP") : "");
 		order.put("TMS_ORDER_CODE", orderInfo.get("tmsOrderCode"));
-		order.put("RECEIVER_ADDRESS", receiverInfo.get("receiverAddress"));
+		order.put("RECEIVER_ADDRESS", constructReceiverAddress(receiverInfo));
 		order.put("RECEIVER_NAME", receiverInfo.get("receiverName"));
 		order.put("RECEIVER_MOBILE", receiverInfo.get("receiverMobile"));
 		order.put("RECEIVER_PHONE", receiverInfo.get("receiverPhone"));
