@@ -116,13 +116,13 @@
         <if test="colNames != null and colNames.size()>0">
         	where 
 	        <foreach item="item" index="index" collection="colNames" open="(" separator="and" close=")">  
-			  ${item}
 			  <choose>
-			  <when test="colValues.get(index)==null"> IS NULL </when>
+			  <when test="colValues.get(index)==null">${item} IS NULL </when>
 			  <when test='"java.lang.String".equals(colValues.get(index).getClass().getName()) and colValues.get(index).matches("\\(.*\\)")'>
-			  	in ${colValues[index]}
+			  	${item} in ${colValues[index]}
 			  </when>
-			  <otherwise> like CONCAT(CONCAT('%', #{colValues[${index}]}), '%')</otherwise>
+			  <!-- <otherwise> like CONCAT(CONCAT('%', #{colValues[${index}]}), '%')</otherwise> -->
+			  <otherwise> INSTR(${item}, #{colValues[${index}]}) > 0</otherwise>
 			  </choose>
 			</foreach>
         </if>
@@ -153,13 +153,13 @@
         <if test="colNames != null and colNames.size()>0">
         	where 
 	        <foreach item="item" index="index" collection="colNames" open="(" separator="and" close=")">  
-			  ${item}
 			  <choose>
-			  <when test="colValues.get(index)==null"> IS NULL </when>
+			  <when test="colValues.get(index)==null">${item} IS NULL </when>
 			  <when test='"java.lang.String".equals(colValues.get(index).getClass().getName()) and colValues.get(index).matches("\\(.*\\)")'>
-			  	in ${colValues[index]}
+			  	${item} in ${colValues[index]}
 			  </when>
-			  <otherwise> like CONCAT(CONCAT('%', #{colValues[${index}]}), '%')</otherwise>
+			  <!-- <otherwise> like CONCAT(CONCAT('%', #{colValues[${index}]}), '%')</otherwise> -->
+			  <otherwise> INSTR(${item}, #{colValues[${index}]}) > 0</otherwise>
 			  </choose>
 			</foreach>
         </if>
