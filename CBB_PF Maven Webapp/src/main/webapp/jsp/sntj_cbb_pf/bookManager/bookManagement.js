@@ -13,7 +13,10 @@ var store = new Ext.data.Store({
 	reader : new Ext.data.JsonReader({
 		totalProperty : 'total',
 		root : "rows"
-	}, [ "BOOKS_ID","SKU", "RECORD_NO","GOODS_SERIALNO","DESCRIPTION","QTY","ORDER_NO","ADD_REDUCE_FLAG","CREAT_DATE"])
+	}, [ "BOOKS_ID","SKU", "RECORD_NO","GOODS_SERIALNO","DESCRIPTION","QTY",
+	     "QTY1","QTY2",
+	     "PRICE","CURRENCY","DECL_NO","CON_MODEL","CON_NUM","CON_NO",
+	     "ORDER_NO","ADD_REDUCE_FLAG","CREAT_DATE"])
 });
 
 
@@ -70,7 +73,55 @@ var columnModel = new Ext.grid.ColumnModel({
 			id:'QTY',
 			header : "数量",
 			dataIndex:'QTY',
+			width:50
+		},
+		{
+			id:'QTY1',
+			header : "第一法定数量",
+			dataIndex:'QTY1',
 			width:100
+		},
+		{
+			id:'QTY2',
+			header : "第二法定数量",
+			dataIndex:'QTY2',
+			width:100
+		},
+		{
+			id:'PRICE',
+			header : "单价",
+			dataIndex:'PRICE',
+			width:50
+		},
+		{
+			id:'CURRENCY',
+			header : "币制",
+			dataIndex:'CURRENCY',
+			width:50
+		},
+		{
+			id:'DECL_NO',
+			header : "入区申报号",
+			dataIndex:'DECL_NO',
+			width:200
+		},
+		{
+			id:'CON_MODEL',
+			header : "箱型",
+			dataIndex:'CON_MODEL',
+			width:80
+		},
+		{
+			id:'CON_NUM',
+			header : "箱量",
+			dataIndex:'CON_NUM',
+			width:80
+		},
+		{
+			id:'CON_NO',
+			header : "箱号",
+			dataIndex:'CON_NO',
+			width:80
 		},
 		{
 			id:'ORDER_NO',

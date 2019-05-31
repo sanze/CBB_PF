@@ -118,6 +118,7 @@
 	        <foreach item="item" index="index" collection="colNames" open="(" separator="and" close=")">  
 			  <choose>
 			  <when test="colValues.get(index)==null">${item} IS NULL </when>
+			  <when test="colValues.get(index).equals('NA')">${item} = "" or ${item} IS NULL </when>
 			  <when test='"java.lang.String".equals(colValues.get(index).getClass().getName()) and colValues.get(index).matches("\\(.*\\)")'>
 			  	${item} in ${colValues[index]}
 			  </when>
@@ -155,6 +156,7 @@
 	        <foreach item="item" index="index" collection="colNames" open="(" separator="and" close=")">  
 			  <choose>
 			  <when test="colValues.get(index)==null">${item} IS NULL </when>
+			  <when test="colValues.get(index).equals('NA')">${item} = "" or ${item} IS NULL </when>
 			  <when test='"java.lang.String".equals(colValues.get(index).getClass().getName()) and colValues.get(index).matches("\\(.*\\)")'>
 			  	${item} in ${colValues[index]}
 			  </when>

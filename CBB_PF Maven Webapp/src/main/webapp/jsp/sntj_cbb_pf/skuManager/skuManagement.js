@@ -13,7 +13,7 @@ var store = new Ext.data.Store({
 	reader : new Ext.data.JsonReader({
 		totalProperty : 'total',
 		root : "rows"
-	}, [ "SKU_ID","ITEM_NO","G_CODE", "SJ_RECORD_NO","SJ_COUNTRY","UNIT","UNIT1","UNIT2","G_NAME"])
+	}, [ "SKU_ID","ITEM_NO","G_CODE", "SJ_RECORD_NO","SJ_COUNTRY","UNIT","UNIT1","UNIT2","G_NAME","G_MODEL"])
 });
 
 
@@ -59,6 +59,11 @@ var columnModel = new Ext.grid.ColumnModel({
 			header:'海关hscode',
 			dataIndex:'G_CODE',
 			width:200
+		},{
+			id:'G_MODEL',
+			header:'规格型号',
+			dataIndex:'G_MODEL',
+			width:150
 		}, {
 			id:'SJ_RECORD_NO',
 			header:'商检备案料号',
