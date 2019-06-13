@@ -494,8 +494,10 @@ public class HttpHandleThread_SNOrder implements Callable<Object> {
 		inventory.put("APP_STATUS", "2");
 		inventory.put("COP_NO", head.get("taskOrderid"));
 		inventory.put("PRE_NO", "");
-		inventory.put("EBC_CODE", "3201966A69");
-		inventory.put("EBC_NAME", "江苏苏宁易购电子商务有限公司");
+//		inventory.put("EBC_CODE", "3201966A69");
+//		inventory.put("EBC_NAME", "江苏苏宁易购电子商务有限公司");
+		inventory.put("EBC_CODE", orderDeclareHead.get("eCommerceCode"));
+		inventory.put("EBC_NAME", orderDeclareHead.get("eCommerceName"));
 		inventory.put("EBP_CODE", "3201966A69");
 		inventory.put("EBP_NAME", "江苏苏宁易购电子商务有限公司");
 		inventory.put("ORDER_NO", head.get("btcOrderId"));
