@@ -18,6 +18,7 @@ import com.foo.common.CommonException;
 import com.foo.common.MessageCodeDefine;
 import com.foo.manager.commonManager.service.CommonManagerService;
 import com.foo.manager.commonManager.thread.HttpHandleThread;
+import com.foo.manager.commonManager.thread.HttpHandleThread_SNOrder;
 import com.foo.util.CommonUtil;
 import com.foo.util.HttpUtil;
 import com.foo.util.XmlUtil;
@@ -142,8 +143,8 @@ public class SNCommonManagerServiceImpl extends CommonManagerService implements 
 		
 		System.out.println(result);
 	}
-
-
+	
+	
 	@Override
 	public Map sendToTJ(List<Map> items) {
 		Map result = new HashMap();
@@ -153,7 +154,7 @@ public class SNCommonManagerServiceImpl extends CommonManagerService implements 
 		List<Map> dataList = new ArrayList<Map>();
 		for (Map item : items) {
 			// 将t_new_import_inventory和t_new_import_inventory_detail表中部分数据组成xml，先保存本地，再通过接口发送
-			String xmlStringData = HttpHandleThread.generalRequestXml4TJ(item.get("INVENTORY_ID").toString(), bundle);
+			String xmlStringData = HttpHandleThread_SNOrder.generalRequestXml4TJ(item.get("INVENTORY_ID").toString(), bundle);
 
 			// 第五步 向天津外运发送清单数据
 			Map reponse = HttpHandleThread.postToTJ(xmlStringData,CommonUtil

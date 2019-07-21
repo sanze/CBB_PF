@@ -13,6 +13,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.FutureTask;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import javax.annotation.Resource;
 
@@ -246,6 +252,8 @@ public class HttpHandleThread_SNOrder implements Callable<Object> {
 		Map inventory = null;
 		int inventoryStatus = 0;
 		
+		String xmlStringData = "";
+		
 		//step1:根据ORDER_NO号查询t_new_import_inventory.status
 		if(inventoryList != null && inventoryList.size()>0){
 			inventory = inventoryList.get(0);
@@ -283,6 +291,8 @@ public class HttpHandleThread_SNOrder implements Callable<Object> {
 			colValues.add(qtyCount);
 			colValues.add(qtyCount);
 			commonManagerMapper.updateTableByNVList("t_new_import_inventory", "INVENTORY_ID", inventoryId, colNames, colValues);
+			
+			
 			//判断库存是否足够
 			if(itemNumber == subDataList.size() || 2 == inventoryStatus){
 				//判断库存是否足够
@@ -298,21 +308,29 @@ public class HttpHandleThread_SNOrder implements Callable<Object> {
 					colNames.add("STATUS");
 					colValues.add("1");
 					commonManagerMapper.updateTableByNVList("t_new_import_inventory", "INVENTORY_ID", inventoryId, colNames, colValues);
+					
+					System.out.println("【开始生成报文】:"+head);
 					// 将t_new_import_inventory和t_new_import_inventory_detail表中部分数据组成xml，先保存本地，再通过接口发送
-					String xmlStringData = generalRequestXml4TJ(inventoryId, bundle);
+					xmlStringData = generalRequestXml4TJ(inventoryId, bundle);
+					
+					System.out.println("【报文生成成功】");
 
-					// 第五步 向天津外运发送清单数据
-					Map reponse = postToTJ(xmlStringData,CommonUtil
-							.getSystemConfigProperty("TJ_business_type"));
-					// 回传数据处理
-					String status = reponse.get("status") != null ? reponse.get(
-							"status").toString() : "";
-					String reason = reponse.get("reason") != null ? reponse.get(
-							"reason").toString() : "";
-					if ("fail".equals(status)) {
-						result.put("isSuccess", "true");
-						result.put("errorMsg", reason);
-					}
+//					// 第五步 向天津外运发送清单数据
+//					Map reponse = postToTJ(xmlStringData,CommonUtil
+//							.getSystemConfigProperty("TJ_business_type"));
+//					
+//					System.out.println("【天津返回报文成功】："+reponse);
+//					// 回传数据处理
+//					String status = reponse.get("status") != null ? reponse.get(
+//							"status").toString() : "";
+//					String reason = reponse.get("reason") != null ? reponse.get(
+//							"reason").toString() : "";						
+//					if ("fail".equals(status)) {
+//						result.put("isSuccess", "true");
+//						result.put("errorMsg", reason);
+//					}
+					result.put("isSuccess", "true");
+					result.put("errorMsg", "");
 				}else{
 					//库存不足
 					//t_new_import_inventory表更新status
@@ -335,9 +353,46 @@ public class HttpHandleThread_SNOrder implements Callable<Object> {
 			result.put("isSuccess", "true");
 			result.put("errorMsg", "已生成清单");
 		}
-
+		
+		//单独发送报文给天津，不依赖返回结果
+		if(!xmlStringData.isEmpty()){
+			ExecutorService executor = Executors.newSingleThreadExecutor();
+			FutureTask<Object> future = null;
+			try {
+				future = new FutureTask<Object>(
+						new inner_postToTJ(xmlStringData));
+				executor.execute(future);
+				future.get(1, TimeUnit.MINUTES);
+			} catch (TimeoutException e) {
+				future.cancel(true); // 取消任务
+				System.out.print("【天津返回报文超时】");
+			} catch (InterruptedException e) {
+				future.cancel(true); // 取消任务
+				System.out.print("【任务提前中断】");
+			} catch (ExecutionException e) {
+				future.cancel(true); // 取消任务
+				System.out.print("【任务崩溃】");
+			} finally {
+				executor.shutdown();
+			}
+		}
+		
 		return result;
 	}
+	
+	class inner_postToTJ implements Callable<Object> {  
+	    private String xmlStringData;  
+	  
+	    public inner_postToTJ(String xmlStringData) {  
+	        this.xmlStringData = xmlStringData;
+	    }
+		@Override
+		public Map call() throws Exception {
+			Map result = postToTJ(xmlStringData,CommonUtil
+					.getSystemConfigProperty("TJ_business_type"));
+			return result;
+		}  
+	}   
 	
 	//判断库存是否足够
 	private List<BookOrderModel> isSkuEnough(Map head,List<Map<String, Object>> inventoryDetailList){
