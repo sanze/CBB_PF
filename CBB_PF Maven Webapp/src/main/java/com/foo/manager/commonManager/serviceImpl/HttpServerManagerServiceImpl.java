@@ -81,9 +81,26 @@ public class HttpServerManagerServiceImpl extends HttpServerManagerService{
 				data = future.get(10, TimeUnit.MINUTES);
 				
 				if(data != null){
-					exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, data.toString().getBytes("utf-8").length);
-					os.write(data.toString().getBytes("utf-8"));
+					Map returnData = (Map) data;
+					String xmlStringData = "";
 					
+					if(returnData.containsKey("xmlStringData")){
+						xmlStringData = (String) returnData.get("xmlStringData");
+						returnData.remove("xmlStringData");
+					}
+					
+					exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, returnData.toString().getBytes("utf-8").length);
+					os.write(returnData.toString().getBytes("utf-8"));
+					
+					//发送给天津
+					if(!xmlStringData.isEmpty()){
+						try{
+						HttpHandleThread_SNOrder.postToTJ(xmlStringData,CommonUtil
+								.getSystemConfigProperty("TJ_business_type"));
+						}catch(Exception e){
+							System.out.println("请求天津异常!");
+						}
+					}
 				}
 			} else {
 				exchange.sendResponseHeaders(200, 0);

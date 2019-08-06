@@ -356,43 +356,12 @@ public class HttpHandleThread_SNOrder implements Callable<Object> {
 		
 		//单独发送报文给天津，不依赖返回结果
 		if(!xmlStringData.isEmpty()){
-			ExecutorService executor = Executors.newSingleThreadExecutor();
-			FutureTask<Object> future = null;
-			try {
-				future = new FutureTask<Object>(
-						new inner_postToTJ(xmlStringData));
-				executor.execute(future);
-				future.get(1, TimeUnit.MINUTES);
-			} catch (TimeoutException e) {
-				future.cancel(true); // 取消任务
-				System.out.print("【天津返回报文超时】");
-			} catch (InterruptedException e) {
-				future.cancel(true); // 取消任务
-				System.out.print("【任务提前中断】");
-			} catch (ExecutionException e) {
-				future.cancel(true); // 取消任务
-				System.out.print("【任务崩溃】");
-			} finally {
-				executor.shutdown();
-			}
+			result.put("xmlStringData", xmlStringData);
 		}
 		
 		return result;
 	}
 	
-	class inner_postToTJ implements Callable<Object> {  
-	    private String xmlStringData;  
-	  
-	    public inner_postToTJ(String xmlStringData) {  
-	        this.xmlStringData = xmlStringData;
-	    }
-		@Override
-		public Map call() throws Exception {
-			Map result = postToTJ(xmlStringData,CommonUtil
-					.getSystemConfigProperty("TJ_business_type"));
-			return result;
-		}  
-	}   
 	
 	//判断库存是否足够
 	private List<BookOrderModel> isSkuEnough(Map head,List<Map<String, Object>> inventoryDetailList){
