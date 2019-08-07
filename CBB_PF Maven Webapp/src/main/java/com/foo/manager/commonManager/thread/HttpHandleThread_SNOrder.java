@@ -13,12 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.FutureTask;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 import javax.annotation.Resource;
 
@@ -252,8 +246,6 @@ public class HttpHandleThread_SNOrder implements Callable<Object> {
 		Map inventory = null;
 		int inventoryStatus = 0;
 		
-		String xmlStringData = "";
-		
 		//step1:根据ORDER_NO号查询t_new_import_inventory.status
 		if(inventoryList != null && inventoryList.size()>0){
 			inventory = inventoryList.get(0);
@@ -309,11 +301,14 @@ public class HttpHandleThread_SNOrder implements Callable<Object> {
 					colValues.add("1");
 					commonManagerMapper.updateTableByNVList("t_new_import_inventory", "INVENTORY_ID", inventoryId, colNames, colValues);
 					
-					System.out.println("【开始生成报文】:"+head);
-					// 将t_new_import_inventory和t_new_import_inventory_detail表中部分数据组成xml，先保存本地，再通过接口发送
-					xmlStringData = generalRequestXml4TJ(inventoryId, bundle);
+					//添加需要发送给天津的数据ID
+					HttpServerManagerService.TJ_WAITING_TO_SEND.add(Integer.valueOf(inventoryId));
 					
-					System.out.println("【报文生成成功】");
+//					System.out.println("【开始生成报文】:"+head);
+//					// 将t_new_import_inventory和t_new_import_inventory_detail表中部分数据组成xml，先保存本地，再通过接口发送
+//					String xmlStringData = generalRequestXml4TJ(inventoryId, bundle);
+//					
+//					System.out.println("【报文生成成功】");
 
 //					// 第五步 向天津外运发送清单数据
 //					Map reponse = postToTJ(xmlStringData,CommonUtil
@@ -352,11 +347,7 @@ public class HttpHandleThread_SNOrder implements Callable<Object> {
 			//已生成清单，返回苏宁成功，结束流程
 			result.put("isSuccess", "true");
 			result.put("errorMsg", "已生成清单");
-		}
 		
-		//单独发送报文给天津，不依赖返回结果
-		if(!xmlStringData.isEmpty()){
-			result.put("xmlStringData", xmlStringData);
 		}
 		
 		return result;

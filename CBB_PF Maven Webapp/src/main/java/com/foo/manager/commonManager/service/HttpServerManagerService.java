@@ -1,5 +1,6 @@
 package com.foo.manager.commonManager.service;
 
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -30,5 +31,7 @@ public abstract class HttpServerManagerService extends AbstractService implement
 	
 	protected static String requestParame_1 =  CommonUtil.getSystemConfigProperty("requestParame_1");
 	protected static String requestParame_2 =  CommonUtil.getSystemConfigProperty("requestParame_2");
+	
+	public static ConcurrentLinkedQueue<Integer> TJ_WAITING_TO_SEND = new ConcurrentLinkedQueue<Integer>(); 
 	
 }

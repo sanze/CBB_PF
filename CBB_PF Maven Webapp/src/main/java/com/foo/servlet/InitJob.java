@@ -16,6 +16,7 @@ import com.foo.job.ScanReceiptJob_INVENTORY;
 import com.foo.job.ScanReceiptJob_LOGISTICS;
 import com.foo.job.ScanReceiptJob_ORDER;
 import com.foo.job.ScanReceiptJob_SKU;
+import com.foo.job.ScanSendingJob_INVENTORY;
 import com.foo.manager.commonManager.serviceImpl.HttpServerManagerServiceImpl;
 import com.foo.util.CommonUtil;
 import com.foo.util.SpringContextUtil;
@@ -92,6 +93,11 @@ public class InitJob extends HttpServlet {
 				"JobCronExpression",
 				CommonDefine.QUARTZ.JOB_TYPE_GET_KD100_DATA,
 				ScanKD100Status.class);
+
+		initPostSendingJob("PostSendingJob",
+				"JobCronExpression",
+				CommonDefine.QUARTZ.JOB_TYPE_POST_SENDING,
+				ScanSendingJob_INVENTORY.class);
 
 	}
 	
@@ -199,6 +205,40 @@ public class InitJob extends HttpServlet {
 					cronExpression = CommonUtil.getSystemConfigProperty(
 							cronExpressionConfigProperty).toString();
 				}
+				//
+				if (!quartzManagerService.IsJobExist(jobType)) {
+					quartzManagerService.addJob(jobType,
+							jobClass, cronExpression);
+				}else{
+					quartzManagerService.modifyJobTime(jobType, cronExpression);
+				}
+			} else {
+				// 删除任务
+				if (quartzManagerService.IsJobExist(jobType)) {
+					quartzManagerService.ctrlJob(jobType,
+							CommonDefine.QUARTZ.JOB_DELETE);
+				}
+			}
+		} catch (Exception e) {
+			ExceptionHandler.handleException(e);
+		}
+	}
+	
+	
+	//创建任务
+	private void initPostSendingJob(String jobNameConfigProperty,
+			String cronExpressionConfigProperty, int jobType, Class jobClass ) {
+
+		boolean postSendingJob = false;
+		// 获取配置
+		if (CommonUtil.getSystemConfigProperty(jobNameConfigProperty) != null) {
+			postSendingJob = Boolean.parseBoolean(CommonUtil
+					.getSystemConfigProperty(jobNameConfigProperty));
+		}
+		try {
+			if (postSendingJob) {
+				// 获取执行周期表达式
+				String cronExpression = "*/5 * * * * ?";
 				//
 				if (!quartzManagerService.IsJobExist(jobType)) {
 					quartzManagerService.addJob(jobType,

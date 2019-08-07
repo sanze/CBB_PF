@@ -255,6 +255,8 @@ public class CommonDefine {
 		
 		public static final int JOB_TYPE_GET_KD100_DATA = 500;
 		
+		public static final int JOB_TYPE_POST_SENDING = 600;
+		
 		public static final int JOB_TYPE_GET_INPUT_DATA_ORDER = 900;
 	}
 
